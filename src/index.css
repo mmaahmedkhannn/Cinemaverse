@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #E50914;
+  --color-secondary: #FFD700;
+  --color-background-dark: #080810;
+  
+  --font-sans: "DM Sans", sans-serif;
+  --font-bebas: "Bebas Neue", sans-serif;
+  --font-playfair: "Playfair Display", serif;
+}
+
+@layer base {
+  body {
+    @apply bg-background-dark text-white font-sans antialiased;
+    margin: 0;
+    min-height: 100vh;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
