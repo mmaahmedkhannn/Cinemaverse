@@ -16,6 +16,10 @@ import Battles from './pages/Battles';
 import Wrapped from './pages/Wrapped';
 import Top100 from './pages/Top100';
 import Auth from './pages/Auth';
+import Contact from './pages/Contact';
+import About from './pages/About';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
 import VerifyEmail from './pages/VerifyEmail';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
@@ -56,6 +60,10 @@ function App() {
                 </Route>
                 <Route path="/top100" element={<Top100 />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<Terms />} />
                 <Route path="/verify-email" element={<VerifyEmail />} />
               </Routes>
             </EmailVerificationGuard>
