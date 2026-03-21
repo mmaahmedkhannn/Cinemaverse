@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../contexts/AuthContext';
 import { auth } from '../lib/firebase';
@@ -135,6 +135,16 @@ const Auth = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col md:flex-row bg-[#080810] overflow-hidden">
+      {/* Top Left Logo Brand */}
+      <div className="absolute top-6 left-6 md:top-8 md:left-8 z-[60]">
+        <Link to="/" className="flex items-center gap-2">
+          <img src="/logo.svg" alt="CinemaDiscovery Theme Logo" className="w-10 h-10" />
+          <span className="hidden md:block font-bebas text-2xl text-white tracking-wider drop-shadow-lg">
+            CinemaDiscovery
+          </span>
+        </Link>
+      </div>
+
       {/* Left side: Slideshow Background */}
       <div className="absolute inset-0 md:relative md:w-[60%] h-full">
         {backdrops && (

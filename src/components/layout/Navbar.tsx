@@ -17,8 +17,11 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="font-bebas text-3xl text-primary tracking-wider">
-              CinemaDiscovery
+            <Link to="/" className="flex items-center gap-4">
+              <img src="/logo.svg" alt="CinemaDiscovery Logo" className="w-[45px] h-[45px]" />
+              <span className="hidden md:block font-bebas text-[22px] font-bold text-primary tracking-[0.1em] uppercase">
+                CinemaDiscovery
+              </span>
             </Link>
           </div>
           
