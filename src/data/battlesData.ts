@@ -1,4 +1,4 @@
-// TheCinemaBase — Battles Dataset
+// CinemaDiscovery — Battles Dataset
 // Paste this entire file into: src/data/battlesData.ts
 
 export interface BattleMovie {

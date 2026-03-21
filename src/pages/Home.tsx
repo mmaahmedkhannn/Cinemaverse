@@ -99,9 +99,9 @@ const Home = () => {
   return (
     <div className="pt-16">
       <Helmet>
-        <title>TheCinemaBase — The Ultimate Movie & TV Database</title>
-        <meta name="description" content="Discover every movie and TV show ever made. Ratings, trailers, cast, streaming availability, franchise timelines and more on TheCinemaBase." />
-        <link rel="canonical" href="https://thecinemabase.com" />
+        <title>CinemaDiscovery — The Ultimate Movie & TV Database</title>
+        <meta name="description" content="Discover Every Story Ever Told" />
+        <link rel="canonical" href="https://cinemadiscovery.com" />
       </Helmet>
       {/* ── Hero Section ── */}
       <section className="relative h-[85vh] w-full overflow-hidden bg-[#080810]">

@@ -114,15 +114,15 @@ const TvShowDetail = () => {
   return (
     <div className="min-h-screen bg-background-dark pb-20">
       <Helmet>
-        <title>{tv.name} — TheCinemaBase</title>
-        <meta name="description" content={tv.overview?.substring(0, 160) || "View TV show details on TheCinemaBase."} />
-        <meta property="og:title" content={`${tv.name} — TheCinemaBase`} />
-        <meta property="og:description" content={tv.overview?.substring(0, 160) || "View TV show details on TheCinemaBase."} />
+        <title>{tv.name} — CinemaDiscovery</title>
+        <meta name="description" content={tv.overview?.substring(0, 160) || "View TV show details on CinemaDiscovery."} />
+        <meta property="og:title" content={`${tv.name} — CinemaDiscovery`} />
+        <meta property="og:description" content={tv.overview?.substring(0, 160) || "View TV show details on CinemaDiscovery."} />
         <meta property="og:image" content={getImageUrl(tv.poster_path, 'original')} />
-        <meta property="og:url" content={`https://thecinemabase.com/tv/${tv.id}`} />
+        <meta property="og:url" content={`https://cinemadiscovery.com/tv/${tv.id}`} />
         <meta property="og:type" content="video.tv_show" />
         <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href={`https://thecinemabase.com/tv/${tv.id}`} />
+        <link rel="canonical" href={`https://cinemadiscovery.com/tv/${tv.id}`} />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -145,9 +145,9 @@ const TvShowDetail = () => {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thecinemabase.com" },
-              { "@type": "ListItem", "position": 2, "name": "TV Shows", "item": "https://thecinemabase.com/tv" },
-              { "@type": "ListItem", "position": 3, "name": tv.name, "item": `https://thecinemabase.com/tv/${tv.id}` }
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cinemadiscovery.com" },
+              { "@type": "ListItem", "position": 2, "name": "TV Shows", "item": "https://cinemadiscovery.com/tv" },
+              { "@type": "ListItem", "position": 3, "name": tv.name, "item": `https://cinemadiscovery.com/tv/${tv.id}` }
             ]
           })}
         </script>

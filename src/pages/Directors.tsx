@@ -69,9 +69,9 @@ const Directors = () => {
   return (
     <div className="min-h-screen bg-background-dark pt-20 pb-20">
       <Helmet>
-        <title>Director Universe — TheCinemaBase</title>
+        <title>Director Universe — CinemaDiscovery</title>
         <meta name="description" content="Explore the visionaries who shaped cinema. Their styles, their masterpieces, their legacy." />
-        <link rel="canonical" href="https://thecinemabase.com/directors" />
+        <link rel="canonical" href="https://cinemadiscovery.com/directors" />
       </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">

@@ -152,10 +152,10 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
               <X className="w-5 h-5" />
             </button>
 
-            {/* TheCinemaBase Branding */}
+            {/* CinemaDiscovery Branding */}
             <div className="text-center mb-6">
               <h2 className="text-4xl font-bebas text-primary tracking-wider mb-1">
-                TheCinemaBase
+                CinemaDiscovery
               </h2>
               <p className="text-gray-400 font-sans text-sm">
                 {isLogin ? 'Sign in to your account' : 'Create a new account'}

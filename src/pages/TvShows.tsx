@@ -144,9 +144,9 @@ const TvShows = () => {
   return (
     <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto min-h-screen">
       <Helmet>
-        <title>TV Shows Directory — TheCinemaBase</title>
+        <title>TV Shows Directory — CinemaDiscovery</title>
         <meta name="description" content="Binge-worthy series from every network. Filter by year and genre to discover your next obsession." />
-        <link rel="canonical" href="https://thecinemabase.com/tv" />
+        <link rel="canonical" href="https://cinemadiscovery.com/tv" />
       </Helmet>
       
       {/* ── Title & Search ── */}

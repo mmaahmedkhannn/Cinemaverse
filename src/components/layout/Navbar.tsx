@@ -18,7 +18,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="font-bebas text-3xl text-primary tracking-wider">
-              TheCinemaBase
+              CinemaDiscovery
             </Link>
           </div>
           
@@ -74,7 +74,7 @@ const Navbar = () => {
                   className="absolute right-0 top-12 w-48 bg-background-dark border border-white/10 rounded-xl shadow-2xl py-2 overflow-hidden z-50 text-left"
                 >
                   <div className="px-4 py-2 border-b border-white/10 mb-2">
-                    <p className="text-sm text-white font-medium truncate">{currentUser.displayName || 'TheCinemaBase User'}</p>
+                    <p className="text-sm text-white font-medium truncate">{currentUser.displayName || 'CinemaDiscovery User'}</p>
                     <p className="text-xs text-gray-500 truncate">{currentUser.email}</p>
                   </div>
                   <Link 

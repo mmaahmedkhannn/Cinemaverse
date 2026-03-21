@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-6 md:mb-0">
             <Link to="/" className="font-bebas text-3xl text-primary tracking-wider">
-              TheCinemaBase
+              CinemaDiscovery
             </Link>
             <p className="text-gray-400 mt-2 font-sans text-sm">
               Discover movies in cinematic luxury.
@@ -23,7 +23,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-500">
-          &copy; {new Date().getFullYear()} TheCinemaBase. All rights reserved.
+          &copy; {new Date().getFullYear()} CinemaDiscovery. All rights reserved.
         </div>
       </div>
     </footer>

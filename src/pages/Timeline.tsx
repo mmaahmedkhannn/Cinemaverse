@@ -52,9 +52,9 @@ const Timeline = () => {
   return (
     <div className="min-h-screen bg-background-dark pt-20 pb-20">
       <Helmet>
-        <title>Cinematic Timeline — TheCinemaBase</title>
+        <title>Cinematic Timeline — CinemaDiscovery</title>
         <meta name="description" content="A journey through 100+ years of cinema history. From the silent era to the streaming age." />
-        <link rel="canonical" href="https://thecinemabase.com/timeline" />
+        <link rel="canonical" href="https://cinemadiscovery.com/timeline" />
       </Helmet>
       {/* Hero */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

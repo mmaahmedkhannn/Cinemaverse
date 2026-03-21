@@ -102,9 +102,9 @@ const Top100 = () => {
   return (
     <div className="min-h-screen bg-background-dark pt-20 pb-20">
       <Helmet>
-        <title>The Definitive Top 100 Movies — TheCinemaBase</title>
-        <meta name="description" content="The 100 greatest movies ever made, ranked by TheCinemaBase community and critics." />
-        <link rel="canonical" href="https://thecinemabase.com/top100" />
+        <title>The Definitive Top 100 Movies — CinemaDiscovery</title>
+        <meta name="description" content="The 100 greatest movies ever made, ranked by CinemaDiscovery community and critics." />
+        <link rel="canonical" href="https://cinemadiscovery.com/top100" />
       </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
@@ -113,10 +113,10 @@ const Top100 = () => {
             <Trophy className="w-4 h-4" /> THE DEFINITIVE RANKING
           </div>
           <h1 className="font-bebas text-6xl md:text-8xl text-white tracking-wider mb-4">
-            TheCinemaBase <span className="text-yellow-500">Top 100</span>
+            CinemaDiscovery <span className="text-yellow-500">Top 100</span>
           </h1>
           <p className="text-gray-400 text-lg font-sans max-w-2xl mx-auto mb-8">
-            The 100 greatest movies ever made, ranked by the TheCinemaBase community and critics.
+            The 100 greatest movies ever made, ranked by the CinemaDiscovery community and critics.
           </p>
 
           {/* Filters */}

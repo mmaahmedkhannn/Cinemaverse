@@ -120,9 +120,9 @@ const Universe = () => {
   return (
     <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto min-h-screen">
       <Helmet>
-        <title>Cinematic Universes & Timelines — TheCinemaBase</title>
+        <title>Cinematic Universes & Timelines — CinemaDiscovery</title>
         <meta name="description" content="Explore cinematic universes in perfect watch order. Track your progress across Marvel, DC, Star Wars, and more." />
-        <link rel="canonical" href="https://thecinemabase.com/universe" />
+        <link rel="canonical" href="https://cinemadiscovery.com/universe" />
       </Helmet>
       
       {/* Franchise Selector Tabs */}

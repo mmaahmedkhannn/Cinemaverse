@@ -43,7 +43,7 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-background-dark pt-24 pb-20">
       <Helmet>
-        <title>My Profile & Watchlist — TheCinemaBase</title>
+        <title>My Profile & Watchlist — CinemaDiscovery</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -61,7 +61,7 @@ const Profile = () => {
           )}
           <div>
             <h1 className="text-4xl font-bebas text-white">
-              {currentUser.displayName || 'TheCinemaBase User'}
+              {currentUser.displayName || 'CinemaDiscovery User'}
             </h1>
             <p className="text-gray-400 font-sans">{currentUser.email}</p>
           </div>
@@ -77,7 +77,7 @@ const Profile = () => {
             <Film className="w-32 h-32 rotate-12" />
           </div>
           <div className="relative z-10 text-center md:text-left">
-            <h2 className="font-bebas text-3xl md:text-5xl text-white mb-2">TheCinemaBase <span className="text-primary">Wrapped 2025</span></h2>
+            <h2 className="font-bebas text-3xl md:text-5xl text-white mb-2">CinemaDiscovery <span className="text-primary">Wrapped 2025</span></h2>
             <p className="text-gray-300 font-sans max-w-md">Relive your year in cinema with our personalized recap experience. Discover your watching habits and sharing personality!</p>
           </div>
           <Link to="/wrapped" className="relative z-10 bg-primary hover:bg-red-700 text-white font-bebas text-xl px-8 py-3 rounded-xl transition-all shadow-lg hover:shadow-primary/30 flex items-center gap-2">

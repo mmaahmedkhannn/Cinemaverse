@@ -127,15 +127,15 @@ const DirectorDetail = () => {
   return (
     <div className="min-h-screen bg-background-dark pb-20">
       <Helmet>
-        <title>{person.name} Movies & Bio — TheCinemaBase</title>
-        <meta name="description" content={person.biography?.substring(0, 160) || `Explore the complete filmography of ${person.name} on TheCinemaBase.`} />
-        <meta property="og:title" content={`${person.name} — TheCinemaBase`} />
-        <meta property="og:description" content={person.biography?.substring(0, 160) || `Explore the complete filmography of ${person.name} on TheCinemaBase.`} />
+        <title>{person.name} Movies & Bio — CinemaDiscovery</title>
+        <meta name="description" content={person.biography?.substring(0, 160) || `Explore the complete filmography of ${person.name} on CinemaDiscovery.`} />
+        <meta property="og:title" content={`${person.name} — CinemaDiscovery`} />
+        <meta property="og:description" content={person.biography?.substring(0, 160) || `Explore the complete filmography of ${person.name} on CinemaDiscovery.`} />
         <meta property="og:image" content={getImageUrl(person.profile_path, 'original')} />
-        <meta property="og:url" content={`https://thecinemabase.com/director/${person.id}`} />
+        <meta property="og:url" content={`https://cinemadiscovery.com/director/${person.id}`} />
         <meta property="og:type" content="profile" />
         <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href={`https://thecinemabase.com/director/${person.id}`} />
+        <link rel="canonical" href={`https://cinemadiscovery.com/director/${person.id}`} />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -151,9 +151,9 @@ const DirectorDetail = () => {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thecinemabase.com" },
-              { "@type": "ListItem", "position": 2, "name": "Directors", "item": "https://thecinemabase.com/directors" },
-              { "@type": "ListItem", "position": 3, "name": person.name, "item": `https://thecinemabase.com/director/${person.id}` }
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cinemadiscovery.com" },
+              { "@type": "ListItem", "position": 2, "name": "Directors", "item": "https://cinemadiscovery.com/directors" },
+              { "@type": "ListItem", "position": 3, "name": person.name, "item": `https://cinemadiscovery.com/director/${person.id}` }
             ]
           })}
         </script>

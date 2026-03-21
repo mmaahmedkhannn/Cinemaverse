@@ -209,7 +209,7 @@ const Auth = () => {
           className="w-full max-w-md bg-black/40 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-8 rounded-3xl border border-white/10 md:border-none shadow-2xl md:shadow-none"
         >
           <div className="text-center mb-8">
-            <h1 className="font-bebas text-5xl text-primary tracking-widest mb-2">THECINEMABASE</h1>
+            <h1 className="font-bebas text-5xl text-primary tracking-widest mb-2">CINEMADISCOVERY</h1>
             <p className="text-gray-400 font-sans text-sm">Enter the universe of cinema.</p>
           </div>
 

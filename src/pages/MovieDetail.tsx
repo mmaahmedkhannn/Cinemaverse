@@ -119,15 +119,15 @@ const MovieDetail = () => {
   return (
     <div className="min-h-screen bg-background-dark pb-20">
       <Helmet>
-        <title>{movie.title} — TheCinemaBase</title>
-        <meta name="description" content={movie.overview?.substring(0, 160) || "View movie details on TheCinemaBase."} />
-        <meta property="og:title" content={`${movie.title} — TheCinemaBase`} />
-        <meta property="og:description" content={movie.overview?.substring(0, 160) || "View movie details on TheCinemaBase."} />
+        <title>{movie.title} — CinemaDiscovery</title>
+        <meta name="description" content={movie.overview?.substring(0, 160) || "View movie details on CinemaDiscovery."} />
+        <meta property="og:title" content={`${movie.title} — CinemaDiscovery`} />
+        <meta property="og:description" content={movie.overview?.substring(0, 160) || "View movie details on CinemaDiscovery."} />
         <meta property="og:image" content={getImageUrl(movie.poster_path, 'original')} />
-        <meta property="og:url" content={`https://thecinemabase.com/movie/${movie.id}`} />
+        <meta property="og:url" content={`https://cinemadiscovery.com/movie/${movie.id}`} />
         <meta property="og:type" content="video.movie" />
         <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href={`https://thecinemabase.com/movie/${movie.id}`} />
+        <link rel="canonical" href={`https://cinemadiscovery.com/movie/${movie.id}`} />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -154,9 +154,9 @@ const MovieDetail = () => {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thecinemabase.com" },
-              { "@type": "ListItem", "position": 2, "name": "Movies", "item": "https://thecinemabase.com/movies" },
-              { "@type": "ListItem", "position": 3, "name": movie.title, "item": `https://thecinemabase.com/movie/${movie.id}` }
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cinemadiscovery.com" },
+              { "@type": "ListItem", "position": 2, "name": "Movies", "item": "https://cinemadiscovery.com/movies" },
+              { "@type": "ListItem", "position": 3, "name": movie.title, "item": `https://cinemadiscovery.com/movie/${movie.id}` }
             ]
           })}
         </script>

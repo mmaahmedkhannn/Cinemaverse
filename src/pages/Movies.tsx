@@ -76,9 +76,9 @@ const Movies = () => {
   return (
     <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto min-h-screen">
       <Helmet>
-        <title>Browse Movies — TheCinemaBase</title>
+        <title>Browse Movies — CinemaDiscovery</title>
         <meta name="description" content="Explore our massive collection of premium movies. Filter by year, genre, and adjust your sorting to find exactly what you want to watch next." />
-        <link rel="canonical" href="https://thecinemabase.com/movies" />
+        <link rel="canonical" href="https://cinemadiscovery.com/movies" />
       </Helmet>
       
       {/* ── Title & Search ── */}
