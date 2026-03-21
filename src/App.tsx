@@ -1,29 +1,31 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { lazy, Suspense } from 'react';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
-import Home from './pages/Home';
-import Movies from './pages/Movies';
-import TvShows from './pages/TvShows';
-import Universe from './pages/Universe';
-import MovieDetail from './pages/MovieDetail';
-import TvShowDetail from './pages/TvShowDetail';
-import Profile from './pages/Profile';
-import Timeline from './pages/Timeline';
-import Directors from './pages/Directors';
-import DirectorDetail from './pages/DirectorDetail';
-import Battles from './pages/Battles';
-import Wrapped from './pages/Wrapped';
-import Top100 from './pages/Top100';
-import Auth from './pages/Auth';
-import Contact from './pages/Contact';
-import About from './pages/About';
-import Privacy from './pages/Privacy';
-import Terms from './pages/Terms';
-import VerifyEmail from './pages/VerifyEmail';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { EmailVerificationGuard } from './components/auth/EmailVerificationGuard';
+
+const Home = lazy(() => import('./pages/Home'));
+const Movies = lazy(() => import('./pages/Movies'));
+const TvShows = lazy(() => import('./pages/TvShows'));
+const Universe = lazy(() => import('./pages/Universe'));
+const MovieDetail = lazy(() => import('./pages/MovieDetail'));
+const TvShowDetail = lazy(() => import('./pages/TvShowDetail'));
+const Profile = lazy(() => import('./pages/Profile'));
+const Timeline = lazy(() => import('./pages/Timeline'));
+const Directors = lazy(() => import('./pages/Directors'));
+const DirectorDetail = lazy(() => import('./pages/DirectorDetail'));
+const Battles = lazy(() => import('./pages/Battles'));
+const Wrapped = lazy(() => import('./pages/Wrapped'));
+const Top100 = lazy(() => import('./pages/Top100'));
+const Auth = lazy(() => import('./pages/Auth'));
+const Contact = lazy(() => import('./pages/Contact'));
+const About = lazy(() => import('./pages/About'));
+const Privacy = lazy(() => import('./pages/Privacy'));
+const Terms = lazy(() => import('./pages/Terms'));
+const VerifyEmail = lazy(() => import('./pages/VerifyEmail'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,32 +45,38 @@ function App() {
             <Navbar />
           <main className="flex-grow">
             <EmailVerificationGuard>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/movies" element={<Movies />} />
-                <Route path="/tv" element={<TvShows />} />
-                <Route path="/universe" element={<Universe />} />
-                <Route path="/movie/:id" element={<MovieDetail />} />
-                <Route path="/movie/:id/:slug" element={<MovieDetail />} />
-                <Route path="/tv/:id" element={<TvShowDetail />} />
-                <Route path="/tv/:id/:slug" element={<TvShowDetail />} />
-                <Route path="/timeline" element={<Timeline />} />
-                <Route path="/directors" element={<Directors />} />
-                <Route path="/director/:id" element={<DirectorDetail />} />
-                <Route path="/director/:id/:slug" element={<DirectorDetail />} />
-                <Route path="/battles" element={<Battles />} />
-                <Route element={<ProtectedRoute />}>
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/wrapped" element={<Wrapped />} />
-                </Route>
-                <Route path="/top100" element={<Top100 />} />
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/verify-email" element={<VerifyEmail />} />
-              </Routes>
+              <Suspense fallback={
+                <div className="min-h-screen flex items-center justify-center">
+                  <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              }>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/movies" element={<Movies />} />
+                  <Route path="/tv" element={<TvShows />} />
+                  <Route path="/universe" element={<Universe />} />
+                  <Route path="/movie/:id" element={<MovieDetail />} />
+                  <Route path="/movie/:id/:slug" element={<MovieDetail />} />
+                  <Route path="/tv/:id" element={<TvShowDetail />} />
+                  <Route path="/tv/:id/:slug" element={<TvShowDetail />} />
+                  <Route path="/timeline" element={<Timeline />} />
+                  <Route path="/directors" element={<Directors />} />
+                  <Route path="/director/:id" element={<DirectorDetail />} />
+                  <Route path="/director/:id/:slug" element={<DirectorDetail />} />
+                  <Route path="/battles" element={<Battles />} />
+                  <Route element={<ProtectedRoute />}>
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/wrapped" element={<Wrapped />} />
+                  </Route>
+                  <Route path="/top100" element={<Top100 />} />
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/terms" element={<Terms />} />
+                  <Route path="/verify-email" element={<VerifyEmail />} />
+                </Routes>
+              </Suspense>
             </EmailVerificationGuard>
           </main>
           <Footer />

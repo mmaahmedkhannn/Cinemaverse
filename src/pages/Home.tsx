@@ -102,6 +102,9 @@ const Home = () => {
         <title>CinemaDiscovery — The Ultimate Movie & TV Database</title>
         <meta name="description" content="Discover Every Story Ever Told" />
         <link rel="canonical" href="https://cinemadiscovery.com" />
+        {currentHero?.backdrop_path && (
+          <link rel="preload" as="image" href={getImageUrl(currentHero.backdrop_path, 'original')} fetchPriority="high" />
+        )}
       </Helmet>
       {/* ── Hero Section ── */}
       <section className="relative h-[85vh] w-full overflow-hidden bg-[#080810]">
@@ -120,6 +123,8 @@ const Home = () => {
                   src={getImageUrl(currentHero.backdrop_path, 'original')}
                   alt={currentHero.title}
                   className="w-full h-full object-cover"
+                  fetchPriority="high"
+                  loading="eager"
                 />
               </motion.div>
             </AnimatePresence>
@@ -268,7 +273,7 @@ const Home = () => {
                 {/* Movie 1 */}
                 <div className="flex-1 text-center w-full">
                   <div className="w-32 md:w-48 h-48 md:h-72 mx-auto rounded-xl overflow-hidden shadow-2xl transition-transform hover:scale-105 mb-4 relative">
-                    <img src={getImageUrl(featuredBattle.movie1Poster!)} alt={featuredBattle.movie1Title} className="w-full h-full object-cover" />
+                    <img src={getImageUrl(featuredBattle.movie1Poster!)} alt={featuredBattle.movie1Title} loading="lazy" className="w-full h-full object-cover" />
                     {featuredBattle.userVote && (featuredBattle.movie1Votes > featuredBattle.movie2Votes) && (
                       <div className="absolute inset-0 border-4 border-yellow-400 rounded-xl"><Crown className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 text-yellow-400 fill-yellow-400" /></div>
                     )}
@@ -298,7 +303,7 @@ const Home = () => {
                 {/* Movie 2 */}
                 <div className="flex-1 text-center w-full">
                   <div className="w-32 md:w-48 h-48 md:h-72 mx-auto rounded-xl overflow-hidden shadow-2xl transition-transform hover:scale-105 mb-4 relative">
-                    <img src={getImageUrl(featuredBattle.movie2Poster!)} alt={featuredBattle.movie2Title} className="w-full h-full object-cover" />
+                    <img src={getImageUrl(featuredBattle.movie2Poster!)} alt={featuredBattle.movie2Title} loading="lazy" className="w-full h-full object-cover" />
                     {featuredBattle.userVote && (featuredBattle.movie2Votes > featuredBattle.movie1Votes) && (
                       <div className="absolute inset-0 border-4 border-yellow-400 rounded-xl"><Crown className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 text-yellow-400 fill-yellow-400" /></div>
                     )}
