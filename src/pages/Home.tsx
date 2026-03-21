@@ -37,20 +37,24 @@ const Home = () => {
   
   useEffect(() => {
     const loadBattle = async () => {
-      const { battleId } = await getWeeklyBattle();
-      const battle = await getBattle(battleId);
-      
-      const m1 = await tmdbApi.getMovieDetails(battle!.movie1Id).catch(() => null);
-      const m2 = await tmdbApi.getMovieDetails(battle!.movie2Id).catch(() => null);
-      
-      const bWithPosters = {
-         ...battle!,
-         movie1Poster: m1?.poster_path || null,
-         movie2Poster: m2?.poster_path || null
-      };
+      try {
+        const { battleId } = await getWeeklyBattle();
+        const battle = await getBattle(battleId);
+        
+        const m1 = await tmdbApi.getMovieDetails(battle!.movie1Id).catch(() => null);
+        const m2 = await tmdbApi.getMovieDetails(battle!.movie2Id).catch(() => null);
+        
+        const bWithPosters = {
+           ...battle!,
+           movie1Poster: m1?.poster_path || null,
+           movie2Poster: m2?.poster_path || null
+        };
 
-      const userVote = currentUser ? await getUserVote(battleId, currentUser.uid) : null;
-      setFeaturedBattle({ ...bWithPosters, battleId, userVote });
+        const userVote = currentUser ? await getUserVote(battleId, currentUser.uid) : null;
+        setFeaturedBattle({ ...bWithPosters, battleId, userVote });
+      } catch (e) {
+        console.error("Home battle loading error:", e);
+      }
     };
     loadBattle();
   }, [currentUser]);

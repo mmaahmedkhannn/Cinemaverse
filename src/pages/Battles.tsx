@@ -11,6 +11,7 @@ const Battles = () => {
   const [battle, setBattle] = useState<(Battle & { userVote: any }) | null>(null);
   const [timeLeft, setTimeLeft] = useState<string>('');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
@@ -54,8 +55,9 @@ const Battles = () => {
         
         updateTimer();
         interval = setInterval(updateTimer, 60000);
-      } catch (err) {
+      } catch (err: any) {
         console.error("Battles loading error:", err);
+        setError(err.message || 'Failed to load battle');
       } finally {
         setLoading(false);
       }
@@ -81,6 +83,17 @@ const Battles = () => {
       alert(e.message);
     }
   };
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background-dark pt-20 flex flex-col justify-center items-center text-center px-4">
+        <Zap className="w-16 h-16 text-red-500 mb-4" />
+        <h2 className="text-2xl font-bebas text-white mb-2">Battle Loading Failed</h2>
+        <p className="text-gray-400 font-sans">{error}</p>
+        <p className="text-gray-500 font-sans text-sm mt-4">Make sure you have deployed your Firestore Security Rules.</p>
+      </div>
+    );
+  }
 
   if (loading || !battle) {
     return (
