@@ -8,6 +8,8 @@ import CVScore from '../components/ui/CVScore';
 import { useAuth } from '../contexts/AuthContext';
 import { doc, getDoc, setDoc, increment } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { Helmet } from 'react-helmet-async';
+import { generateSlug } from '../utils/slugify';
 
 const Top100 = () => {
   const [filter, setFilter] = useState<{ era: 'all' | '2020s' | '2010s' | '2000s' | '1990s' | '1980s' | '1970s' | 'pre1970' }>({ era: 'all' });
@@ -99,6 +101,11 @@ const Top100 = () => {
 
   return (
     <div className="min-h-screen bg-background-dark pt-20 pb-20">
+      <Helmet>
+        <title>The Definitive Top 100 Movies — TheCinemaBase</title>
+        <meta name="description" content="The 100 greatest movies ever made, ranked by TheCinemaBase community and critics." />
+        <link rel="canonical" href="https://thecinemabase.com/top100" />
+      </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
@@ -106,10 +113,10 @@ const Top100 = () => {
             <Trophy className="w-4 h-4" /> THE DEFINITIVE RANKING
           </div>
           <h1 className="font-bebas text-6xl md:text-8xl text-white tracking-wider mb-4">
-            CinemaVerse <span className="text-yellow-500">Top 100</span>
+            TheCinemaBase <span className="text-yellow-500">Top 100</span>
           </h1>
           <p className="text-gray-400 text-lg font-sans max-w-2xl mx-auto mb-8">
-            The 100 greatest movies ever made, ranked by the CinemaVerse community and critics.
+            The 100 greatest movies ever made, ranked by the TheCinemaBase community and critics.
           </p>
 
           {/* Filters */}
@@ -212,7 +219,7 @@ const Top100 = () => {
                       voteCount={filteredMovies[0].vote_count} 
                       popularity={filteredMovies[0].popularity}
                     />
-                    <Link to={`/movie/${filteredMovies[0].id}`} className="bg-yellow-500 hover:bg-yellow-600 text-black font-bebas px-8 py-3 rounded-xl transition-all shadow-lg shadow-yellow-500/20">
+                    <Link to={`/movie/${filteredMovies[0].id}/${generateSlug(filteredMovies[0].title)}`} className="bg-yellow-500 hover:bg-yellow-600 text-black font-bebas px-8 py-3 rounded-xl transition-all shadow-lg shadow-yellow-500/20">
                       VIEW MASTERPIECE
                     </Link>
                   </div>
@@ -273,7 +280,7 @@ const Top100 = () => {
                     viewport={{ once: true }}
                     className="group"
                   >
-                    <Link to={`/movie/${movie.id}`} className="block relative aspect-[2/3] rounded-xl overflow-hidden mb-3 border border-white/10">
+                    <Link to={`/movie/${movie.id}/${generateSlug(movie.title)}`} className="block relative aspect-[2/3] rounded-xl overflow-hidden mb-3 border border-white/10">
                       <img 
                         src={getImageUrl(movie.poster_path, 'w500')} 
                         alt={movie.title}
@@ -323,7 +330,7 @@ const Top100 = () => {
                        </div>
                        <div>
                          <div className="flex items-center gap-2 mb-1">
-                           <Link to={`/movie/${movie.id}`} className="font-bebas text-lg text-white hover:text-primary transition-colors block leading-none">{movie.title}</Link>
+                           <Link to={`/movie/${movie.id}/${generateSlug(movie.title)}`} className="font-bebas text-lg text-white hover:text-primary transition-colors block leading-none">{movie.title}</Link>
                            {moverId === movie.id && <span className="bg-green-500 text-black px-1.5 py-0.5 text-[10px] rounded font-bold uppercase tracking-wider hidden sm:inline-block">Mover 🚀</span>}
                          </div>
                          <p className="text-xs text-gray-500 font-sans">{movie.release_date?.substring(0, 4)}</p>

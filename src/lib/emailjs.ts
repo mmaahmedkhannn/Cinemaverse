@@ -7,7 +7,7 @@ import emailjs from '@emailjs/browser';
 // 2. Create an Email Service (Gmail, Outlook, etc.)
 // 3. Create an Email Template:
 //    - To Email: {{to_email}}
-//    - Subject: 🎬 Welcome to CinemaVerse — You're In!
+//    - Subject: 🎬 Welcome to TheCinemaBase — You're In!
 //    - Content: {{{message}}}   ← TRIPLE braces required for HTML!
 // 4. Add your keys to .env:
 //    VITE_EMAILJS_SERVICE_ID=your_service_id
@@ -28,7 +28,7 @@ const buildWelcomeHTML = (userEmail: string): string => {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to CinemaVerse</title>
+  <title>Welcome to TheCinemaBase</title>
 </head>
 <body style="margin:0;padding:0;background-color:#080810;font-family:Arial,Helvetica,sans-serif;">
 
@@ -54,7 +54,7 @@ const buildWelcomeHTML = (userEmail: string): string => {
           <!-- Logo -->
           <tr>
             <td align="center" style="padding-bottom:8px;">
-              <span style="font-size:42px;font-weight:900;color:#E50914;letter-spacing:8px;font-family:Arial,Helvetica,sans-serif;">CINEMAVERSE</span>
+              <span style="font-size:42px;font-weight:900;color:#E50914;letter-spacing:8px;font-family:Arial,Helvetica,sans-serif;">THECINEMABASE</span>
             </td>
           </tr>
 
@@ -124,7 +124,7 @@ const buildWelcomeHTML = (userEmail: string): string => {
                       </tr>
                       <tr>
                         <td style="padding:8px 0;font-size:15px;color:#d1d5db;font-family:Arial,Helvetica,sans-serif;">
-                          <span style="color:#E50914;font-size:14px;">✦</span>&nbsp;&nbsp;CinemaVerse Wrapped
+                          <span style="color:#E50914;font-size:14px;">✦</span>&nbsp;&nbsp;TheCinemaBase Wrapped
                         </td>
                       </tr>
                       <tr>
@@ -160,7 +160,7 @@ const buildWelcomeHTML = (userEmail: string): string => {
           <!-- Footer -->
           <tr>
             <td align="center" style="padding-bottom:8px;">
-              <span style="font-size:12px;color:#4b5563;font-family:Arial,Helvetica,sans-serif;">&copy; 2026 CinemaVerse &mdash; The Universe of Cinema</span>
+              <span style="font-size:12px;color:#4b5563;font-family:Arial,Helvetica,sans-serif;">&copy; 2026 TheCinemaBase &mdash; The Universe of Cinema</span>
             </td>
           </tr>
           <tr>
@@ -204,7 +204,7 @@ const buildWelcomeHTML = (userEmail: string): string => {
 
 export const sendWelcomeEmail = async (userEmail: string): Promise<boolean> => {
   if (EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID_HERE') {
-    console.warn('[CinemaVerse] EmailJS not configured — check src/lib/emailjs.ts');
+    console.warn('[TheCinemaBase] EmailJS not configured — check src/lib/emailjs.ts');
     return false;
   }
 
@@ -218,10 +218,10 @@ export const sendWelcomeEmail = async (userEmail: string): Promise<boolean> => {
       },
       EMAILJS_PUBLIC_KEY
     );
-    console.log('[CinemaVerse] Welcome email sent!');
+    console.log('[TheCinemaBase] Welcome email sent!');
     return response.status === 200;
   } catch (error) {
-    console.error('[CinemaVerse] Failed to send welcome email:', error);
+    console.error('[TheCinemaBase] Failed to send welcome email:', error);
     return false;
   }
 };

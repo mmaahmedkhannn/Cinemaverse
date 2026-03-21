@@ -7,6 +7,8 @@ import { Star, ChevronLeft, ChevronRight, Play, AlertCircle, Gem, Zap, Crown, Th
 import { useAuth } from '../contexts/AuthContext';
 import { PRESET_BATTLES, initializeBattle, getBattle, getUserVote, castVote } from '../lib/battleService';
 import type { Battle } from '../lib/battleService';
+import { Helmet } from 'react-helmet-async';
+import { generateSlug } from '../utils/slugify';
 
 const Home = () => {
   const { data: heroData, isLoading: isHeroLoading, error: heroError } = useQuery({
@@ -96,6 +98,11 @@ const Home = () => {
 
   return (
     <div className="pt-16">
+      <Helmet>
+        <title>TheCinemaBase — The Ultimate Movie & TV Database</title>
+        <meta name="description" content="Discover every movie and TV show ever made. Ratings, trailers, cast, streaming availability, franchise timelines and more on TheCinemaBase." />
+        <link rel="canonical" href="https://thecinemabase.com" />
+      </Helmet>
       {/* ── Hero Section ── */}
       <section className="relative h-[85vh] w-full overflow-hidden bg-[#080810]">
         {!isHeroLoading && currentHero ? (
@@ -147,10 +154,10 @@ const Home = () => {
                     {currentHero.overview}
                   </p>
                   <div className="flex gap-4">
-                    <Link to={`/movie/${currentHero.id}`} className="flex items-center gap-2 bg-primary hover:bg-red-700 text-white font-sans font-bold py-3 px-7 rounded-full shadow-lg hover:shadow-primary/50 transition-all duration-300">
+                    <Link to={`/movie/${currentHero.id}/${generateSlug(currentHero.title)}`} className="flex items-center gap-2 bg-primary hover:bg-red-700 text-white font-sans font-bold py-3 px-7 rounded-full shadow-lg hover:shadow-primary/50 transition-all duration-300">
                       <Play className="w-5 h-5 fill-white" /> Watch Trailer
                     </Link>
-                    <Link to={`/movie/${currentHero.id}`} className="bg-white/10 border border-white/20 backdrop-blur-sm hover:bg-white/20 text-white font-sans font-semibold py-3 px-7 rounded-full transition-all duration-300">
+                    <Link to={`/movie/${currentHero.id}/${generateSlug(currentHero.title)}`} className="bg-white/10 border border-white/20 backdrop-blur-sm hover:bg-white/20 text-white font-sans font-semibold py-3 px-7 rounded-full transition-all duration-300">
                       More Info
                     </Link>
                   </div>
@@ -205,7 +212,7 @@ const Home = () => {
             ))
           ) : (
             trendingMovies.map((movie, i) => (
-              <Link to={`/movie/${movie.id}`} key={movie.id}>
+              <Link to={`/movie/${movie.id}/${generateSlug(movie.title)}`} key={movie.id}>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -344,7 +351,7 @@ const Home = () => {
               ))
             ) : (
               hiddenGems.map((movie: TMDBMovie, i: number) => (
-                <Link to={`/movie/${movie.id}`} key={movie.id}>
+                <Link to={`/movie/${movie.id}/${generateSlug(movie.title)}`} key={movie.id}>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}

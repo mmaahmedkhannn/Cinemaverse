@@ -49,10 +49,13 @@ function App() {
                 <Route path="/tv" element={<TvShows />} />
                 <Route path="/universe" element={<Universe />} />
                 <Route path="/movie/:id" element={<MovieDetail />} />
+                <Route path="/movie/:id/:slug" element={<MovieDetail />} />
                 <Route path="/tv/:id" element={<TvShowDetail />} />
+                <Route path="/tv/:id/:slug" element={<TvShowDetail />} />
                 <Route path="/timeline" element={<Timeline />} />
                 <Route path="/directors" element={<Directors />} />
                 <Route path="/director/:id" element={<DirectorDetail />} />
+                <Route path="/director/:id/:slug" element={<DirectorDetail />} />
                 <Route path="/battles" element={<Battles />} />
                 <Route element={<ProtectedRoute />}>
                   <Route path="/profile" element={<Profile />} />

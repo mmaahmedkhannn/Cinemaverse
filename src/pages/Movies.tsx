@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { Star, Search, Filter } from 'lucide-react';
 import { tmdbApi, getImageUrl, type TMDBMovie } from '../services/tmdb';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { generateSlug } from '../utils/slugify';
 
 const YEARS = [2026, 2025, 2024, 2023, 2022, 2021, 2020, "All Time"];
 const SORT_OPTIONS = [
@@ -73,6 +75,11 @@ const Movies = () => {
 
   return (
     <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto min-h-screen">
+      <Helmet>
+        <title>Browse Movies — TheCinemaBase</title>
+        <meta name="description" content="Explore our massive collection of premium movies. Filter by year, genre, and adjust your sorting to find exactly what you want to watch next." />
+        <link rel="canonical" href="https://thecinemabase.com/movies" />
+      </Helmet>
       
       {/* ── Title & Search ── */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
@@ -175,7 +182,7 @@ const Movies = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
             {movies.map((movie, i) => (
               <Fragment key={`${movie.id}-${i}`}>
-                <Link to={`/movie/${movie.id}`}>
+                <Link to={`/movie/${movie.id}/${generateSlug(movie.title)}`}>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}

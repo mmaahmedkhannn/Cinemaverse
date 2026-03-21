@@ -88,7 +88,7 @@ const Wrapped = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center max-w-md mx-auto px-4">
           <Lock className="w-16 h-16 text-primary mx-auto mb-6" />
           <h1 className="font-bebas text-5xl text-white mb-4">Sign In Required</h1>
-          <p className="text-gray-400 font-sans mb-8">Sign in to see your personalized CinemaVerse Wrapped experience!</p>
+          <p className="text-gray-400 font-sans mb-8">Sign in to see your personalized TheCinemaBase Wrapped experience!</p>
           <Link to="/" className="text-primary hover:text-white transition-colors font-sans">← Back to Home</Link>
         </motion.div>
       </div>
@@ -153,7 +153,7 @@ const Wrapped = () => {
       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', delay: 0.3 }}>
         <Sparkles className="w-16 h-16 text-primary mb-6 mx-auto" />
       </motion.div>
-      <h1 className="font-bebas text-6xl md:text-8xl text-white mb-4">Your CinemaVerse<br /><span className="text-primary">2025 Wrapped</span></h1>
+      <h1 className="font-bebas text-6xl md:text-8xl text-white mb-4">Your TheCinemaBase<br /><span className="text-primary">2025 Wrapped</span></h1>
       <p className="text-gray-400 font-sans text-lg">Let's look back at your year in cinema</p>
     </motion.div>,
 
@@ -202,7 +202,7 @@ const Wrapped = () => {
       <motion.p initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring' }} className="text-7xl mb-6">
         {personality.icon}
       </motion.p>
-      <p className="text-gray-400 font-sans text-xl mb-2">Your CinemaVerse Personality</p>
+      <p className="text-gray-400 font-sans text-xl mb-2">Your TheCinemaBase Personality</p>
       <h2 className="font-bebas text-5xl text-primary mb-4">{personality.type}</h2>
       <p className="text-gray-300 font-sans text-lg max-w-md">{personality.desc}</p>
     </motion.div>,
@@ -244,7 +244,7 @@ const Wrapped = () => {
         <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/20 blur-3xl rounded-full" />
         
         <div className="relative z-10">
-          <h2 className="font-bebas text-4xl text-white mb-1"><span className="text-primary">Cinema</span>Verse</h2>
+          <h2 className="font-bebas text-4xl text-white mb-1"><span className="text-primary">TheCinema</span>Base</h2>
           <p className="text-gray-400 font-sans text-xs font-bold tracking-widest mb-6">2025 WRAPPED</p>
           
           <div className="space-y-4 text-left">
@@ -256,7 +256,7 @@ const Wrapped = () => {
           </div>
           
           <div className="mt-8 pt-4 border-t border-white/10 text-center">
-            <p className="text-[10px] text-gray-500 font-sans tracking-widest">CINEMAVERSE.APP</p>
+            <p className="text-[10px] text-gray-500 font-sans tracking-widest">THECINEMABASE.COM</p>
           </div>
         </div>
       </div>

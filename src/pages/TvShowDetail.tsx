@@ -6,6 +6,7 @@ import { tmdbApi, getImageUrl } from '../services/tmdb';
 import { useAuth } from '../contexts/AuthContext';
 import { getWatchlist, addToWatchlist, removeFromWatchlist } from '../lib/firestore';
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import CVScore from '../components/ui/CVScore';
 
 const TvShowDetail = () => {
@@ -112,6 +113,46 @@ const TvShowDetail = () => {
 
   return (
     <div className="min-h-screen bg-background-dark pb-20">
+      <Helmet>
+        <title>{tv.name} — TheCinemaBase</title>
+        <meta name="description" content={tv.overview?.substring(0, 160) || "View TV show details on TheCinemaBase."} />
+        <meta property="og:title" content={`${tv.name} — TheCinemaBase`} />
+        <meta property="og:description" content={tv.overview?.substring(0, 160) || "View TV show details on TheCinemaBase."} />
+        <meta property="og:image" content={getImageUrl(tv.poster_path, 'original')} />
+        <meta property="og:url" content={`https://thecinemabase.com/tv/${tv.id}`} />
+        <meta property="og:type" content="video.tv_show" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href={`https://thecinemabase.com/tv/${tv.id}`} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "TVSeries",
+            "name": tv.name,
+            "image": getImageUrl(tv.poster_path, 'original'),
+            "description": tv.overview,
+            "startDate": tv.first_air_date,
+            "aggregateRating": tv.vote_count > 0 ? {
+              "@type": "AggregateRating",
+              "ratingValue": tv.vote_average,
+              "ratingCount": tv.vote_count,
+              "bestRating": "10",
+              "worstRating": "1"
+            } : undefined
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thecinemabase.com" },
+              { "@type": "ListItem", "position": 2, "name": "TV Shows", "item": "https://thecinemabase.com/tv" },
+              { "@type": "ListItem", "position": 3, "name": tv.name, "item": `https://thecinemabase.com/tv/${tv.id}` }
+            ]
+          })}
+        </script>
+      </Helmet>
+
       <div className="relative h-[60vh] md:h-[75vh] w-full">
         <div className="absolute inset-0">
           <img

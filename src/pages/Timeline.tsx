@@ -4,6 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { Star, Film, ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
 import { tmdbApi, getImageUrl } from '../services/tmdb';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { generateSlug } from '../utils/slugify';
 
 const DECADES = [
   { start: 1900, label: '1900s', theme: { bg: 'from-amber-900/40 to-yellow-950/20', accent: '#704214', text: 'The Birth of Cinema' } },
@@ -49,6 +51,11 @@ const Timeline = () => {
 
   return (
     <div className="min-h-screen bg-background-dark pt-20 pb-20">
+      <Helmet>
+        <title>Cinematic Timeline — TheCinemaBase</title>
+        <meta name="description" content="A journey through 100+ years of cinema history. From the silent era to the streaming age." />
+        <link rel="canonical" href="https://thecinemabase.com/timeline" />
+      </Helmet>
       {/* Hero */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
@@ -142,7 +149,7 @@ const Timeline = () => {
                     ) : (
                       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                         {yearMovies?.results?.slice(0, 10).map((movie: any, mi: number) => (
-                          <Link to={`/movie/${movie.id}`} key={movie.id}>
+                          <Link to={`/movie/${movie.id}/${generateSlug(movie.title)}`} key={movie.id}>
                             <motion.div
                               initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}

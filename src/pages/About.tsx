@@ -7,7 +7,7 @@ const About = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
           <h1 className="font-bebas text-6xl md:text-8xl text-white tracking-wider mb-4">
-            About <span className="text-primary">CinemaVerse</span>
+            About <span className="text-primary">TheCinemaBase</span>
           </h1>
           <p className="text-gray-400 text-lg font-sans max-w-2xl mx-auto">
             The universe of cinema, at your fingertips.
@@ -20,7 +20,7 @@ const About = () => {
               <Film className="w-7 h-7 text-primary" /> Our Mission
             </h2>
             <p className="text-gray-300 font-sans leading-relaxed">
-              CinemaVerse was built for movie lovers, by movie lovers. We believe that discovering your next
+              TheCinemaBase was built for movie lovers, by movie lovers. We believe that discovering your next
               favorite film should feel as exciting as watching one. Our platform brings together over 500,000+
               movies and TV shows, real-time ratings powered by TMDB, and a community of passionate cinephiles —
               all wrapped in a cinematic experience that feels premium from the first click.
@@ -55,13 +55,13 @@ const About = () => {
               <li className="flex items-start gap-3"><span className="text-primary mt-1">⭐</span> CV Scores — the most accurate rating system powered by TMDB</li>
               <li className="flex items-start gap-3"><span className="text-primary mt-1">⚔️</span> Movie Battles — vote and settle the greatest debates in cinema</li>
               <li className="flex items-start gap-3"><span className="text-primary mt-1">📋</span> Personal Watchlists to track what you want to see next</li>
-              <li className="flex items-start gap-3"><span className="text-primary mt-1">🎁</span> CinemaVerse Wrapped — your yearly cinema recap</li>
+              <li className="flex items-start gap-3"><span className="text-primary mt-1">🎁</span> TheCinemaBase Wrapped — your yearly cinema recap</li>
               <li className="flex items-start gap-3"><span className="text-primary mt-1">🏆</span> Top 100 — the definitive ranking decided by the community</li>
             </ul>
           </div>
 
           <div className="text-center text-gray-500 font-sans text-sm">
-            <p>&copy; {new Date().getFullYear()} CinemaVerse. All data provided by TMDB.</p>
+            <p>&copy; {new Date().getFullYear()} TheCinemaBase. All data provided by TMDB.</p>
           </div>
         </motion.div>
       </div>

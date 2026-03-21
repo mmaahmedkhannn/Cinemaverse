@@ -9,5 +9,18 @@ export default defineConfig({
     headers: {
       "Content-Security-Policy": "frame-src https://www.youtube.com"
     }
+  },
+  build: {
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          framer: ['framer-motion'],
+          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+          tmdb: ['axios']
+        }
+      }
+    }
   }
 })

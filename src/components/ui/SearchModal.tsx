@@ -4,6 +4,7 @@ import { Search, X, Film, Tv, User as UserIcon } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { tmdbApi, getImageUrl } from '../../services/tmdb';
+import { generateSlug } from '../../utils/slugify';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -50,13 +51,13 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
     enabled: debouncedQuery.length > 1,
   });
 
-  const handleResultClick = (mediaType: string, id: number) => {
+  const handleResultClick = (mediaType: string, id: number, nameTitle: string) => {
     onClose();
     if (mediaType === 'movie') {
-      navigate(`/movie/${id}`);
+      navigate(`/movie/${id}/${generateSlug(nameTitle)}`);
     } else if (mediaType === 'tv') {
       // For now, TV detail might not exist, but we still navigate if it does
-      navigate(`/tv/${id}`);
+      navigate(`/tv/${id}/${generateSlug(nameTitle)}`);
     }
   };
 
@@ -109,7 +110,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                   {results.slice(0, 10).map((result: any) => (
                     <div
                       key={result.id}
-                      onClick={() => handleResultClick(result.media_type, result.id)}
+                      onClick={() => handleResultClick(result.media_type, result.id, result.title || result.name)}
                       className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 cursor-pointer transition-colors group"
                     >
                       <div className="w-12 h-16 flex-shrink-0 rounded-md overflow-hidden bg-gray-800">

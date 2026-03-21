@@ -15,7 +15,7 @@ const Terms = () => {
           {[
             {
               title: "1. Acceptance of Terms",
-              content: "By accessing and using CinemaVerse, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the platform."
+              content: "By accessing and using TheCinemaBase, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the platform."
             },
             {
               title: "2. User Accounts",
@@ -23,11 +23,11 @@ const Terms = () => {
             },
             {
               title: "3. Acceptable Use",
-              content: "You agree not to misuse CinemaVerse services. This includes not attempting to access other users' accounts, not manipulating voting systems (Movie Battles, Top 100), not scraping or harvesting data from the platform, and not using the service for any unlawful purpose."
+              content: "You agree not to misuse TheCinemaBase services. This includes not attempting to access other users' accounts, not manipulating voting systems (Movie Battles, Top 100), not scraping or harvesting data from the platform, and not using the service for any unlawful purpose."
             },
             {
               title: "4. Content & Data",
-              content: "Movie and TV show data displayed on CinemaVerse is sourced from The Movie Database (TMDB) API. CinemaVerse does not claim ownership of this data. User-generated content (watchlists, ratings, votes) remains the property of the respective users."
+              content: "Movie and TV show data displayed on TheCinemaBase is sourced from The Movie Database (TMDB) API. TheCinemaBase does not claim ownership of this data. User-generated content (watchlists, ratings, votes) remains the property of the respective users."
             },
             {
               title: "5. CV Scores",
@@ -39,19 +39,19 @@ const Terms = () => {
             },
             {
               title: "7. Intellectual Property",
-              content: "The CinemaVerse brand, logo, design, and proprietary features (CV Scores, CinemaVerse Wrapped) are the intellectual property of CinemaVerse. Movie posters, images, and metadata are the property of their respective studios and are used under TMDB's API terms."
+              content: "The TheCinemaBase brand, logo, design, and proprietary features (CV Scores, TheCinemaBase Wrapped) are the intellectual property of TheCinemaBase. Movie posters, images, and metadata are the property of their respective studios and are used under TMDB's API terms."
             },
             {
               title: "8. Service Availability",
-              content: "CinemaVerse is provided on an 'as-is' basis. We do not guarantee uninterrupted access to the platform. We reserve the right to modify, suspend, or discontinue any part of the service at any time without prior notice."
+              content: "TheCinemaBase is provided on an 'as-is' basis. We do not guarantee uninterrupted access to the platform. We reserve the right to modify, suspend, or discontinue any part of the service at any time without prior notice."
             },
             {
               title: "9. Limitation of Liability",
-              content: "CinemaVerse shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the platform. Our total liability shall not exceed the amount you have paid to CinemaVerse (if any) in the 12 months preceding the claim."
+              content: "TheCinemaBase shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the platform. Our total liability shall not exceed the amount you have paid to TheCinemaBase (if any) in the 12 months preceding the claim."
             },
             {
               title: "10. Changes to Terms",
-              content: "We reserve the right to modify these Terms of Service at any time. Changes will be effective immediately upon posting. Your continued use of CinemaVerse after any changes constitutes acceptance of the new terms."
+              content: "We reserve the right to modify these Terms of Service at any time. Changes will be effective immediately upon posting. Your continued use of TheCinemaBase after any changes constitutes acceptance of the new terms."
             }
           ].map((section, i) => (
             <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-6">

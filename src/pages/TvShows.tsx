@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { Star, Search, Filter } from 'lucide-react';
 import { tmdbApi, getImageUrl, type TMDBTvShow } from '../services/tmdb';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { generateSlug } from '../utils/slugify';
 
 const YEARS = [2026, 2025, 2024, 2023, 2022, 2021, 2020, "All Time"];
 
@@ -22,7 +24,7 @@ const TvShowCard = ({ show, genresMap, index }: { show: TMDBTvShow, genresMap: R
   const showGenres = show.genre_ids?.slice(0, 2).map((id) => genresMap[id]).filter(Boolean) || [];
 
   return (
-    <Link to={`/tv/${show.id}`}>
+    <Link to={`/tv/${show.id}/${generateSlug(show.name)}`}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -141,6 +143,11 @@ const TvShows = () => {
 
   return (
     <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto min-h-screen">
+      <Helmet>
+        <title>TV Shows Directory — TheCinemaBase</title>
+        <meta name="description" content="Binge-worthy series from every network. Filter by year and genre to discover your next obsession." />
+        <link rel="canonical" href="https://thecinemabase.com/tv" />
+      </Helmet>
       
       {/* ── Title & Search ── */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">

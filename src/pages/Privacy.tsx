@@ -15,11 +15,11 @@ const Privacy = () => {
           {[
             {
               title: "1. Information We Collect",
-              content: "When you create an account on CinemaVerse, we collect your email address and display name. If you sign in with Google, we receive your Google profile information (name, email, and profile picture). We also store your watchlist selections, movie ratings, and battle votes."
+              content: "When you create an account on TheCinemaBase, we collect your email address and display name. If you sign in with Google, we receive your Google profile information (name, email, and profile picture). We also store your watchlist selections, movie ratings, and battle votes."
             },
             {
               title: "2. How We Use Your Information",
-              content: "Your information is used to provide and personalize the CinemaVerse experience, including your personal watchlist, ratings, CinemaVerse Wrapped statistics, and Movie Battle participation. We do not sell your personal data to third parties."
+              content: "Your information is used to provide and personalize the TheCinemaBase experience, including your personal watchlist, ratings, TheCinemaBase Wrapped statistics, and Movie Battle participation. We do not sell your personal data to third parties."
             },
             {
               title: "3. Data Storage",
@@ -27,7 +27,7 @@ const Privacy = () => {
             },
             {
               title: "4. Third-Party Services",
-              content: "CinemaVerse uses The Movie Database (TMDB) API for movie and TV show data, Google Firebase for authentication and data storage, and EmailJS for transactional emails. Each of these services has their own privacy policies."
+              content: "TheCinemaBase uses The Movie Database (TMDB) API for movie and TV show data, Google Firebase for authentication and data storage, and EmailJS for transactional emails. Each of these services has their own privacy policies."
             },
             {
               title: "5. Cookies",
@@ -35,15 +35,15 @@ const Privacy = () => {
             },
             {
               title: "6. Your Rights",
-              content: "You have the right to access, modify, or delete your personal data at any time. You can delete your account by contacting us at support@cinemaverse.com. Upon account deletion, all associated data (watchlists, ratings, votes) will be permanently removed."
+              content: "You have the right to access, modify, or delete your personal data at any time. You can delete your account by contacting us at support@thecinemabase.com. Upon account deletion, all associated data (watchlists, ratings, votes) will be permanently removed."
             },
             {
               title: "7. Changes to This Policy",
-              content: "We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date. Continued use of CinemaVerse after changes constitutes acceptance of the updated policy."
+              content: "We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date. Continued use of TheCinemaBase after changes constitutes acceptance of the updated policy."
             },
             {
               title: "8. Contact Us",
-              content: "If you have any questions about this Privacy Policy, please contact us at support@cinemaverse.com."
+              content: "If you have any questions about this Privacy Policy, please contact us at support@thecinemabase.com."
             }
           ].map((section, i) => (
             <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-6">

@@ -6,6 +6,7 @@ import { tmdbApi, getImageUrl } from '../services/tmdb';
 import { useAuth } from '../contexts/AuthContext';
 import { getWatchlist, addToWatchlist, removeFromWatchlist } from '../lib/firestore';
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import CVScore from '../components/ui/CVScore';
 
 const MovieDetail = () => {
@@ -117,6 +118,50 @@ const MovieDetail = () => {
 
   return (
     <div className="min-h-screen bg-background-dark pb-20">
+      <Helmet>
+        <title>{movie.title} — TheCinemaBase</title>
+        <meta name="description" content={movie.overview?.substring(0, 160) || "View movie details on TheCinemaBase."} />
+        <meta property="og:title" content={`${movie.title} — TheCinemaBase`} />
+        <meta property="og:description" content={movie.overview?.substring(0, 160) || "View movie details on TheCinemaBase."} />
+        <meta property="og:image" content={getImageUrl(movie.poster_path, 'original')} />
+        <meta property="og:url" content={`https://thecinemabase.com/movie/${movie.id}`} />
+        <meta property="og:type" content="video.movie" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href={`https://thecinemabase.com/movie/${movie.id}`} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Movie",
+            "name": movie.title,
+            "image": getImageUrl(movie.poster_path, 'original'),
+            "description": movie.overview,
+            "datePublished": movie.release_date,
+            "director": {
+              "@type": "Person",
+              "name": movie.credits?.crew?.find((c: any) => c.job === 'Director')?.name || 'Unknown'
+            },
+            "aggregateRating": movie.vote_count > 0 ? {
+              "@type": "AggregateRating",
+              "ratingValue": movie.vote_average,
+              "ratingCount": movie.vote_count,
+              "bestRating": "10",
+              "worstRating": "1"
+            } : undefined
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thecinemabase.com" },
+              { "@type": "ListItem", "position": 2, "name": "Movies", "item": "https://thecinemabase.com/movies" },
+              { "@type": "ListItem", "position": 3, "name": movie.title, "item": `https://thecinemabase.com/movie/${movie.id}` }
+            ]
+          })}
+        </script>
+      </Helmet>
+
       {/* ── Hero Backdrop ── */}
       <div className="relative h-[60vh] md:h-[75vh] w-full">
         <div className="absolute inset-0">

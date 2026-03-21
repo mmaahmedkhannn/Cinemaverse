@@ -4,6 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { Star, Film, Award, TrendingUp, Camera } from 'lucide-react';
 import { tmdbApi, getImageUrl } from '../services/tmdb';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { generateSlug } from '../utils/slugify';
 
 const FEATURED_DIRECTORS = [
   { id: 525, name: 'Christopher Nolan', tags: ['Non-linear Storytelling', 'Practical Effects', 'Time'], style: 'Mind-bending narratives with IMAX grandeur' },
@@ -66,6 +68,11 @@ const Directors = () => {
 
   return (
     <div className="min-h-screen bg-background-dark pt-20 pb-20">
+      <Helmet>
+        <title>Director Universe — TheCinemaBase</title>
+        <meta name="description" content="Explore the visionaries who shaped cinema. Their styles, their masterpieces, their legacy." />
+        <link rel="canonical" href="https://thecinemabase.com/directors" />
+      </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <h1 className="font-bebas text-6xl md:text-8xl text-white tracking-wider mb-4">
@@ -96,7 +103,7 @@ const Directors = () => {
                 )}
               </div>
               <div className="text-center md:text-left flex-grow">
-                <Link to={`/director/${directorOfMonth.id}`} className="font-bebas text-3xl text-white hover:text-primary transition-colors">
+                <Link to={`/director/${directorOfMonth.id}/${generateSlug(directorOfMonth.name)}`} className="font-bebas text-3xl text-white hover:text-primary transition-colors">
                   {directorOfMonth.name}
                 </Link>
                 <p className="text-gray-400 font-sans text-sm mt-1">{directorOfMonth.style}</p>
@@ -138,7 +145,7 @@ const Directors = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
             >
-              <Link to={`/director/${director.id}`}>
+              <Link to={`/director/${director.id}/${generateSlug(director.name)}`}>
                 <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-primary/40 transition-all duration-300 group">
                   {/* Director Photo + Backdrop */}
                   <div className="relative h-48 bg-gradient-to-br from-gray-800 to-gray-900">

@@ -45,7 +45,7 @@ const Contact = () => {
                 </div>
                 <h3 className="font-bebas text-xl text-white tracking-wide">Email Us</h3>
               </div>
-              <p className="text-gray-400 font-sans text-sm">support@cinemaverse.com</p>
+              <p className="text-gray-400 font-sans text-sm">support@thecinemabase.com</p>
             </div>
 
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
@@ -55,7 +55,7 @@ const Contact = () => {
                 </div>
                 <h3 className="font-bebas text-xl text-white tracking-wide">Social</h3>
               </div>
-              <p className="text-gray-400 font-sans text-sm">@CinemaVerse on all platforms</p>
+              <p className="text-gray-400 font-sans text-sm">@TheCinemaBase on all platforms</p>
             </div>
 
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
