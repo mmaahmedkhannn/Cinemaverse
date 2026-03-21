@@ -1,6 +1,7 @@
-import { doc, setDoc, getDoc, increment, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, getDoc, getDocs, collection, increment, updateDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { db } from './firebase';
 import { sanitizeInput } from './sanitize';
+import { sendBattleResultsEmail } from './emailjs';
 
 export interface Battle {
   id?: string;
@@ -109,4 +110,71 @@ export const initializeBattle = async (battle: Omit<Battle, 'movie1Votes' | 'mov
     await setDoc(ref, { ...battle, movie1Votes: 0, movie2Votes: 0, createdAt: serverTimestamp() });
   }
   return id;
+};
+
+export const getWeeklyBattle = async (): Promise<{ battleId: string, endsAt: any }> => {
+  const ref = doc(db, 'system', 'weeklyBattle');
+  const snap = await getDoc(ref);
+  
+  if (!snap.exists()) {
+    const preset = PRESET_BATTLES[0];
+    const battleId = await initializeBattle(preset);
+    const now = new Date();
+    const endsAt = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+    
+    const state = {
+      currentBattleId: battleId,
+      currentPresetIndex: 0,
+      startedAt: serverTimestamp(),
+      endsAt: Timestamp.fromDate(endsAt)
+    };
+    await setDoc(ref, state);
+    return { battleId, endsAt: state.endsAt };
+  }
+
+  const state = snap.data();
+  const endsAtDate = state.endsAt.toDate();
+  
+  if (new Date() > endsAtDate) {
+    // Battle Expired - Calculate winner and rotate
+    const oldBattle = await getBattle(state.currentBattleId);
+    if (oldBattle) {
+      const total = oldBattle.movie1Votes + oldBattle.movie2Votes;
+      const m1Pct = total > 0 ? Math.round((oldBattle.movie1Votes / total) * 100) : 50;
+      const m2Pct = total > 0 ? 100 - m1Pct : 50;
+      const winnerName = m1Pct > m2Pct ? oldBattle.movie1Title : oldBattle.movie2Title;
+      const winnerPct = Math.max(m1Pct, m2Pct);
+      const title = `${oldBattle.movie1Title} vs ${oldBattle.movie2Title}`;
+
+      // Trigger Emails
+      try {
+        const usersSnap = await getDocs(collection(db, 'users'));
+        const emails = usersSnap.docs.map(d => d.data().email).filter(Boolean);
+        if (emails.length > 0) {
+          sendBattleResultsEmail(emails, winnerName, winnerPct, title).catch(console.error);
+        }
+      } catch (e) {
+        console.error("Failed fetching users for email", e);
+      }
+    }
+
+    // Set new battle
+    const nextIndex = (state.currentPresetIndex + 1) % PRESET_BATTLES.length;
+    const nextPreset = PRESET_BATTLES[nextIndex];
+    const newBattleId = await initializeBattle(nextPreset);
+    
+    const now = new Date();
+    const newEndsAt = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+    
+    const newState = {
+      currentBattleId: newBattleId,
+      currentPresetIndex: nextIndex,
+      startedAt: serverTimestamp(),
+      endsAt: Timestamp.fromDate(newEndsAt)
+    };
+    await updateDoc(ref, newState);
+    return { battleId: newBattleId, endsAt: newState.endsAt };
+  }
+
+  return { battleId: state.currentBattleId, endsAt: state.endsAt };
 };

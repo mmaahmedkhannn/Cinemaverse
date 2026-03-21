@@ -225,3 +225,57 @@ export const sendWelcomeEmail = async (userEmail: string): Promise<boolean> => {
     return false;
   }
 };
+
+const buildBattleResultsHTML = (winnerName: string, pct: number, battleTitle: string): string => {
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Battle Results</title>
+</head>
+<body style="margin:0;padding:0;background-color:#080810;font-family:Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#080810;padding:40px 20px;">
+    <tr>
+      <td align="center">
+        <span style="font-size:32px;font-weight:900;color:#E50914;letter-spacing:4px;">CINEMADISCOVERY</span><br><br>
+        <span style="font-size:24px;color:#FFFFFF;font-weight:bold;">${battleTitle}</span><br><br>
+        <div style="background-color:#111116;border:1px solid #1f1f2e;border-radius:16px;padding:30px;max-width:500px;text-align:center;">
+          <h2 style="color:#facc15;font-size:28px;margin:0 0 10px 0;">We Have A Winner!</h2>
+          <p style="color:#d1d5db;font-size:18px;line-height:1.5;">
+            The community has spoken. <br>
+            <strong style="color:#ffffff;font-size:22px;">${winnerName}</strong> <br>
+            WINS with <strong style="color:#facc15;font-size:24px;">${pct}%</strong> of the votes!
+          </p>
+        </div><br><br>
+        <a href="https://savemyreel.online/battles" style="display:inline-block;background-color:#E50914;color:#ffffff;text-decoration:none;padding:16px 40px;font-weight:bold;border-radius:12px;">VOTE IN NEXT BATTLE &rarr;</a>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+};
+
+export const sendBattleResultsEmail = async (emails: string[], winnerName: string, pct: number, battleTitle: string) => {
+  if (EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID_HERE') {
+    console.warn('[CinemaDiscovery] EmailJS not configured');
+    return;
+  }
+  
+  const subject = "🎬 This Week's Battle Results — CinemaDiscovery";
+  const html = buildBattleResultsHTML(winnerName, pct, battleTitle);
+
+  // EmailJS limits frontend concurrency slightly, executing sequentially with tiny delay is safer.
+  for (const email of emails) {
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        to_email: email,
+        subject: subject,
+        message: html,
+      }, EMAILJS_PUBLIC_KEY);
+      // await new Promise(r => setTimeout(r, 200)); // rate limit buffer
+    } catch (e) {
+      console.error('Failed sending battle email to:', email, e);
+    }
+  }
+};

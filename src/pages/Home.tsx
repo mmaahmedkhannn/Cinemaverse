@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { tmdbApi, getImageUrl, type TMDBMovie } from '../services/tmdb';
 import { Star, ChevronLeft, ChevronRight, Play, AlertCircle, Gem, Zap, Crown, ThumbsUp } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { PRESET_BATTLES, initializeBattle, getBattle, getUserVote, castVote } from '../lib/battleService';
+import { getBattle, getUserVote, castVote, getWeeklyBattle } from '../lib/battleService';
 import type { Battle } from '../lib/battleService';
 import { Helmet } from 'react-helmet-async';
 import { generateSlug } from '../utils/slugify';
@@ -37,15 +37,20 @@ const Home = () => {
   
   useEffect(() => {
     const loadBattle = async () => {
-      const currentWeek = Math.floor(new Date().getDate() / 7) % 4;
-      const preset = PRESET_BATTLES[currentWeek * 10] || PRESET_BATTLES[0];
+      const { battleId } = await getWeeklyBattle();
+      const battle = await getBattle(battleId);
       
-      if (preset) {
-        const battleId = await initializeBattle(preset);
-        const battle = await getBattle(battleId);
-        const userVote = currentUser ? await getUserVote(battleId, currentUser.uid) : null;
-        setFeaturedBattle({ ...battle!, battleId, userVote });
-      }
+      const m1 = await tmdbApi.getMovieDetails(battle!.movie1Id).catch(() => null);
+      const m2 = await tmdbApi.getMovieDetails(battle!.movie2Id).catch(() => null);
+      
+      const bWithPosters = {
+         ...battle!,
+         movie1Poster: m1?.poster_path || null,
+         movie2Poster: m2?.poster_path || null
+      };
+
+      const userVote = currentUser ? await getUserVote(battleId, currentUser.uid) : null;
+      setFeaturedBattle({ ...bWithPosters, battleId, userVote });
     };
     loadBattle();
   }, [currentUser]);
@@ -262,7 +267,7 @@ const Home = () => {
         <section className="bg-gradient-to-b from-[#080810] to-[#0a0a0f] py-16 px-4 sm:px-6 lg:px-8 border-t border-white/5">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-10">
-              <span className="text-yellow-400 font-bebas tracking-widest text-lg bg-yellow-400/10 px-4 py-1.5 rounded-full border border-yellow-400/20 mb-4 inline-block">DAILY FEATURED BATTLE</span>
+              <span className="text-yellow-400 font-bebas tracking-widest text-lg bg-yellow-400/10 px-4 py-1.5 rounded-full border border-yellow-400/20 mb-4 inline-block">WEEKLY FEATURED BATTLE</span>
               <h2 className="font-bebas text-5xl text-white">Who Wins This Matchup?</h2>
             </div>
             

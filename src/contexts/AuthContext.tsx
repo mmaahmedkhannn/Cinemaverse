@@ -8,7 +8,8 @@ import {
   onAuthStateChanged
 } from 'firebase/auth';
 import type { User } from 'firebase/auth';
-import { auth, googleProvider } from '../lib/firebase';
+import { auth, googleProvider, db } from '../lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 interface AuthContextType {
   currentUser: User | null;
@@ -40,16 +41,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return unsubscribe;
   }, []);
 
+  const syncUserToFirestore = async (user: User) => {
+    if (user.email) {
+      await setDoc(doc(db, 'users', user.uid), {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName || '',
+      }, { merge: true });
+    }
+  };
+
   const loginWithGoogle = async () => {
-    await signInWithPopup(auth, googleProvider);
+    const cred = await signInWithPopup(auth, googleProvider);
+    await syncUserToFirestore(cred.user);
   };
 
   const loginWithEmail = async (e: string, p: string) => {
-    await signInWithEmailAndPassword(auth, e, p);
+    const cred = await signInWithEmailAndPassword(auth, e, p);
+    await syncUserToFirestore(cred.user);
   };
 
   const registerWithEmail = async (e: string, p: string) => {
-    await createUserWithEmailAndPassword(auth, e, p);
+    const cred = await createUserWithEmailAndPassword(auth, e, p);
+    await syncUserToFirestore(cred.user);
   };
 
   const logout = async () => {
