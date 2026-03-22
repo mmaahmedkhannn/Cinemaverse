@@ -59,11 +59,12 @@ const Battles = () => {
           const days = Math.floor(diff / (1000 * 60 * 60 * 24));
           const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
           const minutes = Math.floor((diff / 1000 / 60) % 60);
-          setTimeLeft(`${days} days ${hours} hours ${minutes} minutes`);
+          const seconds = Math.floor((diff / 1000) % 60);
+          setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
         };
         
         updateTimer();
-        interval = setInterval(updateTimer, 60000);
+        interval = setInterval(updateTimer, 1000);
       } catch (err: any) {
         console.error("Battles loading error:", err);
         setError(err.message || 'Failed to load battle');
