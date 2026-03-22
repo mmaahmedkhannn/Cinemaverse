@@ -30,6 +30,17 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
   }, [isOpen]);
 
   useEffect(() => {
+    const handleOpenSearch = (e: CustomEvent<{ query: string }>) => {
+      setQuery(e.detail.query);
+      setDebouncedQuery(e.detail.query);
+      setTimeout(() => inputRef.current?.focus(), 150);
+    };
+    
+    window.addEventListener('open-search', handleOpenSearch as EventListener);
+    return () => window.removeEventListener('open-search', handleOpenSearch as EventListener);
+  }, []);
+
+  useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };

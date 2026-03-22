@@ -72,18 +72,18 @@ const Timeline = () => {
       </div>
 
       <div className="flex-1 overflow-x-auto overflow-y-auto hide-scrollbar relative" ref={scrollRef}>
-        <div className="flex flex-col md:flex-row h-full min-h-[80vh] md:w-max">
+        <div className="flex flex-row h-full min-h-[80vh] w-max">
           {timelineBlocks.map((block) => (
             <div 
               key={block.start} 
-              className={`flex flex-col md:flex-row bg-gradient-to-br ${block.theme.bg} relative p-8 md:p-12 shrink-0 border-r border-white/10`}
+              className={`flex flex-row bg-gradient-to-br ${block.theme.bg} relative p-8 md:p-12 shrink-0 border-r border-white/10`}
             >
               <div className="absolute inset-0 bg-black/40 pointer-events-none" />
               
               {/* Decade Title Sideways on Desktop */}
-              <div className="md:w-32 shrink-0 flex items-start md:items-center justify-start z-10 mb-8 md:mb-0">
+              <div className="w-24 md:w-32 shrink-0 flex items-center justify-start z-10 mb-0">
                 <h2 
-                  className="font-bebas text-6xl md:text-8xl md:-rotate-90 origin-center whitespace-nowrap"
+                  className="font-bebas text-6xl md:text-8xl -rotate-90 origin-center whitespace-nowrap"
                   style={{ color: block.start === 1920 ? 'black' : block.theme.accent }}
                 >
                   {block.label}
@@ -91,7 +91,7 @@ const Timeline = () => {
               </div>
 
               {/* Years Grid inside Decade */}
-              <div className="flex flex-col md:flex-row gap-6 z-10 md:w-max">
+              <div className="flex flex-row gap-6 z-10 w-max">
                 {block.years.map(year => (
                   <YearCard 
                     key={year} 

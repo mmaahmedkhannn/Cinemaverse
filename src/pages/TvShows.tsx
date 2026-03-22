@@ -78,7 +78,7 @@ const TvShowCard = ({ show, genresMap, index }: { show: TMDBTvShow, genresMap: R
 };
 
 const TvShows = () => {
-  const [selectedYear, setSelectedYear] = useState<number | string>(2026);
+  const [selectedYear, setSelectedYear] = useState<number | string>("All Time");
   const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
   const [sortBy, setSortBy] = useState<string>('popularity.desc');
   const [searchQuery, setSearchQuery] = useState('');
@@ -139,7 +139,7 @@ const TvShows = () => {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   // Flatten infinite query results
-  const shows: TMDBTvShow[] = data?.pages.flatMap(page => page.results) || [];
+  const shows: TMDBTvShow[] = data?.pages?.flatMap(page => page?.results || []) || [];
 
   return (
     <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto min-h-screen">

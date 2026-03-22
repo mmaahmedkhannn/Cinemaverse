@@ -3,9 +3,9 @@ import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { tmdbApi, getImageUrl, type TMDBMovie } from '../services/tmdb';
-import { Star, ChevronLeft, ChevronRight, Play, AlertCircle, Gem, Zap, Crown, ThumbsUp } from 'lucide-react';
+import { Star, ChevronLeft, ChevronRight, Play, AlertCircle, Gem, Zap, Crown, ThumbsUp, Search } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { getBattle, getUserVote, castVote, getWeeklyBattle } from '../lib/battleService';
+import { getBattle, getUserVote, castVote, getWeeklyBattle, getGuestId } from '../lib/battleService';
 import type { Battle } from '../lib/battleService';
 import { Helmet } from 'react-helmet-async';
 import { generateSlug } from '../utils/slugify';
@@ -33,6 +33,8 @@ const Home = () => {
 
   const [heroIndex, setHeroIndex] = useState(0);
   const [featuredBattle, setFeaturedBattle] = useState<(Battle & { battleId: string; userVote: any }) | null>(null);
+  const [isVoting, setIsVoting] = useState(false);
+  const [heroSearchQuery, setHeroSearchQuery] = useState('');
   const { currentUser } = useAuth();
   
   useEffect(() => {
@@ -52,7 +54,8 @@ const Home = () => {
            movie2Poster: m2?.poster_path || null
         };
 
-        const userVote = currentUser ? await getUserVote(weekly.battleId, currentUser.uid) : null;
+        const odv = currentUser?.uid || getGuestId();
+        const userVote = await getUserVote(weekly.battleId, odv);
         setFeaturedBattle({ ...bWithPosters, battleId: weekly.battleId, userVote });
       } catch (e) {
         console.error("Home battle loading error:", e);
@@ -62,14 +65,26 @@ const Home = () => {
   }, [currentUser]);
 
   const handleBattleVote = async (battleId: string, movieId: number, side: 'movie1' | 'movie2') => {
-    if (!currentUser) { alert('Sign in to vote!'); return; }
+    if (isVoting) return;
+    setIsVoting(true);
     try {
-      await castVote(battleId, movieId, currentUser.uid, side);
+      const odv = currentUser?.uid || getGuestId();
+      await castVote(battleId, movieId, odv, side);
       const updated = await getBattle(battleId);
-      const userVote = await getUserVote(battleId, currentUser.uid);
+      const userVote = await getUserVote(battleId, odv);
       setFeaturedBattle({ ...updated!, battleId, userVote });
     } catch (e: any) {
       alert(e.message);
+    } finally {
+      setIsVoting(false);
+    }
+  };
+  
+  const handleHeroSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (heroSearchQuery.trim().length > 0) {
+      window.dispatchEvent(new CustomEvent('open-search', { detail: { query: heroSearchQuery } }));
+      setHeroSearchQuery('');
     }
   };
   
@@ -177,6 +192,21 @@ const Home = () => {
                       More Info
                     </Link>
                   </div>
+                  
+                  {/* Hero Search Bar */}
+                  <form onSubmit={handleHeroSearch} className="mt-8 relative max-w-xl">
+                    <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Search for movies, TV shows, directors..."
+                      value={heroSearchQuery}
+                      onChange={(e) => setHeroSearchQuery(e.target.value)}
+                      className="w-full bg-black/50 backdrop-blur-xl border border-white/20 rounded-full py-4 pl-14 pr-32 text-white placeholder-gray-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary font-sans transition-all text-sm md:text-base border-t-white/30"
+                    />
+                    <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary hover:bg-red-700 text-white font-bold py-2.5 px-6 rounded-full transition-colors text-sm shadow-[0_0_15px_rgba(229,9,20,0.5)]">
+                      Explore
+                    </button>
+                  </form>
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -291,8 +321,8 @@ const Home = () => {
                   </div>
                   <h3 className="font-bebas text-2xl md:text-3xl text-white mb-4">{featuredBattle.movie1Title}</h3>
                   {!featuredBattle.userVote ? (
-                    <button onClick={() => handleBattleVote(featuredBattle.battleId, featuredBattle.movie1Id, 'movie1')} className="px-8 py-3 bg-primary hover:bg-red-700 text-white font-bold rounded-xl w-full transition-all">
-                      <ThumbsUp className="w-5 h-5 inline mr-2" /> VOTE
+                    <button onClick={() => handleBattleVote(featuredBattle.battleId, featuredBattle.movie1Id, 'movie1')} disabled={isVoting} className="px-8 py-3 bg-primary hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white font-bold rounded-xl w-full transition-all">
+                      <ThumbsUp className="w-5 h-5 inline mr-2" /> {isVoting ? 'VOTING...' : 'VOTE'}
                     </button>
                   ) : (
                     <div>
@@ -321,8 +351,8 @@ const Home = () => {
                   </div>
                   <h3 className="font-bebas text-2xl md:text-3xl text-white mb-4">{featuredBattle.movie2Title}</h3>
                   {!featuredBattle.userVote ? (
-                    <button onClick={() => handleBattleVote(featuredBattle.battleId, featuredBattle.movie2Id, 'movie2')} className="px-8 py-3 bg-primary hover:bg-red-700 text-white font-bold rounded-xl w-full transition-all">
-                      <ThumbsUp className="w-5 h-5 inline mr-2" /> VOTE
+                    <button onClick={() => handleBattleVote(featuredBattle.battleId, featuredBattle.movie2Id, 'movie2')} disabled={isVoting} className="px-8 py-3 bg-primary hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white font-bold rounded-xl w-full transition-all">
+                      <ThumbsUp className="w-5 h-5 inline mr-2" /> {isVoting ? 'VOTING...' : 'VOTE'}
                     </button>
                   ) : (
                     <div>

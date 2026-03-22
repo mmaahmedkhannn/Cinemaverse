@@ -26,7 +26,7 @@ const Directors = () => {
   const [filter, setFilter] = useState('all');
 
   // Fetch details for featured directors
-  const { data: directorsData } = useQuery({
+  const { data: directorsData, isLoading } = useQuery({
     queryKey: ['directors-featured'],
     queryFn: async () => {
       const results = await Promise.all(
@@ -138,7 +138,11 @@ const Directors = () => {
 
         {/* Directors Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((director, i) => (
+          {isLoading ? (
+            Array(6).fill(0).map((_, i) => (
+              <div key={i} className="h-48 bg-white/5 animate-pulse rounded-2xl border border-white/10" />
+            ))
+          ) : filtered.map((director, i) => (
             <motion.div
               key={director.id}
               initial={{ opacity: 0, y: 30 }}

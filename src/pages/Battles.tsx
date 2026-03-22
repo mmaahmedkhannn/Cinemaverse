@@ -11,6 +11,7 @@ const Battles = () => {
   const [battle, setBattle] = useState<(Battle & { userVote: any }) | null>(null);
   const [timeLeft, setTimeLeft] = useState<string>('');
   const [loading, setLoading] = useState(true);
+  const [isVoting, setIsVoting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useAuth();
 
@@ -74,8 +75,9 @@ const Battles = () => {
   }, [currentUser]);
 
   const handleVote = async (movieId: number, side: 'movie1' | 'movie2') => {
-    if (!battle || !battle.id) return;
+    if (!battle || !battle.id || isVoting) return;
     
+    setIsVoting(true);
     try {
       const odv = currentUser?.uid || getGuestId();
       await castVote(battle.id, movieId, odv, side);
@@ -84,6 +86,8 @@ const Battles = () => {
       setBattle(prev => prev ? { ...prev, ...updated!, userVote } : null);
     } catch (e: any) {
       alert(e.message);
+    } finally {
+      setIsVoting(false);
     }
   };
 
@@ -169,9 +173,10 @@ const Battles = () => {
                 {!hasVoted ? (
                   <button
                     onClick={() => handleVote(battle.movie1Id, 'movie1')}
-                    className="px-8 py-4 bg-primary hover:bg-red-700 text-white text-lg font-bebas tracking-wide rounded-xl w-full max-w-xs mx-auto transition-all shadow-lg hover:shadow-primary/50"
+                    disabled={isVoting}
+                    className="px-8 py-4 bg-primary hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white text-lg font-bebas tracking-wide rounded-xl w-full max-w-xs mx-auto transition-all shadow-lg hover:shadow-primary/50"
                   >
-                    <ThumbsUp className="w-5 h-5 inline mr-2" /> VOTE FOR THIS
+                    <ThumbsUp className="w-5 h-5 inline mr-2" /> {isVoting ? 'PROCESSING...' : 'VOTE FOR THIS'}
                   </button>
                 ) : (
                   <div className="max-w-xs mx-auto">
@@ -215,9 +220,10 @@ const Battles = () => {
                 {!hasVoted ? (
                   <button
                     onClick={() => handleVote(battle.movie2Id, 'movie2')}
-                    className="px-8 py-4 bg-primary hover:bg-red-700 text-white text-lg font-bebas tracking-wide rounded-xl w-full max-w-xs mx-auto transition-all shadow-lg hover:shadow-primary/50"
+                    disabled={isVoting}
+                    className="px-8 py-4 bg-primary hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white text-lg font-bebas tracking-wide rounded-xl w-full max-w-xs mx-auto transition-all shadow-lg hover:shadow-primary/50"
                   >
-                    <ThumbsUp className="w-5 h-5 inline mr-2" /> VOTE FOR THIS
+                    <ThumbsUp className="w-5 h-5 inline mr-2" /> {isVoting ? 'PROCESSING...' : 'VOTE FOR THIS'}
                   </button>
                 ) : (
                   <div className="max-w-xs mx-auto">
