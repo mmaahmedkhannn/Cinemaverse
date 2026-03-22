@@ -164,7 +164,12 @@ export const getWeeklyBattle = async (): Promise<{ battleId: string, endsAt: any
 
     return { battleId: state.currentBattleId, endsAt: state.endsAt };
   } catch (error) {
-    console.warn("Weekly battle permissions or fetch error. Returning null.", error);
-    return null;
+    // Permissions denied or timeout — still show a battle using local presets
+    console.warn("Weekly battle permissions or fetch error. Using local fallback.", error);
+    const fallbackBattle = PRESET_BATTLES[0];
+    const fallbackId = `${fallbackBattle.movie1Id}_vs_${fallbackBattle.movie2Id}`;
+    const now = new Date();
+    now.setDate(now.getDate() + 7);
+    return { battleId: fallbackId, endsAt: Timestamp.fromDate(now) };
   }
 };
