@@ -12,21 +12,32 @@ const Battles = () => {
   const [timeLeft, setTimeLeft] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [debugLog, setDebugLog] = useState<string[]>(['Init component']);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+
+  const pushLog = (msg: string) => setDebugLog(p => [...p, msg]);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
     
     const loadBattle = async () => {
       try {
+        pushLog('Starting loadBattle...');
         setLoading(true);
-        const { battleId, endsAt } = await getWeeklyBattle();
-        const b = await getBattle(battleId);
+        pushLog('Calling getWeeklyBattle()...');
+        const weekly = await getWeeklyBattle();
+        pushLog('Got weekly battle: ' + weekly.battleId);
+        
+        pushLog('Calling getBattle()...');
+        const b = await getBattle(weekly.battleId);
+        pushLog('Got battle ' + (b ? 'successfully' : 'null!'));
         
         // Fetch TMDB data for posters
+        pushLog('Fetching TMDB posters...');
         const m1 = await tmdbApi.getMovieDetails(b!.movie1Id).catch(() => null);
         const m2 = await tmdbApi.getMovieDetails(b!.movie2Id).catch(() => null);
+        pushLog('TMDB complete.');
         
         const bWithPosters = {
            ...b!,
@@ -34,12 +45,14 @@ const Battles = () => {
            movie2Poster: m2?.poster_path || null
         };
         
-        const userVote = currentUser ? await getUserVote(battleId, currentUser.uid) : null;
+        pushLog('Fetching user vote...');
+        const userVote = currentUser ? await getUserVote(weekly.battleId, currentUser.uid) : null;
+        pushLog('User vote fetched. Updating state.');
         setBattle({ ...bWithPosters, userVote });
 
         const updateTimer = () => {
           const now = new Date();
-          const end = endsAt.toDate();
+          const end = weekly.endsAt.toDate();
           const diff = end.getTime() - now.getTime();
           
           if (diff <= 0) {
@@ -97,8 +110,12 @@ const Battles = () => {
 
   if (loading || !battle) {
     return (
-      <div className="min-h-screen bg-background-dark pt-20 flex justify-center items-center">
-        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-background-dark pt-20 flex flex-col justify-center items-center">
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-6" />
+        <div className="bg-black/50 p-4 rounded text-left font-mono text-sm text-green-400 w-full max-w-md border border-green-400">
+          <p className="border-b border-green-400 mb-2 font-bold uppercase">System Diagnostic Log:</p>
+          {debugLog.map((log, i) => <p key={i}>[{i}] {log}</p>)}
+        </div>
       </div>
     );
   }

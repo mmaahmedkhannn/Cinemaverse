@@ -102,23 +102,30 @@ export const getBattle = async (battleId: string): Promise<Battle | null> => {
   return snap.exists() ? { id: snap.id, ...snap.data() } as Battle : null;
 };
 
+const withTimeout = <T>(promise: Promise<T>, ms: number, label: string): Promise<T> => {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) => setTimeout(() => reject(new Error(`Firebase Timeout at: ${label} (>${ms}ms)`)), ms))
+  ]);
+};
+
 export const initializeBattle = async (battle: Omit<Battle, 'movie1Votes' | 'movie2Votes' | 'movie1Poster' | 'movie2Poster'>) => {
   const id = `${battle.movie1Id}_vs_${battle.movie2Id}`;
   const ref = doc(db, 'battles', id);
-  const existing = await getDoc(ref);
+  const existing = await withTimeout(getDoc(ref), 5000, 'initializeBattle:getDoc');
   if (!existing.exists()) {
-    await setDoc(ref, { ...battle, movie1Votes: 0, movie2Votes: 0, createdAt: serverTimestamp() });
+    await withTimeout(setDoc(ref, { ...battle, movie1Votes: 0, movie2Votes: 0, createdAt: serverTimestamp() }), 5000, 'initializeBattle:setDoc');
   }
   return id;
 };
 
 export const getWeeklyBattle = async (): Promise<{ battleId: string, endsAt: any }> => {
   const ref = doc(db, 'system', 'weeklyBattle');
-  const snap = await getDoc(ref);
+  const snap = await withTimeout(getDoc(ref), 5000, 'getWeeklyBattle:getDoc(system/weeklyBattle)');
   
   if (!snap.exists()) {
     const preset = PRESET_BATTLES[0];
-    const battleId = await initializeBattle(preset);
+    const battleId = await initializeBattle(preset); // internally has timeouts
     const now = new Date();
     const endsAt = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
     
@@ -128,7 +135,7 @@ export const getWeeklyBattle = async (): Promise<{ battleId: string, endsAt: any
       startedAt: serverTimestamp(),
       endsAt: Timestamp.fromDate(endsAt)
     };
-    await setDoc(ref, state);
+    await withTimeout(setDoc(ref, state), 5000, 'getWeeklyBattle:setDoc(system/weeklyBattle)');
     return { battleId, endsAt: state.endsAt };
   }
 
@@ -148,7 +155,7 @@ export const getWeeklyBattle = async (): Promise<{ battleId: string, endsAt: any
 
       // Trigger Emails
       try {
-        const usersSnap = await getDocs(collection(db, 'users'));
+        const usersSnap = await withTimeout(getDocs(collection(db, 'users')), 10000, 'getWeeklyBattle:getDocs(users)');
         const emails = usersSnap.docs.map(d => d.data().email).filter(Boolean);
         if (emails.length > 0) {
           sendBattleResultsEmail(emails, winnerName, winnerPct, title).catch(console.error);
@@ -172,7 +179,7 @@ export const getWeeklyBattle = async (): Promise<{ battleId: string, endsAt: any
       startedAt: serverTimestamp(),
       endsAt: Timestamp.fromDate(newEndsAt)
     };
-    await updateDoc(ref, newState);
+    await withTimeout(updateDoc(ref, newState), 5000, 'getWeeklyBattle:updateDoc(system/weeklyBattle)');
     return { battleId: newBattleId, endsAt: newState.endsAt };
   }
 
