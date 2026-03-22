@@ -1,7 +1,6 @@
-import { doc, setDoc, getDoc, getDocs, collection, increment, updateDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { doc, setDoc, getDoc, increment, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 import { sanitizeInput } from './sanitize';
-import { sendBattleResultsEmail } from './emailjs';
 
 export interface Battle {
   id?: string;
