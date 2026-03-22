@@ -117,13 +117,24 @@ const Battles = () => {
     );
   }
 
-  if (loading || !battle) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-background-dark pt-20 flex flex-col justify-center items-center">
         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-6" />
         <div className="bg-black/50 p-4 rounded text-left font-mono text-sm text-green-400 w-full max-w-md border border-green-400">
           <p className="border-b border-green-400 mb-2 font-bold uppercase">System Diagnostic Log:</p>
           {debugLog.map((log, i) => <p key={i}>[{i}] {log}</p>)}
+        </div>
+      </div>
+    );
+  }
+
+  if (!battle) {
+    return (
+      <div className="min-h-screen bg-background-dark pt-20 flex flex-col justify-center items-center text-center px-4">
+        <div className="absolute inset-0 flex items-center justify-center flex-col z-20">
+          <h2 className="text-4xl font-bebas text-white tracking-widest bg-[#0a0a0f] px-8 py-4 rounded-xl border border-white/10 uppercase">No Active Battle</h2>
+          <p className="text-gray-400 mt-2 font-sans bg-[#0a0a0f] px-4 py-2 rounded-xl">The system configuration has not been seeded yet. Check back later!</p>
         </div>
       </div>
     );
