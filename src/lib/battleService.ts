@@ -1,4 +1,4 @@
-import { doc, setDoc, getDoc, increment, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, getDoc, increment, updateDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { db } from './firebase';
 import { sanitizeInput } from './sanitize';
 
@@ -98,7 +98,25 @@ export const getUserVote = async (battleId: string, userId: string) => {
 
 export const getBattle = async (battleId: string): Promise<Battle | null> => {
   const snap = await getDoc(doc(db, 'battles', battleId));
-  return snap.exists() ? { id: snap.id, ...snap.data() } as Battle : null;
+  if (snap.exists()) {
+    return { id: snap.id, ...snap.data() } as Battle;
+  }
+  
+  // Master Fallback: If battle isn't seeded in DB yet, dynamically render it from presets so UI doesn't crash
+  const preset = PRESET_BATTLES.find(p => `${p.movie1Id}_vs_${p.movie2Id}` === battleId);
+  if (preset) {
+    return {
+      id: battleId,
+      ...preset,
+      movie1Poster: null,
+      movie2Poster: null,
+      movie1Votes: 0,
+      movie2Votes: 0,
+      createdAt: serverTimestamp()
+    };
+  }
+  
+  return null;
 };
 
 const withTimeout = <T>(promise: Promise<T>, ms: number, label: string): Promise<T> => {
@@ -111,7 +129,7 @@ const withTimeout = <T>(promise: Promise<T>, ms: number, label: string): Promise
 export const initializeBattle = async (battle: Omit<Battle, 'movie1Votes' | 'movie2Votes' | 'movie1Poster' | 'movie2Poster'>) => {
   const id = `${battle.movie1Id}_vs_${battle.movie2Id}`;
   const ref = doc(db, 'battles', id);
-  const existing = await withTimeout(getDoc(ref), 5000, 'initializeBattle:getDoc');
+  const existing = (await withTimeout(getDoc(ref), 5000, 'initializeBattle:getDoc')) as any;
   if (!existing.exists()) {
     try {
       await withTimeout(setDoc(ref, { ...battle, movie1Votes: 0, movie2Votes: 0, createdAt: serverTimestamp() }), 5000, 'initializeBattle:setDoc');
@@ -125,10 +143,15 @@ export const initializeBattle = async (battle: Omit<Battle, 'movie1Votes' | 'mov
 export const getWeeklyBattle = async (): Promise<{ battleId: string, endsAt: any } | null> => {
   try {
     const ref = doc(db, 'system', 'weeklyBattle');
-    const snap = await withTimeout(getDoc(ref), 5000, 'getWeeklyBattle:getDoc(system/weeklyBattle)');
+    const snap = (await withTimeout(getDoc(ref), 5000, 'getWeeklyBattle:getDoc(system/weeklyBattle)')) as any;
     
     if (!snap.exists()) {
-      return null;
+      // Master Fallback: If admin hasn't seeded the config, default to week 0 battle to keep site perfectly alive
+      const fallbackBattle = PRESET_BATTLES[0];
+      const fallbackId = `${fallbackBattle.movie1Id}_vs_${fallbackBattle.movie2Id}`;
+      const now = new Date();
+      now.setDate(now.getDate() + 7);
+      return { battleId: fallbackId, endsAt: Timestamp.fromDate(now) };
     }
 
     const state = snap.data();
