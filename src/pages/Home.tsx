@@ -38,20 +38,23 @@ const Home = () => {
   useEffect(() => {
     const loadBattle = async () => {
       try {
-        const { battleId } = await getWeeklyBattle();
-        const battle = await getBattle(battleId);
+        const weekly = await getWeeklyBattle();
+        if (!weekly) return;
         
-        const m1 = await tmdbApi.getMovieDetails(battle!.movie1Id).catch(() => null);
-        const m2 = await tmdbApi.getMovieDetails(battle!.movie2Id).catch(() => null);
+        const battle = await getBattle(weekly.battleId);
+        if (!battle) return;
+        
+        const m1 = await tmdbApi.getMovieDetails(battle.movie1Id).catch(() => null);
+        const m2 = await tmdbApi.getMovieDetails(battle.movie2Id).catch(() => null);
         
         const bWithPosters = {
-           ...battle!,
+           ...battle,
            movie1Poster: m1?.poster_path || null,
            movie2Poster: m2?.poster_path || null
         };
 
-        const userVote = currentUser ? await getUserVote(battleId, currentUser.uid) : null;
-        setFeaturedBattle({ ...bWithPosters, battleId, userVote });
+        const userVote = currentUser ? await getUserVote(weekly.battleId, currentUser.uid) : null;
+        setFeaturedBattle({ ...bWithPosters, battleId: weekly.battleId, userVote });
       } catch (e) {
         console.error("Home battle loading error:", e);
       }

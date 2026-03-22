@@ -27,10 +27,19 @@ const Battles = () => {
         setLoading(true);
         pushLog('Calling getWeeklyBattle()...');
         const weekly = await getWeeklyBattle();
+        if (!weekly) {
+          pushLog('No weekly battle found or permissions denied.');
+          setLoading(false);
+          return;
+        }
         pushLog('Got weekly battle: ' + weekly.battleId);
         
         pushLog('Calling getBattle()...');
         const b = await getBattle(weekly.battleId);
+        if (!b) {
+          setLoading(false);
+          return;
+        }
         pushLog('Got battle ' + (b ? 'successfully' : 'null!'));
         
         // Fetch TMDB data for posters
