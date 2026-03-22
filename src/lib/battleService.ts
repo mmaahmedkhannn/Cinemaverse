@@ -114,7 +114,11 @@ export const initializeBattle = async (battle: Omit<Battle, 'movie1Votes' | 'mov
   const ref = doc(db, 'battles', id);
   const existing = await withTimeout(getDoc(ref), 5000, 'initializeBattle:getDoc');
   if (!existing.exists()) {
-    await withTimeout(setDoc(ref, { ...battle, movie1Votes: 0, movie2Votes: 0, createdAt: serverTimestamp() }), 5000, 'initializeBattle:setDoc');
+    try {
+      await withTimeout(setDoc(ref, { ...battle, movie1Votes: 0, movie2Votes: 0, createdAt: serverTimestamp() }), 5000, 'initializeBattle:setDoc');
+    } catch (error) {
+      console.warn('Silent battle init bypass (Guest or Rules Rejection):', id);
+    }
   }
   return id;
 };

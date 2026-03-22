@@ -11,14 +11,9 @@ service cloud.firestore {
       return request.auth.uid == uid;
     }
 
-    // 0. System State
-    match /system/{document} {
-      allow read, write: if true;
-    }
-
     // 1. Users Collection
     match /users/{userId} {
-      allow read: if true;
+      allow read: if isOwner(userId);
       allow create: if isOwner(userId) && request.resource.data.keys().hasAll(['email']);
       allow update: if isOwner(userId);
       allow delete: if false; // Users shouldn't be deleted purely from firestore client
@@ -40,8 +35,12 @@ service cloud.firestore {
       // Creating a new battle requires auth (lazy init by first visitor)
       allow create: if isAuthenticated() && request.resource.data.movie1Votes == 0 && request.resource.data.movie2Votes == 0;
       
-      // Incrementing existing battle votes
-      allow update: if true;
+      // Incrementing existing battle votes securely
+      allow update: if isAuthenticated() && (
+        // Only allow incrementing movie1Votes or movie2Votes by exactly 1
+        (request.resource.data.movie1Votes == resource.data.movie1Votes + 1 && request.resource.data.movie2Votes == resource.data.movie2Votes) ||
+        (request.resource.data.movie2Votes == resource.data.movie2Votes + 1 && request.resource.data.movie1Votes == resource.data.movie1Votes)
+      );
 
       // A user's vote record on this specific battle
       match /votes/{userId} {
