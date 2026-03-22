@@ -38,8 +38,7 @@ const Home = () => {
   useEffect(() => {
     const loadBattle = async () => {
       try {
-        const weekly = await getWeeklyBattle();
-        if (!weekly) return;
+        const weekly = getWeeklyBattle();
         
         const battle = await getBattle(weekly.battleId);
         if (!battle) return;

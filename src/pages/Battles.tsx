@@ -21,11 +21,7 @@ const Battles = () => {
     const loadBattle = async () => {
       try {
         setLoading(true);
-        const weekly = await getWeeklyBattle();
-        if (!weekly) {
-          setLoading(false);
-          return;
-        }
+        const weekly = getWeeklyBattle();
         
         const b = await getBattle(weekly.battleId);
         if (!b) {
@@ -48,7 +44,7 @@ const Battles = () => {
 
         const updateTimer = () => {
           const now = new Date();
-          const end = weekly.endsAt.toDate();
+          const end = weekly.endsAt;
           const diff = end.getTime() - now.getTime();
           
           if (diff <= 0) {

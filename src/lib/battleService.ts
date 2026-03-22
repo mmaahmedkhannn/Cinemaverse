@@ -1,4 +1,4 @@
-import { doc, setDoc, getDoc, increment, updateDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { doc, setDoc, getDoc, increment, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 import { sanitizeInput } from './sanitize';
 
@@ -119,57 +119,32 @@ export const getBattle = async (battleId: string): Promise<Battle | null> => {
   return null;
 };
 
-const withTimeout = <T>(promise: Promise<T>, ms: number, label: string): Promise<T> => {
-  return Promise.race([
-    promise,
-    new Promise<T>((_, reject) => setTimeout(() => reject(new Error(`Firebase Timeout at: ${label} (>${ms}ms)`)), ms))
-  ]);
+/**
+ * Pure client-side weekly battle rotation.
+ * Calculates which battle to show based on the current ISO week number.
+ * Every Monday at 00:00 UTC, the battle automatically rotates to the next preset.
+ * No Firebase reads needed — works offline, works for guests, works forever.
+ */
+export const getWeeklyBattle = (): { battleId: string, endsAt: Date, weekIndex: number } => {
+  const now = new Date();
+  
+  // Calculate ISO week number
+  const startOfYear = new Date(now.getFullYear(), 0, 1);
+  const days = Math.floor((now.getTime() - startOfYear.getTime()) / (1000 * 60 * 60 * 24));
+  const weekNumber = Math.ceil((days + startOfYear.getDay() + 1) / 7);
+  
+  // Pick a battle based on week number, cycling through all presets
+  const weekIndex = weekNumber % PRESET_BATTLES.length;
+  const preset = PRESET_BATTLES[weekIndex];
+  const battleId = `${preset.movie1Id}_vs_${preset.movie2Id}`;
+  
+  // Calculate next Monday 00:00 UTC (when the battle rotates)
+  const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, ...
+  const daysUntilMonday = dayOfWeek === 0 ? 1 : (8 - dayOfWeek);
+  const nextMonday = new Date(now);
+  nextMonday.setDate(now.getDate() + daysUntilMonday);
+  nextMonday.setHours(0, 0, 0, 0);
+  
+  return { battleId, endsAt: nextMonday, weekIndex };
 };
 
-export const initializeBattle = async (battle: Omit<Battle, 'movie1Votes' | 'movie2Votes' | 'movie1Poster' | 'movie2Poster'>) => {
-  const id = `${battle.movie1Id}_vs_${battle.movie2Id}`;
-  const ref = doc(db, 'battles', id);
-  const existing = (await withTimeout(getDoc(ref), 5000, 'initializeBattle:getDoc')) as any;
-  if (!existing.exists()) {
-    try {
-      await withTimeout(setDoc(ref, { ...battle, movie1Votes: 0, movie2Votes: 0, createdAt: serverTimestamp() }), 5000, 'initializeBattle:setDoc');
-    } catch (error) {
-      console.warn('Silent battle init bypass (Guest or Rules Rejection):', id);
-    }
-  }
-  return id;
-};
-
-export const getWeeklyBattle = async (): Promise<{ battleId: string, endsAt: any } | null> => {
-  try {
-    const ref = doc(db, 'system', 'weeklyBattle');
-    const snap = (await withTimeout(getDoc(ref), 5000, 'getWeeklyBattle:getDoc(system/weeklyBattle)')) as any;
-    
-    if (!snap.exists()) {
-      // Master Fallback: If admin hasn't seeded the config, default to week 0 battle to keep site perfectly alive
-      const fallbackBattle = PRESET_BATTLES[0];
-      const fallbackId = `${fallbackBattle.movie1Id}_vs_${fallbackBattle.movie2Id}`;
-      const now = new Date();
-      now.setDate(now.getDate() + 7);
-      return { battleId: fallbackId, endsAt: Timestamp.fromDate(now) };
-    }
-
-    const state = snap.data();
-    const endsAtDate = state.endsAt.toDate();
-    
-    if (new Date() > endsAtDate) {
-      // Logic skips due to strict permission mode on system block. If admin seeds it, it stays static until admin upgrades.
-      return { battleId: state.currentBattleId, endsAt: state.endsAt };
-    }
-
-    return { battleId: state.currentBattleId, endsAt: state.endsAt };
-  } catch (error) {
-    // Permissions denied or timeout — still show a battle using local presets
-    console.warn("Weekly battle permissions or fetch error. Using local fallback.", error);
-    const fallbackBattle = PRESET_BATTLES[0];
-    const fallbackId = `${fallbackBattle.movie1Id}_vs_${fallbackBattle.movie2Id}`;
-    const now = new Date();
-    now.setDate(now.getDate() + 7);
-    return { battleId: fallbackId, endsAt: Timestamp.fromDate(now) };
-  }
-};
