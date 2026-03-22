@@ -46,6 +46,15 @@ export interface TMDBGenre {
   name: string;
 }
 
+export interface TMDBPerson {
+  id: number;
+  name: string;
+  profile_path: string | null;
+  known_for_department: string;
+  popularity: number;
+  known_for: (TMDBMovie | TMDBTvShow)[];
+}
+
 // Collections (Universes)
 export const COLLECTIONS = {
   MCU: 86311,
@@ -152,6 +161,33 @@ export const tmdbApi = {
   },
 
   // Person / Directors
+  getPopularDirectors: async (page: number = 1): Promise<{ results: TMDBPerson[], total_pages: number }> => {
+    // Fetch 3 pages at once since /person/popular has mixed departments
+    const pagesToFetch = [page * 3 - 2, page * 3 - 1, page * 3];
+    const responses = await Promise.all(
+      pagesToFetch.map(p => tmdbClient.get('/person/popular', { params: { page: p } }).catch(() => null))
+    );
+    
+    let allResults: any[] = [];
+    let totalPages = 500; // API max is usually 500
+    
+    responses.forEach(r => {
+      if (r?.data?.results) {
+        allResults = [...allResults, ...r.data.results];
+        if (r.data.total_pages) {
+          totalPages = Math.min(totalPages, Math.floor(r.data.total_pages / 3));
+        }
+      }
+    });
+
+    const directors = allResults.filter(p => p.known_for_department === 'Directing');
+    
+    return {
+      results: directors,
+      total_pages: totalPages
+    };
+  },
+
   getPersonDetails: async (id: number) => {
     const response = await tmdbClient.get(`/person/${id}`, {
       params: { append_to_response: 'movie_credits,images' }
