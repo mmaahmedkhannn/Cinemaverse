@@ -2,6 +2,16 @@ import { doc, setDoc, getDoc, increment, updateDoc, serverTimestamp } from 'fire
 import { db } from './firebase';
 import { sanitizeInput } from './sanitize';
 
+/** Generate or retrieve a persistent guest ID from localStorage for anonymous voting */
+export const getGuestId = (): string => {
+  let guestId = localStorage.getItem('cv_guest_id');
+  if (!guestId) {
+    guestId = 'guest_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+    localStorage.setItem('cv_guest_id', guestId);
+  }
+  return guestId;
+};
+
 export interface Battle {
   id?: string;
   movie1Id: number;

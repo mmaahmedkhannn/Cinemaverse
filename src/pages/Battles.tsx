@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import { Zap, Crown, ThumbsUp, Clock } from 'lucide-react';
 import { getImageUrl, tmdbApi } from '../services/tmdb';
 import { useAuth } from '../contexts/AuthContext';
-import { castVote, getUserVote, getBattle, getWeeklyBattle } from '../lib/battleService';
+import { castVote, getUserVote, getBattle, getWeeklyBattle, getGuestId } from '../lib/battleService';
 import type { Battle } from '../lib/battleService';
-import { useNavigate } from 'react-router-dom';
+
 
 const Battles = () => {
   const [battle, setBattle] = useState<(Battle & { userVote: any }) | null>(null);
@@ -13,7 +13,6 @@ const Battles = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
@@ -39,7 +38,8 @@ const Battles = () => {
            movie2Poster: m2?.poster_path || null
         };
         
-        const userVote = currentUser ? await getUserVote(weekly.battleId, currentUser.uid) : null;
+        const odv = currentUser?.uid || getGuestId();
+        const userVote = await getUserVote(weekly.battleId, odv);
         setBattle({ ...bWithPosters, userVote });
 
         const updateTimer = () => {
@@ -74,16 +74,13 @@ const Battles = () => {
   }, [currentUser]);
 
   const handleVote = async (movieId: number, side: 'movie1' | 'movie2') => {
-    if (!currentUser) { 
-      navigate('/auth');
-      return; 
-    }
     if (!battle || !battle.id) return;
     
     try {
-      await castVote(battle.id, movieId, currentUser.uid, side);
+      const odv = currentUser?.uid || getGuestId();
+      await castVote(battle.id, movieId, odv, side);
       const updated = await getBattle(battle.id);
-      const userVote = await getUserVote(battle.id, currentUser.uid);
+      const userVote = await getUserVote(battle.id, odv);
       setBattle(prev => prev ? { ...prev, ...updated!, userVote } : null);
     } catch (e: any) {
       alert(e.message);

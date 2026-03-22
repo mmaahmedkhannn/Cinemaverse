@@ -33,25 +33,23 @@ service cloud.firestore {
       }
     }
 
-    // 2. Battles Collection (Global Voting)
+    // 2. Battles Collection (Open Voting — guests allowed)
     match /battles/{battleId} {
       // Anyone can read public battles
       allow read: if true;
       
-      // Creating a new battle requires auth (lazy init by first visitor)
-      allow create: if isAuthenticated() && request.resource.data.movie1Votes == 0 && request.resource.data.movie2Votes == 0;
+      // Anyone can create a new battle (lazy init by first voter)
+      allow create: if request.resource.data.movie1Votes == 0 && request.resource.data.movie2Votes == 0;
       
-      // Incrementing existing battle votes securely
-      allow update: if isAuthenticated() && (
-        // Only allow incrementing movie1Votes or movie2Votes by exactly 1
+      // Anyone can increment vote counts securely
+      allow update: if (
         (request.resource.data.movie1Votes == resource.data.movie1Votes + 1 && request.resource.data.movie2Votes == resource.data.movie2Votes) ||
         (request.resource.data.movie2Votes == resource.data.movie2Votes + 1 && request.resource.data.movie1Votes == resource.data.movie1Votes)
       );
 
-      // A user's vote record on this specific battle
-      match /votes/{userId} {
-        allow read: if isOwner(userId);
-        allow write: if isOwner(userId);
+      // Vote records — anyone can read/write their own vote (uses guestId or userId)
+      match /votes/{odv} {
+        allow read, write: if true;
       }
     }
 
