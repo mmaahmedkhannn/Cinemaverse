@@ -75,24 +75,28 @@ export const castVote = async (
   battleId: string,
   movieId: number,
   userId: string,
-  movieSide: 'movie1' | 'movie2',
-  preset?: any
+  movieSide: 'movie1' | 'movie2'
 ) => {
   const safeBattleId = sanitizeInput(battleId);
   const safeUserId = sanitizeInput(userId);
 
   const battleRef = doc(db, 'battles', safeBattleId);
-  if (preset) {
-     const battleSnap = await getDoc(battleRef);
-     if (!battleSnap.exists()) {
-        await setDoc(battleRef, { ...preset, movie1Votes: 0, movie2Votes: 0, createdAt: serverTimestamp() });
-     }
+  
+  // Auto-create battle doc if it doesn't exist yet (first voter initializes it)
+  const battleSnap = await getDoc(battleRef);
+  if (!battleSnap.exists()) {
+    const preset = PRESET_BATTLES.find(p => `${p.movie1Id}_vs_${p.movie2Id}` === safeBattleId);
+    if (preset) {
+      await setDoc(battleRef, { ...preset, movie1Votes: 0, movie2Votes: 0, createdAt: serverTimestamp() });
+    }
   }
 
+  // Check for duplicate vote
   const voteRef = doc(db, 'battles', safeBattleId, 'votes', safeUserId);
   const existing = await getDoc(voteRef);
   if (existing.exists()) throw new Error('You have already voted in this battle');
 
+  // Record the vote and increment count
   await setDoc(voteRef, { movieId, votedAt: serverTimestamp() });
 
   await updateDoc(battleRef, {
