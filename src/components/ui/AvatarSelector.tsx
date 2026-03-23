@@ -13,30 +13,72 @@ interface AvatarSelectorProps {
   onAvatarUpdated: () => void;
 }
 
-const PREDEFINED_AVATARS = [
-  { id: 'rdj', name: 'Robert Downey Jr.', path: '/im9SAqJPZKEbVJoX4ZfQQE4LyqK.jpg' }, 
-  { id: 'keanu', name: 'Keanu Reeves', path: '/4D0PpNIIQBDZxxRPE1M1n7r1QEr.jpg' }, 
-  { id: 'margot', name: 'Margot Robbie', path: '/vgALNMZFTGUKy1ccPzbW1E7oYfT.jpg' }, 
-  { id: 'cillian', name: 'Cillian Murphy', path: '/3oJE2516vCEx82t2VqBvB63cKzW.jpg' }, 
-  { id: 'bale', name: 'Christian Bale', path: '/b7fTC9WFkgqGOv77mLQtmD8B1Sw.jpg' }, 
-  { id: 'tom', name: 'Tom Cruise', path: '/gThaIXflqG8g7W7o0iE4y0eUo8n.jpg' }, 
-  { id: 'leo', name: 'Leonardo DiCaprio', path: '/pjkFeVA5ytAPALHID29R5XcdvY.jpg' },
-  { id: 'heath', name: 'Heath Ledger', path: '/7yOITKqCgI7iA0uOpBqfB5nO3E1.jpg' }, 
-  { id: 'scarlett', name: 'Scarlett Johansson', path: '/6NsMbJXRlbZuDzatV2AKoziQ4ZJ.jpg' }, 
-  { id: 'harrison', name: 'Harrison Ford', path: '/5M7oN3sznpB9aHtgAWeZ20d0fP.jpg' }, 
-  { id: 'ryan', name: 'Ryan Reynolds', path: '/gD8vg0J22kOOXruHjXvQONuGk7c.jpg' }, 
-  { id: 'chris', name: 'Chris Hemsworth', path: '/piqD0a1pS32Fp48qH6D2p1oT2P.jpg' }, 
-  { id: 'johnd', name: 'Johnny Depp', path: '/1Gvbh2bKMWXyEavxK7h8r609L3H.jpg' }, 
-  { id: 'henry', name: 'Henry Cavill', path: '/hErUwonrQgYV80XhR83k05o23D.jpg' }, 
-  { id: 'anyataylor', name: 'Anya Taylor-Joy', path: '/xXNqYAL8T5C9wB3x0rP0D5P6A8h.jpg' },
-  { id: 'daniel', name: 'Daniel Radcliffe', path: '/yX36UOMpBvO0Wtvk32sLtyNssm6.jpg' }, 
-  { id: 'emilia', name: 'Emilia Clarke', path: '/nBEqQ0jDng2Y7N661E63O7Yj0M0.jpg' }, 
-  { id: 'zendaya', name: 'Zendaya', path: '/rMiyg2cKnd5v1F2H9fV6Eus5gO7.jpg' }, 
-  { id: 'pedro', name: 'Pedro Pascal', path: '/i0sdjEun3AEvEq9U42tUerS4H9h.jpg' }, 
-  { id: 'tomhardy', name: 'Tom Hardy', path: '/d81K0RH8UX7tZj49tZaQhZ9ewH.jpg' }, 
-  { id: 'chrisevans', name: 'Chris Evans', path: '/3bOGNsHlrswhyW79uvIvd1ewILj.jpg' }, 
-  { id: 'tomhiddleston', name: 'Tom Hiddleston', path: '/mclHx2C6La0SBCaKkRz7j91SXYo.jpg' }, 
-  { id: 'jason', name: 'Jason Momoa', path: '/hhFOtEFpL0FhOtsK0tWbheX0A9f.jpg' }
+const PREDEFINED_AVATAR_GROUPS = [
+  {
+    category: "Stranger Things",
+    avatars: [
+      { id: "1356210", name: "Millie Bobby Brown", path: "/k9KGzGDVhXKfOGpoN62MNuXL28q.jpg" },
+      { id: "1442069", name: "Finn Wolfhard", path: "/gsVIdhYh4DpDXjW5U5baQzcARsB.jpg" },
+      { id: "1653291", name: "Gaten Matarazzo", path: "/alVT7oDp8N5G9WLIApI9jqeuqHq.jpg" },
+      { id: "1474123", name: "Caleb McLaughlin", path: "/4jVS3EziBn7bf97ErxkW7jsdiLM.jpg" },
+      { id: "1393177", name: "Noah Schnapp", path: "/jHS4mG6XW0ZJbMnpseL2reEWpv8.jpg" },
+      { id: "1590797", name: "Sadie Sink", path: "/m9OyHAyOx56Pm3JruEBqh4p9XeX.jpg" }
+    ]
+  },
+  {
+    category: "Money Heist",
+    avatars: [
+      { id: "1042728", name: "Úrsula Corberó", path: "/cmH8Z459tw9YkR61QfxlCSlZw9P.jpg" },
+      { id: "1340020", name: "Álvaro Morte", path: "/2TGPhdpRC5wjdFEJqnLYiN5kbwg.jpg" },
+      { id: "1109836", name: "Pedro Alonso", path: "/38HeVKeOBztVYrLJOWzAtEZiB02.jpg" },
+      { id: "1283843", name: "Alba Flores", path: "/vWUZkQKxj63qTNBa8DvEd0CpU64.jpg" },
+      { id: "1428896", name: "Miguel Herrán", path: "/eFNlbsaMODCHys35ZQOkMQNh0Jq.jpg" },
+      { id: "1972706", name: "Jaime Lorente", path: "/nLaxzU92z14FIbe25sE8jDMIThZ.jpg" }
+    ]
+  },
+  {
+    category: "One Piece",
+    avatars: [
+      { id: "2177750", name: "Iñaki Godoy", path: "/93Z6KuFpqoDD1xN5kuswYQzbWe6.jpg" },
+      { id: "1566805", name: "Mackenyu", path: "/y4FTSASxsO1F61p3hFIPMCeprut.jpg" },
+      { id: "1568101", name: "Emily Rudd", path: "/y23GTdDPcryBVtSWjY9q2O9nzwV.jpg" },
+      { id: "2355316", name: "Jacob Gibson", path: "/c6uP24uFslQ3hnEgqPkojAbYuZn.jpg" },
+      { id: "2498631", name: "Taz Skylar", path: "/3EXMkfzB8EXn3ZJPJvK6OfPWLfz.jpg" }
+    ]
+  },
+  {
+    category: "Marvel Universe",
+    avatars: [
+      { id: "3223", name: "Robert Downey Jr.", path: "/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg" },
+      { id: "16828", name: "Chris Evans", path: "/jEzGktEMdEkQKemPVR0YGlIYEVl.jpg" },
+      { id: "74568", name: "Chris Hemsworth", path: "/piQGdoIQOF3C1EI5cbYZLAW1gfj.jpg" },
+      { id: "1245", name: "Scarlett Johansson", path: "/mjReG6rR7NPMEIWb1T4YWtV11ty.jpg" },
+      { id: "91606", name: "Tom Hiddleston", path: "/wzfUMqasiYhzwpBvZqkCQ055Ri3.jpg" },
+      { id: "1136406", name: "Tom Holland", path: "/wheJbAGkE537n9GsFl3XbkeZLj7.jpg" }
+    ]
+  },
+  {
+    category: "DC Universe",
+    avatars: [
+      { id: "3894", name: "Christian Bale", path: "/7Pxez9J8fuPd2Mn9kex13YALrCQ.jpg" },
+      { id: "1810", name: "Heath Ledger", path: "/AdWKVqyWpkYSfKE5Gb2qn8JzHni.jpg" },
+      { id: "73968", name: "Henry Cavill", path: "/kN3A5oLgtKYAxa9lAkpsIGYKYVo.jpg" },
+      { id: "234352", name: "Margot Robbie", path: "/8LqG2N6j98lFGMpuYsRUAhOunSd.jpg" },
+      { id: "117642", name: "Jason Momoa", path: "/3troAR6QbSb6nUFMDu61YCCWLKa.jpg" },
+      { id: "90633", name: "Gal Gadot", path: "/AbXKtWQwuDiwhoQLh34VRglwuBE.jpg" }
+    ]
+  },
+  {
+    category: "Iconic Cinema",
+    avatars: [
+      { id: "6384", name: "Keanu Reeves", path: "/8RZLOyYGsoRe9p44q3xin9QkMHv.jpg" },
+      { id: "2037", name: "Cillian Murphy", path: "/dm6V24NjjvjMiCtbMkc8Y2WPm2e.jpg" },
+      { id: "85", name: "Johnny Depp", path: "/k2xt6EUxQDwYRKIyI4IBdZxfs8n.jpg" },
+      { id: "6193", name: "Leonardo DiCaprio", path: "/wo2hJpn04vbtmh0B9utCFdsQhxM.jpg" },
+      { id: "3", name: "Harrison Ford", path: "/zVnHagUvXkR2StdOtquEwsiwSVt.jpg" },
+      { id: "500", name: "Tom Cruise", path: "/maf8PhSvDCdEwjEMbYfGpojR5RP.jpg" }
+    ]
+  }
 ];
 
 const AvatarSelector = ({ isOpen, onClose, onAvatarUpdated }: AvatarSelectorProps) => {
@@ -176,32 +218,39 @@ const AvatarSelector = ({ isOpen, onClose, onAvatarUpdated }: AvatarSelectorProp
                     <p className="text-gray-400 font-sans text-sm mb-6 text-center">
                        Select an iconic global star from the TMDB database to represent your cinematic identity.
                     </p>
-                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
-                       {PREDEFINED_AVATARS.map((actor) => (
-                         <div 
-                           key={actor.id}
-                           onClick={() => {
-                             if(!uploadLoading) {
-                               setSelectedActorId(actor.id);
-                               handleActorSelect(actor.path);
-                             }
-                           }}
-                           className={`relative aspect-square rounded-full overflow-hidden border-4 cursor-pointer group transition-all duration-300 ${
-                             selectedActorId === actor.id ? 'border-primary scale-105 shadow-[0_0_20px_rgba(229,9,20,0.6)]' : 'border-black/50 hover:border-white/50 hover:scale-105 hover:shadow-2xl'
-                           } ${uploadLoading ? 'opacity-50 pointer-events-none' : ''}`}
-                         >
-                            <img 
-                              src={getImageUrl(actor.path, 'w500')} 
-                              alt={actor.name}
-                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                            />
-                            {/* Hover Overlay Title */}
-                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-2 text-center pointer-events-none">
-                               <span className="text-white font-bebas text-lg tracking-widest drop-shadow-lg leading-tight">
-                                 {selectedActorId === actor.id || uploadLoading ? (
-                                    <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                 ) : actor.name}
-                               </span>
+                    <div className="flex flex-col gap-8 pb-4">
+                       {PREDEFINED_AVATAR_GROUPS.map((group) => (
+                         <div key={group.category} className="flex flex-col">
+                            <h3 className="text-sm font-sans font-bold uppercase tracking-widest text-white/50 mb-3 px-1">{group.category}</h3>
+                            <div className="flex overflow-x-auto gap-4 pb-4 no-scrollbar snap-x snap-mandatory">
+                               {group.avatars.map((actor) => (
+                                 <div 
+                                   key={actor.id}
+                                   onClick={() => {
+                                     if(!uploadLoading) {
+                                       setSelectedActorId(actor.id);
+                                       handleActorSelect(actor.path);
+                                     }
+                                   }}
+                                   className={`relative shrink-0 w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 cursor-pointer group transition-all duration-300 snap-center ${
+                                     selectedActorId === actor.id ? 'border-primary shadow-[0_0_20px_rgba(229,9,20,0.6)] scale-105' : 'border-transparent hover:border-white/50 hover:scale-105 hover:shadow-2xl'
+                                   } ${uploadLoading ? 'opacity-50 pointer-events-none' : ''}`}
+                                 >
+                                    <img 
+                                      src={getImageUrl(actor.path, 'w500')} 
+                                      alt={actor.name}
+                                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    />
+                                    {/* Hover Overlay Title */}
+                                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-2 text-center pointer-events-none">
+                                       <span className="text-white font-bebas text-[1.1rem] tracking-wider drop-shadow-lg leading-tight">
+                                         {selectedActorId === actor.id || uploadLoading ? (
+                                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                         ) : actor.name}
+                                       </span>
+                                    </div>
+                                 </div>
+                               ))}
                             </div>
                          </div>
                        ))}
