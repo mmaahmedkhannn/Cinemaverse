@@ -30,18 +30,21 @@ const Battles = () => {
           return;
         }
         
-        // Fetch TMDB data for posters
-        const m1 = await tmdbApi.getMovieDetails(b!.movie1Id).catch(() => null);
-        const m2 = await tmdbApi.getMovieDetails(b!.movie2Id).catch(() => null);
+        const odv = currentUser?.uid || getGuestId();
+
+        // Run all external data fetches completely in parallel
+        const [m1, m2, userVote] = await Promise.all([
+          tmdbApi.getMovieDetails(b.movie1Id).catch(() => null),
+          tmdbApi.getMovieDetails(b.movie2Id).catch(() => null),
+          getUserVote(weekly.battleId, odv).catch(() => null)
+        ]);
         
         const bWithPosters = {
-           ...b!,
+           ...b,
            movie1Poster: m1?.poster_path || null,
            movie2Poster: m2?.poster_path || null
         };
         
-        const odv = currentUser?.uid || getGuestId();
-        const userVote = await getUserVote(weekly.battleId, odv);
         setBattle({ ...bWithPosters, userVote });
 
         const updateTimer = () => {

@@ -44,8 +44,14 @@ const Home = () => {
         const battle = await getBattle(weekly.battleId);
         if (!battle) return;
         
-        const m1 = await tmdbApi.getMovieDetails(battle.movie1Id).catch(() => null);
-        const m2 = await tmdbApi.getMovieDetails(battle.movie2Id).catch(() => null);
+        const odv = currentUser?.uid || getGuestId();
+
+        // Run secondary data fetches in parallel
+        const [m1, m2, userVote] = await Promise.all([
+          tmdbApi.getMovieDetails(battle.movie1Id).catch(() => null),
+          tmdbApi.getMovieDetails(battle.movie2Id).catch(() => null),
+          getUserVote(weekly.battleId, odv).catch(() => null)
+        ]);
         
         const bWithPosters = {
            ...battle,
@@ -53,8 +59,6 @@ const Home = () => {
            movie2Poster: m2?.poster_path || null
         };
 
-        const odv = currentUser?.uid || getGuestId();
-        const userVote = await getUserVote(weekly.battleId, odv);
         setFeaturedBattle({ ...bWithPosters, battleId: weekly.battleId, userVote });
       } catch (e) {
         console.error("Home battle loading error:", e);
