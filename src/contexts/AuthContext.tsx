@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { 
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
   signOut,
@@ -38,6 +40,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     });
 
+    getRedirectResult(auth).then((cred) => {
+      if (cred && cred.user) {
+        syncUserToFirestore(cred.user);
+      }
+    }).catch(console.error);
+
     return unsubscribe;
   }, []);
 
@@ -52,9 +60,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const loginWithGoogle = async () => {
-    const cred = await signInWithPopup(auth, googleProvider);
-    if (cred && cred.user) {
-      await syncUserToFirestore(cred.user);
+    try {
+      const cred = await signInWithPopup(auth, googleProvider);
+      if (cred && cred.user) {
+        await syncUserToFirestore(cred.user);
+      }
+    } catch (error: any) {
+      if (
+        error.code === 'auth/popup-blocked' || 
+        error.message?.includes('popup') || 
+        error.message?.includes('auth/internal-error') ||
+        error.code === 'auth/internal-error'
+      ) {
+        // Fallback to redirect if popup fails due to browser restrictions
+        await signInWithRedirect(auth, googleProvider);
+      } else {
+        throw error;
+      }
     }
   };
 

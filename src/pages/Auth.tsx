@@ -100,6 +100,7 @@ const Auth = () => {
       if (msg.includes('auth/email-already-in-use')) msg = 'This email is already registered. Try signing in.';
       if (msg.includes('auth/weak-password')) msg = 'Password should be at least 6 characters.';
       if (msg.includes('auth/invalid-email')) msg = 'Invalid email address format.';
+      if (msg.includes('auth/internal-error')) msg = 'Server error occurred. Please try again.';
       setError(msg);
     } finally {
       setLoading(false);
