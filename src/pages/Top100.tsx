@@ -63,6 +63,11 @@ const Top100 = () => {
     const movieVoteRef = doc(db, 'top100votes', movieId.toString());
     const userVoteRef = doc(db, 'users', currentUser.uid, 'settings', 'top100votes');
 
+    // Optimistic UI Update
+    const previousVotes = { ...userVotes };
+    const newUserVotes = { ...userVotes, [movieId]: vote };
+    setUserVotes(newUserVotes);
+
     try {
       // Update global vote count
       await setDoc(movieVoteRef, {
@@ -70,11 +75,12 @@ const Top100 = () => {
       }, { merge: true });
 
       // Save user vote
-      const newUserVotes = { ...userVotes, [movieId]: vote };
       await setDoc(userVoteRef, newUserVotes, { merge: true });
-      setUserVotes(newUserVotes);
     } catch (error) {
       console.error('Error voting on ranking:', error);
+      // Revert UI on failure
+      setUserVotes(previousVotes);
+      alert('Failed to record your vote. Please check your connection.');
     }
   };
 
