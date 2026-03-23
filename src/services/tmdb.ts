@@ -160,7 +160,15 @@ export const tmdbApi = {
     return response.data;
   },
 
-  // Person / Directors
+  // Person / Directors / Actors
+  getPopularActors: async (page: number = 1): Promise<{ results: TMDBPerson[], total_pages: number }> => {
+    const response = await tmdbClient.get('/person/popular', { params: { page } });
+    const actors = response.data.results.filter((p: TMDBPerson) => p.known_for_department === 'Acting' && p.profile_path);
+    return {
+      results: actors,
+      total_pages: response.data.total_pages
+    };
+  },
   getPopularDirectors: async (page: number = 1): Promise<{ results: TMDBPerson[], total_pages: number }> => {
     // Fetch 3 pages at once since /person/popular has mixed departments
     const pagesToFetch = [page * 3 - 2, page * 3 - 1, page * 3];

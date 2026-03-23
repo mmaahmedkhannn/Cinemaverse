@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Film, ChevronRight } from 'lucide-react';
+import { Film, ChevronRight, Camera } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { getWatchlist } from '../lib/firestore';
 import type { WatchlistItem } from '../lib/firestore';
 import { getImageUrl } from '../services/tmdb';
 import { Helmet } from 'react-helmet-async';
 import { generateSlug } from '../utils/slugify';
+import AvatarSelector from '../components/ui/AvatarSelector';
 
 const Profile = () => {
   const { currentUser } = useAuth();
   const [watchlist, setWatchlist] = useState<WatchlistItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchWatchlist = async () => {
@@ -48,17 +50,28 @@ const Profile = () => {
       </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-6 mb-12 border-b border-white/10 pb-8">
-          {currentUser.photoURL ? (
-            <img 
-              src={currentUser.photoURL} 
-              alt="Profile" 
-              className="w-24 h-24 rounded-full border-2 border-primary object-cover"
-            />
-          ) : (
-            <div className="w-24 h-24 rounded-full bg-gray-800 border-2 border-primary flex items-center justify-center text-3xl font-bold font-sans">
-              {currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'U'}
+          <div 
+            onClick={() => setIsAvatarModalOpen(true)}
+            className="relative cursor-pointer group rounded-full w-24 h-24 shrink-0 shadow-[0_0_15px_rgba(229,9,20,0.3)] hover:shadow-[0_0_25px_rgba(229,9,20,0.6)] transition-shadow duration-300"
+          >
+            {currentUser.photoURL ? (
+              <img 
+                src={currentUser.photoURL} 
+                alt="Profile" 
+                className="w-full h-full rounded-full border-2 border-primary object-cover transition-transform duration-300 group-hover:scale-[0.98]"
+              />
+            ) : (
+              <div className="w-full h-full rounded-full bg-gray-800 border-2 border-primary flex items-center justify-center text-3xl font-bold font-sans transition-transform duration-300 group-hover:scale-[0.98]">
+                {currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'U'}
+              </div>
+            )}
+            
+            {/* Dark Hover Overlay with Camera Icon */}
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center border-2 border-transparent group-hover:border-primary">
+               <Camera className="w-6 h-6 text-white mb-1" />
+               <span className="text-[10px] uppercase font-bold text-white tracking-widest leading-none">Edit</span>
             </div>
-          )}
+          </div>
           <div>
             <h1 className="text-4xl font-bebas text-white">
               {currentUser.displayName || 'CinemaDiscovery User'}
@@ -143,6 +156,12 @@ const Profile = () => {
           )}
         </div>
       </div>
+
+      <AvatarSelector 
+        isOpen={isAvatarModalOpen} 
+        onClose={() => setIsAvatarModalOpen(false)} 
+        onAvatarUpdated={() => window.location.reload()} 
+      />
     </div>
   );
 };
