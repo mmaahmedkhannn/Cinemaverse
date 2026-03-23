@@ -9,7 +9,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { currentUser, logout } = useAuth();
+  const { currentUser, logout, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -63,6 +63,7 @@ const Navbar = () => {
             </button>
             <button 
               onClick={() => {
+                if (loading) return;
                 if (currentUser) {
                   setIsDropdownOpen(!isDropdownOpen);
                 } else {
@@ -71,7 +72,9 @@ const Navbar = () => {
               }}
               className="text-gray-300 hover:text-white p-2 rounded-full transition-colors relative"
             >
-              {currentUser && currentUser.photoURL ? (
+              {loading ? (
+                <div className="w-5 h-5 rounded-full border-2 border-gray-400 border-t-transparent animate-spin mx-auto"></div>
+              ) : currentUser && currentUser.photoURL ? (
                 <img 
                   src={currentUser.photoURL} 
                   alt="Profile" 

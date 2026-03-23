@@ -137,7 +137,7 @@ const Home = () => {
           })}
         </script>
         {currentHero?.backdrop_path && (
-          <link rel="preload" as="image" href={getImageUrl(currentHero.backdrop_path, 'original')} fetchPriority="high" />
+          <link rel="preload" as="image" href={getImageUrl(currentHero.backdrop_path, 'w1280')} fetchPriority="high" />
         )}
       </Helmet>
       {/* Hero Section */}
@@ -154,7 +154,7 @@ const Home = () => {
                 className="absolute inset-0"
               >
                 <img
-                  src={getImageUrl(currentHero.backdrop_path, 'original')}
+                  src={getImageUrl(currentHero.backdrop_path, 'w1280')}
                   alt={currentHero.title}
                   className="w-full h-full object-cover"
                   fetchPriority="high"
