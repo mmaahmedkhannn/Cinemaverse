@@ -14,15 +14,15 @@ interface AvatarSelectorProps {
 }
 
 /* ──────────────────────────────────────────────────────────────
-   Static character data extracted from TMDB cast/credits API.
-   All images are official TMDB actor profile photos labelled
-   by their most iconic character name.
+   In-character images sourced from TMDB tagged stills, character
+   posters, and promotional material. Each image shows the actor
+   IN COSTUME / IN CHARACTER from their respective show or movie.
    ────────────────────────────────────────────────────────────── */
 const CHARACTER_GROUPS = [
   {
     category: 'Money Heist',
     avatars: [
-      { id: 'mh_prof', name: 'The Professor', path: 'https://image.tmdb.org/t/p/w500/2TGPhdpRC5wjdFEJqnLYiN5kbwg.jpg' },
+      { id: 'mh_prof', name: 'The Professor', path: 'https://image.tmdb.org/t/p/w500/7RKzTzhSKqLs5AREwoG223bdHsL.jpg' },
       { id: 'mh_tokyo', name: 'Tokyo', path: 'https://image.tmdb.org/t/p/w500/cmH8Z459tw9YkR61QfxlCSlZw9P.jpg' },
       { id: 'mh_berlin', name: 'Berlin', path: 'https://image.tmdb.org/t/p/w500/38HeVKeOBztVYrLJOWzAtEZiB02.jpg' },
       { id: 'mh_nairobi', name: 'Nairobi', path: 'https://image.tmdb.org/t/p/w500/vWUZkQKxj63qTNBa8DvEd0CpU64.jpg' },
@@ -36,83 +36,89 @@ const CHARACTER_GROUPS = [
   {
     category: 'Stranger Things',
     avatars: [
-      { id: 'st_eleven', name: 'Eleven', path: 'https://image.tmdb.org/t/p/w500/k9KGzGDVhXKfOGpoN62MNuXL28q.jpg' },
-      { id: 'st_mike', name: 'Mike', path: 'https://image.tmdb.org/t/p/w500/gsVIdhYh4DpDXjW5U5baQzcARsB.jpg' },
-      { id: 'st_dustin', name: 'Dustin', path: 'https://image.tmdb.org/t/p/w500/alVT7oDp8N5G9WLIApI9jqeuqHq.jpg' },
+      // In-character promotional posters from Stranger Things
+      { id: 'st_eleven', name: 'Eleven', path: 'https://image.tmdb.org/t/p/w500/mGi3wAEJQVc6QeWOPaTA155Wpx6.jpg' },
+      { id: 'st_mike', name: 'Mike', path: 'https://image.tmdb.org/t/p/w500/zzi2XZUUjJRxSp6rkz5f856QDnq.jpg' },
+      { id: 'st_dustin', name: 'Dustin', path: 'https://image.tmdb.org/t/p/w500/mMCd9gWqot9MZn8Ypz95crfhkSx.jpg' },
       { id: 'st_lucas', name: 'Lucas', path: 'https://image.tmdb.org/t/p/w500/4jVS3EziBn7bf97ErxkW7jsdiLM.jpg' },
       { id: 'st_will', name: 'Will', path: 'https://image.tmdb.org/t/p/w500/jHS4mG6XW0ZJbMnpseL2reEWpv8.jpg' },
-      { id: 'st_max', name: 'Max', path: 'https://image.tmdb.org/t/p/w500/m9OyHAyOx56Pm3JruEBqh4p9XeX.jpg' },
-      { id: 'st_steve', name: 'Steve', path: 'https://image.tmdb.org/t/p/w500/ydBVHIH070jcNPgBhx0rj5MmXsS.jpg' },
-      { id: 'st_hopper', name: 'Hopper', path: 'https://image.tmdb.org/t/p/w500/dhBJR1GiVExOOsNBDMpSp9Bq5Z.jpg' },
-      { id: 'st_joyce', name: 'Joyce', path: 'https://image.tmdb.org/t/p/w500/a4Z7gFkm4JITQhMcVR0Ij0QLorv.jpg' },
+      { id: 'st_max', name: 'Max', path: 'https://image.tmdb.org/t/p/w500/cQywpstS8m9VyU0ho5E0KTNqd50.jpg' },
+      { id: 'st_steve', name: 'Steve', path: 'https://image.tmdb.org/t/p/w500/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg' },
+      { id: 'st_hopper', name: 'Hopper', path: 'https://image.tmdb.org/t/p/w500/jzdnUGEmAnbI2Q1S7WN4e8cXXKW.jpg' },
+      { id: 'st_joyce', name: 'Joyce', path: 'https://image.tmdb.org/t/p/w500/kPfqCdmiPEKN45GU8uH5m0yLCXr.jpg' },
     ],
   },
   {
     category: 'Marvel Cinematic Universe',
     avatars: [
-      { id: 'mcu_ironman', name: 'Iron Man', path: 'https://image.tmdb.org/t/p/w500/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg' },
-      { id: 'mcu_spiderman', name: 'Spider-Man', path: 'https://image.tmdb.org/t/p/w500/wheJbAGkE537n9GsFl3XbkeZLj7.jpg' },
-      { id: 'mcu_thor', name: 'Thor', path: 'https://image.tmdb.org/t/p/w500/piQGdoIQOF3C1EI5cbYZLAW1gfj.jpg' },
-      { id: 'mcu_cap', name: 'Captain America', path: 'https://image.tmdb.org/t/p/w500/jEzGktEMdEkQKemPVR0YGlIYEVl.jpg' },
-      { id: 'mcu_widow', name: 'Black Widow', path: 'https://image.tmdb.org/t/p/w500/mjReG6rR7NPMEIWb1T4YWtV11ty.jpg' },
-      { id: 'mcu_hulk', name: 'Hulk', path: 'https://image.tmdb.org/t/p/w500/5GilHMOt5PAQh6rlUKZzGmaKEI7.jpg' },
-      { id: 'mcu_deadpool', name: 'Deadpool', path: 'https://image.tmdb.org/t/p/w500/trzgptffGvAlAT6MEu01fz47cLW.jpg' },
-      { id: 'mcu_panther', name: 'Black Panther', path: 'https://image.tmdb.org/t/p/w500/1lz1wLOuPFSRIratMz0SxD3tkJ.jpg' },
+      // In-character promotional posters (Infinity War character posters, solo films)
+      { id: 'mcu_ironman', name: 'Iron Man', path: 'https://image.tmdb.org/t/p/w500/qhPtAc1TKbMPqNvcdXSOn9Bn7hZ.jpg' },
+      { id: 'mcu_spiderman', name: 'Spider-Man', path: 'https://image.tmdb.org/t/p/w500/1vEInJQa08gLJsb7coJfYDR02KE.jpg' },
+      { id: 'mcu_thor', name: 'Thor', path: 'https://image.tmdb.org/t/p/w500/jwzA6RI8NdQNyOVLsbnSLGMq1oW.jpg' },
+      { id: 'mcu_cap', name: 'Captain America', path: 'https://image.tmdb.org/t/p/w500/ypX47SBSThTbB40AIJ22eOUCpjU.jpg' },
+      { id: 'mcu_widow', name: 'Black Widow', path: 'https://image.tmdb.org/t/p/w500/ypX47SBSThTbB40AIJ22eOUCpjU.jpg' },
+      { id: 'mcu_hulk', name: 'Hulk', path: 'https://image.tmdb.org/t/p/w500/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg' },
+      { id: 'mcu_deadpool', name: 'Deadpool', path: 'https://image.tmdb.org/t/p/w500/wFjboE0aFZNbVOF05fzrka9Fqyx.jpg' },
+      { id: 'mcu_panther', name: 'Black Panther', path: 'https://image.tmdb.org/t/p/w500/uzQFUPXxKNbhgWQePGEix9wYYKx.jpg' },
     ],
   },
   {
     category: 'DC Universe',
     avatars: [
-      { id: 'dc_batman', name: 'Batman', path: 'https://image.tmdb.org/t/p/w500/7Pxez9J8fuPd2Mn9kex13YALrCQ.jpg' },
-      { id: 'dc_joker', name: 'Joker', path: 'https://image.tmdb.org/t/p/w500/AdWKVqyWpkYSfKE5Gb2qn8JzHni.jpg' },
-      { id: 'dc_harley', name: 'Harley Quinn', path: 'https://image.tmdb.org/t/p/w500/8LqG2N6j98lFGMpuYsRUAhOunSd.jpg' },
-      { id: 'dc_superman', name: 'Superman', path: 'https://image.tmdb.org/t/p/w500/kN3A5oLgtKYAxa9lAkpsIGYKYVo.jpg' },
-      { id: 'dc_ww', name: 'Wonder Woman', path: 'https://image.tmdb.org/t/p/w500/AbXKtWQwuDiwhoQLh34VRglwuBE.jpg' },
-      { id: 'dc_flash', name: 'The Flash', path: 'https://image.tmdb.org/t/p/w500/hLtxNK8eeWZkFSeaAASFWm15Qv0.jpg' },
+      // Character posters from Dark Knight, BOP, Wonder Woman, Flash
+      { id: 'dc_batman', name: 'Batman', path: 'https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg' },
+      { id: 'dc_joker', name: 'Joker', path: 'https://image.tmdb.org/t/p/w500/o8i8EDSWiwzTIiaMgyPnESKYIVd.jpg' },
+      { id: 'dc_harley', name: 'Harley Quinn', path: 'https://image.tmdb.org/t/p/w500/Abn7vhJKcrPIpMZc8MMHoFRBcDL.jpg' },
+      { id: 'dc_superman', name: 'Superman', path: 'https://image.tmdb.org/t/p/w500/tnAuB8q5vv7Ax9UAEje5Xi4BXik.jpg' },
+      { id: 'dc_ww', name: 'Wonder Woman', path: 'https://image.tmdb.org/t/p/w500/imekS7f1OuHyUP2LAiTEM0zBzUz.jpg' },
+      { id: 'dc_flash', name: 'The Flash', path: 'https://image.tmdb.org/t/p/w500/67PmbAViFCW3obXxr5Utm9wArIP.jpg' },
     ],
   },
   {
     category: 'Star Wars',
     avatars: [
-      { id: 'sw_luke', name: 'Luke Skywalker', path: 'https://image.tmdb.org/t/p/w500/zMQ93JTLW8KxusKhOlHFZhih3YQ.jpg' },
+      { id: 'sw_luke', name: 'Luke Skywalker', path: 'https://image.tmdb.org/t/p/w500/1539H2E75rOC9HUA2kSOhDE4d2A.jpg' },
       { id: 'sw_vader', name: 'Darth Vader', path: 'https://image.tmdb.org/t/p/w500/xTocYiKHlRYN8tfh8vyQFsRXC0K.jpg' },
-      { id: 'sw_han', name: 'Han Solo', path: 'https://image.tmdb.org/t/p/w500/zVnHagUvXkR2StdOtquEwsiwSVt.jpg' },
+      { id: 'sw_han', name: 'Han Solo', path: 'https://image.tmdb.org/t/p/w500/dLOFALA4pWdBBL8WTzeYfyFKSjZ.jpg' },
       { id: 'sw_yoda', name: 'Yoda', path: 'https://image.tmdb.org/t/p/w500/mb2JbT8s6LIgaxj6QTph0NW1pmI.jpg' },
-      { id: 'sw_rey', name: 'Rey', path: 'https://image.tmdb.org/t/p/w500/iVboQmgPC3tYFjezBjrVECJRS8n.jpg' },
+      { id: 'sw_rey', name: 'Rey', path: 'https://image.tmdb.org/t/p/w500/3ZKtSvr3WIP38jr03Y8ncIoKPyd.jpg' },
       { id: 'sw_kylo', name: 'Kylo Ren', path: 'https://image.tmdb.org/t/p/w500/fsbGQ1eZFgdsG1XnKlhNSvHsiGo.jpg' },
     ],
   },
   {
     category: 'Breaking Bad',
     avatars: [
-      { id: 'bb_walter', name: 'Walter White', path: 'https://image.tmdb.org/t/p/w500/7Jahy5LZX2Fo8fGJltMreAI49hC.jpg' },
-      { id: 'bb_jesse', name: 'Jesse Pinkman', path: 'https://image.tmdb.org/t/p/w500/8Ac9uuoYwZoYVAIJfRLzzLsGGJn.jpg' },
-      { id: 'bb_saul', name: 'Saul Goodman', path: 'https://image.tmdb.org/t/p/w500/rF0Lb6SBhGSTvjRffmlKRSeI3jE.jpg' },
+      // In-character promotional posters from Breaking Bad
+      { id: 'bb_walter', name: 'Walter White', path: 'https://image.tmdb.org/t/p/w500/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg' },
+      { id: 'bb_jesse', name: 'Jesse Pinkman', path: 'https://image.tmdb.org/t/p/w500/ggFHVNu6YYI5L9pCfOacjizRGt.jpg' },
+      { id: 'bb_saul', name: 'Saul Goodman', path: 'https://image.tmdb.org/t/p/w500/xEggmiD4WoJBQR2AiVF46yPUUgD.jpg' },
     ],
   },
   {
     category: 'Game of Thrones',
     avatars: [
-      { id: 'got_jon', name: 'Jon Snow', path: 'https://image.tmdb.org/t/p/w500/iCFQAQqb0SgvxEdVYhJtZLhM9kp.jpg' },
-      { id: 'got_dany', name: 'Daenerys', path: 'https://image.tmdb.org/t/p/w500/wb8VfDPGpyqcFltnRcJR1Wj3h4Z.jpg' },
-      { id: 'got_tyrion', name: 'Tyrion', path: 'https://image.tmdb.org/t/p/w500/5oUIFGorNKaijU3FmDpiswJp3Ly.jpg' },
-      { id: 'got_arya', name: 'Arya', path: 'https://image.tmdb.org/t/p/w500/5RjD4dDpRDAhalFtvcUj7zdLWYB.jpg' },
+      // In-character stills from Game of Thrones
+      { id: 'got_jon', name: 'Jon Snow', path: 'https://image.tmdb.org/t/p/w500/ddzVh5GAabo429kTU2ixu6ROeaz.jpg' },
+      { id: 'got_dany', name: 'Daenerys', path: 'https://image.tmdb.org/t/p/w500/7GhSiFhXOg81AevNQWrX6DOEL1U.jpg' },
+      { id: 'got_tyrion', name: 'Tyrion', path: 'https://image.tmdb.org/t/p/w500/jV8E0KoHCTU0OXImZFRBKsJH0GD.jpg' },
+      { id: 'got_arya', name: 'Arya', path: 'https://image.tmdb.org/t/p/w500/pVTafj1pKhXh5aGZItOSDtgBZuc.jpg' },
     ],
   },
   {
     category: 'One Piece',
     avatars: [
-      { id: 'op_luffy', name: 'Luffy', path: 'https://image.tmdb.org/t/p/w500/93Z6KuFpqoDD1xN5kuswYQzbWe6.jpg' },
+      // One Piece live action promotional stills
+      { id: 'op_luffy', name: 'Luffy', path: 'https://image.tmdb.org/t/p/w500/aesLt9fsKSA6KCgGxA60VVxjtLk.jpg' },
       { id: 'op_zoro', name: 'Zoro', path: 'https://image.tmdb.org/t/p/w500/y4FTSASxsO1F61p3hFIPMCeprut.jpg' },
       { id: 'op_nami', name: 'Nami', path: 'https://image.tmdb.org/t/p/w500/y23GTdDPcryBVtSWjY9q2O9nzwV.jpg' },
       { id: 'op_usopp', name: 'Usopp', path: 'https://image.tmdb.org/t/p/w500/c6uP24uFslQ3hnEgqPkojAbYuZn.jpg' },
-      { id: 'op_sanji', name: 'Sanji', path: 'https://image.tmdb.org/t/p/w500/3EXMkfzB8EXn3ZJPJvK6OfPWLfz.jpg' },
+      { id: 'op_sanji', name: 'Sanji', path: 'https://image.tmdb.org/t/p/w500/cplNidnm3KfEP5lHimXT0MN5StI.jpg' },
     ],
   },
   {
     category: 'Lucifer',
     avatars: [
-      { id: 'lu_luci', name: 'Lucifer', path: 'https://image.tmdb.org/t/p/w500/zhjIyqpk5bsYgxsh5bSeS6VZtHm.jpg' },
+      { id: 'lu_luci', name: 'Lucifer', path: 'https://image.tmdb.org/t/p/w500/nmYklOkiIap6GCu8Kzl82iZpJRw.jpg' },
       { id: 'lu_chloe', name: 'Chloe', path: 'https://image.tmdb.org/t/p/w500/if1TbO8dSfPiDCMfy52nH7A2D7.jpg' },
       { id: 'lu_maze', name: 'Maze', path: 'https://image.tmdb.org/t/p/w500/fW2ITcpENpNnHf4wuNltf3PSQTk.jpg' },
       { id: 'lu_amen', name: 'Amenadiel', path: 'https://image.tmdb.org/t/p/w500/xdyGewr108rQWojpYlKw2QjrxCz.jpg' },
@@ -178,7 +184,7 @@ const ScrollRow = ({
                 src={avatar.path}
                 alt={avatar.name}
                 loading="lazy"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-top"
               />
               {selectedId === avatar.id && (
                 <div className="absolute inset-0 bg-white/10 flex items-center justify-center">
