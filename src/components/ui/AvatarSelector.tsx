@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, X, Camera } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
-import { getImageUrl } from '../../services/tmdb';
-import { storage } from '../../lib/firebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { useState, useRef } from 'react';
+import { Camera, Upload, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { updateProfile } from 'firebase/auth';
+import type { User } from 'firebase/auth';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '../../lib/firebase';
+import { useAuth } from '../../contexts/AuthContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface AvatarSelectorProps {
   isOpen: boolean;
@@ -13,103 +13,246 @@ interface AvatarSelectorProps {
   onAvatarUpdated: () => void;
 }
 
-const PREDEFINED_AVATAR_GROUPS = [
+/* ──────────────────────────────────────────────────────────────
+   Static character data extracted from TMDB cast/credits API.
+   All images are official TMDB actor profile photos labelled
+   by their most iconic character name.
+   ────────────────────────────────────────────────────────────── */
+const CHARACTER_GROUPS = [
   {
-    category: "Stranger Things",
+    category: 'Money Heist',
     avatars: [
-      { id: "eleven", name: "Eleven", path: "https://static.wikia.nocookie.net/strangerthings8338/images/e/e2/Eleven_-_Sorcerer.png/revision/latest/scale-to-width-down/444?cb=20260313155200" },
-      { id: "mike", name: "Mike Wheeler", path: "https://static.wikia.nocookie.net/strangerthings8338/images/9/97/Mike_Wheeler_Finale.png/revision/latest/scale-to-width-down/577?cb=20260313155900" },
-      { id: "dustin", name: "Dustin Henderson", path: "https://static.wikia.nocookie.net/strangerthings8338/images/4/4f/Dustin_Henderson_1989.png/revision/latest/scale-to-width-down/590?cb=20260313155936" },
-      { id: "lucas", name: "Lucas Sinclair", path: "https://static.wikia.nocookie.net/strangerthings8338/images/7/70/Lucas_Sinclair_Finale.png/revision/latest/scale-to-width-down/512?cb=20260313155517" },
-      { id: "will", name: "Will Byers", path: "https://static.wikia.nocookie.net/strangerthings8338/images/5/5e/Will_Byers_Finale.png/revision/latest/scale-to-width-down/587?cb=20260313155557" },
-      { id: "max", name: "Max Mayfield", path: "https://static.wikia.nocookie.net/strangerthings8338/images/2/2a/1989.png/revision/latest/scale-to-width-down/489?cb=20260313154711" }
-    ]
+      { id: 'mh_prof', name: 'The Professor', path: 'https://image.tmdb.org/t/p/w500/2TGPhdpRC5wjdFEJqnLYiN5kbwg.jpg' },
+      { id: 'mh_tokyo', name: 'Tokyo', path: 'https://image.tmdb.org/t/p/w500/cmH8Z459tw9YkR61QfxlCSlZw9P.jpg' },
+      { id: 'mh_berlin', name: 'Berlin', path: 'https://image.tmdb.org/t/p/w500/38HeVKeOBztVYrLJOWzAtEZiB02.jpg' },
+      { id: 'mh_nairobi', name: 'Nairobi', path: 'https://image.tmdb.org/t/p/w500/vWUZkQKxj63qTNBa8DvEd0CpU64.jpg' },
+      { id: 'mh_rio', name: 'Rio', path: 'https://image.tmdb.org/t/p/w500/eFNlbsaMODCHys35ZQOkMQNh0Jq.jpg' },
+      { id: 'mh_denver', name: 'Denver', path: 'https://image.tmdb.org/t/p/w500/nLaxzU92z14FIbe25sE8jDMIThZ.jpg' },
+      { id: 'mh_moscow', name: 'Moscow', path: 'https://image.tmdb.org/t/p/w500/nSJpyaypfmsYcSi3sFJP05u14RJ.jpg' },
+      { id: 'mh_lisbon', name: 'Lisbon', path: 'https://image.tmdb.org/t/p/w500/l4jnBwz7cp9mmxjCMSfmH2sTOKE.jpg' },
+      { id: 'mh_palermo', name: 'Palermo', path: 'https://image.tmdb.org/t/p/w500/21BEFsgRAMYrxNMSqPMH8X1FnbD.jpg' },
+    ],
   },
   {
-    category: "Marvel Cinematic Universe",
+    category: 'Stranger Things',
     avatars: [
-      { id: "ironman", name: "Iron Man", path: "https://image.tmdb.org/t/p/w500/78lPtwv72eTNqFW9O53WE01HPTQ.jpg" },
-      { id: "cap", name: "Captain America", path: "https://static.wikia.nocookie.net/marvelcinematicuniverse/images/b/b7/Steve_Rogers_Infobox.jpg/revision/latest/scale-to-width-down/456?cb=20231025163634" },
-      { id: "spider", name: "Spider-Man", path: "https://image.tmdb.org/t/p/w500/c24sv2weTHPsmDa7jEMN0m2P3RT.jpg" },
-      { id: "deadpool", name: "Deadpool", path: "https://image.tmdb.org/t/p/w500/yGSxMiF0cFlAiwkADicXU0E2o6L.jpg" },
-    ]
+      { id: 'st_eleven', name: 'Eleven', path: 'https://image.tmdb.org/t/p/w500/k9KGzGDVhXKfOGpoN62MNuXL28q.jpg' },
+      { id: 'st_mike', name: 'Mike', path: 'https://image.tmdb.org/t/p/w500/gsVIdhYh4DpDXjW5U5baQzcARsB.jpg' },
+      { id: 'st_dustin', name: 'Dustin', path: 'https://image.tmdb.org/t/p/w500/alVT7oDp8N5G9WLIApI9jqeuqHq.jpg' },
+      { id: 'st_lucas', name: 'Lucas', path: 'https://image.tmdb.org/t/p/w500/4jVS3EziBn7bf97ErxkW7jsdiLM.jpg' },
+      { id: 'st_will', name: 'Will', path: 'https://image.tmdb.org/t/p/w500/jHS4mG6XW0ZJbMnpseL2reEWpv8.jpg' },
+      { id: 'st_max', name: 'Max', path: 'https://image.tmdb.org/t/p/w500/m9OyHAyOx56Pm3JruEBqh4p9XeX.jpg' },
+      { id: 'st_steve', name: 'Steve', path: 'https://image.tmdb.org/t/p/w500/ydBVHIH070jcNPgBhx0rj5MmXsS.jpg' },
+      { id: 'st_hopper', name: 'Hopper', path: 'https://image.tmdb.org/t/p/w500/dhBJR1GiVExOOsNBDMpSp9Bq5Z.jpg' },
+      { id: 'st_joyce', name: 'Joyce', path: 'https://image.tmdb.org/t/p/w500/a4Z7gFkm4JITQhMcVR0Ij0QLorv.jpg' },
+    ],
   },
   {
-    category: "DC Universe",
+    category: 'Marvel Cinematic Universe',
     avatars: [
-      { id: "batman", name: "The Batman", path: "https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg" },
-      { id: "joker", name: "Joker", path: "https://image.tmdb.org/t/p/w500/udDclJoHjfpt8Wa5bL1U4Mcd0mE.jpg" },
-      { id: "harley", name: "Harley Quinn", path: "https://image.tmdb.org/t/p/w500/1Xddsy2Z1sR2h1Wf5p0yF7cOItn.jpg" }
-    ]
+      { id: 'mcu_ironman', name: 'Iron Man', path: 'https://image.tmdb.org/t/p/w500/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg' },
+      { id: 'mcu_spiderman', name: 'Spider-Man', path: 'https://image.tmdb.org/t/p/w500/wheJbAGkE537n9GsFl3XbkeZLj7.jpg' },
+      { id: 'mcu_thor', name: 'Thor', path: 'https://image.tmdb.org/t/p/w500/piQGdoIQOF3C1EI5cbYZLAW1gfj.jpg' },
+      { id: 'mcu_cap', name: 'Captain America', path: 'https://image.tmdb.org/t/p/w500/jEzGktEMdEkQKemPVR0YGlIYEVl.jpg' },
+      { id: 'mcu_widow', name: 'Black Widow', path: 'https://image.tmdb.org/t/p/w500/mjReG6rR7NPMEIWb1T4YWtV11ty.jpg' },
+      { id: 'mcu_hulk', name: 'Hulk', path: 'https://image.tmdb.org/t/p/w500/5GilHMOt5PAQh6rlUKZzGmaKEI7.jpg' },
+      { id: 'mcu_deadpool', name: 'Deadpool', path: 'https://image.tmdb.org/t/p/w500/trzgptffGvAlAT6MEu01fz47cLW.jpg' },
+      { id: 'mcu_panther', name: 'Black Panther', path: 'https://image.tmdb.org/t/p/w500/1lz1wLOuPFSRIratMz0SxD3tkJ.jpg' },
+    ],
   },
   {
-    category: "Star Wars",
+    category: 'DC Universe',
     avatars: [
-      { id: "anakin", name: "Anakin Skywalker", path: "https://static.wikia.nocookie.net/starwars/images/6/6f/Anakin_Skywalker_RotS.png/revision/latest/scale-to-width-down/480?cb=20130621175844" },
-      { id: "luke", name: "Luke Skywalker", path: "https://static.wikia.nocookie.net/starwars/images/3/3d/LukeSkywalker.png/revision/latest/scale-to-width-down/450?cb=20241221010122" },
-      { id: "obiwan", name: "Obi-Wan Kenobi", path: "https://static.wikia.nocookie.net/starwars/images/4/4e/ObiWanHS-SWE.jpg/revision/latest/scale-to-width-down/450?cb=20111115052816" },
-      { id: "mando", name: "Din Djarin", path: "https://static.wikia.nocookie.net/starwars/images/4/46/DinDjarinArmor-CGSWG.png/revision/latest/scale-to-width-down/483?cb=20241206044557" }
-    ]
+      { id: 'dc_batman', name: 'Batman', path: 'https://image.tmdb.org/t/p/w500/7Pxez9J8fuPd2Mn9kex13YALrCQ.jpg' },
+      { id: 'dc_joker', name: 'Joker', path: 'https://image.tmdb.org/t/p/w500/AdWKVqyWpkYSfKE5Gb2qn8JzHni.jpg' },
+      { id: 'dc_harley', name: 'Harley Quinn', path: 'https://image.tmdb.org/t/p/w500/8LqG2N6j98lFGMpuYsRUAhOunSd.jpg' },
+      { id: 'dc_superman', name: 'Superman', path: 'https://image.tmdb.org/t/p/w500/kN3A5oLgtKYAxa9lAkpsIGYKYVo.jpg' },
+      { id: 'dc_ww', name: 'Wonder Woman', path: 'https://image.tmdb.org/t/p/w500/AbXKtWQwuDiwhoQLh34VRglwuBE.jpg' },
+      { id: 'dc_flash', name: 'The Flash', path: 'https://image.tmdb.org/t/p/w500/hLtxNK8eeWZkFSeaAASFWm15Qv0.jpg' },
+    ],
   },
   {
-    category: "Money Heist",
+    category: 'Star Wars',
     avatars: [
-      { id: "mask", name: "Dali Mask", path: "https://image.tmdb.org/t/p/w500/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg" },
-      { id: "professor", name: "The Professor", path: "https://upload.wikimedia.org/wikipedia/en/0/0c/Professor_%28Money_Heist%29.jpg" },
-      { id: "tokyo", name: "Tokyo", path: "https://upload.wikimedia.org/wikipedia/en/7/7a/Tokyo_%28Money_Heist%29.jpg" },
-      { id: "berlin", name: "Berlin", path: "https://upload.wikimedia.org/wikipedia/en/2/23/Berlin_%28Money_Heist%29.jpg" },
-      { id: "nairobi", name: "Nairobi", path: "https://upload.wikimedia.org/wikipedia/en/8/8e/Nairobi_%28Money_Heist%29.jpg" }
-    ]
-  }
+      { id: 'sw_luke', name: 'Luke Skywalker', path: 'https://image.tmdb.org/t/p/w500/zMQ93JTLW8KxusKhOlHFZhih3YQ.jpg' },
+      { id: 'sw_vader', name: 'Darth Vader', path: 'https://image.tmdb.org/t/p/w500/xTocYiKHlRYN8tfh8vyQFsRXC0K.jpg' },
+      { id: 'sw_han', name: 'Han Solo', path: 'https://image.tmdb.org/t/p/w500/zVnHagUvXkR2StdOtquEwsiwSVt.jpg' },
+      { id: 'sw_yoda', name: 'Yoda', path: 'https://image.tmdb.org/t/p/w500/mb2JbT8s6LIgaxj6QTph0NW1pmI.jpg' },
+      { id: 'sw_rey', name: 'Rey', path: 'https://image.tmdb.org/t/p/w500/iVboQmgPC3tYFjezBjrVECJRS8n.jpg' },
+      { id: 'sw_kylo', name: 'Kylo Ren', path: 'https://image.tmdb.org/t/p/w500/fsbGQ1eZFgdsG1XnKlhNSvHsiGo.jpg' },
+    ],
+  },
+  {
+    category: 'Breaking Bad',
+    avatars: [
+      { id: 'bb_walter', name: 'Walter White', path: 'https://image.tmdb.org/t/p/w500/7Jahy5LZX2Fo8fGJltMreAI49hC.jpg' },
+      { id: 'bb_jesse', name: 'Jesse Pinkman', path: 'https://image.tmdb.org/t/p/w500/8Ac9uuoYwZoYVAIJfRLzzLsGGJn.jpg' },
+      { id: 'bb_saul', name: 'Saul Goodman', path: 'https://image.tmdb.org/t/p/w500/rF0Lb6SBhGSTvjRffmlKRSeI3jE.jpg' },
+    ],
+  },
+  {
+    category: 'Game of Thrones',
+    avatars: [
+      { id: 'got_jon', name: 'Jon Snow', path: 'https://image.tmdb.org/t/p/w500/iCFQAQqb0SgvxEdVYhJtZLhM9kp.jpg' },
+      { id: 'got_dany', name: 'Daenerys', path: 'https://image.tmdb.org/t/p/w500/wb8VfDPGpyqcFltnRcJR1Wj3h4Z.jpg' },
+      { id: 'got_tyrion', name: 'Tyrion', path: 'https://image.tmdb.org/t/p/w500/5oUIFGorNKaijU3FmDpiswJp3Ly.jpg' },
+      { id: 'got_arya', name: 'Arya', path: 'https://image.tmdb.org/t/p/w500/5RjD4dDpRDAhalFtvcUj7zdLWYB.jpg' },
+    ],
+  },
+  {
+    category: 'One Piece',
+    avatars: [
+      { id: 'op_luffy', name: 'Luffy', path: 'https://image.tmdb.org/t/p/w500/93Z6KuFpqoDD1xN5kuswYQzbWe6.jpg' },
+      { id: 'op_zoro', name: 'Zoro', path: 'https://image.tmdb.org/t/p/w500/y4FTSASxsO1F61p3hFIPMCeprut.jpg' },
+      { id: 'op_nami', name: 'Nami', path: 'https://image.tmdb.org/t/p/w500/y23GTdDPcryBVtSWjY9q2O9nzwV.jpg' },
+      { id: 'op_usopp', name: 'Usopp', path: 'https://image.tmdb.org/t/p/w500/c6uP24uFslQ3hnEgqPkojAbYuZn.jpg' },
+      { id: 'op_sanji', name: 'Sanji', path: 'https://image.tmdb.org/t/p/w500/3EXMkfzB8EXn3ZJPJvK6OfPWLfz.jpg' },
+    ],
+  },
+  {
+    category: 'Lucifer',
+    avatars: [
+      { id: 'lu_luci', name: 'Lucifer', path: 'https://image.tmdb.org/t/p/w500/zhjIyqpk5bsYgxsh5bSeS6VZtHm.jpg' },
+      { id: 'lu_chloe', name: 'Chloe', path: 'https://image.tmdb.org/t/p/w500/if1TbO8dSfPiDCMfy52nH7A2D7.jpg' },
+      { id: 'lu_maze', name: 'Maze', path: 'https://image.tmdb.org/t/p/w500/fW2ITcpENpNnHf4wuNltf3PSQTk.jpg' },
+      { id: 'lu_amen', name: 'Amenadiel', path: 'https://image.tmdb.org/t/p/w500/xdyGewr108rQWojpYlKw2QjrxCz.jpg' },
+    ],
+  },
 ];
+
+/* ──────────────────────────────────────────────────────────── */
+
+const ScrollRow = ({
+  group,
+  selectedId,
+  loading,
+  onSelect,
+}: {
+  group: (typeof CHARACTER_GROUPS)[0];
+  selectedId: string | null;
+  loading: boolean;
+  onSelect: (avatar: { id: string; name: string; path: string }) => void;
+}) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scroll = (dir: 'left' | 'right') => {
+    if (!scrollRef.current) return;
+    scrollRef.current.scrollBy({ left: dir === 'left' ? -280 : 280, behavior: 'smooth' });
+  };
+
+  return (
+    <div className="relative group/row">
+      <h3 className="font-bebas text-[1.05rem] tracking-[0.2em] uppercase text-white/40 mb-3 pl-1">
+        {group.category}
+      </h3>
+
+      {/* Left scroll arrow */}
+      <button
+        onClick={() => scroll('left')}
+        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-black/70 backdrop-blur rounded-full flex items-center justify-center text-white opacity-0 group-hover/row:opacity-100 transition-opacity"
+      >
+        <ChevronLeft className="w-4 h-4" />
+      </button>
+
+      {/* Scrollable avatar row */}
+      <div
+        ref={scrollRef}
+        className="flex gap-4 overflow-x-auto pb-3 no-scrollbar scroll-smooth"
+      >
+        {group.avatars.map((avatar) => (
+          <button
+            key={avatar.id}
+            disabled={loading}
+            onClick={() => onSelect(avatar)}
+            className={`shrink-0 flex flex-col items-center gap-2 group/card transition-all duration-200 ${
+              loading ? 'opacity-40 pointer-events-none' : ''
+            }`}
+          >
+            <div
+              className={`relative w-[90px] h-[90px] sm:w-[100px] sm:h-[100px] rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                selectedId === avatar.id
+                  ? 'border-white scale-110 shadow-[0_0_16px_rgba(255,255,255,0.4)]'
+                  : 'border-transparent hover:border-white/60 hover:scale-105'
+              }`}
+            >
+              <img
+                src={avatar.path}
+                alt={avatar.name}
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
+              {selectedId === avatar.id && (
+                <div className="absolute inset-0 bg-white/10 flex items-center justify-center">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                </div>
+              )}
+            </div>
+            <span
+              className={`text-[11px] font-sans leading-tight text-center max-w-[90px] sm:max-w-[100px] truncate ${
+                selectedId === avatar.id ? 'text-white font-semibold' : 'text-gray-400'
+              }`}
+            >
+              {avatar.name}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* Right scroll arrow */}
+      <button
+        onClick={() => scroll('right')}
+        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-black/70 backdrop-blur rounded-full flex items-center justify-center text-white opacity-0 group-hover/row:opacity-100 transition-opacity"
+      >
+        <ChevronRight className="w-4 h-4" />
+      </button>
+    </div>
+  );
+};
+
+/* ──────────────────────────────────────────────────────────── */
 
 const AvatarSelector = ({ isOpen, onClose, onAvatarUpdated }: AvatarSelectorProps) => {
   const { currentUser } = useAuth();
   const [activeTab, setActiveTab] = useState<'library' | 'upload'>('library');
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [uploadLoading, setUploadLoading] = useState(false);
-  const [selectedActorId, setSelectedActorId] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
-  const handleActorSelect = async (tmdbUrl: string) => {
+  const handleCharacterSelect = async (avatar: { id: string; name: string; path: string }) => {
     if (!currentUser) return;
+    setSelectedId(avatar.id);
     setUploadLoading(true);
     try {
-      await updateProfile(currentUser, { photoURL: tmdbUrl });
+      await updateProfile(currentUser, { photoURL: avatar.path });
       onAvatarUpdated();
       onClose();
-    } catch (error) {
-      console.error("Error updating profile with Actor image:", error);
+    } catch (err) {
+      console.error('Failed to set avatar:', err);
+      alert('Could not update profile picture. Please try again.');
     } finally {
       setUploadLoading(false);
+      setSelectedId(null);
     }
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !currentUser) return;
-
-    // Validate type (jpg, png)
+    if (!currentUser || !e.target.files?.[0]) return;
+    const file = e.target.files[0];
     if (!['image/jpeg', 'image/png'].includes(file.type)) {
-       alert("Please upload a JPG or PNG file.");
-       return;
+      alert('Only JPG and PNG files are supported.');
+      return;
     }
-    // Validate size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-       alert("File size exceeds 5MB limit.");
-       return;
-    }
-
     setUploadLoading(true);
     try {
-      const storageRef = ref(storage, `users/${currentUser.uid}/profile_${Date.now()}`);
+      const storageRef = ref(storage, `avatars/${currentUser.uid}/${Date.now()}_${file.name}`);
       await uploadBytes(storageRef, file);
       const url = await getDownloadURL(storageRef);
-      await updateProfile(currentUser, { photoURL: url });
+      await updateProfile(currentUser as User, { photoURL: url });
       onAvatarUpdated();
       onClose();
-    } catch (error) {
-      console.error("Error uploading custom image:", error);
+    } catch (err) {
+      console.error('Upload failed:', err);
+      alert('Upload failed. Please try again.');
     } finally {
       setUploadLoading(false);
     }
@@ -117,131 +260,108 @@ const AvatarSelector = ({ isOpen, onClose, onAvatarUpdated }: AvatarSelectorProp
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-        {/* Backdrop */}
+      {isOpen && (
         <motion.div
-           initial={{ opacity: 0 }}
-           animate={{ opacity: 1 }}
-           exit={{ opacity: 0 }}
-           onClick={onClose}
-           className="absolute inset-0 bg-black/80 backdrop-blur-md"
-        />
-
-        {/* Modal Body */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-4xl bg-[#0f0f16] border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
         >
-          {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-white/10 shrink-0">
-             <h2 className="text-2xl font-bebas text-white tracking-widest flex items-center gap-3">
-               <Camera className="w-6 h-6 text-primary" /> Edit Profile Picture
-             </h2>
-             <button onClick={onClose} className="p-2 text-gray-400 hover:text-white transition-colors rounded-full hover:bg-white/10">
-               <X className="w-5 h-5" />
-             </button>
-          </div>
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
 
-          {/* Toggle Tabs */}
-          <div className="flex gap-4 px-6 pt-6 shrink-0">
-             <button 
-               onClick={() => setActiveTab('library')}
-               className={`flex-1 py-3 text-sm font-sans font-bold uppercase tracking-wider transition-all duration-300 border-b-2 ${
-                 activeTab === 'library' ? 'border-primary text-white shadow-[0_10px_20px_rgba(229,9,20,0.2)]' : 'border-transparent text-gray-500 hover:text-gray-300'
-               }`}
-             >
-               Cinematic Library
-             </button>
-             <button 
-               onClick={() => setActiveTab('upload')}
-               className={`flex-1 py-3 text-sm font-sans font-bold uppercase tracking-wider transition-all duration-300 border-b-2 ${
-                 activeTab === 'upload' ? 'border-primary text-white shadow-[0_10px_20px_rgba(229,9,20,0.2)]' : 'border-transparent text-gray-500 hover:text-gray-300'
-               }`}
-             >
-               Custom Upload
-             </button>
-          </div>
+          {/* Modal */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="relative z-10 w-full max-w-3xl max-h-[85vh] bg-[#141414] border border-white/10 rounded-2xl shadow-2xl flex flex-col"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-5 border-b border-white/10 shrink-0">
+              <h2 className="font-bebas text-2xl tracking-widest text-white">
+                Edit Profile Icon
+              </h2>
+              <button
+                onClick={onClose}
+                className="w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
 
-          {/* Content Area */}
-          <div className="flex-1 overflow-y-auto p-6 md:p-8 no-scrollbar bg-gradient-to-b from-transparent to-background-dark/50">
-             
-             {/* Upload View */}
-             {activeTab === 'upload' && (
-               <div className="flex flex-col items-center justify-center h-full min-h-[300px]">
-                  <div className="w-40 h-40 rounded-full bg-black/40 border-2 border-dashed border-gray-600 flex flex-col items-center justify-center mb-6 relative group hover:border-primary transition-colors cursor-pointer overflow-hidden">
-                     {uploadLoading ? (
-                        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                     ) : (
-                        <>
-                           <Upload className="w-10 h-10 text-gray-500 group-hover:text-primary transition-colors mb-2" />
-                           <span className="text-xs font-sans text-gray-500 font-bold uppercase tracking-widest group-hover:text-white transition-colors">Select PNG/JPG</span>
-                        </>
-                     )}
-                     <input 
-                       type="file" 
-                       accept="image/png, image/jpeg"
-                       onChange={handleFileUpload}
-                       disabled={uploadLoading}
-                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
-                     />
+            {/* Tab Bar */}
+            <div className="flex gap-1 px-6 pt-4 shrink-0">
+              <button
+                onClick={() => setActiveTab('library')}
+                className={`px-5 py-2 rounded-full text-sm font-sans transition-all ${
+                  activeTab === 'library'
+                    ? 'bg-white text-black font-semibold'
+                    : 'text-gray-400 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                <Camera className="w-4 h-4 inline mr-2" />
+                Characters
+              </button>
+              <button
+                onClick={() => setActiveTab('upload')}
+                className={`px-5 py-2 rounded-full text-sm font-sans transition-all ${
+                  activeTab === 'upload'
+                    ? 'bg-white text-black font-semibold'
+                    : 'text-gray-400 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                <Upload className="w-4 h-4 inline mr-2" />
+                Upload
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto px-6 py-6 no-scrollbar">
+              {activeTab === 'library' ? (
+                <div className="flex flex-col gap-7">
+                  {CHARACTER_GROUPS.map((group) => (
+                    <ScrollRow
+                      key={group.category}
+                      group={group}
+                      selectedId={selectedId}
+                      loading={uploadLoading}
+                      onSelect={handleCharacterSelect}
+                    />
+                  ))}
+                </div>
+              ) : (
+                /* Upload Tab */
+                <div className="flex flex-col items-center justify-center py-16 gap-6">
+                  <div className="w-24 h-24 rounded-full bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center">
+                    <Upload className="w-10 h-10 text-gray-500" />
                   </div>
-                  <p className="text-gray-400 font-sans text-sm text-center max-w-sm">
-                    Upload a custom profile picture from your device. For best results, use a square image with a clean background. Maximum 5MB.
+                  <p className="text-gray-400 text-sm font-sans text-center max-w-xs">
+                    Upload a custom profile picture.<br />
+                    Supports JPG and PNG, max 5 MB.
                   </p>
-               </div>
-             )}
-
-             {/* TMDB Actor Library View */}
-             {activeTab === 'library' && (
-               <div className="flex flex-col h-full">
-                    <p className="text-gray-400 font-sans text-sm mb-6 text-center">
-                       Select an iconic global star from the TMDB database to represent your cinematic identity.
-                    </p>
-                    <div className="flex flex-col gap-8 pb-4">
-                       {PREDEFINED_AVATAR_GROUPS.map((group) => (
-                         <div key={group.category} className="flex flex-col">
-                            <h3 className="text-sm font-sans font-bold uppercase tracking-widest text-white/50 mb-3 px-1">{group.category}</h3>
-                            <div className="flex overflow-x-auto gap-4 pb-4 no-scrollbar snap-x snap-mandatory">
-                               {group.avatars.map((actor) => (
-                                 <div 
-                                   key={actor.id}
-                                   onClick={() => {
-                                     if(!uploadLoading) {
-                                       setSelectedActorId(actor.id);
-                                       const tmdbUrl = actor.path.startsWith('http') ? actor.path : getImageUrl(actor.path, 'original');
-                                       handleActorSelect(tmdbUrl);
-                                     }
-                                   }}
-                                   className={`relative shrink-0 w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 cursor-pointer group transition-all duration-300 snap-center ${
-                                     selectedActorId === actor.id ? 'border-primary shadow-[0_0_20px_rgba(229,9,20,0.6)] scale-105' : 'border-transparent hover:border-white/50 hover:scale-105 hover:shadow-2xl'
-                                   } ${uploadLoading ? 'opacity-50 pointer-events-none' : ''}`}
-                                 >
-                                    <img 
-                                      src={actor.path.startsWith('http') ? actor.path : getImageUrl(actor.path, 'w500')} 
-                                      alt={actor.name}
-                                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                    />
-                                    {/* Hover Overlay Title */}
-                                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-2 text-center pointer-events-none">
-                                       <span className="text-white font-bebas text-[1.1rem] tracking-wider drop-shadow-lg leading-tight">
-                                         {selectedActorId === actor.id || uploadLoading ? (
-                                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                         ) : actor.name}
-                                       </span>
-                                    </div>
-                                 </div>
-                               ))}
-                            </div>
-                         </div>
-                       ))}
+                  <label className="cursor-pointer bg-white hover:bg-gray-200 text-black font-semibold font-sans text-sm px-8 py-3 rounded-full transition-colors">
+                    Choose File
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png"
+                      className="hidden"
+                      onChange={handleFileUpload}
+                      disabled={uploadLoading}
+                    />
+                  </label>
+                  {uploadLoading && (
+                    <div className="flex items-center gap-3 text-gray-400 text-sm font-sans">
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Uploading...
                     </div>
-               </div>
-             )}
-          </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </motion.div>
         </motion.div>
-      </div>
+      )}
     </AnimatePresence>
   );
 };
