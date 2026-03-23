@@ -1,8 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { 
-  signInWithRedirect,
-  getRedirectResult,
+  signInWithPopup,
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
   signOut,
@@ -39,13 +38,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     });
 
-    // Check for redirect result on mount (useful on mobile or if popups are blocked)
-    getRedirectResult(auth).then((cred) => {
-      if (cred && cred.user) {
-        syncUserToFirestore(cred.user);
-      }
-    }).catch(console.error);
-
     return unsubscribe;
   }, []);
 
@@ -60,7 +52,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const loginWithGoogle = async () => {
-    await signInWithRedirect(auth, googleProvider);
+    const cred = await signInWithPopup(auth, googleProvider);
+    if (cred && cred.user) {
+      await syncUserToFirestore(cred.user);
+    }
   };
 
   const loginWithEmail = async (e: string, p: string) => {

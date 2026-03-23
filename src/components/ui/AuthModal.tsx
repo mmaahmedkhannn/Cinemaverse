@@ -62,7 +62,14 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
       }
       onClose();
     } catch (err: any) {
-      setError(err.message || 'Failed to authenticate');
+      let msg = err.message || 'Failed to authenticate';
+      if (err.code === 'auth/invalid-credential') msg = 'Invalid email or password.';
+      if (err.code === 'auth/user-not-found') msg = 'No account found with this email.';
+      if (err.code === 'auth/wrong-password') msg = 'Incorrect password.';
+      if (err.code === 'auth/email-already-in-use') msg = 'This email is already registered. Try signing in.';
+      if (err.code === 'auth/weak-password') msg = 'Password should be at least 6 characters.';
+      if (err.code === 'auth/invalid-email') msg = 'Invalid email address format.';
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -74,7 +81,10 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
       await loginWithGoogle();
       onClose();
     } catch (err: any) {
-      setError(err.message || 'Failed to sign in with Google');
+      // If the user closed the popup prematurely, we don't necessarily want to yell at them, but here it is
+      let msg = err.message || 'Failed to sign in with Google';
+      if (err.code === 'auth/popup-closed-by-user') msg = 'Google sign in was cancelled.';
+      setError(msg);
     } finally {
       setLoading(false);
     }
