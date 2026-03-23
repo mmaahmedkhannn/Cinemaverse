@@ -47,8 +47,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         syncUserToFirestore(cred.user);
       }
     }).catch((err: any) => {
+      let msg = err.message || 'Failed to complete Google sign-in redirect.';
+      if (msg.includes('auth/internal-error')) msg = 'Server error during redirect. Please try again.';
+      if (msg.includes('auth/popup-closed-by-user')) msg = 'Google sign in was cancelled.';
       console.error(err);
-      setGlobalError(err.message || 'Failed to complete Google sign-in redirect.');
+      setGlobalError(msg);
     });
 
     return unsubscribe;

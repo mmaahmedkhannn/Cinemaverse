@@ -122,6 +122,7 @@ const Auth = () => {
     } catch (err: any) {
       let msg = err.message || 'Failed to sign in with Google';
       if (msg.includes('auth/popup-closed-by-user')) msg = 'Google sign in was cancelled.';
+      if (msg.includes('auth/internal-error')) msg = 'Server error occurred during sign in.';
       setError(msg);
       setLoading(false);
     }
