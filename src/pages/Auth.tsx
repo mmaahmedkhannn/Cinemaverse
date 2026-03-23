@@ -93,7 +93,14 @@ const Auth = () => {
         navigate('/verify-email', { replace: true });
       }
     } catch (err: any) {
-      setError(err.message || 'Failed to authenticate');
+      let msg = err.message || 'Failed to authenticate';
+      if (msg.includes('auth/invalid-credential')) msg = 'Invalid email or password.';
+      if (msg.includes('auth/user-not-found')) msg = 'No account found with this email.';
+      if (msg.includes('auth/wrong-password')) msg = 'Incorrect password.';
+      if (msg.includes('auth/email-already-in-use')) msg = 'This email is already registered. Try signing in.';
+      if (msg.includes('auth/weak-password')) msg = 'Password should be at least 6 characters.';
+      if (msg.includes('auth/invalid-email')) msg = 'Invalid email address format.';
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -106,7 +113,9 @@ const Auth = () => {
       await loginWithGoogle();
       navigate('/', { replace: true });
     } catch (err: any) {
-      setError(err.message || 'Failed to sign in with Google');
+      let msg = err.message || 'Failed to sign in with Google';
+      if (msg.includes('auth/popup-closed-by-user')) msg = 'Google sign in was cancelled.';
+      setError(msg);
       setLoading(false);
     }
   };
