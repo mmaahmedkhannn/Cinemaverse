@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useInView } from 'react-intersection-observer';
 import { Star, Film, Award, TrendingUp, Camera } from 'lucide-react';
 import { tmdbApi, getImageUrl, type TMDBPerson } from '../services/tmdb';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { generateSlug } from '../utils/slugify';
+import { useInView } from 'react-intersection-observer';
 
 const Directors = () => {
   const { ref, inView } = useInView({ rootMargin: '400px' });
@@ -35,11 +35,16 @@ const Directors = () => {
   const directorOfMonth = directors.length > 0 ? directors[0] : null;
 
   return (
-    <div className="min-h-screen bg-background-dark pt-20 pb-20">
+    <main className="min-h-screen bg-background-dark pt-24 pb-20 relative overflow-hidden">
       <Helmet>
-        <title>Director Universe — CinemaDiscovery</title>
-        <meta name="description" content="Explore the visionaries who shaped cinema. Their styles, their masterpieces, their legacy." />
+        <title>Legendary Directors & Cinematic Visionaries | CinemaDiscovery</title>
+        <meta name="description" content="Explore the universes built by the world's most renowned film directors and visionaries." />
         <link rel="canonical" href="https://cinemadiscovery.com/directors" />
+        <meta property="og:title" content="Legendary Directors & Cinematic Visionaries | CinemaDiscovery" />
+        <meta property="og:description" content="Explore the universes built by the world's most renowned film directors and visionaries." />
+        <meta property="og:url" content="https://cinemadiscovery.com/directors" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -68,9 +73,9 @@ const Directors = () => {
             </div>
             
             <div className="flex flex-col md:flex-row gap-8 items-center relative z-10">
-              <div className="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden bg-white/10 flex-shrink-0 border-4 border-yellow-500/50 shadow-[0_0_30px_rgba(234,179,8,0.3)]">
+              <div className="flex-shrink-0 w-32 md:w-48 h-32 md:h-48 rounded-full overflow-hidden shadow-2xl border-4 border-white/10 relative z-10 z-20">
                 {directorOfMonth.profile_path ? (
-                  <img src={getImageUrl(directorOfMonth.profile_path, 'w500')} alt="" className="w-full h-full object-cover" />
+                  <img src={getImageUrl(directorOfMonth.profile_path, 'w500')} alt={directorOfMonth.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-gray-500"><Camera className="w-8 h-8" /></div>
                 )}
@@ -112,16 +117,18 @@ const Directors = () => {
                     {director.known_for?.[0]?.backdrop_path && (
                       <img
                         src={getImageUrl(director.known_for[0].backdrop_path, 'w500')}
-                        alt=""
+                        alt={director.name}
+                        loading="lazy"
+                        decoding="async"
                         className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity duration-700 scale-105 group-hover:scale-110"
                       />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/60 to-transparent" />
                     
                     <div className="absolute inset-x-0 bottom-0 p-5 flex items-end gap-4 translate-y-3">
-                      <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden bg-gray-900 border-2 border-white/20 flex-shrink-0 shadow-2xl group-hover:border-primary transition-colors">
+                      <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-primary/50 shadow-lg shadow-black/50 mb-3 bg-gray-900 group-hover:border-primary transition-colors flex-shrink-0">
                         {director.profile_path ? (
-                          <img src={getImageUrl(director.profile_path, 'w500')} alt="" className="w-full h-full object-cover" />
+                          <img src={getImageUrl(director.profile_path, 'w500')} alt={director.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-gray-500"><Camera className="w-6 h-6" /></div>
                         )}
@@ -182,7 +189,7 @@ const Directors = () => {
         </div>
 
       </div>
-    </div>
+    </main>
   );
 };
 

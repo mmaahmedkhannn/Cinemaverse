@@ -58,10 +58,16 @@ const Timeline = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black pt-20 flex flex-col overflow-hidden relative">
+    <main className="min-h-screen bg-black pt-20 flex flex-col overflow-hidden relative">
       <Helmet>
         <title>Cinematic Timeline — CinemaDiscovery</title>
         <meta name="description" content="A journey through 100+ years of cinema history. From the silent era to the streaming age." />
+        <link rel="canonical" href="https://cinemadiscovery.com/timeline" />
+        <meta property="og:title" content="Cinematic Timeline — CinemaDiscovery" />
+        <meta property="og:description" content="A journey through 100+ years of cinema history. From the silent era to the streaming age." />
+        <meta property="og:url" content="https://cinemadiscovery.com/timeline" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
       
       {/* Film Reel Decorative Header */}
@@ -129,7 +135,7 @@ const Timeline = () => {
           <div key={i} className="w-4 h-6 bg-white/20 rounded-[2px]" />
         ))}
       </div>
-    </div>
+    </main>
   );
 };
 
@@ -174,7 +180,7 @@ const YearCard = ({ year, milestone, themeAccent, onExpand }: { year: number, mi
             }}
           >
             {m.poster_path ? (
-              <img src={getImageUrl(m.poster_path, 'w500')} alt={m.title} className="w-full h-full object-cover rounded-lg" />
+              <img src={getImageUrl(m.poster_path, 'w500')} alt={m.title} loading="lazy" decoding="async" className="w-full h-full object-cover rounded-lg" />
             ) : <div className="w-full h-full bg-gray-900 rounded-lg flex items-center justify-center border border-white/10"><Film className="w-6 h-6 text-gray-700" /></div>}
             {m.vote_average > 0 && i === 1 && (
               <div className="absolute -top-3 -right-3 bg-black/90 backdrop-blur-md rounded-full px-2 py-1 border border-white/20 flex items-center gap-1 shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
@@ -242,7 +248,7 @@ const ExpandedYearModal = ({ year, onClose }: { year: number, onClose: () => voi
                 >
                   <div className="aspect-[2/3] rounded-2xl overflow-hidden bg-white/5 mb-3 relative shadow-2xl">
                     {movie.poster_path ? (
-                      <img src={getImageUrl(movie.poster_path)} alt={movie.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={getImageUrl(movie.poster_path)} alt={movie.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-gray-600">
                         <Film className="w-8 h-8" />

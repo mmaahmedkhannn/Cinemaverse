@@ -125,9 +125,9 @@ const DirectorDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background-dark pb-20">
+    <main className="min-h-screen bg-background-dark pb-20">
       <Helmet>
-        <title>{person.name} Movies & Bio — CinemaDiscovery</title>
+        <title>{person.name} — Movies, Biography and Filmography | CinemaDiscovery</title>
         <meta name="description" content={person.biography?.substring(0, 160) || `Explore the complete filmography of ${person.name} on CinemaDiscovery.`} />
         <meta property="og:title" content={`${person.name} — CinemaDiscovery`} />
         <meta property="og:description" content={person.biography?.substring(0, 160) || `Explore the complete filmography of ${person.name} on CinemaDiscovery.`} />
@@ -160,7 +160,7 @@ const DirectorDetail = () => {
       </Helmet>
 
       {/* Hero */}
-      <div className="relative h-[50vh] md:h-[60vh] w-full">
+      <section className="relative h-[50vh] md:h-[60vh] w-full">
         <div className="absolute inset-0">
           {bestBackdrop && (
             <img src={getImageUrl(bestBackdrop, 'original')} alt="" className="w-full h-full object-cover" />
@@ -173,15 +173,15 @@ const DirectorDetail = () => {
             <ArrowLeft className="w-4 h-4" /> Directors
           </Link>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 -mt-[25vh]">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 -mt-[25vh]">
         <div className="flex flex-col md:flex-row gap-8 items-start">
           {/* Photo */}
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="flex-shrink-0 w-48 mx-auto md:mx-0">
             <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-white/10 shadow-2xl bg-gray-900">
               {person.profile_path ? (
-                <img src={getImageUrl(person.profile_path, 'w500')} alt={person.name} className="w-full h-full object-cover" />
+                <img src={getImageUrl(person.profile_path, 'w500')} alt={person.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-gray-500"><Camera className="w-12 h-12" /></div>
               )}
@@ -244,7 +244,7 @@ const DirectorDetail = () => {
         </div>
 
         {/* Filmography */}
-        <div className="mt-16">
+        <article className="mt-16">
           <h2 className="font-bebas text-3xl text-white mb-8 flex items-center gap-2">
             <Film className="w-6 h-6 text-primary" /> Complete Filmography
           </h2>
@@ -261,7 +261,7 @@ const DirectorDetail = () => {
                 <Link to={`/movie/${film.id}`} className="group block">
                   <div className="aspect-[2/3] rounded-xl overflow-hidden bg-white/5 mb-2 relative">
                     {film.poster_path ? (
-                      <img src={getImageUrl(film.poster_path)} alt={film.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={getImageUrl(film.poster_path)} alt={film.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-gray-600"><Film className="w-8 h-8" /></div>
                     )}
@@ -278,9 +278,9 @@ const DirectorDetail = () => {
               </motion.div>
             ))}
           </div>
-        </div>
-      </div>
-    </div>
+        </article>
+      </section>
+    </main>
   );
 };
 

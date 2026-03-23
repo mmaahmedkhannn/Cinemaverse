@@ -5,6 +5,7 @@ import { getImageUrl, tmdbApi } from '../services/tmdb';
 import { useAuth } from '../contexts/AuthContext';
 import { castVote, getUserVote, getBattle, getWeeklyBattle, getGuestId } from '../lib/battleService';
 import type { Battle } from '../lib/battleService';
+import { Helmet } from 'react-helmet-async';
 
 
 const Battles = () => {
@@ -129,8 +130,18 @@ const Battles = () => {
   const winner = pct1 > pct2 ? 'movie1' : pct2 > pct1 ? 'movie2' : null;
 
   return (
-    <div className="min-h-screen bg-background-dark pt-20 pb-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <main className="min-h-screen bg-background-dark pt-20 pb-20">
+      <Helmet>
+        <title>Weekly Movie Battles | CinemaDiscovery</title>
+        <meta name="description" content="Vote in our weekly movie battles! Pit two cinematic masterpieces against each other and see who wins." />
+        <link rel="canonical" href="https://cinemadiscovery.com/battles" />
+        <meta property="og:title" content="Weekly Movie Battles | CinemaDiscovery" />
+        <meta property="og:description" content="Vote in our weekly movie battles! Pit two cinematic masterpieces against each other and see who wins." />
+        <meta property="og:url" content="https://cinemadiscovery.com/battles" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <h1 className="font-bebas text-6xl md:text-8xl text-white tracking-wider mb-4">
             Weekly <span className="text-primary">Battle</span>
@@ -160,7 +171,7 @@ const Battles = () => {
               <div className={`flex-1 text-center w-full transition-opacity ${hasVoted && winner === 'movie2' ? 'opacity-50' : ''}`}>
                 <div className="w-48 md:w-64 h-72 md:h-96 mx-auto rounded-2xl overflow-hidden bg-white/5 mb-6 relative shadow-2xl transition-transform hover:scale-[1.02]">
                   {battle.movie1Poster && (
-                    <img src={getImageUrl(battle.movie1Poster, 'w500')} alt={battle.movie1Title} className="w-full h-full object-cover" />
+                    <img src={getImageUrl(battle.movie1Poster, 'w500')} alt={battle.movie1Title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                   )}
                   {hasVoted && winner === 'movie1' && (
                     <div className="absolute inset-0 border-4 border-yellow-400 rounded-2xl">
@@ -207,7 +218,7 @@ const Battles = () => {
               <div className={`flex-1 text-center w-full transition-opacity ${hasVoted && winner === 'movie1' ? 'opacity-50' : ''}`}>
                 <div className="w-48 md:w-64 h-72 md:h-96 mx-auto rounded-2xl overflow-hidden bg-white/5 mb-6 relative shadow-2xl transition-transform hover:scale-[1.02]">
                   {battle.movie2Poster && (
-                    <img src={getImageUrl(battle.movie2Poster, 'w500')} alt={battle.movie2Title} className="w-full h-full object-cover" />
+                    <img src={getImageUrl(battle.movie2Poster, 'w500')} alt={battle.movie2Title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                   )}
                   {hasVoted && winner === 'movie2' && (
                     <div className="absolute inset-0 border-4 border-yellow-400 rounded-2xl">
@@ -246,8 +257,8 @@ const Battles = () => {
             </div>
           </div>
         </motion.div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

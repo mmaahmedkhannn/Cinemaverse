@@ -114,16 +114,33 @@ const Home = () => {
   }
 
   return (
-    <div className="pt-16">
+    <main className="min-h-screen bg-background-dark">
       <Helmet>
-        <title>CinemaDiscovery — The Ultimate Movie & TV Database</title>
-        <meta name="description" content="Discover Every Story Ever Told" />
+        <title>CinemaDiscovery — Discover Movies, TV Shows and Directors.</title>
+        <meta name="description" content="Discover popular movies, top trending TV shows, explore director universes, and vote in weekly cinematic battles." />
         <link rel="canonical" href="https://cinemadiscovery.com" />
+        <meta property="og:title" content="CinemaDiscovery — Discover Movies, TV Shows and Directors." />
+        <meta property="og:description" content="Discover popular movies, top trending TV shows, explore director universes, and vote in weekly cinematic battles." />
+        <meta property="og:url" content="https://cinemadiscovery.com" />
+        <meta property="og:type" content="website" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "CinemaDiscovery",
+            "url": "https://cinemadiscovery.com",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://cinemadiscovery.com/?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          })}
+        </script>
         {currentHero?.backdrop_path && (
           <link rel="preload" as="image" href={getImageUrl(currentHero.backdrop_path, 'original')} fetchPriority="high" />
         )}
       </Helmet>
-      {/* ── Hero Section ── */}
+      {/* Hero Section */}
       <section className="relative h-[85vh] w-full overflow-hidden bg-[#080810]">
         {!isHeroLoading && currentHero ? (
           <>
@@ -142,6 +159,7 @@ const Home = () => {
                   className="w-full h-full object-cover"
                   fetchPriority="high"
                   loading="eager"
+                  decoding="async"
                 />
               </motion.div>
             </AnimatePresence>
@@ -209,8 +227,8 @@ const Home = () => {
 
 
 
-      {/* ── Trending Now ── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      {/* Quick Links Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="flex items-center justify-between mb-6">
           <h2 className="font-bebas text-4xl text-secondary">Trending This Week</h2>
           <div className="flex gap-2">
@@ -248,6 +266,7 @@ const Home = () => {
                         alt={movie.title || 'Movie'}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         loading="lazy"
+                        decoding="async"
                       />
                     ) : (
                       <div className="w-full h-full bg-white/10 flex items-center justify-center p-3 text-center">
@@ -274,9 +293,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ── Featured Daily Battle ── */}
+      {/* Battles Section */}
       {featuredBattle && (
-        <section className="bg-gradient-to-b from-[#080810] to-[#0a0a0f] py-16 px-4 sm:px-6 lg:px-8 border-t border-white/5">
+        <section className="bg-black/40 border-y border-white/5 py-16 md:py-24">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-10">
               <span className="text-yellow-400 font-bebas tracking-widest text-lg bg-yellow-400/10 px-4 py-1.5 rounded-full border border-yellow-400/20 mb-4 inline-block">WEEKLY FEATURED BATTLE</span>
@@ -290,7 +309,7 @@ const Home = () => {
                 {/* Movie 1 */}
                 <div className="flex-1 text-center w-full">
                   <div className="w-32 md:w-48 h-48 md:h-72 mx-auto rounded-xl overflow-hidden shadow-2xl transition-transform hover:scale-105 mb-4 relative">
-                    <img src={getImageUrl(featuredBattle.movie1Poster!)} alt={featuredBattle.movie1Title} loading="lazy" className="w-full h-full object-cover" />
+                    <img src={getImageUrl(featuredBattle.movie1Poster!)} alt={featuredBattle.movie1Title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                     {featuredBattle.userVote && (featuredBattle.movie1Votes > featuredBattle.movie2Votes) && (
                       <div className="absolute inset-0 border-4 border-yellow-400 rounded-xl"><Crown className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 text-yellow-400 fill-yellow-400" /></div>
                     )}
@@ -320,7 +339,7 @@ const Home = () => {
                 {/* Movie 2 */}
                 <div className="flex-1 text-center w-full">
                   <div className="w-32 md:w-48 h-48 md:h-72 mx-auto rounded-xl overflow-hidden shadow-2xl transition-transform hover:scale-105 mb-4 relative">
-                    <img src={getImageUrl(featuredBattle.movie2Poster!)} alt={featuredBattle.movie2Title} loading="lazy" className="w-full h-full object-cover" />
+                    <img src={getImageUrl(featuredBattle.movie2Poster!)} alt={featuredBattle.movie2Title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                     {featuredBattle.userVote && (featuredBattle.movie2Votes > featuredBattle.movie1Votes) && (
                       <div className="absolute inset-0 border-4 border-yellow-400 rounded-xl"><Crown className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 text-yellow-400 fill-yellow-400" /></div>
                     )}
@@ -385,8 +404,9 @@ const Home = () => {
                       <img
                         src={getImageUrl(movie.poster_path, 'w500')}
                         alt={movie.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md rounded-full px-2 py-1 border border-white/10 flex items-center gap-1 z-10">
                         <Star className="w-3.5 h-3.5 fill-purple-400 text-purple-400" />
@@ -408,7 +428,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 };
 

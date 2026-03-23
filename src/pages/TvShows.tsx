@@ -36,8 +36,9 @@ const TvShowCard = ({ show, genresMap, index }: { show: TMDBTvShow, genresMap: R
             <img
               src={getImageUrl(show.poster_path, 'w500')}
               alt={show.name}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               loading="lazy"
+              decoding="async"
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center p-4 text-center">
@@ -142,12 +143,19 @@ const TvShows = () => {
   const shows: TMDBTvShow[] = data?.pages?.flatMap(page => page?.results || []) || [];
 
   return (
-    <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto min-h-screen">
+    <main className="min-h-screen bg-background-dark pt-22 pb-20">
       <Helmet>
-        <title>TV Shows Directory — CinemaDiscovery</title>
-        <meta name="description" content="Binge-worthy series from every network. Filter by year and genre to discover your next obsession." />
+        <title>Top TV Shows & Series Rankings | CinemaDiscovery</title>
+        <meta name="description" content="Discover the best TV Shows across genres, spanning classic network television to the latest streaming hits." />
         <link rel="canonical" href="https://cinemadiscovery.com/tv" />
+        <meta property="og:title" content="Top TV Shows & Series Rankings | CinemaDiscovery" />
+        <meta property="og:description" content="Discover the best TV Shows across genres, spanning classic network television to the latest streaming hits." />
+        <meta property="og:url" content="https://cinemadiscovery.com/tv" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
+
+      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto min-h-screen">
       
       {/* ── Title & Search ── */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
@@ -272,10 +280,10 @@ const TvShows = () => {
       ) : (
         <div className="flex flex-col items-center justify-center py-32 text-center bg-white/5 rounded-2xl border border-white/10 mt-8">
           <p className="text-gray-300 font-bebas text-3xl mb-3 mt-4">No Matches Found</p>
-          <p className="text-gray-500 font-sans max-w-md">Try expanding your Year or Genre criteria to discover more shows in our database.</p>
         </div>
       )}
-    </div>
+      </section>
+    </main>
   );
 };
 

@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, Play, Clock, Calendar, ArrowLeft, Plus, Check, X } from 'lucide-react';
+import { Star, Play, Clock, Calendar, ArrowLeft, Plus, Check, X, Users } from 'lucide-react';
 import { tmdbApi, getImageUrl } from '../services/tmdb';
 import { useAuth } from '../contexts/AuthContext';
 import { getWatchlist, addToWatchlist, removeFromWatchlist } from '../lib/firestore';
@@ -115,38 +115,30 @@ const MovieDetail = () => {
 
   const cast = movie.credits?.cast?.slice(0, 8) || [];
   const recommendations = movie.recommendations?.results?.slice(0, 6) || [];
+  const director = movie.credits?.crew?.find((c: any) => c.job === 'Director');
 
   return (
-    <div className="min-h-screen bg-background-dark pb-20">
+    <main className="min-h-screen bg-background-dark pb-20">
       <Helmet>
-        <title>{movie.title} — CinemaDiscovery</title>
-        <meta name="description" content={movie.overview?.substring(0, 160) || "View movie details on CinemaDiscovery."} />
+        <title>{movie.title} ({movie.release_date?.substring(0, 4) || 'N/A'}) — Cast, Reviews and Details | CinemaDiscovery</title>
+        <meta name="description" content={movie.overview || `Discover everything about ${movie.title} including cast members, storyline, and critical reviews.`} />
+        <link rel="canonical" href={`https://cinemadiscovery.com/movie/${movie.id}`} />
         <meta property="og:title" content={`${movie.title} — CinemaDiscovery`} />
-        <meta property="og:description" content={movie.overview?.substring(0, 160) || "View movie details on CinemaDiscovery."} />
+        <meta property="og:description" content={movie.overview || `Discover everything about ${movie.title} including cast.`} />
         <meta property="og:image" content={getImageUrl(movie.poster_path, 'original')} />
         <meta property="og:url" content={`https://cinemadiscovery.com/movie/${movie.id}`} />
         <meta property="og:type" content="video.movie" />
         <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href={`https://cinemadiscovery.com/movie/${movie.id}`} />
         <script type="application/ld+json">
           {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Movie",
-            "name": movie.title,
-            "image": getImageUrl(movie.poster_path, 'original'),
-            "description": movie.overview,
-            "datePublished": movie.release_date,
-            "director": {
-              "@type": "Person",
-              "name": movie.credits?.crew?.find((c: any) => c.job === 'Director')?.name || 'Unknown'
-            },
-            "aggregateRating": movie.vote_count > 0 ? {
-              "@type": "AggregateRating",
-              "ratingValue": movie.vote_average,
-              "ratingCount": movie.vote_count,
-              "bestRating": "10",
-              "worstRating": "1"
-            } : undefined
+             "@context": "https://schema.org",
+             "@type": "Movie",
+             "name": movie.title,
+             "image": getImageUrl(movie.poster_path, 'original'),
+             "description": movie.overview,
+             "datePublished": movie.release_date,
+             "director": director ? { "@type": "Person", "name": director.name } : undefined,
+             "actor": movie.credits?.cast?.slice(0, 5).map((a: any) => ({ "@type": "Person", "name": a.name })) || []
           })}
         </script>
         <script type="application/ld+json">
@@ -162,8 +154,8 @@ const MovieDetail = () => {
         </script>
       </Helmet>
 
-      {/* ── Hero Backdrop ── */}
-      <div className="relative h-[60vh] md:h-[75vh] w-full">
+      {/* Hero Backdrop */}
+      <section className="relative h-[60vh] md:h-[75vh] w-full">
         <div className="absolute inset-0">
           <img
             src={getImageUrl(movie.backdrop_path, 'original')}
@@ -179,10 +171,10 @@ const MovieDetail = () => {
             <ArrowLeft className="w-4 h-4" /> Back
           </Link>
         </div>
-      </div>
+      </section>
 
-      {/* ── Main Content ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 -mt-[30vh] md:-mt-[40vh]">
+      {/* Main Content */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 -mt-[30vh] md:-mt-[40vh]">
         <div className="flex flex-col md:flex-row gap-8 md:gap-12">
           
           {/* Poster */}
@@ -196,6 +188,8 @@ const MovieDetail = () => {
                 <img
                   src={getImageUrl(movie.poster_path, 'w500')}
                   alt={movie.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               ) : null}
@@ -279,12 +273,12 @@ const MovieDetail = () => {
               </p>
             </div>
 
-
-
             {/* Top Cast */}
             {cast.length > 0 && (
-              <div className="mb-10">
-                <h3 className="text-2xl font-bebas text-white mb-6">Top Cast</h3>
+              <article className="mb-10">
+                <h3 className="text-2xl font-bebas text-white mb-6 flex items-center gap-2">
+                  <Users className="text-primary w-6 h-6" /> Top Cast
+                </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {cast.map((actor: any) => (
                     <div key={actor.id} className="flex flex-col items-center md:items-start text-center md:text-left">
@@ -293,6 +287,8 @@ const MovieDetail = () => {
                           <img
                             src={getImageUrl(actor.profile_path, 'w500')}
                             alt={actor.name}
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover"
                           />
                         ) : (
@@ -306,11 +302,11 @@ const MovieDetail = () => {
                     </div>
                   ))}
                 </div>
-              </div>
+              </article>
             )}
           </motion.div>
         </div>
-      </div>
+      </section>
 
       {/* ── Recommendations ── */}
       {recommendations.length > 0 && (
@@ -388,7 +384,7 @@ const MovieDetail = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </main>
   );
 };
 

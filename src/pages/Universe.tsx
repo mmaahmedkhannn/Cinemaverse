@@ -118,11 +118,16 @@ const Universe = () => {
   const heroBackdrop = combinedMedia.find(m => m.backdrop_path)?.backdrop_path;
 
   return (
-    <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto min-h-screen">
+    <main className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto min-h-screen">
       <Helmet>
         <title>Cinematic Universes & Timelines — CinemaDiscovery</title>
         <meta name="description" content="Explore cinematic universes in perfect watch order. Track your progress across Marvel, DC, Star Wars, and more." />
         <link rel="canonical" href="https://cinemadiscovery.com/universe" />
+        <meta property="og:title" content="Cinematic Universes & Timelines — CinemaDiscovery" />
+        <meta property="og:description" content="Explore cinematic universes in perfect watch order. Track your progress across Marvel, DC, Star Wars, and more." />
+        <meta property="og:url" content="https://cinemadiscovery.com/universe" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
       
       {/* Franchise Selector Tabs */}
@@ -172,6 +177,8 @@ const Universe = () => {
              <img 
                src={getImageUrl(heroBackdrop, 'original')} 
                alt={selectedFranchise.name} 
+               loading="lazy"
+               decoding="async"
                className="w-full h-full object-cover opacity-40 blur-[2px]"
              />
              <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f16] via-[#0f0f16]/80 to-transparent"></div>
@@ -292,6 +299,8 @@ const Universe = () => {
                                <img
                                  src={getImageUrl(media.poster_path, 'w500')}
                                  alt={media.normalizedTitle}
+                                 loading="lazy"
+                                 decoding="async"
                                  className={`w-full h-full object-cover transition-transform duration-500 ${isWatched ? 'grayscale-[30%]' : 'group-hover:scale-105'}`}
                                />
                             ) : (
@@ -361,7 +370,7 @@ const Universe = () => {
         )}
       </div>
 
-    </div>
+    </main>
   );
 };
 

@@ -100,13 +100,18 @@ const Top100 = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background-dark pt-20 pb-20">
+    <main className="min-h-screen bg-background-dark pt-20 pb-20">
       <Helmet>
         <title>The Definitive Top 100 Movies — CinemaDiscovery</title>
         <meta name="description" content="The 100 greatest movies ever made, ranked by CinemaDiscovery community and critics." />
         <link rel="canonical" href="https://cinemadiscovery.com/top100" />
+        <meta property="og:title" content="The Definitive Top 100 Movies — CinemaDiscovery" />
+        <meta property="og:description" content="The 100 greatest movies ever made, ranked by CinemaDiscovery community and critics." />
+        <meta property="og:url" content="https://cinemadiscovery.com/top100" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 font-bebas tracking-wider mb-6">
@@ -199,6 +204,8 @@ const Top100 = () => {
                 <img 
                   src={getImageUrl(filteredMovies[0].backdrop_path, 'original')} 
                   alt={filteredMovies[0].title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent" />
@@ -242,6 +249,8 @@ const Top100 = () => {
                     <img 
                       src={getImageUrl(movie.backdrop_path, 'w1280')} 
                       alt={movie.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/20 to-transparent" />
@@ -284,6 +293,8 @@ const Top100 = () => {
                       <img 
                         src={getImageUrl(movie.poster_path, 'w500')} 
                         alt={movie.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute top-2 left-2 w-8 h-8 rounded-full bg-black/80 backdrop-blur-md flex items-center justify-center font-bebas text-white border border-white/20">
@@ -326,7 +337,7 @@ const Top100 = () => {
                     <div className="col-span-1 font-bebas text-2xl text-gray-500 group-hover:text-white transition-colors">{globalIdx}</div>
                     <div className="col-span-6 md:col-span-7 flex items-center gap-4">
                        <div className="w-10 h-14 hidden md:block rounded-md overflow-hidden bg-gray-900 border border-white/10">
-                         <img src={getImageUrl(movie.poster_path, 'w500')} alt="" className="w-full h-full object-cover" />
+                         <img src={getImageUrl(movie.poster_path, 'w500')} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                        </div>
                        <div>
                          <div className="flex items-center gap-2 mb-1">
@@ -366,8 +377,8 @@ const Top100 = () => {
             </div>
           </div>
         )}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

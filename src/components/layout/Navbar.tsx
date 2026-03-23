@@ -12,6 +12,19 @@ const Navbar = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const preloadRoute = (path: string) => {
+    switch(path) {
+      case '/': import('../../pages/Home'); break;
+      case '/movies': import('../../pages/Movies'); break;
+      case '/tv': import('../../pages/TvShows'); break;
+      case '/universe': import('../../pages/Universe'); break;
+      case '/timeline': import('../../pages/Timeline'); break;
+      case '/directors': import('../../pages/Directors'); break;
+      case '/battles': import('../../pages/Battles'); break;
+      case '/top100': import('../../pages/Top100'); break;
+    }
+  };
   return (
     <>
     <nav className="fixed top-0 w-full z-50 bg-background-dark/80 backdrop-blur-md border-b border-gray-800">
@@ -28,14 +41,14 @@ const Navbar = () => {
           
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
-                <Link to="/" className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${location.pathname === '/' ? 'text-primary' : 'text-white hover:text-secondary'}`}>Home</Link>
-                <Link to="/movies" className={`transition-colors font-sans ${location.pathname.startsWith('/movies') || location.pathname.startsWith('/movie/') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Movies</Link>
-                <Link to="/tv" className={`transition-colors font-sans ${location.pathname.startsWith('/tv') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>TV Shows</Link>
-                <Link to="/universe" className={`transition-colors font-sans ${location.pathname.startsWith('/universe') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Universe</Link>
-                <Link to="/timeline" className={`transition-colors font-sans ${location.pathname.startsWith('/timeline') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Timeline</Link>
-                <Link to="/directors" className={`transition-colors font-sans ${location.pathname.startsWith('/director') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Directors</Link>
-                <Link to="/battles" className={`transition-colors font-sans ${location.pathname.startsWith('/battles') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Battles</Link>
-                <Link to="/top100" className={`flex items-center gap-1.5 font-bebas tracking-wide transition-colors ${location.pathname.startsWith('/top100') ? 'text-primary' : 'text-yellow-500 hover:text-yellow-400'}`}>
+                <Link to="/" onMouseEnter={() => preloadRoute('/')} className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${location.pathname === '/' ? 'text-primary' : 'text-white hover:text-secondary'}`}>Home</Link>
+                <Link to="/movies" onMouseEnter={() => preloadRoute('/movies')} className={`transition-colors font-sans ${location.pathname.startsWith('/movies') || location.pathname.startsWith('/movie/') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Movies</Link>
+                <Link to="/tv" onMouseEnter={() => preloadRoute('/tv')} className={`transition-colors font-sans ${location.pathname.startsWith('/tv') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>TV Shows</Link>
+                <Link to="/universe" onMouseEnter={() => preloadRoute('/universe')} className={`transition-colors font-sans ${location.pathname.startsWith('/universe') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Universe</Link>
+                <Link to="/timeline" onMouseEnter={() => preloadRoute('/timeline')} className={`transition-colors font-sans ${location.pathname.startsWith('/timeline') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Timeline</Link>
+                <Link to="/directors" onMouseEnter={() => preloadRoute('/directors')} className={`transition-colors font-sans ${location.pathname.startsWith('/director') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Directors</Link>
+                <Link to="/battles" onMouseEnter={() => preloadRoute('/battles')} className={`transition-colors font-sans ${location.pathname.startsWith('/battles') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Battles</Link>
+                <Link to="/top100" onMouseEnter={() => preloadRoute('/top100')} className={`flex items-center gap-1.5 font-bebas tracking-wide transition-colors ${location.pathname.startsWith('/top100') ? 'text-primary' : 'text-yellow-500 hover:text-yellow-400'}`}>
                   <Trophy className="w-4 h-4" /> TOP 100
                 </Link>
               </div>
