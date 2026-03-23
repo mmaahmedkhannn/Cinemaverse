@@ -17,66 +17,48 @@ const PREDEFINED_AVATAR_GROUPS = [
   {
     category: "Stranger Things",
     avatars: [
-      { id: "1356210", name: "Millie Bobby Brown", path: "/k9KGzGDVhXKfOGpoN62MNuXL28q.jpg" },
-      { id: "1442069", name: "Finn Wolfhard", path: "/gsVIdhYh4DpDXjW5U5baQzcARsB.jpg" },
-      { id: "1653291", name: "Gaten Matarazzo", path: "/alVT7oDp8N5G9WLIApI9jqeuqHq.jpg" },
-      { id: "1474123", name: "Caleb McLaughlin", path: "/4jVS3EziBn7bf97ErxkW7jsdiLM.jpg" },
-      { id: "1393177", name: "Noah Schnapp", path: "/jHS4mG6XW0ZJbMnpseL2reEWpv8.jpg" },
-      { id: "1590797", name: "Sadie Sink", path: "/m9OyHAyOx56Pm3JruEBqh4p9XeX.jpg" }
+      { id: "eleven", name: "Eleven", path: "https://static.wikia.nocookie.net/strangerthings8338/images/e/e2/Eleven_-_Sorcerer.png/revision/latest/scale-to-width-down/444?cb=20260313155200" },
+      { id: "mike", name: "Mike Wheeler", path: "https://static.wikia.nocookie.net/strangerthings8338/images/9/97/Mike_Wheeler_Finale.png/revision/latest/scale-to-width-down/577?cb=20260313155900" },
+      { id: "dustin", name: "Dustin Henderson", path: "https://static.wikia.nocookie.net/strangerthings8338/images/4/4f/Dustin_Henderson_1989.png/revision/latest/scale-to-width-down/590?cb=20260313155936" },
+      { id: "lucas", name: "Lucas Sinclair", path: "https://static.wikia.nocookie.net/strangerthings8338/images/7/70/Lucas_Sinclair_Finale.png/revision/latest/scale-to-width-down/512?cb=20260313155517" },
+      { id: "will", name: "Will Byers", path: "https://static.wikia.nocookie.net/strangerthings8338/images/5/5e/Will_Byers_Finale.png/revision/latest/scale-to-width-down/587?cb=20260313155557" },
+      { id: "max", name: "Max Mayfield", path: "https://static.wikia.nocookie.net/strangerthings8338/images/2/2a/1989.png/revision/latest/scale-to-width-down/489?cb=20260313154711" }
     ]
   },
   {
-    category: "Money Heist",
+    category: "Marvel Cinematic Universe",
     avatars: [
-      { id: "1042728", name: "Úrsula Corberó", path: "/cmH8Z459tw9YkR61QfxlCSlZw9P.jpg" },
-      { id: "1340020", name: "Álvaro Morte", path: "/2TGPhdpRC5wjdFEJqnLYiN5kbwg.jpg" },
-      { id: "1109836", name: "Pedro Alonso", path: "/38HeVKeOBztVYrLJOWzAtEZiB02.jpg" },
-      { id: "1283843", name: "Alba Flores", path: "/vWUZkQKxj63qTNBa8DvEd0CpU64.jpg" },
-      { id: "1428896", name: "Miguel Herrán", path: "/eFNlbsaMODCHys35ZQOkMQNh0Jq.jpg" },
-      { id: "1972706", name: "Jaime Lorente", path: "/nLaxzU92z14FIbe25sE8jDMIThZ.jpg" }
-    ]
-  },
-  {
-    category: "One Piece",
-    avatars: [
-      { id: "2177750", name: "Iñaki Godoy", path: "/93Z6KuFpqoDD1xN5kuswYQzbWe6.jpg" },
-      { id: "1566805", name: "Mackenyu", path: "/y4FTSASxsO1F61p3hFIPMCeprut.jpg" },
-      { id: "1568101", name: "Emily Rudd", path: "/y23GTdDPcryBVtSWjY9q2O9nzwV.jpg" },
-      { id: "2355316", name: "Jacob Gibson", path: "/c6uP24uFslQ3hnEgqPkojAbYuZn.jpg" },
-      { id: "2498631", name: "Taz Skylar", path: "/3EXMkfzB8EXn3ZJPJvK6OfPWLfz.jpg" }
-    ]
-  },
-  {
-    category: "Marvel Universe",
-    avatars: [
-      { id: "3223", name: "Robert Downey Jr.", path: "/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg" },
-      { id: "16828", name: "Chris Evans", path: "/jEzGktEMdEkQKemPVR0YGlIYEVl.jpg" },
-      { id: "74568", name: "Chris Hemsworth", path: "/piQGdoIQOF3C1EI5cbYZLAW1gfj.jpg" },
-      { id: "1245", name: "Scarlett Johansson", path: "/mjReG6rR7NPMEIWb1T4YWtV11ty.jpg" },
-      { id: "91606", name: "Tom Hiddleston", path: "/wzfUMqasiYhzwpBvZqkCQ055Ri3.jpg" },
-      { id: "1136406", name: "Tom Holland", path: "/wheJbAGkE537n9GsFl3XbkeZLj7.jpg" }
+      { id: "ironman", name: "Iron Man", path: "https://image.tmdb.org/t/p/w500/78lPtwv72eTNqFW9O53WE01HPTQ.jpg" },
+      { id: "cap", name: "Captain America", path: "https://static.wikia.nocookie.net/marvelcinematicuniverse/images/b/b7/Steve_Rogers_Infobox.jpg/revision/latest/scale-to-width-down/456?cb=20231025163634" },
+      { id: "spider", name: "Spider-Man", path: "https://image.tmdb.org/t/p/w500/c24sv2weTHPsmDa7jEMN0m2P3RT.jpg" },
+      { id: "deadpool", name: "Deadpool", path: "https://image.tmdb.org/t/p/w500/yGSxMiF0cFlAiwkADicXU0E2o6L.jpg" },
     ]
   },
   {
     category: "DC Universe",
     avatars: [
-      { id: "3894", name: "Christian Bale", path: "/7Pxez9J8fuPd2Mn9kex13YALrCQ.jpg" },
-      { id: "1810", name: "Heath Ledger", path: "/AdWKVqyWpkYSfKE5Gb2qn8JzHni.jpg" },
-      { id: "73968", name: "Henry Cavill", path: "/kN3A5oLgtKYAxa9lAkpsIGYKYVo.jpg" },
-      { id: "234352", name: "Margot Robbie", path: "/8LqG2N6j98lFGMpuYsRUAhOunSd.jpg" },
-      { id: "117642", name: "Jason Momoa", path: "/3troAR6QbSb6nUFMDu61YCCWLKa.jpg" },
-      { id: "90633", name: "Gal Gadot", path: "/AbXKtWQwuDiwhoQLh34VRglwuBE.jpg" }
+      { id: "batman", name: "The Batman", path: "https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg" },
+      { id: "joker", name: "Joker", path: "https://image.tmdb.org/t/p/w500/udDclJoHjfpt8Wa5bL1U4Mcd0mE.jpg" },
+      { id: "harley", name: "Harley Quinn", path: "https://image.tmdb.org/t/p/w500/1Xddsy2Z1sR2h1Wf5p0yF7cOItn.jpg" }
     ]
   },
   {
-    category: "Iconic Cinema",
+    category: "Star Wars",
     avatars: [
-      { id: "6384", name: "Keanu Reeves", path: "/8RZLOyYGsoRe9p44q3xin9QkMHv.jpg" },
-      { id: "2037", name: "Cillian Murphy", path: "/dm6V24NjjvjMiCtbMkc8Y2WPm2e.jpg" },
-      { id: "85", name: "Johnny Depp", path: "/k2xt6EUxQDwYRKIyI4IBdZxfs8n.jpg" },
-      { id: "6193", name: "Leonardo DiCaprio", path: "/wo2hJpn04vbtmh0B9utCFdsQhxM.jpg" },
-      { id: "3", name: "Harrison Ford", path: "/zVnHagUvXkR2StdOtquEwsiwSVt.jpg" },
-      { id: "500", name: "Tom Cruise", path: "/maf8PhSvDCdEwjEMbYfGpojR5RP.jpg" }
+      { id: "anakin", name: "Anakin Skywalker", path: "https://static.wikia.nocookie.net/starwars/images/6/6f/Anakin_Skywalker_RotS.png/revision/latest/scale-to-width-down/480?cb=20130621175844" },
+      { id: "luke", name: "Luke Skywalker", path: "https://static.wikia.nocookie.net/starwars/images/3/3d/LukeSkywalker.png/revision/latest/scale-to-width-down/450?cb=20241221010122" },
+      { id: "obiwan", name: "Obi-Wan Kenobi", path: "https://static.wikia.nocookie.net/starwars/images/4/4e/ObiWanHS-SWE.jpg/revision/latest/scale-to-width-down/450?cb=20111115052816" },
+      { id: "mando", name: "Din Djarin", path: "https://static.wikia.nocookie.net/starwars/images/4/46/DinDjarinArmor-CGSWG.png/revision/latest/scale-to-width-down/483?cb=20241206044557" }
+    ]
+  },
+  {
+    category: "Money Heist",
+    avatars: [
+      { id: "mask", name: "Dali Mask", path: "https://image.tmdb.org/t/p/w500/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg" },
+      { id: "professor", name: "The Professor", path: "https://upload.wikimedia.org/wikipedia/en/0/0c/Professor_%28Money_Heist%29.jpg" },
+      { id: "tokyo", name: "Tokyo", path: "https://upload.wikimedia.org/wikipedia/en/7/7a/Tokyo_%28Money_Heist%29.jpg" },
+      { id: "berlin", name: "Berlin", path: "https://upload.wikimedia.org/wikipedia/en/2/23/Berlin_%28Money_Heist%29.jpg" },
+      { id: "nairobi", name: "Nairobi", path: "https://upload.wikimedia.org/wikipedia/en/8/8e/Nairobi_%28Money_Heist%29.jpg" }
     ]
   }
 ];
@@ -89,11 +71,10 @@ const AvatarSelector = ({ isOpen, onClose, onAvatarUpdated }: AvatarSelectorProp
 
   if (!isOpen) return null;
 
-  const handleActorSelect = async (profilePath: string) => {
+  const handleActorSelect = async (tmdbUrl: string) => {
     if (!currentUser) return;
     setUploadLoading(true);
     try {
-      const tmdbUrl = getImageUrl(profilePath, 'original');
       await updateProfile(currentUser, { photoURL: tmdbUrl });
       onAvatarUpdated();
       onClose();
@@ -229,7 +210,8 @@ const AvatarSelector = ({ isOpen, onClose, onAvatarUpdated }: AvatarSelectorProp
                                    onClick={() => {
                                      if(!uploadLoading) {
                                        setSelectedActorId(actor.id);
-                                       handleActorSelect(actor.path);
+                                       const tmdbUrl = actor.path.startsWith('http') ? actor.path : getImageUrl(actor.path, 'original');
+                                       handleActorSelect(tmdbUrl);
                                      }
                                    }}
                                    className={`relative shrink-0 w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 cursor-pointer group transition-all duration-300 snap-center ${
@@ -237,7 +219,7 @@ const AvatarSelector = ({ isOpen, onClose, onAvatarUpdated }: AvatarSelectorProp
                                    } ${uploadLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                  >
                                     <img 
-                                      src={getImageUrl(actor.path, 'w500')} 
+                                      src={actor.path.startsWith('http') ? actor.path : getImageUrl(actor.path, 'w500')} 
                                       alt={actor.name}
                                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                     />

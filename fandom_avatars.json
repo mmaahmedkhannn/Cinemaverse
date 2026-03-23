@@ -1,0 +1,72 @@
+[
+  {
+    "category": "Stranger Things",
+    "avatars": [
+      {
+        "id": "Eleven",
+        "name": "Eleven",
+        "path": "https://static.wikia.nocookie.net/strangerthings8338/images/e/e2/Eleven_-_Sorcerer.png/revision/latest/scale-to-width-down/444?cb=20260313155200"
+      },
+      {
+        "id": "Mike_Wheeler",
+        "name": "Mike Wheeler",
+        "path": "https://static.wikia.nocookie.net/strangerthings8338/images/9/97/Mike_Wheeler_Finale.png/revision/latest/scale-to-width-down/577?cb=20260313155900"
+      },
+      {
+        "id": "Dustin_Henderson",
+        "name": "Dustin Henderson",
+        "path": "https://static.wikia.nocookie.net/strangerthings8338/images/4/4f/Dustin_Henderson_1989.png/revision/latest/scale-to-width-down/590?cb=20260313155936"
+      },
+      {
+        "id": "Lucas_Sinclair",
+        "name": "Lucas Sinclair",
+        "path": "https://static.wikia.nocookie.net/strangerthings8338/images/7/70/Lucas_Sinclair_Finale.png/revision/latest/scale-to-width-down/512?cb=20260313155517"
+      },
+      {
+        "id": "Will_Byers",
+        "name": "Will Byers",
+        "path": "https://static.wikia.nocookie.net/strangerthings8338/images/5/5e/Will_Byers_Finale.png/revision/latest/scale-to-width-down/587?cb=20260313155557"
+      },
+      {
+        "id": "Max_Mayfield",
+        "name": "Max Mayfield",
+        "path": "https://static.wikia.nocookie.net/strangerthings8338/images/2/2a/1989.png/revision/latest/scale-to-width-down/489?cb=20260313154711"
+      }
+    ]
+  },
+  {
+    "category": "Marvel",
+    "avatars": [
+      {
+        "id": "Steve_Rogers",
+        "name": "Steve Rogers",
+        "path": "https://static.wikia.nocookie.net/marvelcinematicuniverse/images/b/b7/Steve_Rogers_Infobox.jpg/revision/latest/scale-to-width-down/456?cb=20231025163634"
+      }
+    ]
+  },
+  {
+    "category": "Star Wars",
+    "avatars": [
+      {
+        "id": "Anakin_Skywalker",
+        "name": "Anakin Skywalker",
+        "path": "https://static.wikia.nocookie.net/starwars/images/6/6f/Anakin_Skywalker_RotS.png/revision/latest/scale-to-width-down/480?cb=20130621175844"
+      },
+      {
+        "id": "Luke_Skywalker",
+        "name": "Luke Skywalker",
+        "path": "https://static.wikia.nocookie.net/starwars/images/3/3d/LukeSkywalker.png/revision/latest/scale-to-width-down/450?cb=20241221010122"
+      },
+      {
+        "id": "Obi-Wan_Kenobi",
+        "name": "Obi-Wan Kenobi",
+        "path": "https://static.wikia.nocookie.net/starwars/images/4/4e/ObiWanHS-SWE.jpg/revision/latest/scale-to-width-down/450?cb=20111115052816"
+      },
+      {
+        "id": "Din_Djarin",
+        "name": "Din Djarin",
+        "path": "https://static.wikia.nocookie.net/starwars/images/4/46/DinDjarinArmor-CGSWG.png/revision/latest/scale-to-width-down/483?cb=20241206044557"
+      }
+    ]
+  }
+]
