@@ -16,6 +16,7 @@ import { doc, setDoc } from 'firebase/firestore';
 interface AuthContextType {
   currentUser: User | null;
   loading: boolean;
+  globalError: string | null;
   loginWithGoogle: () => Promise<void>;
   loginWithEmail: (e: string, p: string) => Promise<void>;
   registerWithEmail: (e: string, p: string) => Promise<void>;
@@ -33,6 +34,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [globalError, setGlobalError] = useState<string | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -44,7 +46,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (cred && cred.user) {
         syncUserToFirestore(cred.user);
       }
-    }).catch(console.error);
+    }).catch((err: any) => {
+      console.error(err);
+      setGlobalError(err.message || 'Failed to complete Google sign-in redirect.');
+    });
 
     return unsubscribe;
   }, []);
@@ -97,6 +102,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     currentUser,
     loading,
+    globalError,
     loginWithGoogle,
     loginWithEmail,
     registerWithEmail,

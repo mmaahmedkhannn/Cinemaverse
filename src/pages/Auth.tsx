@@ -32,8 +32,14 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   
-  const { loginWithEmail, registerWithEmail, loginWithGoogle, currentUser } = useAuth();
+  const { loginWithEmail, registerWithEmail, loginWithGoogle, currentUser, globalError } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (globalError) {
+      setError(globalError);
+    }
+  }, [globalError]);
 
   useEffect(() => {
     if (currentUser) {
