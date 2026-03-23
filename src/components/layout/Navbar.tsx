@@ -61,61 +61,63 @@ const Navbar = () => {
             >
               <Search className="w-5 h-5" />
             </button>
-            <button 
-              onClick={() => {
-                if (loading) return;
-                if (currentUser) {
-                  setIsDropdownOpen(!isDropdownOpen);
-                } else {
-                  navigate('/auth');
-                }
-              }}
-              className="text-gray-300 hover:text-white p-2 rounded-full transition-colors relative"
-            >
-              {loading ? (
-                <div className="w-5 h-5 rounded-full border-2 border-gray-400 border-t-transparent animate-spin mx-auto"></div>
-              ) : currentUser && currentUser.photoURL ? (
-                <img 
-                  src={currentUser.photoURL} 
-                  alt="Profile" 
-                  className="w-7 h-7 rounded-full object-cover border border-white/20"
-                />
-              ) : (
-                <User className="w-5 h-5" />
-              )}
-            </button>
-            <AnimatePresence>
-              {isDropdownOpen && currentUser && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  transition={{ duration: 0.15 }}
-                  className="absolute right-0 top-12 w-48 bg-background-dark border border-white/10 rounded-xl shadow-2xl py-2 overflow-hidden z-50 text-left"
-                >
-                  <div className="px-4 py-2 border-b border-white/10 mb-2">
-                    <p className="text-sm text-white font-medium truncate">{currentUser.displayName || 'CinemaDiscovery User'}</p>
-                    <p className="text-xs text-gray-500 truncate">{currentUser.email}</p>
-                  </div>
-                  <Link 
-                    to="/profile" 
-                    onClick={() => setIsDropdownOpen(false)}
-                    className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+            <div className="relative flex items-center">
+              <button 
+                onClick={() => {
+                  if (loading) return;
+                  if (currentUser) {
+                    setIsDropdownOpen(!isDropdownOpen);
+                  } else {
+                    navigate('/auth');
+                  }
+                }}
+                className="text-gray-300 hover:text-white p-2 rounded-full transition-colors relative"
+              >
+                {loading ? (
+                  <div className="w-5 h-5 rounded-full border-2 border-gray-400 border-t-transparent animate-spin mx-auto"></div>
+                ) : currentUser && currentUser.photoURL ? (
+                  <img 
+                    src={currentUser.photoURL} 
+                    alt="Profile" 
+                    className="w-7 h-7 rounded-full object-cover border border-white/20"
+                  />
+                ) : (
+                  <User className="w-5 h-5" />
+                )}
+              </button>
+              <AnimatePresence>
+                {isDropdownOpen && currentUser && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 top-12 w-48 bg-background-dark border border-white/10 rounded-xl shadow-2xl py-2 overflow-hidden z-50 text-left"
                   >
-                    My Profile & Watchlist
-                  </Link>
-                  <button
-                    onClick={() => {
-                      logout();
-                      setIsDropdownOpen(false);
-                    }}
-                    className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-white/5 transition-colors mt-2"
-                  >
-                    Sign Out
-                  </button>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                    <div className="px-4 py-2 border-b border-white/10 mb-2">
+                      <p className="text-sm text-white font-medium truncate">{currentUser.displayName || 'CinemaDiscovery User'}</p>
+                      <p className="text-xs text-gray-500 truncate">{currentUser.email}</p>
+                    </div>
+                    <Link 
+                      to="/profile" 
+                      onClick={() => setIsDropdownOpen(false)}
+                      className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                    >
+                      My Profile & Watchlist
+                    </Link>
+                    <button
+                      onClick={() => {
+                        logout();
+                        setIsDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-white/5 transition-colors mt-2"
+                    >
+                      Sign Out
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>
