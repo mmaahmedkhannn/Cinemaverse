@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, X, Camera, RefreshCw } from 'lucide-react';
+import { Upload, X, Camera } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { tmdbApi, getImageUrl } from '../../services/tmdb';
-import { useQuery } from '@tanstack/react-query';
+import { getImageUrl } from '../../services/tmdb';
 import { storage } from '../../lib/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { updateProfile } from 'firebase/auth';
@@ -14,18 +13,37 @@ interface AvatarSelectorProps {
   onAvatarUpdated: () => void;
 }
 
+const PREDEFINED_AVATARS = [
+  { id: 'rdj', name: 'Robert Downey Jr.', path: '/im9SAqJPZKEbVJoX4ZfQQE4LyqK.jpg' }, 
+  { id: 'keanu', name: 'Keanu Reeves', path: '/4D0PpNIIQBDZxxRPE1M1n7r1QEr.jpg' }, 
+  { id: 'margot', name: 'Margot Robbie', path: '/vgALNMZFTGUKy1ccPzbW1E7oYfT.jpg' }, 
+  { id: 'cillian', name: 'Cillian Murphy', path: '/3oJE2516vCEx82t2VqBvB63cKzW.jpg' }, 
+  { id: 'bale', name: 'Christian Bale', path: '/b7fTC9WFkgqGOv77mLQtmD8B1Sw.jpg' }, 
+  { id: 'tom', name: 'Tom Cruise', path: '/gThaIXflqG8g7W7o0iE4y0eUo8n.jpg' }, 
+  { id: 'leo', name: 'Leonardo DiCaprio', path: '/pjkFeVA5ytAPALHID29R5XcdvY.jpg' },
+  { id: 'heath', name: 'Heath Ledger', path: '/7yOITKqCgI7iA0uOpBqfB5nO3E1.jpg' }, 
+  { id: 'scarlett', name: 'Scarlett Johansson', path: '/6NsMbJXRlbZuDzatV2AKoziQ4ZJ.jpg' }, 
+  { id: 'harrison', name: 'Harrison Ford', path: '/5M7oN3sznpB9aHtgAWeZ20d0fP.jpg' }, 
+  { id: 'ryan', name: 'Ryan Reynolds', path: '/gD8vg0J22kOOXruHjXvQONuGk7c.jpg' }, 
+  { id: 'chris', name: 'Chris Hemsworth', path: '/piqD0a1pS32Fp48qH6D2p1oT2P.jpg' }, 
+  { id: 'johnd', name: 'Johnny Depp', path: '/1Gvbh2bKMWXyEavxK7h8r609L3H.jpg' }, 
+  { id: 'henry', name: 'Henry Cavill', path: '/hErUwonrQgYV80XhR83k05o23D.jpg' }, 
+  { id: 'anyataylor', name: 'Anya Taylor-Joy', path: '/xXNqYAL8T5C9wB3x0rP0D5P6A8h.jpg' },
+  { id: 'daniel', name: 'Daniel Radcliffe', path: '/yX36UOMpBvO0Wtvk32sLtyNssm6.jpg' }, 
+  { id: 'emilia', name: 'Emilia Clarke', path: '/nBEqQ0jDng2Y7N661E63O7Yj0M0.jpg' }, 
+  { id: 'zendaya', name: 'Zendaya', path: '/rMiyg2cKnd5v1F2H9fV6Eus5gO7.jpg' }, 
+  { id: 'pedro', name: 'Pedro Pascal', path: '/i0sdjEun3AEvEq9U42tUerS4H9h.jpg' }, 
+  { id: 'tomhardy', name: 'Tom Hardy', path: '/d81K0RH8UX7tZj49tZaQhZ9ewH.jpg' }, 
+  { id: 'chrisevans', name: 'Chris Evans', path: '/3bOGNsHlrswhyW79uvIvd1ewILj.jpg' }, 
+  { id: 'tomhiddleston', name: 'Tom Hiddleston', path: '/mclHx2C6La0SBCaKkRz7j91SXYo.jpg' }, 
+  { id: 'jason', name: 'Jason Momoa', path: '/hhFOtEFpL0FhOtsK0tWbheX0A9f.jpg' }
+];
+
 const AvatarSelector = ({ isOpen, onClose, onAvatarUpdated }: AvatarSelectorProps) => {
   const { currentUser } = useAuth();
   const [activeTab, setActiveTab] = useState<'library' | 'upload'>('library');
   const [uploadLoading, setUploadLoading] = useState(false);
-  const [selectedActorId, setSelectedActorId] = useState<number | null>(null);
-  const [page, setPage] = useState(1);
-
-  const { data, isLoading } = useQuery({
-    queryKey: ['popularActors', page],
-    queryFn: () => tmdbApi.getPopularActors(page),
-    enabled: isOpen && activeTab === 'library',
-  });
+  const [selectedActorId, setSelectedActorId] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
@@ -155,23 +173,17 @@ const AvatarSelector = ({ isOpen, onClose, onAvatarUpdated }: AvatarSelectorProp
              {/* TMDB Actor Library View */}
              {activeTab === 'library' && (
                <div className="flex flex-col h-full">
-                  {isLoading && page === 1 ? (
-                    <div className="flex justify-center items-center h-[300px]">
-                      <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                    </div>
-                  ) : (
-                    <>
                     <p className="text-gray-400 font-sans text-sm mb-6 text-center">
                        Select an iconic global star from the TMDB database to represent your cinematic identity.
                     </p>
                     <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
-                       {data?.results.map((actor) => (
+                       {PREDEFINED_AVATARS.map((actor) => (
                          <div 
                            key={actor.id}
                            onClick={() => {
-                             if(actor.profile_path && !uploadLoading) {
+                             if(!uploadLoading) {
                                setSelectedActorId(actor.id);
-                               handleActorSelect(actor.profile_path);
+                               handleActorSelect(actor.path);
                              }
                            }}
                            className={`relative aspect-square rounded-full overflow-hidden border-4 cursor-pointer group transition-all duration-300 ${
@@ -179,7 +191,7 @@ const AvatarSelector = ({ isOpen, onClose, onAvatarUpdated }: AvatarSelectorProp
                            } ${uploadLoading ? 'opacity-50 pointer-events-none' : ''}`}
                          >
                             <img 
-                              src={getImageUrl(actor.profile_path, 'w500')} 
+                              src={getImageUrl(actor.path, 'w500')} 
                               alt={actor.name}
                               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             />
@@ -194,19 +206,6 @@ const AvatarSelector = ({ isOpen, onClose, onAvatarUpdated }: AvatarSelectorProp
                          </div>
                        ))}
                     </div>
-                    {/* Load More Toolbar */}
-                    <div className="flex justify-center mt-10 mb-4">
-                       <button 
-                         onClick={() => setPage(prev => prev + 1)}
-                         disabled={uploadLoading || isLoading}
-                         className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/5 border border-white/10 text-white font-sans font-bold text-sm hover:bg-white/10 hover:border-white/30 transition-all disabled:opacity-50"
-                       >
-                         <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin text-primary' : 'text-gray-400'}`} />
-                         Load More Faces
-                       </button>
-                    </div>
-                    </>
-                  )}
                </div>
              )}
           </div>
