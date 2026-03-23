@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Lock, Film } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { tmdbApi, getImageUrl } from '../../services/tmdb';
+import { sanitizeInput } from '../../lib/sanitize';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -55,10 +56,11 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
     setError('');
     setLoading(true);
     try {
+      const cleanEmail = sanitizeInput(email);
       if (isLogin) {
-        await loginWithEmail(email, password);
+        await loginWithEmail(cleanEmail, password);
       } else {
-        await registerWithEmail(email, password);
+        await registerWithEmail(cleanEmail, password);
       }
       onClose();
     } catch (err: any) {

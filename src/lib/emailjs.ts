@@ -142,7 +142,7 @@ const buildWelcomeHTML = (userEmail: string): string => {
           <!-- CTA Button -->
           <tr>
             <td align="center" style="padding:32px 0;">
-              <a href="https://savemyreel.online" target="_blank" style="display:inline-block;background-color:#E50914;color:#ffffff;text-decoration:none;padding:16px 40px;font-size:16px;font-weight:700;font-family:Arial,Helvetica,sans-serif;border-radius:12px;letter-spacing:1px;">START EXPLORING &rarr;</a>
+              <a href="https://savemyreel.online" target="_blank" rel="noopener noreferrer" style="display:inline-block;background-color:#E50914;color:#ffffff;text-decoration:none;padding:16px 40px;font-size:16px;font-weight:700;font-family:Arial,Helvetica,sans-serif;border-radius:12px;letter-spacing:1px;">START EXPLORING &rarr;</a>
             </td>
           </tr>
 

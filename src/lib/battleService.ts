@@ -6,7 +6,23 @@ import { sanitizeInput } from './sanitize';
 export const getGuestId = (): string => {
   let guestId = localStorage.getItem('cv_guest_id');
   if (!guestId) {
-    guestId = 'guest_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+    // Generate a deterministic device fingerprint to prevent basic localStorage clearing exploits
+    const screenRes = `${window.screen.width}x${window.screen.height}`;
+    const colorDepth = window.screen.colorDepth;
+    const userAgent = navigator.userAgent;
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const language = navigator.language;
+    const cores = navigator.hardwareConcurrency || 1;
+    
+    // Hash the device vectors
+    const str = `${screenRes}|${colorDepth}|${userAgent}|${timezone}|${language}|${cores}`;
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+    }
+    guestId = 'device_' + Math.abs(hash).toString(36);
     localStorage.setItem('cv_guest_id', guestId);
   }
   return guestId;
@@ -77,6 +93,12 @@ export const castVote = async (
   userId: string,
   movieSide: 'movie1' | 'movie2'
 ) => {
+  // Strict Schema Input Validation
+  if (!battleId || typeof battleId !== 'string' || battleId.length > 100) throw new Error('Invalid Battle Entity ID');
+  if (typeof movieId !== 'number' || isNaN(movieId)) throw new Error('Invalid Movie Payload Schema');
+  if (movieSide !== 'movie1' && movieSide !== 'movie2') throw new Error('Invalid Vote Payload Origin');
+  if (!userId || typeof userId !== 'string' || userId.length > 100) throw new Error('Invalid User Signature');
+
   const safeBattleId = sanitizeInput(battleId);
   const safeUserId = sanitizeInput(userId);
 

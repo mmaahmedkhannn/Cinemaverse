@@ -7,6 +7,7 @@ import { auth } from '../lib/firebase';
 import { sendEmailVerification, sendPasswordResetEmail } from 'firebase/auth';
 import { tmdbApi, getImageUrl } from '../services/tmdb';
 import { sendWelcomeEmail } from '../lib/emailjs';
+import { sanitizeInput } from '../lib/sanitize';
 
 const MOVIES = [
   { id: 238, title: 'The Godfather', year: '1972', quote: "I'm gonna make him an offer he can't refuse." },
@@ -80,8 +81,9 @@ const Auth = () => {
     setSuccessMsg('');
     setLoading(true);
     try {
+      const cleanEmail = sanitizeInput(email);
       if (isSignIn) {
-        await loginWithEmail(email, password);
+        await loginWithEmail(cleanEmail, password);
         // After login, check if password user is verified
         if (auth.currentUser && !auth.currentUser.emailVerified) {
           navigate('/verify-email', { replace: true });
@@ -89,13 +91,13 @@ const Auth = () => {
           navigate('/', { replace: true });
         }
       } else {
-        await registerWithEmail(email, password);
+        await registerWithEmail(cleanEmail, password);
         if (auth.currentUser) {
           await sendEmailVerification(auth.currentUser);
           // Fire and forget the welcome email without blocking
-          sendWelcomeEmail(email).catch(console.error);
+          sendWelcomeEmail(cleanEmail).catch(console.error);
         }
-        setSuccessMsg(`Verification email sent to ${email}! Please check your inbox.`);
+        setSuccessMsg(`Verification email sent to ${cleanEmail}! Please check your inbox.`);
         navigate('/verify-email', { replace: true });
       }
     } catch (err: any) {
