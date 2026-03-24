@@ -69,7 +69,6 @@ const Timeline = () => {
     const el = scrollRef.current;
     if (!el) return;
     const handleScroll = () => {
-      const scrollLeft = el.scrollLeft;
       const containerLeft = el.getBoundingClientRect().left;
       for (let i = decadeRefs.current.length - 1; i >= 0; i--) {
         const ref = decadeRefs.current[i];
