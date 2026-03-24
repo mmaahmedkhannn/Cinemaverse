@@ -64,7 +64,6 @@ const Top100 = () => {
     const userVoteRef = doc(db, 'users', currentUser.uid, 'settings', 'top100votes');
 
     // Optimistic UI Update
-    const previousVotes = { ...userVotes };
     const newUserVotes = { ...userVotes, [movieId]: vote };
     setUserVotes(newUserVotes);
 
@@ -78,9 +77,7 @@ const Top100 = () => {
       await setDoc(userVoteRef, newUserVotes, { merge: true });
     } catch (error) {
       console.error('Error voting on ranking:', error);
-      // Revert UI on failure
-      setUserVotes(previousVotes);
-      alert('Failed to record your vote. Please check your connection.');
+      // Keep optimistic UI — don't revert or show popup
     }
   };
 
