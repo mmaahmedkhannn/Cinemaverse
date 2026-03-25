@@ -26,6 +26,8 @@ const About = lazy(() => import('./pages/About'));
 const Privacy = lazy(() => import('./pages/Privacy'));
 const Terms = lazy(() => import('./pages/Terms'));
 const VerifyEmail = lazy(() => import('./pages/VerifyEmail'));
+const Blog = lazy(() => import('./pages/Blog'));
+const BlogPost = lazy(() => import('./pages/BlogPost'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -75,6 +77,8 @@ function App() {
                   <Route path="/privacy" element={<Privacy />} />
                   <Route path="/terms" element={<Terms />} />
                   <Route path="/verify-email" element={<VerifyEmail />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/:slug" element={<BlogPost />} />
                 </Routes>
               </Suspense>
             </EmailVerificationGuard>
