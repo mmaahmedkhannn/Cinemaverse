@@ -153,7 +153,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col md:flex-row bg-[#080810] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#080810] overflow-hidden">
       {/* Top Left Logo Brand */}
       <div className="absolute top-6 left-6 md:top-8 md:left-8 z-[60]">
         <Link to="/" className="flex items-center gap-2">
@@ -164,19 +164,16 @@ const Auth = () => {
         </Link>
       </div>
 
-      {/* Left side: Slideshow Background */}
-      <div className="absolute inset-0 md:relative md:w-[60%] h-full">
-        {backdrops && (
-          <AnimatePresence mode="popLayout">
+      {/* Background: Full-Screen Cinematic Rotating Movie Poster */}
+      <div className="absolute inset-0 z-0">
+        <AnimatePresence mode="wait">
+          {backdrops && (
             <motion.div
               key={currentSlide}
-              initial={{ opacity: 0, scale: 1 }}
-              animate={{ opacity: 1, scale: 1.05 }}
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ 
-                opacity: { duration: 1, ease: 'easeInOut' },
-                scale: { duration: 5, ease: 'linear' } 
-              }}
+              transition={{ duration: 1.5, ease: 'easeInOut' }}
               className="absolute inset-0"
             >
               {backdrops[currentSlide] && (
@@ -186,64 +183,51 @@ const Auth = () => {
                   className="w-full h-full object-cover"
                 />
               )}
+              {/* Overlays for depth + text readability */}
+              <div className="absolute inset-0 bg-black/60 shadow-[inset_0_0_150px_rgba(0,0,0,0.9)] backdrop-blur-[2px]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#080810] via-transparent to-transparent opacity-90" />
+              
+              {/* Film grain SVG texture */}
+              <div 
+                className="absolute inset-0"
+                style={{ 
+                  backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cfilter id=\"noiseFilter\"%3E%3CfeTurbulence type=\"fractalNoise\" baseFrequency=\"0.65\" numOctaves=\"3\" stitchTiles=\"stitch\"/%3E%3C/filter%3E%3Crect width=\"100%25\" height=\"100%25\" filter=\"url(%23noiseFilter)\"/%3E%3C/svg%3E')",
+                  opacity: 0.15 
+                }} 
+              />
+              
+              {/* Bottom Quote Center Aligned and Bigger */}
+              <div className="absolute bottom-8 md:bottom-12 left-0 right-0 z-20 flex flex-col items-center justify-end px-6 pointer-events-none text-center">
+                <p className="text-white text-4xl md:text-5xl lg:text-5xl font-bebas italic leading-none drop-shadow-[0_4px_20px_rgba(0,0,0,1)] tracking-wide max-w-4xl mx-auto">
+                  "{MOVIES[currentSlide].quote}"
+                </p>
+                <div className="mt-4 flex items-center justify-center gap-3">
+                  <span className="text-primary font-bold tracking-widest uppercase text-sm md:text-base font-sans drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">
+                    {MOVIES[currentSlide].title}
+                  </span>
+                  <span className="text-gray-300 text-sm md:text-base drop-shadow-[0_2px_10px_rgba(0,0,0,1)] font-light tracking-widest">— {MOVIES[currentSlide].year}</span>
+                </div>
+              </div>
             </motion.div>
-          </AnimatePresence>
-        )}
-        
-        {/* Overlays */}
-        <div className="absolute inset-0 bg-black/65" />
-        <div 
-          className="absolute inset-0 opacity-20"
-          style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}
-        />
-        <div className="hidden md:block absolute inset-y-0 right-0 w-32 bg-gradient-to-r from-transparent to-[#080810]" />
-
-        {/* Content Overlays */}
-        <div className="absolute inset-0 flex flex-col justify-center p-8 md:p-16 pointer-events-none">
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={`quote-${currentSlide}`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 1 }}
-              className="text-white font-playfair italic text-3xl md:text-5xl max-w-2xl leading-snug drop-shadow-xl"
-            >
-              "{MOVIES[currentSlide].quote}"
-            </motion.p>
-          </AnimatePresence>
-        </div>
-
-        <div className="absolute bottom-6 left-6 md:bottom-12 md:left-16 pointer-events-none">
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={`title-${currentSlide}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1 }}
-              className="text-white/80 font-sans text-sm tracking-wider uppercase"
-            >
-              {MOVIES[currentSlide].title} — {MOVIES[currentSlide].year}
-            </motion.p>
-          </AnimatePresence>
-        </div>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* Right side: Form */}
-      <div className="relative w-full md:w-[40%] h-full flex items-center justify-center p-6 bg-transparent md:bg-[#080810] overflow-y-auto">
+      {/* Centered Auth Form */}
+      <div className="relative z-10 w-full max-w-md mx-auto px-4 sm:px-6 mb-24 md:mb-32">
         <motion.div 
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="w-full max-w-md bg-black/40 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-8 rounded-3xl border border-white/10 md:border-none shadow-2xl md:shadow-none"
+          initial={{ opacity: 0, y: 20 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ delay: 0.2 }}
+          className="bg-[#0c0c16]/50 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-3xl shadow-2xl"
         >
           <div className="text-center mb-8">
-            <h1 className="font-bebas text-5xl text-primary tracking-widest mb-2">CINEMADISCOVERY</h1>
-            <p className="text-gray-400 font-sans text-sm">Enter the universe of cinema.</p>
+            <h1 className="font-bebas text-5xl text-primary tracking-widest mb-2 drop-shadow-md">CINEMADISCOVERY</h1>
+            <p className="text-gray-300 font-sans text-sm drop-shadow-sm">Enter the universe of cinema.</p>
           </div>
 
           {/* Toggle */}
-          <div className="flex bg-white/5 rounded-xl p-1 mb-8">
+          <div className="flex bg-white/5 rounded-xl p-1 mb-8 border border-white/5">
             <button
               onClick={() => setIsSignIn(true)}
               className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${
@@ -263,12 +247,12 @@ const Auth = () => {
           </div>
 
           {error && (
-            <div className="mb-6 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-sm text-center">
+            <div className="mb-6 p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-sm text-center">
               {error}
             </div>
           )}
           {successMsg && (
-            <div className="mb-6 p-3 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 text-sm text-center">
+            <div className="mb-6 p-3 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 text-sm text-center">
               {successMsg}
             </div>
           )}
@@ -281,7 +265,7 @@ const Auth = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3.5 text-white placeholder-gray-400 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all font-sans"
               />
             </div>
             <div>
@@ -291,7 +275,7 @@ const Auth = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3.5 text-white placeholder-gray-400 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all font-sans"
               />
             </div>
             {isSignIn && (
@@ -308,22 +292,24 @@ const Auth = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-primary hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-primary/20 disabled:opacity-50"
+              className="w-full bg-primary hover:bg-red-700 text-white font-bold py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(239,68,68,0.2)] hover:shadow-[0_0_30px_rgba(239,68,68,0.4)] tracking-wide uppercase text-sm mt-2 disabled:opacity-50"
             >
-              {loading ? 'Processing...' : isSignIn ? 'Sign In' : 'Sign Up'}
+              {loading ? (
+                <div className="w-5 h-5 mx-auto border-2 border-white/20 border-t-white rounded-full animate-spin" />
+              ) : isSignIn ? 'Sign In' : 'Sign Up'}
             </button>
           </form>
 
           <div className="mt-6 flex items-center gap-4">
             <div className="flex-1 h-px bg-white/10" />
-            <span className="text-gray-500 text-sm">OR</span>
+            <span className="text-gray-500 text-sm font-sans">OR</span>
             <div className="flex-1 h-px bg-white/10" />
           </div>
 
           <button
             onClick={handleGoogleSignIn}
             disabled={loading}
-            className="mt-6 w-full bg-white hover:bg-gray-100 text-black font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+            className="mt-6 w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-sans font-bold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
           >
             <svg viewBox="0 0 24 24" className="w-5 h-5" xmlns="http://www.w3.org/2000/svg">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>

@@ -124,16 +124,16 @@ const Contact = () => {
                 }} 
               />
               
-              {/* Bottom Quote */}
-              <div className="absolute bottom-8 md:bottom-12 left-6 md:left-12 right-6 md:right-12 z-20 text-center md:text-left">
-                <p className="text-white text-2xl md:text-4xl font-bebas italic leading-tight drop-shadow-[0_2px_15px_rgba(0,0,0,0.9)]">
+              {/* Bottom Quote Center Aligned and Bigger */}
+              <div className="absolute bottom-8 md:bottom-12 left-0 right-0 z-20 flex flex-col items-center justify-end px-6 pointer-events-none text-center">
+                <p className="text-white text-4xl md:text-5xl lg:text-5xl font-bebas italic leading-none drop-shadow-[0_4px_20px_rgba(0,0,0,1)] tracking-wide max-w-4xl mx-auto">
                   "{MOVIES[currentSlide].quote}"
                 </p>
-                <div className="mt-3 flex items-center justify-center md:justify-start gap-3">
-                  <span className="text-primary font-bold tracking-widest uppercase text-xs md:text-sm font-sans drop-shadow-lg">
+                <div className="mt-4 flex items-center justify-center gap-3">
+                  <span className="text-primary font-bold tracking-widest uppercase text-sm md:text-base font-sans drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">
                     {MOVIES[currentSlide].title}
                   </span>
-                  <span className="text-gray-300 text-xs md:text-sm drop-shadow-lg">— {MOVIES[currentSlide].year}</span>
+                  <span className="text-gray-300 text-sm md:text-base drop-shadow-[0_2px_10px_rgba(0,0,0,1)] font-light tracking-widest">— {MOVIES[currentSlide].year}</span>
                 </div>
               </div>
             </motion.div>
@@ -142,7 +142,7 @@ const Contact = () => {
       </div>
 
       {/* Centered Contact Form */}
-      <div className="relative z-10 w-full max-w-xl mx-auto px-4 sm:px-6">
+      <div className="relative z-10 w-full max-w-xl mx-auto px-4 sm:px-6 mb-24 md:mb-32">
         <motion.div 
           initial={{ opacity: 0, y: 20 }} 
           animate={{ opacity: 1, y: 0 }} 
