@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { Send, Mail, MessageSquare } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { tmdbApi, getImageUrl } from '../services/tmdb';
 import { sendContactEmail } from '../lib/emailjs';
 
