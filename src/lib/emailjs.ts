@@ -279,3 +279,28 @@ export const sendBattleResultsEmail = async (emails: string[], winnerName: strin
     }
   }
 };
+
+export const sendContactEmail = async (name: string, email: string, message: string): Promise<boolean> => {
+  if (EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID_HERE') {
+    console.warn('[CinemaDiscovery] EmailJS not configured');
+    return false;
+  }
+
+  try {
+    const response = await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      {
+        from_name: name,
+        reply_to: email,
+        message: message,
+      },
+      EMAILJS_PUBLIC_KEY
+    );
+    console.log('[CinemaDiscovery] Contact email sent!');
+    return response.status === 200;
+  } catch (error) {
+    console.error('[CinemaDiscovery] Failed to send contact email:', error);
+    return false;
+  }
+};
