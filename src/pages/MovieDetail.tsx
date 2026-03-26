@@ -117,6 +117,31 @@ const MovieDetail = () => {
   const recommendations = movie.recommendations?.results?.slice(0, 6) || [];
   const director = movie.credits?.crew?.find((c: any) => c.job === 'Director');
 
+  // Extract watch providers
+  const providersData = movie['watch/providers']?.results?.US;
+  const affiliateTag = "cinemadiscove-20";
+  const uniqueProviders = new Map();
+  
+  if (providersData) {
+    ['flatrate', 'rent', 'buy'].forEach(type => {
+      if (providersData[type]) {
+        providersData[type].forEach((p: any) => {
+           if (!uniqueProviders.has(p.provider_name)) {
+             uniqueProviders.set(p.provider_name, p);
+           }
+        });
+      }
+    });
+  }
+  const streamProviders = Array.from(uniqueProviders.values()).slice(0, 5); // top 5
+
+  const getProviderLink = (providerName: string, defaultLink: string) => {
+    if (providerName.toLowerCase().includes('amazon')) {
+      return `https://www.amazon.com/s?k=${encodeURIComponent(movie.title + ' movie')}&i=instant-video&tag=${affiliateTag}`;
+    }
+    return defaultLink;
+  };
+
   return (
     <main className="min-h-screen bg-background-dark pb-20">
       <Helmet>
@@ -266,6 +291,43 @@ const MovieDetail = () => {
                 </div>
               </div>
             </div>
+
+            {/* Where to Watch (JustWatch + Amazon Affiliate) */}
+            {streamProviders.length > 0 && (
+              <div className="mb-8">
+                <h3 className="text-sm font-sans text-gray-400 mb-3 uppercase tracking-wider font-bold">Where to Watch</h3>
+                <div className="flex flex-wrap gap-3 items-center justify-center md:justify-start">
+                  {streamProviders.map((p: any) => (
+                    <a 
+                      key={p.provider_id}
+                      href={getProviderLink(p.provider_name, providersData.link)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`flex items-center gap-3 bg-[#0a0a0a]/80 backdrop-blur-md border ${p.provider_name.toLowerCase().includes('amazon') ? 'border-primary/50 hover:border-primary shadow-[0_0_15px_rgba(239,68,68,0.2)]' : 'border-white/10 hover:border-white/30'} rounded-2xl p-2 pr-4 transition-all duration-300 group hover:-translate-y-1`}
+                      title={`Watch on ${p.provider_name}`}
+                    >
+                      <img 
+                        src={getImageUrl(p.logo_path, 'w500')} 
+                        alt={p.provider_name}
+                        className="w-10 h-10 rounded-xl group-hover:scale-105 transition-transform"
+                      />
+                      <div className="flex flex-col text-left">
+                         <span className="text-white text-sm font-bold font-sans line-clamp-1">{p.provider_name}</span>
+                         {p.provider_name.toLowerCase().includes('amazon') ? (
+                           <span className="text-[10px] text-primary font-bold tracking-widest uppercase">Rent / Buy</span>
+                         ) : (
+                           <span className="text-[10px] text-gray-400 font-medium tracking-wider uppercase">Stream</span>
+                         )}
+                      </div>
+                    </a>
+                  ))}
+                </div>
+                <p className="text-[10px] text-gray-600 mt-3 flex items-center justify-center md:justify-start gap-1">
+                  <span>Streaming data provided by</span>
+                  <a href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400 transition-colors">JustWatch</a>
+                </p>
+              </div>
+            )}
 
             <div className="mb-10">
               <h3 className="text-xl font-bebas text-gray-400 mb-3">Overview</h3>
