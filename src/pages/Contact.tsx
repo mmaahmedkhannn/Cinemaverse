@@ -140,120 +140,89 @@ const Contact = () => {
         </AnimatePresence>
       </div>
 
-      {/* Right side: Contact Form (ID Card Style) */}
-      <div className="flex-1 flex flex-col justify-center px-6 md:px-12 lg:px-20 py-12 relative z-10 overflow-y-auto w-full md:w-1/2">
-        <div className="max-w-lg w-full mx-auto">
-          
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8 text-center md:text-left pt-16 md:pt-0">
-            <h1 className="font-bebas text-5xl md:text-7xl text-white tracking-wider mb-2">
-              Direct <span className="text-primary">Transmission</span>
+      {/* Right side: Contact Form */}
+      <div className="flex-1 flex flex-col justify-center px-6 md:px-16 lg:px-24 py-12 relative z-10 overflow-y-auto w-full md:w-1/2">
+        <div className="max-w-md w-full mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10 text-center md:text-left pt-20 md:pt-0">
+            <h1 className="font-bebas text-5xl md:text-7xl text-white tracking-wider mb-3">
+              Get In <span className="text-primary">Touch</span>
             </h1>
             <p className="text-gray-400 text-sm font-sans leading-relaxed">
-              Initiate contact. Fill out your authorization creds below to transmit securely.
+              Have questions, feedback, or just want to talk movies? We'd love to hear from you. Securely send us a message below.
             </p>
           </motion.div>
 
-          {/* ID Card Container */}
-          <motion.div
+          <motion.form 
             initial={{ opacity: 0, y: 20 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ delay: 0.1 }}
-            className="bg-[#0c0c16] border border-[#2a2a3f] rounded-2xl relative overflow-hidden shadow-2xl shadow-black/80"
+            onSubmit={handleSubmit} 
+            className="space-y-5"
           >
-            {/* ID Card Header */}
-            <div className="bg-[#151525] border-b border-[#2a2a3f] py-4 px-6 flex justify-between items-center relative overflow-hidden">
-               <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-red-500/50 to-transparent" />
-               <div className="flex items-center gap-3">
-                 <div className="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)] animate-pulse" />
-                 <span className="font-bebas text-red-500 tracking-widest text-lg md:text-xl pt-1 leading-none drop-shadow-[0_0_5px_rgba(239,68,68,0.3)] border-b border-red-500/30">CLEARANCE: VISITOR</span>
-               </div>
-               <span className="text-[10px] md:text-xs text-gray-500 font-mono tracking-widest">EXP 01/06/2026</span>
+            {error && (
+              <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm text-center font-sans tracking-wide">
+                {error}
+              </div>
+            )}
+            {successMsg && (
+              <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 text-sm text-center font-sans tracking-wide">
+                {successMsg}
+              </div>
+            )}
+
+            <div>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Name"
+                disabled={loading}
+                required
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-sans disabled:opacity-50"
+              />
+            </div>
+            
+            <div>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email Address"
+                disabled={loading}
+                required
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-sans disabled:opacity-50"
+              />
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 md:p-8 flex flex-col sm:flex-row gap-8 relative">
-              
-              {/* Fake Photo ID section matching the ID card vibe */}
-              <div className="hidden sm:flex flex-col items-center gap-3 w-1/3 shrink-0">
-                <div className="w-full aspect-[3/4] rounded-lg border-2 border-dashed border-[#2a2a3f] bg-[#11111d] flex flex-col items-center justify-center relative overflow-hidden group">
-                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-red-500/10 to-transparent" />
-                   <div className="w-16 h-16 rounded-full border border-[#2a2a3f] bg-[#0c0c16] flex items-center justify-center mb-2 z-10">
-                      <Send className="w-6 h-6 text-gray-600 group-hover:text-red-500 transition-colors" />
-                   </div>
-                   <span className="text-[10px] text-gray-600 font-mono z-10 text-center px-2 tracking-widest uppercase">Awaiting<br/>Identification</span>
-                </div>
-                <div className="w-full h-10 border border-[#2a2a3f] rounded-md bg-[#11111d] overflow-hidden flex items-center justify-center relative group cursor-crosshair">
-                   <div className="absolute inset-0 bg-red-500/5 group-hover:bg-red-500/10 transition-colors mix-blend-screen" />
-                   <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cpattern id='bar' width='6' height='100%25' patternUnits='userSpaceOnUse'%3E%3Crect width='1.5' height='100%25' fill='%233a3a4f'/%3E%3Crect x='3' width='0.5' height='100%25' fill='%233a3a4f' opacity='0.7'/%3E%3Crect x='4.5' width='1' height='100%25' fill='%233a3a4f' opacity='0.4'/%3E%3C/pattern%3E%3Crect width='100%25' height='100%25' fill='url(%23bar)'/%3E%3C/svg%3E" alt="Barcode" className="w-full h-[70%] opacity-50 px-2" />
-                </div>
-              </div>
+            <div>
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Your Message..."
+                disabled={loading}
+                required
+                rows={5}
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-sans resize-none disabled:opacity-50"
+              />
+            </div>
 
-              {/* Form Fields imitating ID text fields */}
-              <div className="flex-1 space-y-7">
-                
-                {error && (
-                  <div className="p-3 bg-red-500/10 border border-red-500/20 rounded text-red-400 text-[11px] font-mono tracking-wider uppercase">
-                    [ERROR]: {error}
-                  </div>
-                )}
-                {successMsg && (
-                  <div className="p-3 bg-green-500/10 border border-green-500/20 rounded text-green-400 text-[11px] font-mono tracking-wider uppercase">
-                    [SUCCESS]: {successMsg}
-                  </div>
-                )}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-primary hover:bg-red-700 text-white font-sans font-bold py-3 rounded-xl transition-all shadow-lg shadow-primary/20 flex flex-row items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+            >
+              {loading ? (
+                <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+              ) : (
+                <>
+                  <Send className="w-4 h-4 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+                  <span>Send Message</span>
+                </>
+              )}
+            </button>
+          </motion.form>
 
-                <div className="relative border-b border-[#2a2a3f] focus-within:border-red-500/70 transition-colors pb-1.5 group">
-                  <label className="text-[10px] text-gray-500 font-mono tracking-widest uppercase block mb-2 group-focus-within:text-red-500/70 transition-colors">Name</label>
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    disabled={loading}
-                    required
-                    className="w-full bg-transparent text-gray-200 focus:outline-none font-sans text-sm disabled:opacity-50"
-                  />
-                </div>
-                
-                <div className="relative border-b border-[#2a2a3f] focus-within:border-red-500/70 transition-colors pb-1.5 group">
-                  <label className="text-[10px] text-gray-500 font-mono tracking-widest uppercase block mb-2 group-focus-within:text-red-500/70 transition-colors">Commlink Address</label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    disabled={loading}
-                    required
-                    className="w-full bg-transparent text-gray-200 focus:outline-none font-sans text-sm disabled:opacity-50"
-                  />
-                </div>
 
-                <div className="relative border-b border-[#2a2a3f] focus-within:border-red-500/70 transition-colors pb-1.5 group">
-                  <label className="text-[10px] text-gray-500 font-mono tracking-widest uppercase block mb-2 group-focus-within:text-red-500/70 transition-colors">Message Payload</label>
-                  <textarea
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    disabled={loading}
-                    required
-                    rows={3}
-                    className="w-full bg-transparent text-gray-200 focus:outline-none font-sans text-sm resize-none disabled:opacity-50"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-transparent border border-red-500/50 hover:border-red-500 hover:bg-red-500/10 text-red-500 text-xs font-mono font-bold tracking-widest py-3 rounded transition-all flex flex-row items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed mt-2 shadow-[0_0_15px_rgba(239,68,68,0.1)] hover:shadow-[0_0_20px_rgba(239,68,68,0.2)]"
-                >
-                  {loading ? (
-                    <div className="w-4 h-4 border-2 border-red-500/50 border-t-red-500 rounded-full animate-spin" />
-                  ) : (
-                    <>
-                      <Send className="w-3.5 h-3.5 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
-                      <span>INITIALIZE TRANSMISSION</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
-          </motion.div>
         </div>
       </div>
     </div>
