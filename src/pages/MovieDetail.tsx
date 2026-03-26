@@ -125,7 +125,7 @@ const MovieDetail = () => {
         <link rel="canonical" href={`https://cinemadiscovery.com/movie/${movie.id}`} />
         <meta property="og:title" content={`${movie.title} — CinemaDiscovery`} />
         <meta property="og:description" content={movie.overview || `Discover everything about ${movie.title} including cast.`} />
-        <meta property="og:image" content={getImageUrl(movie.poster_path, 'original')} />
+        <meta property="og:image" content={getImageUrl(movie.poster_path, 'w500')} />
         <meta property="og:url" content={`https://cinemadiscovery.com/movie/${movie.id}`} />
         <meta property="og:type" content="video.movie" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -134,7 +134,7 @@ const MovieDetail = () => {
              "@context": "https://schema.org",
              "@type": "Movie",
              "name": movie.title,
-             "image": getImageUrl(movie.poster_path, 'original'),
+             "image": getImageUrl(movie.poster_path, 'w500'),
              "description": movie.overview,
              "datePublished": movie.release_date,
              "director": director ? { "@type": "Person", "name": director.name } : undefined,
@@ -158,9 +158,10 @@ const MovieDetail = () => {
       <section className="relative h-[60vh] md:h-[75vh] w-full">
         <div className="absolute inset-0">
           <img
-            src={getImageUrl(movie.backdrop_path, 'original')}
+            src={getImageUrl(movie.backdrop_path, 'w1280')}
             alt={movie.title}
             className="w-full h-full object-cover"
+            fetchPriority="high"
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent" />

@@ -131,7 +131,7 @@ const DirectorDetail = () => {
         <meta name="description" content={person.biography?.substring(0, 160) || `Explore the complete filmography of ${person.name} on CinemaDiscovery.`} />
         <meta property="og:title" content={`${person.name} — CinemaDiscovery`} />
         <meta property="og:description" content={person.biography?.substring(0, 160) || `Explore the complete filmography of ${person.name} on CinemaDiscovery.`} />
-        <meta property="og:image" content={getImageUrl(person.profile_path, 'original')} />
+        <meta property="og:image" content={getImageUrl(person.profile_path, 'w500')} />
         <meta property="og:url" content={`https://cinemadiscovery.com/director/${person.id}`} />
         <meta property="og:type" content="profile" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -141,7 +141,7 @@ const DirectorDetail = () => {
             "@context": "https://schema.org",
             "@type": "Person",
             "name": person.name,
-            "image": getImageUrl(person.profile_path, 'original'),
+            "image": getImageUrl(person.profile_path, 'w500'),
             "description": person.biography,
             "jobTitle": "Director"
           })}
@@ -163,7 +163,7 @@ const DirectorDetail = () => {
       <section className="relative h-[50vh] md:h-[60vh] w-full">
         <div className="absolute inset-0">
           {bestBackdrop && (
-            <img src={getImageUrl(bestBackdrop, 'original')} alt="" className="w-full h-full object-cover" />
+            <img src={getImageUrl(bestBackdrop, 'w1280')} alt="" className="w-full h-full object-cover" fetchPriority="high" />
           )}
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent" />

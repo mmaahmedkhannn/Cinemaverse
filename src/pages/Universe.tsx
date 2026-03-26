@@ -132,9 +132,10 @@ const Universe = () => {
          {heroBackdrop && (
            <div className="absolute inset-0 z-0">
              <img 
-               src={getImageUrl(heroBackdrop, 'original')} 
+               src={getImageUrl(heroBackdrop, 'w1280')} 
                alt={selectedFranchise.name} 
-               loading="lazy"
+               loading="eager"
+               fetchPriority="high"
                decoding="async"
                className="w-full h-full object-cover opacity-60"
              />

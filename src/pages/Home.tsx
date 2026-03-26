@@ -9,6 +9,7 @@ import { getBattle, getUserVote, castVote, getWeeklyBattle, getGuestId } from '.
 import type { Battle } from '../lib/battleService';
 import { Helmet } from 'react-helmet-async';
 import { generateSlug } from '../utils/slugify';
+import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
 
 const Home = () => {
   const { data: heroData, isLoading: isHeroLoading, error: heroError } = useQuery({
@@ -265,12 +266,13 @@ const Home = () => {
                 >
                   <div className="relative aspect-[2/3] rounded-lg overflow-hidden mb-2">
                     {movie.poster_path ? (
-                      <img
+                      <ImageWithSkeleton
                         src={getImageUrl(movie.poster_path, 'w500')}
                         alt={movie.title || 'Movie'}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         loading="lazy"
                         decoding="async"
+                        containerClassName="w-full h-full"
                       />
                     ) : (
                       <div className="w-full h-full bg-white/10 flex items-center justify-center p-3 text-center">
@@ -405,12 +407,13 @@ const Home = () => {
                     className="group cursor-pointer flex flex-col h-full"
                   >
                     <div className="relative aspect-[2/3] rounded-xl overflow-hidden mb-3 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)] group-hover:shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-all">
-                      <img
+                      <ImageWithSkeleton
                         src={getImageUrl(movie.poster_path, 'w500')}
                         alt={movie.title}
                         loading="lazy"
                         decoding="async"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        containerClassName="w-full h-full"
                       />
                       <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md rounded-full px-2 py-1 border border-white/10 flex items-center gap-1 z-10">
                         <Star className="w-3.5 h-3.5 fill-purple-400 text-purple-400" />

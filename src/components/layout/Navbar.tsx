@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Search, User, Trophy } from 'lucide-react';
-import { useState } from 'react';
-import SearchModal from '../ui/SearchModal';
+import { useState, lazy, Suspense } from 'react';
+const SearchModal = lazy(() => import('../ui/SearchModal'));
 import { useAuth } from '../../contexts/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -133,7 +133,9 @@ const Navbar = () => {
         <Link to="/top100" className={`flex items-center gap-1 hover:text-yellow-400 font-bebas tracking-wider text-xs whitespace-nowrap ${location.pathname.startsWith('/top100') ? 'text-primary' : 'text-yellow-500 hover:text-yellow-400'}`}><Trophy className="w-3 h-3" /> TOP 100</Link>
       </div>
     </nav>
-    <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+    <Suspense fallback={null}>
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+    </Suspense>
     </>
   );
 };

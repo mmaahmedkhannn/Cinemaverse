@@ -31,8 +31,11 @@ const Directors = () => {
 
   const directors: TMDBPerson[] = data?.pages?.flatMap(page => page?.results || []) || [];
   
-  // "Director of the Month" — pick highest trending natively from API
-  const directorOfMonth = directors.length > 0 ? directors[0] : null;
+  // Sort all directors by popularity descending
+  const sortedDirectors = [...directors].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+
+  // "Director of the Month" — pick highest popularity
+  const directorOfMonth = sortedDirectors.length > 0 ? sortedDirectors[0] : null;
 
   return (
     <main className="min-h-screen bg-background-dark pt-24 pb-20 relative overflow-hidden">
@@ -102,7 +105,7 @@ const Directors = () => {
 
         {/* Infinite Directors Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
-          {directors.slice(1).map((director, i) => ( // Skip the 1st since they are Spotlight
+          {sortedDirectors.slice(1).map((director, i) => ( // Skip the 1st since they are Spotlight
             <motion.div
               key={`${director.id}-${i}`}
               initial={{ opacity: 0, scale: 0.95 }}

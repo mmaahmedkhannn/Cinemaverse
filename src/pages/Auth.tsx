@@ -181,7 +181,7 @@ const Auth = () => {
             >
               {backdrops[currentSlide] && (
                 <img
-                  src={getImageUrl(backdrops[currentSlide], 'original')}
+                  src={getImageUrl(backdrops[currentSlide], 'w1280')}
                   alt={MOVIES[currentSlide].title}
                   className="w-full h-full object-cover"
                 />

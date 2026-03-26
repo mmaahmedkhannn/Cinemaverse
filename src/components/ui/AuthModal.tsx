@@ -106,7 +106,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
               {currentBackdrop && (
                 <motion.img
                   key={currentBackdrop.path}
-                  src={getImageUrl(currentBackdrop.path, 'original')}
+                  src={getImageUrl(currentBackdrop.path, 'w1280')}
                   alt=""
                   initial={{ opacity: 0, scale: 1.08 }}
                   animate={{ opacity: 0.7, scale: 1 }}

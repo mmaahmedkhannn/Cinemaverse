@@ -118,7 +118,7 @@ const TvShowDetail = () => {
         <meta name="description" content={tv.overview?.substring(0, 160) || "View TV show details on CinemaDiscovery."} />
         <meta property="og:title" content={`${tv.name} — CinemaDiscovery`} />
         <meta property="og:description" content={tv.overview?.substring(0, 160) || "View TV show details on CinemaDiscovery."} />
-        <meta property="og:image" content={getImageUrl(tv.poster_path, 'original')} />
+        <meta property="og:image" content={getImageUrl(tv.poster_path, 'w500')} />
         <meta property="og:url" content={`https://cinemadiscovery.com/tv/${tv.id}`} />
         <meta property="og:type" content="video.tv_show" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -128,7 +128,7 @@ const TvShowDetail = () => {
             "@context": "https://schema.org",
             "@type": "TVSeries",
             "name": tv.name,
-            "image": getImageUrl(tv.poster_path, 'original'),
+            "image": getImageUrl(tv.poster_path, 'w500'),
             "description": tv.overview,
             "startDate": tv.first_air_date,
             "aggregateRating": tv.vote_count > 0 ? {
@@ -156,9 +156,10 @@ const TvShowDetail = () => {
       <div className="relative h-[60vh] md:h-[75vh] w-full">
         <div className="absolute inset-0">
           <img
-            src={getImageUrl(tv.backdrop_path, 'original')}
+            src={getImageUrl(tv.backdrop_path, 'w1280')}
             alt={tv.name}
             className="w-full h-full object-cover"
+            fetchPriority="high"
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent" />

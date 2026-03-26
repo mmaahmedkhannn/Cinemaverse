@@ -205,9 +205,10 @@ const Top100 = () => {
                 className="relative group overflow-hidden rounded-3xl aspect-[16/9] md:aspect-[21/9] border border-yellow-500/30"
               >
                 <img 
-                  src={getImageUrl(filteredMovies[0].backdrop_path, 'original')} 
+                  src={getImageUrl(filteredMovies[0].backdrop_path, 'w1280')} 
                   alt={filteredMovies[0].title}
-                  loading="lazy"
+                  loading="eager"
+                  fetchPriority="high"
                   decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
