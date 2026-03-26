@@ -81,7 +81,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col md:flex-row bg-[#080810] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#080810] overflow-hidden">
       {/* Top Left Logo Brand */}
       <div className="absolute top-6 left-6 md:top-8 md:left-8 z-[60]">
         <Link to="/" className="flex items-center gap-2">
@@ -92,8 +92,8 @@ const Contact = () => {
         </Link>
       </div>
 
-      {/* Left side: Cinematic Rotating Movie Poster */}
-      <div className="relative w-full md:w-1/2 h-48 md:h-full hidden md:block">
+      {/* Background: Full-Screen Cinematic Rotating Movie Poster */}
+      <div className="absolute inset-0 z-0">
         <AnimatePresence mode="wait">
           {backdrops && (
             <motion.div
@@ -112,10 +112,10 @@ const Contact = () => {
                 />
               )}
               {/* Overlays for depth + text readability */}
-              <div className="absolute inset-0 bg-black/40" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#080810] via-transparent to-transparent opacity-80" />
+              <div className="absolute inset-0 bg-black/60 shadow-[inset_0_0_150px_rgba(0,0,0,0.9)] backdrop-blur-[2px]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#080810] via-transparent to-transparent opacity-90" />
               
-              {/* Optional: Add film grain SVG texture */}
+              {/* Film grain SVG texture */}
               <div 
                 className="absolute inset-0"
                 style={{ 
@@ -124,15 +124,16 @@ const Contact = () => {
                 }} 
               />
               
-              <div className="absolute bottom-12 left-12 right-12 z-20">
-                <p className="text-white text-3xl font-bebas italic leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+              {/* Bottom Quote */}
+              <div className="absolute bottom-8 md:bottom-12 left-6 md:left-12 right-6 md:right-12 z-20 text-center md:text-left">
+                <p className="text-white text-2xl md:text-4xl font-bebas italic leading-tight drop-shadow-[0_2px_15px_rgba(0,0,0,0.9)]">
                   "{MOVIES[currentSlide].quote}"
                 </p>
-                <div className="mt-4 flex items-center gap-3">
-                  <span className="text-primary font-bold tracking-widest uppercase text-sm font-sans">
+                <div className="mt-3 flex items-center justify-center md:justify-start gap-3">
+                  <span className="text-primary font-bold tracking-widest uppercase text-xs md:text-sm font-sans drop-shadow-lg">
                     {MOVIES[currentSlide].title}
                   </span>
-                  <span className="text-gray-400 text-sm">— {MOVIES[currentSlide].year}</span>
+                  <span className="text-gray-300 text-xs md:text-sm drop-shadow-lg">— {MOVIES[currentSlide].year}</span>
                 </div>
               </div>
             </motion.div>
@@ -140,25 +141,24 @@ const Contact = () => {
         </AnimatePresence>
       </div>
 
-      {/* Right side: Contact Form */}
-      <div className="flex-1 flex flex-col justify-center px-6 md:px-16 lg:px-24 py-12 relative z-10 overflow-y-auto w-full md:w-1/2">
-        <div className="max-w-md w-full mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10 text-center md:text-left pt-20 md:pt-0">
-            <h1 className="font-bebas text-5xl md:text-7xl text-white tracking-wider mb-3">
+      {/* Centered Contact Form */}
+      <div className="relative z-10 w-full max-w-xl mx-auto px-4 sm:px-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ delay: 0.2 }}
+          className="bg-[#0c0c16]/50 backdrop-blur-xl border border-white/10 p-8 md:p-12 rounded-3xl shadow-2xl"
+        >
+          <div className="mb-10 text-center">
+            <h1 className="font-bebas text-5xl md:text-6xl text-white tracking-wider mb-2 drop-shadow-md">
               Get In <span className="text-primary">Touch</span>
             </h1>
-            <p className="text-gray-400 text-sm font-sans leading-relaxed">
+            <p className="text-gray-300 text-sm font-sans leading-relaxed">
               Have questions, feedback, or just want to talk movies? We'd love to hear from you. Securely send us a message below.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.form 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ delay: 0.1 }}
-            onSubmit={handleSubmit} 
-            className="space-y-5"
-          >
+          <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
               <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm text-center font-sans tracking-wide">
                 {error}
@@ -178,7 +178,7 @@ const Contact = () => {
                 placeholder="Name"
                 disabled={loading}
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-sans disabled:opacity-50"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3.5 text-white placeholder-gray-400 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all font-sans disabled:opacity-50"
               />
             </div>
             
@@ -190,7 +190,7 @@ const Contact = () => {
                 placeholder="Email Address"
                 disabled={loading}
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-sans disabled:opacity-50"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3.5 text-white placeholder-gray-400 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all font-sans disabled:opacity-50"
               />
             </div>
 
@@ -201,29 +201,27 @@ const Contact = () => {
                 placeholder="Your Message..."
                 disabled={loading}
                 required
-                rows={5}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-sans resize-none disabled:opacity-50"
+                rows={4}
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3.5 text-white placeholder-gray-400 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all font-sans resize-none disabled:opacity-50"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-primary hover:bg-red-700 text-white font-sans font-bold py-3 rounded-xl transition-all shadow-lg shadow-primary/20 flex flex-row items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+              className="w-full bg-primary hover:bg-red-700 text-white font-sans font-bold py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(239,68,68,0.2)] hover:shadow-[0_0_30px_rgba(239,68,68,0.4)] flex flex-row items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed mt-2"
             >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
               ) : (
                 <>
                   <Send className="w-4 h-4 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
-                  <span>Send Message</span>
+                  <span className="tracking-wide uppercase text-sm">Send Message</span>
                 </>
               )}
             </button>
-          </motion.form>
-
-
-        </div>
+          </form>
+        </motion.div>
       </div>
     </div>
   );
