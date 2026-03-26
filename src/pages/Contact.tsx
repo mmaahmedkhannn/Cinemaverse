@@ -222,22 +222,7 @@ const Contact = () => {
             </button>
           </motion.form>
 
-          {/* Quick Info Footer under form */}
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            transition={{ delay: 0.3 }}
-            className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-4 text-center sm:text-left"
-          >
-            <div className="flex items-center justify-center sm:justify-start gap-2">
-              <Mail className="w-4 h-4 text-gray-400" />
-              <span className="text-gray-400 text-xs font-sans">support@cinemadiscovery.com</span>
-            </div>
-            <div className="flex items-center justify-center sm:justify-start gap-2">
-              <MessageSquare className="w-4 h-4 text-gray-400" />
-              <span className="text-gray-400 text-xs font-sans">@CinemaDiscovery</span>
-            </div>
-          </motion.div>
+
         </div>
       </div>
     </div>
