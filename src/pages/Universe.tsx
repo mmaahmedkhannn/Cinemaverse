@@ -155,16 +155,20 @@ const Universe = () => {
 
               {/* Franchise Selector Tabs integrated in Hero */}
               <div className="relative flex items-center mb-4 max-w-full">
+                
+                {/* Scroll Left Button */}
                 <button 
                   onClick={scrollLeft}
-                  className="absolute left-0 z-20 h-full px-2 lg:px-4 bg-gradient-to-r from-background-dark to-transparent text-white hover:text-primary transition-colors flex items-center justify-center opacity-80 hover:opacity-100"
+                  className="absolute left-0 z-20 w-10 h-10 md:w-12 md:h-12 bg-black/80 backdrop-blur-xl rounded-full border border-white/20 text-white hover:text-primary hover:border-primary hover:shadow-[0_0_15px_rgba(229,9,20,0.4)] transition-all flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.9)] hover:scale-110 -ml-2 lg:-ml-5"
                 >
-                   <ChevronLeft className="w-8 h-8 drop-shadow-lg" />
+                   <ChevronLeft className="w-6 h-6 md:w-7 md:h-7 -ml-1" />
                 </button>
                 
+                {/* Scrollable Container with Edge Masks */}
                 <div 
                   ref={scrollRef}
-                  className="flex overflow-x-auto gap-3 no-scrollbar px-12 w-full snap-x scroll-smooth"
+                  className="flex overflow-x-auto gap-3 no-scrollbar px-10 md:px-12 w-full snap-x scroll-smooth py-2"
+                  style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
                 >
                   {FRANCHISES.map(franchise => (
                     <button
@@ -173,7 +177,7 @@ const Universe = () => {
                       className={`snap-start whitespace-nowrap px-6 py-2.5 rounded-full font-sans font-bold text-sm transition-all duration-300 flex-shrink-0 border backdrop-blur-md ${
                         selectedFranchiseId === franchise.id
                           ? 'bg-primary/90 text-white shadow-[0_0_20px_rgba(229,9,20,0.6)] border-primary'
-                          : 'bg-black/40 text-gray-300 border-white/10 hover:bg-white/10 hover:text-white hover:border-white/30'
+                          : 'bg-black/40 text-gray-300 border-white/10 hover:bg-white/10 hover:text-white hover:border-white/30 hover:scale-105'
                       }`}
                     >
                       {franchise.name}
@@ -181,11 +185,12 @@ const Universe = () => {
                   ))}
                 </div>
 
+                {/* Scroll Right Button */}
                 <button 
                   onClick={scrollRight}
-                  className="absolute right-0 z-20 h-full px-2 lg:px-4 bg-gradient-to-l from-background-dark to-transparent text-white hover:text-primary transition-colors flex items-center justify-center opacity-80 hover:opacity-100"
+                  className="absolute right-0 z-20 w-10 h-10 md:w-12 md:h-12 bg-black/80 backdrop-blur-xl rounded-full border border-white/20 text-white hover:text-primary hover:border-primary hover:shadow-[0_0_15px_rgba(229,9,20,0.4)] transition-all flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.9)] hover:scale-110 -mr-2 lg:-mr-5"
                 >
-                   <ChevronRight className="w-8 h-8 drop-shadow-lg" />
+                   <ChevronRight className="w-6 h-6 md:w-7 md:h-7 -mr-1" />
                 </button>
               </div>
            </div>
