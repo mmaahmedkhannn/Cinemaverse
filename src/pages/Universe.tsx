@@ -174,10 +174,10 @@ const Universe = () => {
                     <button
                       key={franchise.id}
                       onClick={() => setSelectedFranchiseId(franchise.id)}
-                      className={`snap-start whitespace-nowrap px-6 py-2.5 rounded-full font-sans font-bold text-sm transition-all duration-300 flex-shrink-0 border backdrop-blur-md ${
+                      className={`snap-start whitespace-nowrap px-8 py-3.5 rounded-full font-sans font-bold text-base md:text-lg transition-all duration-300 flex-shrink-0 border backdrop-blur-md ${
                         selectedFranchiseId === franchise.id
-                          ? 'bg-primary/90 text-white shadow-[0_0_20px_rgba(229,9,20,0.6)] border-primary'
-                          : 'bg-black/40 text-gray-300 border-white/10 hover:bg-white/10 hover:text-white hover:border-white/30 hover:scale-105'
+                          ? 'bg-primary/90 text-white shadow-[0_0_25px_rgba(229,9,20,0.7)] border-primary scale-105'
+                          : 'bg-black/40 text-gray-300 border-white/10 hover:bg-white/10 hover:text-white hover:border-white/40 hover:scale-105'
                       }`}
                     >
                       {franchise.name}

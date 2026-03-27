@@ -112,14 +112,14 @@ const Timeline = () => {
       </Helmet>
 
       {/* ── Sticky Decade Navigation Bar ── */}
-      <div className="sticky top-16 z-30 bg-black/90 backdrop-blur-xl border-b border-white/10">
-        <div className="flex items-center gap-1 px-4 py-3 overflow-x-auto no-scrollbar">
+      <div className="sticky top-16 z-30 bg-black/80 backdrop-blur-2xl border-b border-white/10 shadow-2xl">
+        <div className="flex items-center gap-2 px-6 py-4 overflow-x-auto no-scrollbar max-w-[1600px] mx-auto">
           {/* Left Arrow */}
           <button
             onClick={() => scroll('left')}
-            className="shrink-0 w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-colors mr-2"
+            className="shrink-0 w-10 h-10 rounded-full bg-white/5 hover:bg-white/15 border border-white/20 flex items-center justify-center text-gray-300 hover:text-white transition-all hover:scale-110 mr-4"
           >
-            <ChevronLeft className="w-5 h-5" />
+            <ChevronLeft className="w-6 h-6 -ml-0.5" />
           </button>
 
           {/* Decade Chips */}
@@ -127,10 +127,10 @@ const Timeline = () => {
             <button
               key={d.start}
               onClick={() => scrollToDecade(i)}
-              className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-sans font-semibold transition-all duration-300 ${
+              className={`shrink-0 px-6 py-2.5 rounded-full text-base font-sans font-bold transition-all duration-300 tracking-wide ${
                 activeDecade === i
-                  ? 'bg-white text-black shadow-lg'
-                  : 'text-gray-400 hover:text-white hover:bg-white/10'
+                  ? 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.4)] scale-105'
+                  : 'text-gray-400 border border-transparent hover:border-white/20 hover:text-white hover:bg-white/10'
               }`}
             >
               {d.label}
@@ -140,9 +140,9 @@ const Timeline = () => {
           {/* Right Arrow */}
           <button
             onClick={() => scroll('right')}
-            className="shrink-0 w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-colors ml-2"
+            className="shrink-0 w-10 h-10 rounded-full bg-white/5 hover:bg-white/15 border border-white/20 flex items-center justify-center text-gray-300 hover:text-white transition-all hover:scale-110 ml-4"
           >
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-6 h-6 -mr-0.5" />
           </button>
         </div>
       </div>
@@ -153,25 +153,28 @@ const Timeline = () => {
         className="flex-1 overflow-x-auto overflow-y-hidden no-scrollbar cursor-grab active:cursor-grabbing"
         style={{ scrollBehavior: 'auto' }}
       >
-        <div className="flex h-[calc(100vh-8rem)] min-h-[520px]">
+        <div className="flex h-[calc(100vh-10rem)] min-h-[650px]">
           {timelineBlocks.map((block, blockIdx) => (
             <div
               key={block.start}
               ref={(el) => { decadeRefs.current[blockIdx] = el; }}
-              className={`flex shrink-0 bg-gradient-to-br ${block.theme.bg} relative border-r border-white/10 overflow-hidden`}
+              className={`flex shrink-0 bg-gradient-to-b ${block.theme.bg} relative border-r border-white/10 overflow-hidden`}
             >
               {/* Giant watermark */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+              <div className="absolute top-0 right-0 p-8 flex items-start justify-end pointer-events-none select-none">
                 <h2
-                  className="font-bebas text-[18rem] md:text-[24rem] opacity-[0.04]"
+                  className="font-bebas text-[20rem] md:text-[32rem] leading-none opacity-[0.05] transform translate-x-12 -translate-y-8"
                   style={{ color: block.start === 1920 ? 'black' : block.theme.accent }}
                 >
                   {block.start}s
                 </h2>
               </div>
+              
+              {/* Decade Description or Overlay shadow */}
+              <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent pointer-events-none z-0" />
 
               {/* Year cards row */}
-              <div className="flex gap-5 px-8 py-8 items-center z-10">
+              <div className="flex gap-8 px-12 pt-32 pb-16 items-end z-10 h-full">
                 {block.years.map(year => (
                   <YearCard
                     key={year}
@@ -210,45 +213,46 @@ const YearCard = ({ year, milestone, themeAccent, onExpand }: { year: number; mi
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
+      initial={{ opacity: 0, scale: 0.9, y: 50 }}
+      whileInView={{ opacity: 1, scale: 1, y: 0 }}
       viewport={{ once: true, margin: '200px' }}
       onClick={onExpand}
-      className="w-56 shrink-0 bg-black/50 backdrop-blur-xl rounded-2xl border border-white/10 p-4 flex flex-col gap-4 shadow-[0_0_30px_rgba(0,0,0,0.5)] group hover:border-white/30 transition-all duration-400 hover:-translate-y-1 cursor-pointer relative overflow-hidden"
+      className="w-72 md:w-80 shrink-0 bg-[#0c0c16]/70 backdrop-blur-2xl rounded-3xl border border-white/10 p-6 flex flex-col gap-6 shadow-2xl shadow-black/80 group hover:border-white/30 transition-all duration-500 hover:-translate-y-4 cursor-pointer relative overflow-hidden h-full max-h-[500px]"
     >
       {/* Accent glow */}
-      <div className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl -mr-12 -mt-12 pointer-events-none" style={{ backgroundColor: themeAccent + '12' }} />
+      <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[60px] -mr-16 -mt-16 pointer-events-none" style={{ backgroundColor: themeAccent + '25' }} />
+      <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full blur-[60px] -ml-16 -mb-16 pointer-events-none opacity-50" style={{ backgroundColor: themeAccent + '15' }} />
 
       {/* Year + Count */}
-      <div className="flex justify-between items-center z-10">
-        <h3 className="font-bebas text-4xl drop-shadow-lg" style={{ color: themeAccent }}>{year}</h3>
-        <span className="text-[10px] font-sans font-bold text-gray-300 bg-white/10 px-2 py-1 rounded-full border border-white/10">
+      <div className="flex justify-between items-end z-10 border-b border-white/10 pb-4">
+        <h3 className="font-bebas text-5xl md:text-6xl drop-shadow-xl leading-none" style={{ color: themeAccent }}>{year}</h3>
+        <span className="text-xs md:text-sm font-sans font-bold text-gray-200 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 shadow-lg">
           {totalCount} Films
         </span>
       </div>
 
       {/* Mini Posters */}
-      <div className="flex justify-center py-3 relative z-20 h-40 items-center">
+      <div className="flex justify-center py-4 relative z-20 h-56 md:h-64 items-center">
         {previewMovies.map((m: any, i: number) => (
           <div
             key={m.id}
-            className="w-20 h-28 rounded-lg shadow-2xl border border-white/20 absolute transition-transform duration-500 group-hover:scale-105 origin-bottom"
+            className="w-28 h-40 md:w-32 md:h-48 rounded-xl shadow-[0_15px_30px_rgba(0,0,0,0.8)] border border-white/20 absolute transition-all duration-700 group-hover:scale-105 origin-bottom"
             style={{
-              transform: `translateX(${(i - 1) * 28}px) rotate(${(i - 1) * 10}deg) scale(${i === 1 ? 1.1 : 0.85})`,
+              transform: `translateX(${(i - 1) * 45}px) rotate(${(i - 1) * 12}deg) scale(${i === 1 ? 1.15 : 0.85})`,
               zIndex: i === 1 ? 30 : 10,
             }}
           >
             {m.poster_path ? (
-              <img src={getImageUrl(m.poster_path, 'w500')} alt={m.title} loading="lazy" decoding="async" className="w-full h-full object-cover rounded-lg" />
+              <img src={getImageUrl(m.poster_path, 'w500')} alt={m.title} loading="lazy" decoding="async" className="w-full h-full object-cover rounded-xl" />
             ) : (
-              <div className="w-full h-full bg-gray-900 rounded-lg flex items-center justify-center border border-white/10">
-                <Film className="w-5 h-5 text-gray-700" />
+              <div className="w-full h-full bg-[#111] rounded-xl flex items-center justify-center border border-white/5">
+                <Film className="w-8 h-8 text-gray-700" />
               </div>
             )}
             {m.vote_average > 0 && i === 1 && (
-              <div className="absolute -top-2 -right-2 bg-black/90 backdrop-blur-md rounded-full px-1.5 py-0.5 border border-white/20 flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Star className="w-2.5 h-2.5 fill-yellow-400 text-yellow-400" />
-                <span className="text-[9px] text-white font-bold">{m.vote_average.toFixed(1)}</span>
+              <div className="absolute -top-3 -right-3 bg-black/90 backdrop-blur-md rounded-full px-2 py-1 border border-white/20 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-xl">
+                <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                <span className="text-xs text-white font-bold">{m.vote_average.toFixed(1)}</span>
               </div>
             )}
           </div>
@@ -256,16 +260,19 @@ const YearCard = ({ year, milestone, themeAccent, onExpand }: { year: number; mi
       </div>
 
       {/* Milestone */}
-      {milestone && (
-        <div className="px-3 py-2 bg-white/5 border-l-2 rounded-r-lg text-[11px] font-sans text-gray-200 z-10" style={{ borderColor: themeAccent }}>
-          <Sparkles className="w-3 h-3 inline mr-1" style={{ color: themeAccent }} /> {milestone}
-        </div>
-      )}
+      <div className="mt-auto z-10 flex flex-col gap-4">
+        {milestone && (
+          <div className="px-4 py-3 bg-black/40 backdrop-blur-md border-l-4 rounded-r-xl text-xs md:text-sm font-sans font-semibold text-gray-200 shadow-inner" style={{ borderColor: themeAccent }}>
+            <Sparkles className="w-4 h-4 inline mr-2 align-text-bottom drop-shadow-[0_0_5px_currentColor]" style={{ color: themeAccent }} /> 
+            {milestone}
+          </div>
+        )}
 
-      {/* Explore button */}
-      <button className="mt-auto w-full py-2.5 bg-white/5 group-hover:bg-white/10 transition-all rounded-xl text-xs font-sans font-bold text-white flex items-center justify-center gap-1.5 border border-white/5 group-hover:border-white/20 z-10">
-        <Film className="w-3.5 h-3.5" /> EXPLORE YEAR
-      </button>
+        {/* Explore button */}
+        <button className="w-full py-3.5 bg-white/10 hover:bg-white/20 transition-all rounded-xl text-sm font-sans font-bold text-white flex items-center justify-center gap-2 border border-white/10 group-hover:border-white/30 backdrop-blur-sm group-hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+          <Film className="w-4 h-4" /> EXPLORE FILMS
+        </button>
+      </div>
     </motion.div>
   );
 };
