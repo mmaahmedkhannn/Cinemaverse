@@ -113,13 +113,13 @@ const Timeline = () => {
 
       {/* ── Sticky Decade Navigation Bar ── */}
       <div className="sticky top-16 z-30 bg-black/80 backdrop-blur-2xl border-b border-white/10 shadow-2xl">
-        <div className="flex items-center gap-2 px-6 py-4 overflow-x-auto no-scrollbar max-w-[1600px] mx-auto">
+        <div className="flex items-center md:justify-center gap-3 px-6 py-5 overflow-x-auto no-scrollbar max-w-[1600px] mx-auto">
           {/* Left Arrow */}
           <button
             onClick={() => scroll('left')}
-            className="shrink-0 w-10 h-10 rounded-full bg-white/5 hover:bg-white/15 border border-white/20 flex items-center justify-center text-gray-300 hover:text-white transition-all hover:scale-110 mr-4"
+            className="shrink-0 w-12 h-12 rounded-full bg-white/5 hover:bg-white/15 border border-white/20 flex items-center justify-center text-gray-300 hover:text-white transition-all hover:scale-110 mr-4 md:mr-6"
           >
-            <ChevronLeft className="w-6 h-6 -ml-0.5" />
+            <ChevronLeft className="w-7 h-7 -ml-0.5" />
           </button>
 
           {/* Decade Chips */}
@@ -127,7 +127,7 @@ const Timeline = () => {
             <button
               key={d.start}
               onClick={() => scrollToDecade(i)}
-              className={`shrink-0 px-6 py-2.5 rounded-full text-base font-sans font-bold transition-all duration-300 tracking-wide ${
+              className={`shrink-0 px-8 py-3.5 rounded-full text-lg font-sans font-bold transition-all duration-300 tracking-wide ${
                 activeDecade === i
                   ? 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.4)] scale-105'
                   : 'text-gray-400 border border-transparent hover:border-white/20 hover:text-white hover:bg-white/10'
@@ -140,9 +140,9 @@ const Timeline = () => {
           {/* Right Arrow */}
           <button
             onClick={() => scroll('right')}
-            className="shrink-0 w-10 h-10 rounded-full bg-white/5 hover:bg-white/15 border border-white/20 flex items-center justify-center text-gray-300 hover:text-white transition-all hover:scale-110 ml-4"
+            className="shrink-0 w-12 h-12 rounded-full bg-white/5 hover:bg-white/15 border border-white/20 flex items-center justify-center text-gray-300 hover:text-white transition-all hover:scale-110 ml-4 md:ml-6"
           >
-            <ChevronRight className="w-6 h-6 -mr-0.5" />
+            <ChevronRight className="w-7 h-7 -mr-0.5" />
           </button>
         </div>
       </div>
@@ -171,10 +171,10 @@ const Timeline = () => {
               </div>
               
               {/* Decade Description or Overlay shadow */}
-              <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent pointer-events-none z-0" />
+              <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/50 to-transparent pointer-events-none z-0" />
 
               {/* Year cards row */}
-              <div className="flex gap-8 px-12 pt-32 pb-16 items-end z-10 h-full">
+              <div className="flex gap-8 px-12 items-center justify-center z-10 h-full w-full">
                 {block.years.map(year => (
                   <YearCard
                     key={year}
