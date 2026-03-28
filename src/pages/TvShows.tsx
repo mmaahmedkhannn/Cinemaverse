@@ -6,6 +6,7 @@ import { tmdbApi, getImageUrl, type TMDBTvShow } from '../services/tmdb';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { generateSlug } from '../utils/slugify';
+import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
 
 const YEARS = [2026, 2025, 2024, 2023, 2022, 2021, 2020, "All Time"];
 
@@ -33,11 +34,12 @@ const TvShowCard = ({ show, genresMap, index }: { show: TMDBTvShow, genresMap: R
       >
         <div className="relative aspect-[2/3] rounded-xl overflow-hidden mb-3 shadow-[0_8px_30px_rgb(0,0,0,0.5)] border border-white/5 bg-[#111]">
           {show.poster_path ? (
-            <img
+            <ImageWithSkeleton
               src={getImageUrl(show.poster_path, 'w500')}
               alt={show.name}
               loading="lazy"
               decoding="async"
+              containerClassName="w-full h-full"
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
             />
           ) : (

@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { blogArticles } from '../data/blogArticles';
 import { Calendar, Clock, ArrowRight, BookOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
+import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
 
 const Blog = () => {
   return (
@@ -41,9 +42,11 @@ const Blog = () => {
             className="relative rounded-3xl overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-500"
           >
             <div className="aspect-[21/9] relative">
-              <img
+              <ImageWithSkeleton
                 src={blogArticles[0].heroImage}
                 alt={blogArticles[0].title}
+                fetchPriority="high"
+                containerClassName="w-full h-full"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
@@ -77,10 +80,11 @@ const Blog = () => {
                 className="bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 hover:bg-white/[0.05] transition-all duration-400"
               >
                 <div className="aspect-[16/9] relative overflow-hidden">
-                  <img
+                  <ImageWithSkeleton
                     src={article.heroImage}
                     alt={article.title}
                     loading="lazy"
+                    containerClassName="w-full h-full"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />

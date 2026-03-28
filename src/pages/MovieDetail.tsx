@@ -187,6 +187,7 @@ const MovieDetail = () => {
             alt={movie.title}
             className="w-full h-full object-cover"
             fetchPriority="high"
+            loading="eager"
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent" />

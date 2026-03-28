@@ -10,6 +10,7 @@ import { doc, getDoc, setDoc, increment } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Helmet } from 'react-helmet-async';
 import { generateSlug } from '../utils/slugify';
+import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
 
 const Top100 = () => {
   const [filter, setFilter] = useState<{ era: 'all' | '2020s' | '2010s' | '2000s' | '1990s' | '1980s' | '1970s' | 'pre1970' }>({ era: 'all' });
@@ -204,12 +205,13 @@ const Top100 = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 className="relative group overflow-hidden rounded-3xl aspect-[16/9] md:aspect-[21/9] border border-yellow-500/30"
               >
-                <img 
+                <ImageWithSkeleton 
                   src={getImageUrl(filteredMovies[0].backdrop_path, 'w1280')} 
                   alt={filteredMovies[0].title}
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"
+                  containerClassName="w-full h-full absolute inset-0 z-[-1]"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent" />
@@ -250,11 +252,12 @@ const Top100 = () => {
                     viewport={{ once: true }}
                     className="relative rounded-2xl overflow-hidden aspect-video border border-white/10 group"
                   >
-                    <img 
+                    <ImageWithSkeleton 
                       src={getImageUrl(movie.backdrop_path, 'w1280')} 
                       alt={movie.title}
                       loading="lazy"
                       decoding="async"
+                      containerClassName="w-full h-full absolute inset-0 z-[-1]"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/20 to-transparent" />
@@ -294,11 +297,12 @@ const Top100 = () => {
                     className="group"
                   >
                     <Link to={`/movie/${movie.id}/${generateSlug(movie.title)}`} className="block relative aspect-[2/3] rounded-xl overflow-hidden mb-3 border border-white/10">
-                      <img 
+                      <ImageWithSkeleton 
                         src={getImageUrl(movie.poster_path, 'w500')} 
                         alt={movie.title}
                         loading="lazy"
                         decoding="async"
+                        containerClassName="w-full h-full"
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute top-2 left-2 w-8 h-8 rounded-full bg-black/80 backdrop-blur-md flex items-center justify-center font-bebas text-white border border-white/20">
@@ -341,7 +345,7 @@ const Top100 = () => {
                     <div className="col-span-1 font-bebas text-2xl text-gray-500 group-hover:text-white transition-colors">{globalIdx}</div>
                     <div className="col-span-6 md:col-span-7 flex items-center gap-4">
                        <div className="w-10 h-14 hidden md:block rounded-md overflow-hidden bg-gray-900 border border-white/10">
-                         <img src={getImageUrl(movie.poster_path, 'w500')} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                         <ImageWithSkeleton src={getImageUrl(movie.poster_path, 'w500')} alt="" loading="lazy" decoding="async" containerClassName="w-full h-full" className="w-full h-full object-cover" />
                        </div>
                        <div>
                          <div className="flex items-center gap-2 mb-1">

@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { generateSlug } from '../utils/slugify';
 import { useInView } from 'react-intersection-observer';
+import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
 
 const Directors = () => {
   const { ref, inView } = useInView({ rootMargin: '400px' });
@@ -118,12 +119,13 @@ const Directors = () => {
                   {/* Director Photo + Backdrop Header */}
                   <div className="relative h-44 bg-gradient-to-br from-gray-900 to-black border-b border-white/5 overflow-hidden">
                     {director.known_for?.[0]?.backdrop_path && (
-                      <img
+                      <ImageWithSkeleton
                         src={getImageUrl(director.known_for[0].backdrop_path, 'w500')}
                         alt={director.name}
                         loading="lazy"
                         decoding="async"
-                        className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity duration-700 scale-105 group-hover:scale-110"
+                        containerClassName="absolute inset-0 w-full h-full"
+                        className="w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity duration-700 scale-105 group-hover:scale-110"
                       />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/60 to-transparent" />
@@ -131,7 +133,7 @@ const Directors = () => {
                     <div className="absolute inset-x-0 bottom-0 p-5 flex items-end gap-4 translate-y-3">
                       <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-primary/50 shadow-lg shadow-black/50 mb-3 bg-gray-900 group-hover:border-primary transition-colors flex-shrink-0">
                         {director.profile_path ? (
-                          <img src={getImageUrl(director.profile_path, 'w500')} alt={director.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                          <ImageWithSkeleton src={getImageUrl(director.profile_path, 'w500')} alt={director.name} loading="lazy" decoding="async" containerClassName="w-full h-full" className="w-full h-full object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-gray-500"><Camera className="w-6 h-6" /></div>
                         )}
@@ -151,7 +153,7 @@ const Directors = () => {
                       {director.known_for?.slice(0, 3).map((media: any) => (
                          <div key={media.id} className="flex-1 aspect-[2/3] rounded-lg bg-white/5 overflow-hidden border border-white/10 relative group/poster shadow-lg">
                             {media.poster_path ? (
-                               <img src={getImageUrl(media.poster_path, 'w500')} alt="" className="w-full h-full object-cover opacity-70 group-hover/poster:opacity-100 transition-opacity duration-300" />
+                               <ImageWithSkeleton src={getImageUrl(media.poster_path, 'w500')} alt="" loading="lazy" decoding="async" containerClassName="w-full h-full" className="w-full h-full object-cover opacity-70 group-hover/poster:opacity-100 transition-opacity duration-300" />
                             ) : (
                                <div className="w-full h-full flex items-center justify-center text-gray-600"><Film className="w-4 h-4" /></div>
                             )}

@@ -15,7 +15,8 @@ export const tmdbClient = axios.create({
 // Image helper function
 export const getImageUrl = (path: string | null, size: 'w500' | 'original' | 'w1280' = 'w500') => {
   if (!path) return ''; // We can handle fallback in the UI
-  return `https://image.tmdb.org/t/p/${size}${path}`;
+  const finalSize = size === 'original' ? 'w1280' : size;
+  return `https://image.tmdb.org/t/p/${finalSize}${path}`;
 };
 
 // Types

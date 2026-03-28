@@ -6,6 +6,7 @@ import { tmdbApi, getImageUrl } from '../services/tmdb';
 import { Link } from 'react-router-dom';
 import { generateSlug } from '../utils/slugify';
 import { Helmet } from 'react-helmet-async';
+import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
 
 const DECADES = [
   { start: 1900, label: '1900s', theme: { bg: 'from-amber-900 via-[#3e2723] to-black', accent: '#d7ccc8' } },
@@ -243,7 +244,7 @@ const YearCard = ({ year, milestone, themeAccent, onExpand }: { year: number; mi
             }}
           >
             {m.poster_path ? (
-              <img src={getImageUrl(m.poster_path, 'w500')} alt={m.title} loading="lazy" decoding="async" className="w-full h-full object-cover rounded-xl" />
+              <ImageWithSkeleton src={getImageUrl(m.poster_path, 'w500')} alt={m.title} loading="lazy" decoding="async" containerClassName="w-full h-full" className="w-full h-full object-cover rounded-xl" />
             ) : (
               <div className="w-full h-full bg-[#111] rounded-xl flex items-center justify-center border border-white/5">
                 <Film className="w-8 h-8 text-gray-700" />
@@ -307,7 +308,7 @@ const ExpandedYearModal = ({ year, onClose }: { year: number; onClose: () => voi
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} className="group">
                   <div className="aspect-[2/3] rounded-2xl overflow-hidden bg-white/5 mb-3 relative shadow-2xl">
                     {movie.poster_path ? (
-                      <img src={getImageUrl(movie.poster_path)} alt={movie.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <ImageWithSkeleton src={getImageUrl(movie.poster_path, 'w500')} alt={movie.title} loading="lazy" decoding="async" containerClassName="w-full h-full" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-gray-600"><Film className="w-8 h-8" /></div>
                     )}
