@@ -44,7 +44,7 @@ const Blog = () => {
             <div className="aspect-[21/9] relative">
               <ImageWithSkeleton
                 src={blogArticles[0].heroImage}
-                alt={blogArticles[0].title}
+                alt={`${blogArticles[0].title} — ${blogArticles[0].category} article on CinemaDiscovery`}
                 fetchPriority="high"
                 containerClassName="w-full h-full"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
@@ -82,7 +82,7 @@ const Blog = () => {
                 <div className="aspect-[16/9] relative overflow-hidden">
                   <ImageWithSkeleton
                     src={article.heroImage}
-                    alt={article.title}
+                    alt={`${article.title} — ${article.category} article on CinemaDiscovery`}
                     loading="lazy"
                     containerClassName="w-full h-full"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"

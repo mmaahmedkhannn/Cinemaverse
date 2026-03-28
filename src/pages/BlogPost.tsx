@@ -1,7 +1,7 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { blogArticles } from '../data/blogArticles';
-import { Calendar, Clock, ArrowLeft, BookOpen } from 'lucide-react';
+import { Calendar, Clock, ArrowLeft, BookOpen, UserPen } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 
@@ -84,11 +84,10 @@ function renderContent(content: string) {
         i++;
       }
       elements.push(
-        <ul key={`ul-${i}`} className="my-4 space-y-2">
+        <ul key={`ul-${i}`} className="my-4 pl-6 space-y-2 list-disc marker:text-primary">
           {items.map((item, idx) => (
-            <li key={idx} className="text-gray-300 font-sans text-base leading-relaxed flex gap-2">
-              <span className="text-primary mt-1.5">•</span>
-              <span>{renderInline(item)}</span>
+            <li key={idx} className="text-gray-300 font-sans text-base leading-relaxed pl-1">
+              {renderInline(item)}
             </li>
           ))}
         </ul>
@@ -185,7 +184,7 @@ const BlogPost = () => {
       <div className="relative w-full h-[50vh] md:h-[60vh]">
         <img
           src={article.heroImage}
-          alt={article.title}
+          alt={`${article.title} — ${article.category} article on CinemaDiscovery`}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/20" />
@@ -206,6 +205,10 @@ const BlogPost = () => {
             <h1 className="font-bebas text-4xl md:text-6xl text-white tracking-wide mb-4 leading-tight">
               {article.title}
             </h1>
+            <div className="flex items-center gap-2 text-gray-400 text-sm font-sans mb-3">
+              <UserPen className="w-4 h-4 text-primary" />
+              <span className="font-semibold">By CinemaDiscovery Editorial Team</span>
+            </div>
             <div className="flex items-center gap-4 text-gray-300 text-sm font-sans">
               <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {new Date(article.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
               <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {article.readTime}</span>
@@ -235,7 +238,7 @@ const BlogPost = () => {
               {otherArticles.map(a => (
                 <Link to={`/blog/${a.slug}`} key={a.slug} className="group">
                   <div className="aspect-[16/9] rounded-xl overflow-hidden mb-3">
-                    <img src={a.heroImage} alt={a.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={a.heroImage} alt={`${a.title} — ${a.category} article on CinemaDiscovery`} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   </div>
                   <h3 className="font-bebas text-lg text-white group-hover:text-primary transition-colors line-clamp-2">{a.title}</h3>
                   <p className="text-gray-500 text-xs font-sans mt-1">{a.readTime}</p>
