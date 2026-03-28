@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect, useMemo, Fragment } from 'react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Star, Search, Filter } from 'lucide-react';
@@ -70,8 +70,16 @@ const Movies = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  // Flatten infinite query results
-  const movies: TMDBMovie[] = data?.pages.flatMap(page => page.results) || [];
+  // Flatten infinite query results and deduplicate
+  const movies = useMemo(() => {
+    if (!data?.pages) return [];
+    const all = data.pages.flatMap(page => page?.results || []);
+    const uniqueMap = new Map();
+    all.forEach(m => {
+      if (!uniqueMap.has(m.id)) uniqueMap.set(m.id, m);
+    });
+    return Array.from(uniqueMap.values()) as TMDBMovie[];
+  }, [data]);
 
   return (
     <main className="min-h-screen bg-background-dark pt-22 pb-20">

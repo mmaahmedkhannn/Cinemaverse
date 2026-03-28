@@ -457,4 +457,250 @@ Nolan's adaptation of Homer's ancient epic is his most visually spectacular and 
 Discover Christopher Nolan's complete filmography, career statistics, and connections to other filmmakers on our [Directors page](/directors). See where his films land on the [Top 100 Greatest Films](/top100), or explore the evolution of cinema through our [Timeline](/timeline).
     `.trim(),
   },
+  {
+    slug: 'best-thriller-movies-of-all-time',
+    title: '12 Best Thriller Movies of All Time That Will Keep You Guessing',
+    metaDescription: 'Looking for the best thriller movies of all time? Discover the ultimate edge-of-your-seat psychological thrillers and suspense films curated by CinemaDiscovery.',
+    excerpt: 'From heart-stopping psychological mind-games to high-stakes suspense, explore our definitive list of the best thriller movies of all time.',
+    date: '2026-01-10',
+    readTime: '9 min read',
+    category: 'Lists',
+    heroImage: 'https://image.tmdb.org/t/p/original/8gLhu8UFPZfH2Hv11JhTZkb9CVl.jpg',
+    content: `
+## Defining the Perfect Thriller
+
+When we talk about the **best thriller movies of all time**, we're looking for absolute tension. A true cinematic thriller bypasses your intellect and attacks your nervous system directly.
+
+Whether it's a psychological cat-and-mouse game or an unrelenting action sequence, these films represent the pinnacle of suspense building.
+
+### 1. The Silence of the Lambs (1991)
+Director Jonathan Demme crafted what is arguably the most perfect psychological thriller ever made. Anthony Hopkins and Jodie Foster engage in a battle of wits that remains unparalleled in modern cinema.
+
+### 2. Se7en (1995)
+David Fincher redefined the modern serial killer movie with this grim, rain-soaked masterpiece. The oppressive atmosphere and unforgettable final twist secure its legacy as one of the best thriller movies of all time.
+
+### 3. Prisoners (2013)
+Denis Villeneuve's unrelenting look at the ethics of vengeance is an exhausting emotional gauntlet. Hugh Jackman delivers a terrifying and heartbreaking performance.
+
+### 4. Parasite (2019)
+Bong Joon-ho’s genre-shifting masterpiece. What starts as a brilliant social satire slowly tightens into an unbearably tense thriller during its chaotic third act.
+
+### 5. Zodiac (2007)
+Another entry from David Fincher, dealing not just in suspense, but the agonizing terror of unanswered questions and obsession.
+
+### 6. Misery (1990)
+Kathy Bates won an Oscar for her horrifying portrayal of a toxic super-fan, perfectly adapting Stephen King's chilling novel about hostage-taking and literary passion.
+
+### 7. Vertigo (1958)
+No list of the best thriller movies of all time is complete without Alfred Hitchcock. *Vertigo* remains the definitive psychological exploration of obsession and deceit.
+
+### 8. Gone Girl (2014)
+A masterclass in unreliable narration. The way this domestic thriller dissects modern marriage makes it as thematically fascinating as it is suspenseful.
+
+### 9. High and Low (1963)
+Akira Kurosawa's kidnapping thriller is a geometric masterpiece, splitting the film into a tense moral dilemma and a procedural hunt through the criminal underworld of Yokohama.
+
+### 10. Sicario (2015)
+The border-crossing sequence alone is enough to earn this film a spot on any list of the best thriller films of all time. Denis Villeneuve orchestrates tension with excruciating precision.
+
+## Why We Love The Thriller Genre
+
+Thrillers force audiences out of their comfort zones. Find more edge-of-your-seat entertainment by browsing our comprehensive [Movies](/movies) guide on CinemaDiscovery.com.
+    `.trim(),
+  },
+  {
+    slug: 'most-underrated-movies-on-netflix',
+    title: 'The 10 Most Underrated Movies on Netflix Hidden in the Algorithm',
+    metaDescription: 'Tired of scrolling? Discover the most underrated movies on Netflix right now. Stop browsing the algorithm and watch these hidden cinematic gems.',
+    excerpt: 'Stop aimlessly scrolling. We bypassed the algorithm to find the 10 most underrated movies on Netflix that deserve your immediate attention.',
+    date: '2026-02-05',
+    readTime: '7 min read',
+    category: 'Streaming',
+    heroImage: 'https://image.tmdb.org/t/p/original/mBaXZ95R2OxueZhvQbcEWy2DqyO.jpg',
+    content: `
+## Beating the Netflix Algorithm
+
+We've all been there: scrolling for 45 minutes through the same heavily promoted "Netflix Originals" until we give up and watch an old sitcom. The platform boasts thousands of titles, but its recommendation engine tends to prioritize its own massive viral hits. 
+
+If you want to discover the **most underrated movies on Netflix**, you have to dig a little deeper. 
+
+### 1. I Don't Feel at Home in This World Anymore (2017)
+Elijah Wood and Melanie Lynskey star in this exceptionally quirky and surprisingly violent indie thriller about a woman who teams up with her weird neighbor to track down the burglars who robbed her house. It's darkly hilarious.
+
+### 2. The Night Comes For Us (2018)
+If you are an action movie fanatic and haven't seen this Indonesian masterpiece, clear your schedule. It features some of the most brutal, intricately choreographed martial arts sequences ever committed to film.
+
+### 3. His House (2020)
+A refugee couple from South Sudan struggles to adjust to their new life in an English town that has an evil lurking beneath the surface. It’s one of the most underrated movies on Netflix — a horror film with incredible social depth.
+
+### 4. Apostle (2018)
+Dan Stevens infiltrates an isolated island cult in 1905 to rescue his sister. Directed by Gareth Evans (of *The Raid* fame), this is folk-horror at its most atmospheric and intense.
+
+### 5. Cam (2018)
+A psychological thriller that understands internet culture perfectly. A camgirl discovers her channel has been hijacked by an exact replica of herself. It's smart, suspenseful, and highly original.
+
+### 6. Okja (2017)
+Before *Parasite*, Bong Joon-ho made this beautiful, bizarre adventure about a young girl risking everything to stop a multinational corporation from kidnapping her best friend—a genetically modified super-pig.
+
+### 7. High Flying Bird (2019)
+Steven Soderbergh shot this entire sports drama on an iPhone. It's a dialogue-driven, sharply written exploration of the business of basketball, featuring an incredible lead performance by André Holland.
+
+### 8. The Meyerowitz Stories (2017)
+Noah Baumbach directs Adam Sandler in what is undeniably one of Sandler's greatest dramatic performances. A deeply funny and poignant look at a dysfunctional family.
+
+### 9. They Cloned Tyrone (2023)
+A stylish, genre-bending sci-fi mystery starring John Boyega, Teyonah Parris, and Jamie Foxx uncovering a government conspiracy. It's one of the smartest satire films on the platform.
+
+### 10. The Platform (2019)
+A Spanish sci-fi thriller set in a vertical prison where food is lowered on a platform. It's a blunt but brutally effective allegory for capitalism and human greed.
+
+### Find More Hidden Gems
+
+Don't let the algorithm dictate your movie nights. Use **[CinemaDiscovery's advanced movie filters](/movies)** to uncover hidden gems, check community ratings, and find exactly what you're looking for.
+    `.trim(),
+  },
+  {
+    slug: 'best-sci-fi-movies-2024',
+    title: 'Looking Back: The Best Sci-Fi Movies 2024 Delivered',
+    metaDescription: 'A comprehensive retrospective on the best sci-fi movies 2024 had to offer. Revisit the year\'s greatest science fiction films, ranked by CinemaDiscovery.',
+    excerpt: '2024 was a banner year for science fiction. We look back and rank the absolute best sci-fi movies 2024 offered moviegoers.',
+    date: '2026-02-18',
+    readTime: '8 min read',
+    category: 'Lists',
+    heroImage: 'https://image.tmdb.org/t/p/original/8rpDcsfLJypbO6vtecwarcppOww.jpg',
+    content: `
+## A Year of Future Visions
+
+When we analyze the cinematic milestones of the decade, 2024 stands out as a titan for the science fiction genre. From the towering spectacle of Arrakis to intimate AI character studies, the **best sci-fi movies of 2024** pushed the boundaries of visual effects and thematic storytelling.
+
+### 1. Dune: Part Two
+Denis Villeneuve returned to the deserts of Arrakis and delivered one of the greatest cinematic achievements of the decade. The scale, sound design, and emotional stakes elevated *Dune: Part Two* beyond a mere sequel into the realm of a true sci-fi masterpiece.
+
+### 2. Furiosa: A Mad Max Saga
+George Miller expanded his post-apocalyptic wasteland with a high-octane prequel that matched the kinetic fury of *Fury Road* while offering a sweeping, biblical narrative scale. It was undeniably one of the best sci-fi movies 2024 produced.
+
+### 3. Alien: Romulus
+Fede Álvarez brought the xenomorph back to its terrifying roots. With stunning practical effects and a claustrophobic atmosphere, *Romulus* proved the franchise still has plenty of acid blood pumping through its veins.
+
+### 4. Kingdom of the Planet of the Apes
+Setting the story centuries after Caesar’s reign, director Wes Ball successfully revitalized the franchise. The visual effects and world-building of this post-human Earth were nothing short of breathtaking.
+
+### 5. The Wild Robot
+While technically an animated film, *The Wild Robot* delivered profound science-fiction themes about programming, artificial intelligence, and nature. It was one of the most emotionally resonant films of the year.
+
+### Keep Exploring Science Fiction
+
+If you want to track upcoming sci-fi epics or see our all-time highest-rated science fiction films, check the **[CinemaDiscovery Movie Database](/movies)** and sort by "Science Fiction".
+    `.trim(),
+  },
+  {
+    slug: 'top-rated-hbo-shows',
+    title: 'The Top Rated HBO Shows of All Time (Updated for 2026)',
+    metaDescription: 'Discover the top rated HBO shows of all time. From The Sopranos to Succession, CinemaDiscovery ranks the greatest prestige television HBO has ever produced.',
+    excerpt: 'HBO invented prestige television. We rank the absolute top rated HBO shows of all time based on critical reception and CinemaDiscovery audience scores.',
+    date: '2026-03-02',
+    readTime: '11 min read',
+    category: 'Streaming',
+    heroImage: 'https://image.tmdb.org/t/p/original/n2aF1XfRihjS4ydo0Aem0G6nhoK.jpg',
+    content: `
+## The HBO Legacy
+
+"It's not TV. It's HBO." For over two decades, HBO has been the gold standard for premium, cinematic storytelling on the small screen. 
+
+Compiling a list of the **top rated HBO shows** is incredibly difficult because the network's hit rate is unprecedented. However, based on critic consensus and CinemaDiscovery audience CV Scores, these are the undisputed titans of prestige television.
+
+### 1. The Wire (2002–2008)
+David Simon's sprawling, novelistic examination of Baltimore's institutions—from the drug trade to the docks, city hall to the school system—remains the pinnacle of televised storytelling. It’s not just one of the top rated HBO shows; many consider it the greatest television series ever made.
+
+### 2. The Sopranos (1999–2007)
+The show that started the Golden Age of Television. James Gandolfini’s portrayal of mob boss Tony Soprano revolutionized the concept of the anti-hero, proving that audiences would follow a deeply flawed character through seasons of psychological complexity.
+
+### 3. Succession (2018–2023)
+A blistering, hilarious, and ultimately tragic Shakespearean drama about a billionaire media family fighting for power. The writing is razor-sharp, and the performances are uniformly flawless.
+
+### 4. Band of Brothers (2001)
+Produced by Steven Spielberg and Tom Hanks, this ten-part miniseries following "Easy Company" during WWII set a new standard for production value and emotional authenticity in historical drama.
+
+### 5. Chernobyl (2019)
+A horrifying, meticulously researched historical miniseries detailing the 1986 nuclear disaster. It is a masterful exploration of the cost of lies and the heroism of those who suffered the consequences.
+
+### 6. The Leftovers (2014–2017)
+Damon Lindelof's exploration of grief, faith, and the unknown after 2% of the world's population vanishes without explanation. It's bizarre, beautiful, and emotionally devastating television.
+
+### 7. Game of Thrones (2011–2019)
+Despite its divisive final season, the cultural impact and cinematic scale of *Game of Thrones* cannot be overstated. It changed what audiences expected television could look like.
+
+### 8. Veep (2012–2019)
+Perhaps the greatest comedy HBO has ever produced. Julia Louis-Dreyfus delivers the performance of a lifetime in this foul-mouthed, machine-gun-paced political satire.
+
+### 9. True Detective (Season 1) (2014)
+While it's an anthology series, the first season starring Matthew McConaughey and Woody Harrelson is an unparalleled piece of Southern Gothic mystery that captured the cultural zeitgeist.
+
+### 10. The Last of Us (2023–Present)
+Breaking the "video game adaptation curse," this emotionally brutal post-apocalyptic drama proved that HBO's commitment to prestige storytelling adapts perfectly to new mediums.
+
+### Dive Deeper
+
+Want to discover more incredible series? Head to our **[TV Shows Directory](/tv)** to track your viewing progress, and learn more about the cinematic universe at **[CinemaDiscovery.com](https://cinemadiscovery.com)**.
+    `.trim(),
+  },
+  {
+    slug: 'movies-with-best-cinematography',
+    title: '15 Movies With Best Cinematography Every Film Fan Must See',
+    metaDescription: 'Celebrate visual masterpieces. We rank the 15 movies with best cinematography ever captured, featuring legendary Directors of Photography like Roger Deakins and Emmanuel Lubezki.',
+    excerpt: 'Cinema is a visual medium. We break down 15 movies with the best cinematography that prove every frame can be a painting.',
+    date: '2026-03-20',
+    readTime: '10 min read',
+    category: 'Lists',
+    heroImage: 'https://image.tmdb.org/t/p/original/ilRyazdUW1s2ecQ4n9m3JtK6Kig.jpg',
+    content: `
+## When Every Frame is a Painting
+
+A great Director of Photography (DP) doesn't just illuminate a set—they use light, shadow, color, and camera movement to tell the story emotionally. When looking for **movies with best cinematography**, we are looking for visual poetry.
+
+### 1. Blade Runner 2049 (2017)
+**Cinematographer:** Roger Deakins
+Finally winning Deakins his long-overdue Academy Award, *Blade Runner 2049* is a staggering visual achievement. The harsh orange dust of Las Vegas, the neon reflection on rain-slicked concrete, and the brutalist architecture make every single frame worthy of hanging in a gallery.
+
+### 2. The Tree of Life (2011)
+**Cinematographer:** Emmanuel Lubezki
+Shooting almost entirely with natural light and fluid, floating camera movements, Lubezki captures both the intimate micro-moments of a 1950s childhood and the macro-scale creation of the universe with equal reverence.
+
+### 3. Lawrence of Arabia (1962)
+**Cinematographer:** Freddie Young
+The sheer scale of the desert vistas captured on 70mm film has never been matched. The way the mirages distort the horizon line, making the desert feel both beautiful and terrifying, makes this one of the defining movies with best cinematography of the 20th century.
+
+### 4. In the Mood for Love (2000)
+**Cinematographer:** Christopher Doyle & Mark Lee Ping-bin
+Drenched in rich reds and deep shadows, Wong Kar-wai’s masterpiece uses framing to emphasize the isolation and unfulfilled desire of its protagonists in 1960s Hong Kong.
+
+### 5. Barry Lyndon (1975)
+**Cinematographer:** John Alcott
+Stanley Kubrick and John Alcott used special NASA-developed lenses to shoot the interior candlelit scenes purely with natural candlelight. The result makes every shot look exactly like an 18th-century painting.
+
+### 6. Children of Men (2006)
+**Cinematographer:** Emmanuel Lubezki
+Famous for its impossibly long, unbroken tracking shots through chaotic warzones. The cinematography isn't just showing you the action; it's forcing you directly into the terrifying reality of a dying world.
+
+### 7. The Assassination of Jesse James by the Coward Robert Ford (2007)
+**Cinematographer:** Roger Deakins
+Deakins used specialized lenses to create a vignette, dreamlike blur around the edges of the frame, giving the film the feeling of a faded photograph coming slowly to life.
+
+### 8. Apocalypse Now (1979)
+**Cinematographer:** Vittorio Storaro
+From the opening sequence of napalm exploding to the hypnotic, shadow-drenched descent into Kurtz's compound, Storaro’s use of light and dark mirrors the psychological descent into the heart of darkness.
+
+### 9. Mad Max: Fury Road (2015)
+**Cinematographer:** John Seale
+Coming out of retirement to shoot this film, Seale saturated the desert in rich oranges and vibrant blues, creating an action movie that looks totally distinct from the muddy, desaturated look of modern blockbusters.
+
+### 10. Roma (2018)
+**Cinematographer:** Alfonso Cuarón
+Shooting his own film in breathtaking 65mm black and white, Cuarón uses incredibly complex panning shots that allow the rich background details of 1970s Mexico City to wash over the viewer.
+
+### A Visual Medium
+
+If you want to read more about the directors and visionaries who brought these images to life, explore the **[CinemaDiscovery Directors Directory](/directors)**.
+    `.trim(),
+  }
 ];
