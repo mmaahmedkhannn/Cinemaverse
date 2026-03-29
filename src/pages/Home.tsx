@@ -121,10 +121,10 @@ const Home = () => {
   return (
     <main className="min-h-screen bg-background-dark">
       <Helmet>
-        <title>CinemaDiscovery — Discover Movies, TV Shows and Directors.</title>
+        <title>CinemaDiscovery | Discover Movies, TV Shows and Directors.</title>
         <meta name="description" content="Discover popular movies, top trending TV shows, explore director universes, and vote in weekly cinematic battles." />
         <link rel="canonical" href="https://cinemadiscovery.com" />
-        <meta property="og:title" content="CinemaDiscovery — Discover Movies, TV Shows and Directors." />
+        <meta property="og:title" content="CinemaDiscovery | Discover Movies, TV Shows and Directors." />
         <meta property="og:description" content="Discover popular movies, top trending TV shows, explore director universes, and vote in weekly cinematic battles." />
         <meta property="og:url" content="https://cinemadiscovery.com" />
         <meta property="og:type" content="website" />

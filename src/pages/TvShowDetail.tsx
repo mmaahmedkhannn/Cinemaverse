@@ -114,9 +114,9 @@ const TvShowDetail = () => {
   return (
     <div className="min-h-screen bg-background-dark pb-20">
       <Helmet>
-        <title>{tv.name} — CinemaDiscovery</title>
+        <title>{tv.name} | CinemaDiscovery</title>
         <meta name="description" content={tv.overview?.substring(0, 160) || "View TV show details on CinemaDiscovery."} />
-        <meta property="og:title" content={`${tv.name} — CinemaDiscovery`} />
+        <meta property="og:title" content={`${tv.name} | CinemaDiscovery`} />
         <meta property="og:description" content={tv.overview?.substring(0, 160) || "View TV show details on CinemaDiscovery."} />
         <meta property="og:image" content={getImageUrl(tv.poster_path, 'w500')} />
         <meta property="og:url" content={`https://cinemadiscovery.com/tv/${tv.id}`} />

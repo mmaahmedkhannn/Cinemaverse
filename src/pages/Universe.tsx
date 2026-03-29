@@ -116,10 +116,10 @@ const Universe = () => {
   return (
     <main className="min-h-screen bg-background-dark pb-20">
       <Helmet>
-        <title>Cinematic Universes & Timelines — CinemaDiscovery</title>
+        <title>Cinematic Universes & Timelines | CinemaDiscovery</title>
         <meta name="description" content="Explore cinematic universes in perfect watch order. Track your progress across Marvel, DC, Star Wars, and more." />
         <link rel="canonical" href="https://cinemadiscovery.com/universe" />
-        <meta property="og:title" content="Cinematic Universes & Timelines — CinemaDiscovery" />
+        <meta property="og:title" content="Cinematic Universes & Timelines | CinemaDiscovery" />
         <meta property="og:description" content="Explore cinematic universes in perfect watch order. Track your progress across Marvel, DC, Star Wars, and more." />
         <meta property="og:url" content="https://cinemadiscovery.com/universe" />
         <meta property="og:type" content="website" />

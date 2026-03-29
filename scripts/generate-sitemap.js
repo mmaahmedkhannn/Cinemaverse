@@ -23,9 +23,24 @@ const tmdbClient = axios.create({
 async function run() {
   console.log('Generating dynamic sitemap.xml...');
   try {
+    // Blog article slugs (must match src/data/blogArticles.ts)
+    const blogSlugs = [
+      'best-movies-of-2025',
+      'top-10-directors-of-all-time',
+      'best-tv-shows-to-watch-right-now',
+      'movies-like-inception',
+      'christopher-nolan-movies-ranked',
+      'best-thriller-movies-of-all-time',
+      'most-underrated-movies-on-netflix',
+      'best-sci-fi-movies-2024',
+      'top-rated-hbo-shows',
+      'movies-with-best-cinematography',
+    ];
+
     const urls = [
       '/', '/movies', '/tv', '/universe', '/timeline', '/directors', '/battles', '/top100',
-      '/about', '/contact', '/privacy', '/terms'
+      '/about', '/contact', '/privacy', '/terms', '/blog',
+      ...blogSlugs.map(slug => `/blog/${slug}`),
     ];
 
     console.log('Fetching TMDB popular resources...');
@@ -55,7 +70,7 @@ ${urls.map(url => `  <url>
     <loc>${DOMAIN}${url}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>${url === '/' ? 'daily' : 'weekly'}</changefreq>
-    <priority>${url === '/' ? '1.0' : url.includes('/movie/') ? '0.8' : (url.includes('/tv/') || url.includes('/director/')) ? '0.7' : '0.6'}</priority>
+    <priority>${url === '/' ? '1.0' : url.startsWith('/blog/') ? '0.7' : url.includes('/movie/') ? '0.8' : (url.includes('/tv/') || url.includes('/director/')) ? '0.7' : '0.6'}</priority>
   </url>`).join('\n')}
 </urlset>`;
 

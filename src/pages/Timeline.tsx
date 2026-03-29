@@ -102,10 +102,10 @@ const Timeline = () => {
   return (
     <main className="min-h-screen bg-black flex flex-col">
       <Helmet>
-        <title>Cinematic Timeline — CinemaDiscovery</title>
+        <title>Cinematic Timeline | CinemaDiscovery</title>
         <meta name="description" content="A journey through 100+ years of cinema history. From the silent era to the streaming age." />
         <link rel="canonical" href="https://cinemadiscovery.com/timeline" />
-        <meta property="og:title" content="Cinematic Timeline — CinemaDiscovery" />
+        <meta property="og:title" content="Cinematic Timeline | CinemaDiscovery" />
         <meta property="og:description" content="A journey through 100+ years of cinema history." />
         <meta property="og:url" content="https://cinemadiscovery.com/timeline" />
         <meta property="og:type" content="website" />

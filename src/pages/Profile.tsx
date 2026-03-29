@@ -45,7 +45,7 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-background-dark pt-24 pb-20">
       <Helmet>
-        <title>My Profile & Watchlist — CinemaDiscovery</title>
+        <title>My Profile & Watchlist | CinemaDiscovery</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

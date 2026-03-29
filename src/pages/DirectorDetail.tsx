@@ -127,9 +127,9 @@ const DirectorDetail = () => {
   return (
     <main className="min-h-screen bg-background-dark pb-20">
       <Helmet>
-        <title>{person.name} — Movies, Biography and Filmography | CinemaDiscovery</title>
+        <title>{person.name} | Movies, Biography and Filmography | CinemaDiscovery</title>
         <meta name="description" content={person.biography?.substring(0, 160) || `Explore the complete filmography of ${person.name} on CinemaDiscovery.`} />
-        <meta property="og:title" content={`${person.name} — CinemaDiscovery`} />
+        <meta property="og:title" content={`${person.name} | CinemaDiscovery`} />
         <meta property="og:description" content={person.biography?.substring(0, 160) || `Explore the complete filmography of ${person.name} on CinemaDiscovery.`} />
         <meta property="og:image" content={getImageUrl(person.profile_path, 'w500')} />
         <meta property="og:url" content={`https://cinemadiscovery.com/director/${person.id}`} />

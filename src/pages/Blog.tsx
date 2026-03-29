@@ -9,10 +9,10 @@ const Blog = () => {
   return (
     <main className="min-h-screen bg-black pt-24 pb-20">
       <Helmet>
-        <title>Blog — CinemaDiscovery</title>
+        <title>Blog | CinemaDiscovery</title>
         <meta name="description" content="Read expert film analysis, curated movie lists, streaming guides, and director deep-dives on the CinemaDiscovery blog." />
         <link rel="canonical" href="https://cinemadiscovery.com/blog" />
-        <meta property="og:title" content="Blog — CinemaDiscovery" />
+        <meta property="og:title" content="Blog | CinemaDiscovery" />
         <meta property="og:description" content="Expert film analysis, curated movie lists, and streaming guides." />
         <meta property="og:url" content="https://cinemadiscovery.com/blog" />
         <meta property="og:type" content="website" />

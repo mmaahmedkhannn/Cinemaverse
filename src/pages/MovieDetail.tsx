@@ -145,10 +145,10 @@ const MovieDetail = () => {
   return (
     <main className="min-h-screen bg-background-dark pb-20">
       <Helmet>
-        <title>{movie.title} ({movie.release_date?.substring(0, 4) || 'N/A'}) — Cast, Reviews and Details | CinemaDiscovery</title>
+        <title>{movie.title} ({movie.release_date?.substring(0, 4) || 'N/A'}) | Cast, Reviews and Details | CinemaDiscovery</title>
         <meta name="description" content={movie.overview || `Discover everything about ${movie.title} including cast members, storyline, and critical reviews.`} />
         <link rel="canonical" href={`https://cinemadiscovery.com/movie/${movie.id}`} />
-        <meta property="og:title" content={`${movie.title} — CinemaDiscovery`} />
+        <meta property="og:title" content={`${movie.title} | CinemaDiscovery`} />
         <meta property="og:description" content={movie.overview || `Discover everything about ${movie.title} including cast.`} />
         <meta property="og:image" content={getImageUrl(movie.poster_path, 'w500')} />
         <meta property="og:url" content={`https://cinemadiscovery.com/movie/${movie.id}`} />

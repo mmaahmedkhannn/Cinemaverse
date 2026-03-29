@@ -166,7 +166,7 @@ const BlogPost = () => {
   return (
     <main className="min-h-screen bg-black">
       <Helmet>
-        <title>{article.title} — CinemaDiscovery</title>
+        <title>{article.title} | CinemaDiscovery</title>
         <meta name="description" content={article.metaDescription} />
         <link rel="canonical" href={`https://cinemadiscovery.com/blog/${article.slug}`} />
         <meta property="og:title" content={article.title} />

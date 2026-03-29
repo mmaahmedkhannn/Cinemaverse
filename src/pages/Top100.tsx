@@ -106,10 +106,10 @@ const Top100 = () => {
   return (
     <main className="min-h-screen bg-background-dark pt-20 pb-20">
       <Helmet>
-        <title>The Definitive Top 100 Movies — CinemaDiscovery</title>
+        <title>The Definitive Top 100 Movies | CinemaDiscovery</title>
         <meta name="description" content="The 100 greatest movies ever made, ranked by CinemaDiscovery community and critics." />
         <link rel="canonical" href="https://cinemadiscovery.com/top100" />
-        <meta property="og:title" content="The Definitive Top 100 Movies — CinemaDiscovery" />
+        <meta property="og:title" content="The Definitive Top 100 Movies | CinemaDiscovery" />
         <meta property="og:description" content="The 100 greatest movies ever made, ranked by CinemaDiscovery community and critics." />
         <meta property="og:url" content="https://cinemadiscovery.com/top100" />
         <meta property="og:type" content="website" />
