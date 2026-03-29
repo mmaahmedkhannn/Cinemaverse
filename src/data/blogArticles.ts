@@ -13,7 +13,7 @@ export interface BlogArticle {
 export const blogArticles: BlogArticle[] = [
   {
     slug: 'best-movies-of-2025',
-    title: 'Best Movies of 2025 — The Definitive Ranking',
+    title: 'Best Movies of 2025 | The Definitive Ranking',
     metaDescription: 'Discover the best movies of 2025 ranked by critics and audiences. From blockbuster sequels to indie gems, explore the top films released this year on CinemaDiscovery.',
     excerpt: 'From groundbreaking sci-fi epics to intimate character studies, 2025 has delivered one of the strongest lineups in recent cinema history.',
     date: '2026-01-15',
@@ -90,7 +90,7 @@ Explore more movies and find your next watch on our [Movies page](/movies) or ch
   },
   {
     slug: 'top-10-directors-of-all-time',
-    title: 'Top 10 Directors of All Time — The Visionaries Who Shaped Cinema',
+    title: 'Top 10 Directors of All Time | The Visionaries Who Shaped Cinema',
     metaDescription: 'Explore the top 10 greatest film directors of all time, from Alfred Hitchcock to Christopher Nolan. Learn what makes these filmmakers legendary at CinemaDiscovery.',
     excerpt: 'From Hitchcock\'s suspense to Kubrick\'s perfectionism, these ten filmmakers didn\'t just make movies — they redefined what cinema could be.',
     date: '2026-02-20',
@@ -175,7 +175,7 @@ Discover the complete filmographies, career stats, and signature styles of these
   },
   {
     slug: 'best-tv-shows-to-watch-right-now',
-    title: 'Best TV Shows to Watch Right Now (2025) — Your Ultimate Streaming Guide',
+    title: 'Best TV Shows to Watch Right Now (2025) | Your Ultimate Streaming Guide',
     metaDescription: 'Looking for your next binge? Here are the best TV shows to watch right now in 2025, from gripping dramas to addictive thrillers streaming on Netflix, HBO, and more.',
     excerpt: 'Whether you\'re craving a gripping thriller, an epic fantasy, or a sharp-witted comedy, these are the shows dominating streaming right now.',
     date: '2026-02-01',
@@ -246,7 +246,7 @@ For more recommendations, browse our [Universe](/universe) page where you can ex
   },
   {
     slug: 'movies-like-inception',
-    title: 'Movies Like Inception — 15 Mind-Bending Films That Will Blow Your Mind',
+    title: 'Movies Like Inception | 15 Mind-Bending Films That Will Blow Your Mind',
     metaDescription: 'Loved Inception? Discover 15 mind-bending movies like Inception with complex plots, reality-bending concepts, and stunning visuals. Find your next brain-twisting thriller.',
     excerpt: 'If Inception left your mind spinning, these 15 films will take you even deeper down the rabbit hole of reality-bending cinema.',
     date: '2026-01-10',
@@ -352,7 +352,7 @@ For more Christopher Nolan films, check out our complete ranking in [Christopher
   },
   {
     slug: 'christopher-nolan-movies-ranked',
-    title: 'Christopher Nolan Movies Ranked — Every Film from Worst to Best',
+    title: 'Christopher Nolan Movies Ranked | Every Film from Worst to Best',
     metaDescription: 'Every Christopher Nolan movie ranked from worst to best, including Oppenheimer, The Dark Knight, Inception, and Interstellar. The definitive Nolan filmography ranking.',
     excerpt: 'From Following to Oppenheimer, we rank every Christopher Nolan film and explore how one director redefined modern blockbuster filmmaking.',
     date: '2026-01-05',
