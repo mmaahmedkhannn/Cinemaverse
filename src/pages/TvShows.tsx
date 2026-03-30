@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback, Fragment } from 'react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Star, Search, Filter } from 'lucide-react';
+import { Star, Search, Filter, ChevronDown } from 'lucide-react';
 import { tmdbApi, getImageUrl, type TMDBTvShow } from '../services/tmdb';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -288,54 +288,24 @@ const TvShows = () => {
           
           {/* Load More Button */}
           {hasNextPage && (
-            <div className="flex flex-col items-center mt-16 mb-4">
-              <motion.button
+            <div className="flex justify-center mt-14">
+              <button
                 onClick={() => fetchNextPage()}
                 disabled={isFetchingNextPage}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="group relative overflow-hidden px-12 py-5 rounded-2xl font-sans font-bold text-white transition-all duration-500 disabled:opacity-60 disabled:cursor-not-allowed"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(239,68,68,0.15) 0%, rgba(15,15,25,0.9) 50%, rgba(239,68,68,0.15) 100%)',
-                  border: '1px solid rgba(239,68,68,0.25)',
-                  boxShadow: '0 0 40px rgba(239,68,68,0.08), inset 0 1px 0 rgba(255,255,255,0.05)',
-                }}
+                className="group flex items-center gap-3 px-8 py-3.5 bg-primary/10 hover:bg-primary/20 border border-primary/30 hover:border-primary/60 rounded-full font-sans font-semibold text-white text-sm tracking-wide transition-all duration-300 hover:shadow-[0_0_25px_rgba(239,68,68,0.2)] disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {/* Animated shimmer sweep */}
-                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
-
-                {/* Pulse ring on hover */}
-                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: '0 0 30px rgba(239,68,68,0.2), 0 0 60px rgba(239,68,68,0.1)' }} />
-
                 {isFetchingNextPage ? (
-                  <span className="relative z-10 flex items-center gap-3 text-lg">
-                    <motion.span
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                      className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full"
-                    />
-                    Discovering...
-                  </span>
+                  <>
+                    <span className="w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin" />
+                    Loading...
+                  </>
                 ) : (
-                  <span className="relative z-10 flex items-center gap-3 text-lg tracking-wide">
-                    <span>📺</span>
-                    <span>Load More Shows</span>
-                    <motion.svg
-                      animate={{ y: [0, 4, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                      className="w-5 h-5 text-primary"
-                      fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </motion.svg>
-                  </span>
+                  <>
+                    Load More Shows
+                    <ChevronDown className="w-4 h-4 text-primary transition-transform group-hover:translate-y-0.5" />
+                  </>
                 )}
-              </motion.button>
-
-              {/* Page counter */}
-              <p className="text-xs text-gray-600 mt-4 font-sans tracking-wider">
-                Page {data?.pages?.length || 1} loaded
-              </p>
+              </button>
             </div>
           )}
           
