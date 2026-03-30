@@ -81,17 +81,7 @@ const Movies = () => {
     },
   });
 
-  // Setup intersection observer for infinite scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 500;
-      if (bottom && hasNextPage && !isFetchingNextPage) {
-        fetchNextPage();
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
 
   // Flatten infinite query results and deduplicate
   const movies = useMemo(() => {
@@ -272,10 +262,26 @@ const Movies = () => {
             ))}
           </div>
           
-          {/* Loading More Indicator */}
-          {isFetchingNextPage && (
-            <div className="flex justify-center mt-12 py-8">
-              <div className="w-10 h-10 border-4 border-secondary border-t-transparent rounded-full animate-spin"></div>
+          {/* Load More Button */}
+          {hasNextPage && (
+            <div className="flex justify-center mt-12">
+              <button
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+                className="group relative px-10 py-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-primary/50 rounded-2xl font-sans font-bold text-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(239,68,68,0.15)] disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {isFetchingNextPage ? (
+                  <span className="flex items-center gap-3">
+                    <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Loading...
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-2">
+                    Load More Movies
+                    <svg className="w-4 h-4 transition-transform group-hover:translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                  </span>
+                )}
+              </button>
             </div>
           )}
           
