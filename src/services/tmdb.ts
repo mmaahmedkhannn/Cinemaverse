@@ -133,8 +133,18 @@ export const tmdbApi = {
 
   getTvDetails: async (id: number) => {
     const response = await tmdbClient.get(`/tv/${id}`, {
-      params: { append_to_response: 'credits,videos,recommendations' }
+      params: { append_to_response: 'credits,videos,recommendations,watch/providers' }
     });
+    return response.data;
+  },
+
+  getMovieExternalIds: async (id: number) => {
+    const response = await tmdbClient.get(`/movie/${id}/external_ids`);
+    return response.data;
+  },
+
+  getTvExternalIds: async (id: number) => {
+    const response = await tmdbClient.get(`/tv/${id}/external_ids`);
     return response.data;
   },
 

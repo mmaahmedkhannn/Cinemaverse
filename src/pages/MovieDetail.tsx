@@ -8,6 +8,8 @@ import { getWatchlist, addToWatchlist, removeFromWatchlist } from '../lib/firest
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import CVScore from '../components/ui/CVScore';
+import { useRottenTomatoes } from '../hooks/useRottenTomatoes';
+import RottenTomatoScore from '../components/ui/RottenTomatoScore';
 
 const MovieDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -17,6 +19,14 @@ const MovieDetail = () => {
     queryFn: () => tmdbApi.getMovieDetails(Number(id)),
     enabled: !!id,
   });
+
+  // Fetch IMDb ID via TMDB external_ids, then RT score
+  const { data: externalIds } = useQuery({
+    queryKey: ['movie-external-ids', id],
+    queryFn: () => tmdbApi.getMovieExternalIds(Number(id)),
+    enabled: !!id,
+  });
+  const { data: rtScore } = useRottenTomatoes(externalIds?.imdb_id);
 
   const { currentUser } = useAuth();
   const [inWatchlist, setInWatchlist] = useState(false);
@@ -276,6 +286,7 @@ const MovieDetail = () => {
                 voteCount={movie.vote_count || 0}
                 popularity={movie.popularity || 0}
               />
+              <RottenTomatoScore score={rtScore} size="lg" />
               <div className="flex flex-wrap items-center gap-4">
                 <span className="flex items-center gap-1 text-gray-300">
                   <Clock className="w-4 h-4" /> {movie.runtime} min
