@@ -1,9 +1,9 @@
-import { useState, useEffect, useMemo, Fragment } from 'react';
+import { useState, useEffect, useMemo, useCallback, Fragment } from 'react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Star, Search, Filter } from 'lucide-react';
 import { tmdbApi, getImageUrl, type TMDBMovie } from '../services/tmdb';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { generateSlug } from '../utils/slugify';
 import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
@@ -17,11 +17,33 @@ const SORT_OPTIONS = [
 ];
 
 const Movies = () => {
-  const [selectedYear, setSelectedYear] = useState<number | string>(2026);
-  const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
-  const [sortBy, setSortBy] = useState<string>('popularity.desc');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Read filter state from URL params (falls back to defaults)
+  const selectedYear: number | string = searchParams.get('year')
+    ? (searchParams.get('year') === 'all' ? 'All Time' : Number(searchParams.get('year')))
+    : 2026;
+  const selectedGenre: number | null = searchParams.get('genre') ? Number(searchParams.get('genre')) : null;
+  const sortBy: string = searchParams.get('sort') || 'popularity.desc';
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
+
+  // Helper to update URL params without losing other params
+  const updateParam = useCallback((key: string, value: string | null) => {
+    setSearchParams(prev => {
+      const next = new URLSearchParams(prev);
+      if (value === null || value === '') {
+        next.delete(key);
+      } else {
+        next.set(key, value);
+      }
+      return next;
+    }, { replace: true });
+  }, [setSearchParams]);
+
+  const setSelectedYear = (year: number | string) => updateParam('year', year === 'All Time' ? 'all' : String(year));
+  const setSelectedGenre = (genre: number | null) => updateParam('genre', genre ? String(genre) : null);
+  const setSortBy = (sort: string) => updateParam('sort', sort === 'popularity.desc' ? null : sort);
 
   // Debounce search
   useEffect(() => {
