@@ -6,7 +6,7 @@ import { tmdbApi, getImageUrl } from '../services/tmdb';
 import { useAuth } from '../contexts/AuthContext';
 import { getWatchlist, addToWatchlist, removeFromWatchlist } from '../lib/firestore';
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import CVScore from '../components/ui/CVScore';
 import { useRottenTomatoes } from '../hooks/useRottenTomatoes';
 import RottenTomatoScore from '../components/ui/RottenTomatoScore';
@@ -154,30 +154,31 @@ const MovieDetail = () => {
 
   return (
     <main className="min-h-screen bg-background-dark pb-20">
-      <Helmet>
-        <title>{movie.title} ({movie.release_date?.substring(0, 4) || 'N/A'}) | Cast, Reviews and Details | CinemaDiscovery</title>
-        <meta name="description" content={movie.overview || `Discover everything about ${movie.title} including cast members, storyline, and critical reviews.`} />
-        <link rel="canonical" href={`https://cinemadiscovery.com/movie/${movie.id}`} />
-        <meta property="og:title" content={`${movie.title} | CinemaDiscovery`} />
-        <meta property="og:description" content={movie.overview || `Discover everything about ${movie.title} including cast.`} />
-        <meta property="og:image" content={getImageUrl(movie.poster_path, 'w500')} />
-        <meta property="og:url" content={`https://cinemadiscovery.com/movie/${movie.id}`} />
-        <meta property="og:type" content="video.movie" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <script type="application/ld+json">
-          {JSON.stringify({
+      <SEO
+        title={`${movie.title} (${movie.release_date?.substring(0, 4) || 'N/A'}) | Cast, Reviews and Details | CinemaDiscovery`}
+        description={movie.overview || `Discover everything about ${movie.title} including cast members, storyline, and critical reviews.`}
+        image={getImageUrl(movie.poster_path, 'w500')}
+        url={`https://cinemadiscovery.com/movie/${movie.id}`}
+        type="video.movie"
+        schema={JSON.stringify([
+          {
              "@context": "https://schema.org",
              "@type": "Movie",
              "name": movie.title,
              "image": getImageUrl(movie.poster_path, 'w500'),
              "description": movie.overview,
              "datePublished": movie.release_date,
+             "aggregateRating": movie.vote_count > 0 ? {
+                "@type": "AggregateRating",
+                "ratingValue": movie.vote_average,
+                "ratingCount": movie.vote_count,
+                "bestRating": "10",
+                "worstRating": "1"
+             } : undefined,
              "director": director ? { "@type": "Person", "name": director.name } : undefined,
              "actor": movie.credits?.cast?.slice(0, 5).map((a: any) => ({ "@type": "Person", "name": a.name })) || []
-          })}
-        </script>
-        <script type="application/ld+json">
-          {JSON.stringify({
+          },
+          {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
@@ -185,9 +186,9 @@ const MovieDetail = () => {
               { "@type": "ListItem", "position": 2, "name": "Movies", "item": "https://cinemadiscovery.com/movies" },
               { "@type": "ListItem", "position": 3, "name": movie.title, "item": `https://cinemadiscovery.com/movie/${movie.id}` }
             ]
-          })}
-        </script>
-      </Helmet>
+          }
+        ])}
+      />
 
       {/* Hero Backdrop */}
       <section className="relative h-[60vh] md:h-[75vh] w-full">

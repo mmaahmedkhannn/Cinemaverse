@@ -7,7 +7,7 @@ import { Star, ChevronLeft, ChevronRight, Play, AlertCircle, Gem, Zap, Crown, Th
 import { useAuth } from '../contexts/AuthContext';
 import { getBattle, getUserVote, castVote, getWeeklyBattle, getGuestId } from '../lib/battleService';
 import type { Battle } from '../lib/battleService';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import { generateSlug } from '../utils/slugify';
 import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
 
@@ -120,31 +120,27 @@ const Home = () => {
 
   return (
     <main className="min-h-screen bg-background-dark">
-      <Helmet>
-        <title>CinemaDiscovery | Discover Movies, TV Shows and Directors.</title>
-        <meta name="description" content="Discover popular movies, top trending TV shows, explore director universes, and vote in weekly cinematic battles." />
-        <link rel="canonical" href="https://cinemadiscovery.com" />
-        <meta property="og:title" content="CinemaDiscovery | Discover Movies, TV Shows and Directors." />
-        <meta property="og:description" content="Discover popular movies, top trending TV shows, explore director universes, and vote in weekly cinematic battles." />
-        <meta property="og:url" content="https://cinemadiscovery.com" />
-        <meta property="og:type" content="website" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "CinemaDiscovery",
-            "url": "https://cinemadiscovery.com",
-            "potentialAction": {
-              "@type": "SearchAction",
-              "target": "https://cinemadiscovery.com/?q={search_term_string}",
-              "query-input": "required name=search_term_string"
-            }
-          })}
-        </script>
+      <SEO
+        title="CinemaDiscovery | Discover Movies, TV Shows and Directors."
+        description="Discover popular movies, top trending TV shows, explore director universes, and vote in weekly cinematic battles."
+        url="https://cinemadiscovery.com"
+        type="website"
+        schema={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "CinemaDiscovery",
+          "url": "https://cinemadiscovery.com",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://cinemadiscovery.com/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        })}
+      >
         {currentHero?.backdrop_path && (
           <link rel="preload" as="image" href={getImageUrl(currentHero.backdrop_path, 'w1280')} fetchPriority="high" />
         )}
-      </Helmet>
+      </SEO>
       {/* Hero Section */}
       <section className="relative h-[85vh] w-full overflow-hidden bg-[#080810]">
         {!isHeroLoading && currentHero ? (

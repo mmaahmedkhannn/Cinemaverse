@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { FRANCHISES } from '../data/franchises';
 import { useAuth } from '../contexts/AuthContext';
 import { getWatchlist } from '../lib/firestore';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 
 const Universe = () => {
   const [selectedFranchiseId, setSelectedFranchiseId] = useState(FRANCHISES[0].id);
@@ -115,16 +115,11 @@ const Universe = () => {
 
   return (
     <main className="min-h-screen bg-background-dark pb-20">
-      <Helmet>
-        <title>Cinematic Universes & Timelines | CinemaDiscovery</title>
-        <meta name="description" content="Explore cinematic universes in perfect watch order. Track your progress across Marvel, DC, Star Wars, and more." />
-        <link rel="canonical" href="https://cinemadiscovery.com/universe" />
-        <meta property="og:title" content="Cinematic Universes & Timelines | CinemaDiscovery" />
-        <meta property="og:description" content="Explore cinematic universes in perfect watch order. Track your progress across Marvel, DC, Star Wars, and more." />
-        <meta property="og:url" content="https://cinemadiscovery.com/universe" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-      </Helmet>
+      <SEO
+        title="Cinematic Universes & Timelines | CinemaDiscovery"
+        description="Explore cinematic universes in perfect watch order. Track your progress across Marvel, DC, Star Wars, and more."
+        url="https://cinemadiscovery.com/universe"
+      />
       
       {/* Edge-to-Edge Hero Section */}
       <div className="relative w-full min-h-[60vh] md:min-h-[70vh] flex flex-col justify-end -mt-20 z-0">

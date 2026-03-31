@@ -8,7 +8,7 @@ import CVScore from '../components/ui/CVScore';
 import { useAuth } from '../contexts/AuthContext';
 import { doc, getDoc, setDoc, increment } from 'firebase/firestore';
 import { db } from '../lib/firebase';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import { generateSlug } from '../utils/slugify';
 import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
 
@@ -105,16 +105,11 @@ const Top100 = () => {
 
   return (
     <main className="min-h-screen bg-background-dark pt-20 pb-20">
-      <Helmet>
-        <title>The Definitive Top 100 Movies | CinemaDiscovery</title>
-        <meta name="description" content="The 100 greatest movies ever made, ranked by CinemaDiscovery community and critics." />
-        <link rel="canonical" href="https://cinemadiscovery.com/top100" />
-        <meta property="og:title" content="The Definitive Top 100 Movies | CinemaDiscovery" />
-        <meta property="og:description" content="The 100 greatest movies ever made, ranked by CinemaDiscovery community and critics." />
-        <meta property="og:url" content="https://cinemadiscovery.com/top100" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-      </Helmet>
+      <SEO
+        title="The Definitive Top 100 Movies | CinemaDiscovery"
+        description="The 100 greatest movies ever made, ranked by CinemaDiscovery community and critics."
+        url="https://cinemadiscovery.com/top100"
+      />
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">

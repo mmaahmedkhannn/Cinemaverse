@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Star, Search, Filter, ChevronDown } from 'lucide-react';
 import { tmdbApi, getImageUrl, type TMDBMovie } from '../services/tmdb';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import { generateSlug } from '../utils/slugify';
 import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
 
@@ -96,16 +96,11 @@ const Movies = () => {
 
   return (
     <main className="min-h-screen bg-background-dark pt-22 pb-20">
-      <Helmet>
-        <title>Popular Movies & Top Rated Films | CinemaDiscovery</title>
-        <meta name="description" content="Browse our hand-picked collection of the world's most popular and highest-rated movies of all time." />
-        <link rel="canonical" href="https://cinemadiscovery.com/movies" />
-        <meta property="og:title" content="Popular Movies & Top Rated Films | CinemaDiscovery" />
-        <meta property="og:description" content="Browse our hand-picked collection of the world's most popular and highest-rated movies of all time." />
-        <meta property="og:url" content="https://cinemadiscovery.com/movies" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-      </Helmet>
+      <SEO
+        title="Popular Movies & Top Rated Films | CinemaDiscovery"
+        description="Browse our hand-picked collection of the world's most popular and highest-rated movies of all time."
+        url="https://cinemadiscovery.com/movies"
+      />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
       

@@ -5,7 +5,7 @@ import { getImageUrl, tmdbApi } from '../services/tmdb';
 import { useAuth } from '../contexts/AuthContext';
 import { castVote, getUserVote, getBattle, getWeeklyBattle, getGuestId } from '../lib/battleService';
 import type { Battle } from '../lib/battleService';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 
 
 const Battles = () => {
@@ -134,16 +134,11 @@ const Battles = () => {
 
   return (
     <main className="min-h-screen bg-background-dark pt-20 pb-20">
-      <Helmet>
-        <title>Weekly Movie Battles | CinemaDiscovery</title>
-        <meta name="description" content="Vote in our weekly movie battles! Pit two cinematic masterpieces against each other and see who wins." />
-        <link rel="canonical" href="https://cinemadiscovery.com/battles" />
-        <meta property="og:title" content="Weekly Movie Battles | CinemaDiscovery" />
-        <meta property="og:description" content="Vote in our weekly movie battles! Pit two cinematic masterpieces against each other and see who wins." />
-        <meta property="og:url" content="https://cinemadiscovery.com/battles" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-      </Helmet>
+      <SEO
+        title="Weekly Movie Battles | CinemaDiscovery"
+        description="Vote in our weekly movie battles! Pit two cinematic masterpieces against each other and see who wins."
+        url="https://cinemadiscovery.com/battles"
+      />
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <h1 className="font-bebas text-6xl md:text-8xl text-white tracking-wider mb-4">

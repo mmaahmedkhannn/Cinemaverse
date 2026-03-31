@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Star, Search, Filter, ChevronDown } from 'lucide-react';
 import { tmdbApi, getImageUrl, type TMDBTvShow } from '../services/tmdb';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import { generateSlug } from '../utils/slugify';
 import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
 
@@ -166,16 +166,11 @@ const TvShows = () => {
 
   return (
     <main className="min-h-screen bg-background-dark pt-22 pb-20">
-      <Helmet>
-        <title>Top TV Shows & Series Rankings | CinemaDiscovery</title>
-        <meta name="description" content="Discover the best TV Shows across genres, spanning classic network television to the latest streaming hits." />
-        <link rel="canonical" href="https://cinemadiscovery.com/tv" />
-        <meta property="og:title" content="Top TV Shows & Series Rankings | CinemaDiscovery" />
-        <meta property="og:description" content="Discover the best TV Shows across genres, spanning classic network television to the latest streaming hits." />
-        <meta property="og:url" content="https://cinemadiscovery.com/tv" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-      </Helmet>
+      <SEO
+        title="Top TV Shows & Series Rankings | CinemaDiscovery"
+        description="Discover the best TV Shows across genres, spanning classic network television to the latest streaming hits."
+        url="https://cinemadiscovery.com/tv"
+      />
 
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto min-h-screen">
       

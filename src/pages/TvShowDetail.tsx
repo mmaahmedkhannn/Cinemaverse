@@ -6,7 +6,7 @@ import { tmdbApi, getImageUrl } from '../services/tmdb';
 import { useAuth } from '../contexts/AuthContext';
 import { getWatchlist, addToWatchlist, removeFromWatchlist } from '../lib/firestore';
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import CVScore from '../components/ui/CVScore';
 import { useRottenTomatoes } from '../hooks/useRottenTomatoes';
 import RottenTomatoScore from '../components/ui/RottenTomatoScore';
@@ -148,18 +148,14 @@ const TvShowDetail = () => {
 
   return (
     <div className="min-h-screen bg-background-dark pb-20">
-      <Helmet>
-        <title>{tv.name} | CinemaDiscovery</title>
-        <meta name="description" content={tv.overview?.substring(0, 160) || "View TV show details on CinemaDiscovery."} />
-        <meta property="og:title" content={`${tv.name} | CinemaDiscovery`} />
-        <meta property="og:description" content={tv.overview?.substring(0, 160) || "View TV show details on CinemaDiscovery."} />
-        <meta property="og:image" content={getImageUrl(tv.poster_path, 'w500')} />
-        <meta property="og:url" content={`https://cinemadiscovery.com/tv/${tv.id}`} />
-        <meta property="og:type" content="video.tv_show" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href={`https://cinemadiscovery.com/tv/${tv.id}`} />
-        <script type="application/ld+json">
-          {JSON.stringify({
+      <SEO
+        title={`${tv.name} | CinemaDiscovery`}
+        description={tv.overview?.substring(0, 160) || "View TV show details on CinemaDiscovery."}
+        image={getImageUrl(tv.poster_path, 'w500')}
+        url={`https://cinemadiscovery.com/tv/${tv.id}`}
+        type="video.tv_show"
+        schema={JSON.stringify([
+          {
             "@context": "https://schema.org",
             "@type": "TVSeries",
             "name": tv.name,
@@ -173,10 +169,8 @@ const TvShowDetail = () => {
               "bestRating": "10",
               "worstRating": "1"
             } : undefined
-          })}
-        </script>
-        <script type="application/ld+json">
-          {JSON.stringify({
+          },
+          {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
@@ -184,9 +178,9 @@ const TvShowDetail = () => {
               { "@type": "ListItem", "position": 2, "name": "TV Shows", "item": "https://cinemadiscovery.com/tv" },
               { "@type": "ListItem", "position": 3, "name": tv.name, "item": `https://cinemadiscovery.com/tv/${tv.id}` }
             ]
-          })}
-        </script>
-      </Helmet>
+          }
+        ])}
+      />
 
       <div className="relative h-[60vh] md:h-[75vh] w-full">
         <div className="absolute inset-0">

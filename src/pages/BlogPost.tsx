@@ -1,5 +1,5 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import { blogArticles } from '../data/blogArticles';
 import { Calendar, Clock, ArrowLeft, BookOpen, UserPen } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -165,20 +165,33 @@ const BlogPost = () => {
 
   return (
     <main className="min-h-screen bg-black">
-      <Helmet>
-        <title>{article.title} | CinemaDiscovery</title>
-        <meta name="description" content={article.metaDescription} />
-        <link rel="canonical" href={`https://cinemadiscovery.com/blog/${article.slug}`} />
-        <meta property="og:title" content={article.title} />
-        <meta property="og:description" content={article.metaDescription} />
-        <meta property="og:url" content={`https://cinemadiscovery.com/blog/${article.slug}`} />
-        <meta property="og:type" content="article" />
-        <meta property="og:image" content={article.heroImage} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={article.title} />
-        <meta name="twitter:description" content={article.metaDescription} />
-        <meta name="twitter:image" content={article.heroImage} />
-      </Helmet>
+      <SEO
+        title={`${article.title} | CinemaDiscovery`}
+        description={article.metaDescription}
+        image={article.heroImage}
+        url={`https://cinemadiscovery.com/blog/${article.slug}`}
+        type="article"
+        schema={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": article.title,
+          "image": article.heroImage,
+          "datePublished": article.date,
+          "author": {
+            "@type": "Organization",
+            "name": "CinemaDiscovery Editorial Team"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "CinemaDiscovery",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://cinemadiscovery.com/favicon.svg"
+            }
+          },
+          "description": article.metaDescription
+        })}
+      />
 
       {/* Hero Image */}
       <div className="relative w-full h-[50vh] md:h-[60vh]">

@@ -5,7 +5,7 @@ import { Star, Film, ChevronRight, ChevronLeft, X, Sparkles } from 'lucide-react
 import { tmdbApi, getImageUrl } from '../services/tmdb';
 import { Link } from 'react-router-dom';
 import { generateSlug } from '../utils/slugify';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
 
 const DECADES = [
@@ -101,16 +101,11 @@ const Timeline = () => {
 
   return (
     <main className="min-h-screen bg-black flex flex-col">
-      <Helmet>
-        <title>Cinematic Timeline | CinemaDiscovery</title>
-        <meta name="description" content="A journey through 100+ years of cinema history. From the silent era to the streaming age." />
-        <link rel="canonical" href="https://cinemadiscovery.com/timeline" />
-        <meta property="og:title" content="Cinematic Timeline | CinemaDiscovery" />
-        <meta property="og:description" content="A journey through 100+ years of cinema history." />
-        <meta property="og:url" content="https://cinemadiscovery.com/timeline" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-      </Helmet>
+      <SEO
+        title="Cinematic Timeline | CinemaDiscovery"
+        description="A journey through 100+ years of cinema history. From the silent era to the streaming age."
+        url="https://cinemadiscovery.com/timeline"
+      />
 
       {/* ── Sticky Decade Navigation Bar ── */}
       <div className="sticky top-16 z-30 bg-black/80 backdrop-blur-2xl border-b border-white/10 shadow-2xl">

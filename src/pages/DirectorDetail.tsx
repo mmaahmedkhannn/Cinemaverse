@@ -2,7 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Star, Film, Calendar, ArrowLeft, Camera, Award, TrendingUp, Users } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import { tmdbApi, getImageUrl } from '../services/tmdb';
 
 const DIRECTOR_META: Record<number, { tags: string[]; signature: string }> = {
@@ -126,28 +126,22 @@ const DirectorDetail = () => {
 
   return (
     <main className="min-h-screen bg-background-dark pb-20">
-      <Helmet>
-        <title>{person.name} | Movies, Biography and Filmography | CinemaDiscovery</title>
-        <meta name="description" content={person.biography?.substring(0, 160) || `Explore the complete filmography of ${person.name} on CinemaDiscovery.`} />
-        <meta property="og:title" content={`${person.name} | CinemaDiscovery`} />
-        <meta property="og:description" content={person.biography?.substring(0, 160) || `Explore the complete filmography of ${person.name} on CinemaDiscovery.`} />
-        <meta property="og:image" content={getImageUrl(person.profile_path, 'w500')} />
-        <meta property="og:url" content={`https://cinemadiscovery.com/director/${person.id}`} />
-        <meta property="og:type" content="profile" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href={`https://cinemadiscovery.com/director/${person.id}`} />
-        <script type="application/ld+json">
-          {JSON.stringify({
+      <SEO
+        title={`${person.name} | Movies, Biography and Filmography | CinemaDiscovery`}
+        description={person.biography?.substring(0, 160) || `Explore the complete filmography of ${person.name} on CinemaDiscovery.`}
+        image={getImageUrl(person.profile_path, 'w500')}
+        url={`https://cinemadiscovery.com/director/${person.id}`}
+        type="profile"
+        schema={JSON.stringify([
+          {
             "@context": "https://schema.org",
             "@type": "Person",
             "name": person.name,
             "image": getImageUrl(person.profile_path, 'w500'),
             "description": person.biography,
             "jobTitle": "Director"
-          })}
-        </script>
-        <script type="application/ld+json">
-          {JSON.stringify({
+          },
+          {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
@@ -155,9 +149,9 @@ const DirectorDetail = () => {
               { "@type": "ListItem", "position": 2, "name": "Directors", "item": "https://cinemadiscovery.com/directors" },
               { "@type": "ListItem", "position": 3, "name": person.name, "item": `https://cinemadiscovery.com/director/${person.id}` }
             ]
-          })}
-        </script>
-      </Helmet>
+          }
+        ])}
+      />
 
       {/* Hero */}
       <section className="relative h-[50vh] md:h-[60vh] w-full">
