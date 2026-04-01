@@ -87,7 +87,7 @@ Explore more movies and find your next watch on our [Movies page](/movies) or ch
     date: '2026-02-20',
     readTime: '12 min read',
     category: 'Lists',
-    heroImage: 'https://image.tmdb.org/t/p/original/s3TBrRGB1iav7gFOCNx3H31MoES.jpg',
+    heroImage: 'https://image.tmdb.org/t/p/original/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg',
     content: `
 ## The Myth of the Untouchable Auteur
 
@@ -439,7 +439,7 @@ Don't let the algorithm dictate your movie nights. Use **[CinemaDiscovery's adva
     date: '2026-02-18',
     readTime: '8 min read',
     category: 'Lists',
-    heroImage: 'https://image.tmdb.org/t/p/original/8rpDcsfLJypbO6vtecwarcppOww.jpg',
+    heroImage: 'https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg',
     content: `
 ## Stop Relying on CGI Sludge
 
@@ -475,7 +475,7 @@ Check the **[CinemaDiscovery Movie Database](/movies)** to sort by "Science Fict
     date: '2026-03-02',
     readTime: '11 min read',
     category: 'Streaming',
-    heroImage: 'https://image.tmdb.org/t/p/original/n2aF1XfRihjS4ydo0Aem0G6nhoK.jpg',
+    heroImage: 'https://image.tmdb.org/t/p/original/zZqpAXxVSBtxV9qPBcscfXBcL2w.jpg',
     content: `
 ## Accept It: HBO is The Only Network That Matters
 
@@ -526,7 +526,7 @@ Head to our **[TV Shows Directory](/tv)** to track your viewing progress on thes
     date: '2026-03-20',
     readTime: '10 min read',
     category: 'Lists',
-    heroImage: 'https://image.tmdb.org/t/p/original/ilRyazdUW1s2ecQ4n9m3JtK6Kig.jpg',
+    heroImage: 'https://image.tmdb.org/t/p/original/sAtoMqDVhNDQBc3QJL3RF6hlhGq.jpg',
     content: `
 ## The Director Takes the Credit, the DP Does the Work
 
