@@ -87,7 +87,7 @@ Explore more movies and find your next watch on our [Movies page](/movies) or ch
     date: '2026-02-20',
     readTime: '12 min read',
     category: 'Lists',
-    heroImage: 'https://image.tmdb.org/t/p/original/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg',
+    heroImage: 'https://image.tmdb.org/t/p/original/gILte6Zd7m1YneIr6MVhh30S9pr.jpg',
     content: `
 ## The Myth of the Untouchable Auteur
 
