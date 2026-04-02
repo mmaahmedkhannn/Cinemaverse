@@ -103,6 +103,22 @@ const Wrapped = () => {
     );
   }
 
+  if (ratings.length === 0 && watchlist.length === 0) {
+    return (
+      <div className="min-h-screen bg-black pt-20 flex flex-col items-center justify-center px-4 text-center">
+        <Film className="w-16 h-16 text-primary mx-auto mb-6" />
+        <h1 className="font-bebas text-5xl text-white mb-4">You have not watched anything yet.</h1>
+        <p className="text-gray-400 font-sans mb-8 max-w-md">Start adding movies and TV shows to your watchlist to see your Wrapped stats.</p>
+        <Link 
+          to="/movies" 
+          className="bg-primary hover:bg-red-700 text-white font-sans font-bold py-3 px-8 rounded-xl transition-all shadow-lg hover:shadow-primary/30"
+        >
+          Discover Movies
+        </Link>
+      </div>
+    );
+  }
+
   const totalMovies = ratings.length + watchlist.length;
   const avgRuntime = 120; // approximate
   const totalMinutes = totalMovies * avgRuntime;
