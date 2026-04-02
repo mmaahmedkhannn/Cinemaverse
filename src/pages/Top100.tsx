@@ -206,7 +206,7 @@ const Top100 = () => {
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"
-                  containerClassName="w-full h-full absolute inset-0 z-[-1]"
+                  containerClassName="w-full h-full absolute inset-0 z-0"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent" />
@@ -252,7 +252,7 @@ const Top100 = () => {
                       alt={movie.title}
                       loading="lazy"
                       decoding="async"
-                      containerClassName="w-full h-full absolute inset-0 z-[-1]"
+                      containerClassName="w-full h-full absolute inset-0 z-0"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/20 to-transparent" />
