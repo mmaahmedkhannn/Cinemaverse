@@ -76,8 +76,9 @@ const Wrapped = () => {
 
   // Auto-advance slides
   useEffect(() => {
+    const MAX_SLIDES = 8;
     const timer = setInterval(() => {
-      setSlideIndex(prev => Math.min(prev + 1, slides.length - 1)); // wait! slides evaluated below. this is fine but fixed max length
+      setSlideIndex(prev => Math.min(prev + 1, MAX_SLIDES));
     }, SLIDE_DURATION);
     return () => clearInterval(timer);
   }, []);
