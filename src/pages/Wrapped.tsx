@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { getRatings, getWatchlist } from '../lib/firestore';
 import type { RatingItem, WatchlistItem } from '../lib/firestore';
 import { getImageUrl, tmdbApi } from '../services/tmdb';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import { useRef } from 'react';
 
@@ -28,6 +28,17 @@ const Wrapped = () => {
   const [watchlist, setWatchlist] = useState<WatchlistItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [movieDetails, setMovieDetails] = useState<any[]>([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        navigate('/profile');
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [navigate]);
   
   const summaryRef = useRef<HTMLDivElement>(null);
 
@@ -277,9 +288,14 @@ const Wrapped = () => {
           </div>
         </div>
       </div>
-      <button onClick={handleShare} className="mt-8 flex items-center justify-center gap-2 bg-white text-black hover:bg-gray-200 py-3 px-6 rounded-full font-sans font-bold text-sm transition-all hover:scale-105 active:scale-95 shadow-xl">
-        <Share2 className="w-4 h-4" /> Share Your Wrapped
-      </button>
+      <div className="mt-8 flex flex-col items-center gap-3 w-full max-w-[280px]">
+        <button onClick={handleShare} className="w-full flex items-center justify-center gap-2 bg-white text-black hover:bg-gray-200 py-3.5 px-6 rounded-xl font-sans font-bold text-sm transition-all shadow-xl">
+          <Share2 className="w-4 h-4" /> Share Your Wrapped
+        </button>
+        <Link to="/profile" className="w-full flex items-center justify-center bg-white/5 hover:bg-white/10 border border-white/10 hover:border-red-500 text-white hover:text-primary py-3 px-6 rounded-xl font-sans font-bold text-sm transition-all shadow-lg">
+          Done
+        </Link>
+      </div>
     </motion.div>,
   ];
 
@@ -318,10 +334,10 @@ const Wrapped = () => {
       </div>
 
       {/* Skip nav */}
-      <div className="fixed bottom-6 right-6">
-        <button onClick={() => setSlideIndex(slides.length - 1)} className="text-gray-500 hover:text-white transition-colors text-xs font-sans flex items-center gap-1">
+      <div className="fixed top-6 right-6 z-50">
+        <Link to="/profile" className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-gray-400 hover:text-white hover:border-white/30 transition-all text-xs font-sans font-bold tracking-wider flex items-center gap-1 uppercase">
           Skip <ChevronRight className="w-3 h-3" />
-        </button>
+        </Link>
       </div>
     </div>
   );
