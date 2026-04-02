@@ -100,6 +100,13 @@ const About = () => {
             </ul>
           </div>
 
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 mb-8 text-center">
+            <h2 className="font-bebas text-3xl text-white mb-3">Get In Touch</h2>
+            <p className="text-gray-300 font-sans">
+              For support or business enquiries contact us at <a href="mailto:support@cinemadiscovery.com" className="text-white hover:text-primary transition-colors font-semibold underline decoration-white/30 hover:decoration-primary">support@cinemadiscovery.com</a>
+            </p>
+          </div>
+
           <div className="text-center text-gray-500 font-sans text-sm">
             <p>&copy; {new Date().getFullYear()} CinemaDiscovery. All data provided by TMDB.</p>
           </div>

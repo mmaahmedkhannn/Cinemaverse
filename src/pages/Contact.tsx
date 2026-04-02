@@ -153,8 +153,11 @@ const Contact = () => {
             <h1 className="font-bebas text-5xl md:text-6xl text-white tracking-wider mb-2 drop-shadow-md">
               Get In <span className="text-primary">Touch</span>
             </h1>
-            <p className="text-gray-300 text-sm font-sans leading-relaxed">
+            <p className="text-gray-300 text-sm font-sans leading-relaxed mb-4">
               Have questions, feedback, or just want to talk movies? We'd love to hear from you. Securely send us a message below.
+            </p>
+            <p className="text-gray-400 text-sm font-sans">
+              Or email us directly: <a href="mailto:support@cinemadiscovery.com" className="text-white hover:text-primary transition-colors underline decoration-white/30 hover:decoration-primary">support@cinemadiscovery.com</a>
             </p>
           </div>
 

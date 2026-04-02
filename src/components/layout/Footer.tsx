@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Mail } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -14,12 +15,16 @@ const Footer = () => {
             </p>
           </div>
           
-          <div className="flex space-x-6 text-sm text-gray-400">
+          <div className="flex flex-wrap gap-x-6 gap-y-4 items-center text-sm text-gray-400">
             <Link to="/about" className="hover:text-secondary transition-colors">About Us</Link>
             <Link to="/blog" className="hover:text-secondary transition-colors">Blog</Link>
             <Link to="/contact" className="hover:text-secondary transition-colors">Contact</Link>
             <Link to="/privacy" className="hover:text-secondary transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-secondary transition-colors">Terms of Service</Link>
+            <a href="mailto:support@cinemadiscovery.com" className="flex items-center gap-2 hover:text-white transition-colors">
+              <Mail className="w-4 h-4 text-primary" />
+              support@cinemadiscovery.com
+            </a>
           </div>
         </div>
         
