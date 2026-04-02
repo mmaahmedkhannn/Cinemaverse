@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Film, ChevronRight, Camera } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { getWatchlist } from '../lib/firestore';
+import { getWatchlist, getRatings } from '../lib/firestore';
 import type { WatchlistItem } from '../lib/firestore';
 import { getImageUrl } from '../services/tmdb';
 import { Helmet } from 'react-helmet-async';
@@ -13,23 +13,28 @@ import AvatarSelector from '../components/ui/AvatarSelector';
 const Profile = () => {
   const { currentUser } = useAuth();
   const [watchlist, setWatchlist] = useState<WatchlistItem[]>([]);
+  const [hasRatings, setHasRatings] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
   useEffect(() => {
-    const fetchWatchlist = async () => {
+    const fetchData = async () => {
       if (currentUser) {
         try {
-          const list = await getWatchlist(currentUser.uid);
+          const [list, userRatings] = await Promise.all([
+            getWatchlist(currentUser.uid),
+            getRatings(currentUser.uid)
+          ]);
           setWatchlist(list);
+          setHasRatings(userRatings.length > 0);
         } catch (error) {
-          console.error("Error fetching watchlist:", error);
+          console.error("Error fetching data:", error);
         }
       }
       setLoading(false);
     };
 
-    fetchWatchlist();
+    fetchData();
   }, [currentUser]);
 
   if (!currentUser) {
@@ -81,7 +86,7 @@ const Profile = () => {
         </div>
 
         {/* Wrapped Banner */}
-        {watchlist.length > 0 && (
+        {(watchlist.length > 0 || hasRatings) && (
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
