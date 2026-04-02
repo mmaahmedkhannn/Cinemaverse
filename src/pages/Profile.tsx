@@ -81,22 +81,25 @@ const Profile = () => {
         </div>
 
         {/* Wrapped Banner */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-12 bg-gradient-to-r from-primary/30 via-purple-900/20 to-transparent border border-primary/20 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative"
-        >
-          <div className="absolute top-0 right-0 p-4 opacity-10">
-            <Film className="w-32 h-32 rotate-12" />
-          </div>
-          <div className="relative z-10 text-center md:text-left">
-            <h2 className="font-bebas text-3xl md:text-5xl text-white mb-2">CinemaDiscovery <span className="text-primary">Wrapped 2025</span></h2>
-            <p className="text-gray-300 font-sans max-w-md">Relive your year in cinema with our personalized recap experience. Discover your watching habits and sharing personality!</p>
-          </div>
-          <Link to="/wrapped" className="relative z-10 bg-primary hover:bg-red-700 text-white font-bebas text-xl px-8 py-3 rounded-xl transition-all shadow-lg hover:shadow-primary/30 flex items-center gap-2">
-             SEE YOUR WRAPPED <ChevronRight className="w-5 h-5" />
-          </Link>
-        </motion.div>
+        {watchlist.length > 0 && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-12 bg-gradient-to-r from-primary/30 via-purple-900/20 to-transparent border border-primary/20 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative"
+          >
+            <div className="absolute top-0 right-0 p-4 opacity-10">
+              <Film className="w-32 h-32 rotate-12" />
+            </div>
+            <div className="relative z-10 text-center md:text-left">
+              <h2 className="font-bebas text-3xl md:text-5xl text-white mb-2">CinemaDiscovery <span className="text-primary">Wrapped 2025</span></h2>
+              <p className="text-gray-300 font-sans max-w-md">Relive your year in cinema with our personalized recap experience. Discover your watching habits and sharing personality!</p>
+            </div>
+            <Link to="/wrapped" className="relative z-10 bg-primary hover:bg-red-700 text-white font-bebas text-xl px-8 py-3 rounded-xl transition-all shadow-lg hover:shadow-primary/30 flex items-center gap-2">
+               SEE YOUR WRAPPED <ChevronRight className="w-5 h-5" />
+            </Link>
+          </motion.div>
+        )}
+
 
         <div className="mb-8">
           <h2 className="text-3xl font-bebas text-white border-l-4 border-secondary pl-4 mb-8">
