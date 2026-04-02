@@ -154,7 +154,7 @@ const Contact = () => {
               Get In <span className="text-primary">Touch</span>
             </h1>
             <p className="text-gray-300 text-sm font-sans leading-relaxed mb-4">
-              Have questions, feedback, or just want to talk movies? We'd love to hear from you. Securely send us a message below.
+              Have a question, spotted a bug, or want to suggest a feature? Send us a message and we’ll get back to you soon.
             </p>
             <p className="text-gray-400 text-sm font-sans">
               Or email us directly: <a href="mailto:support@cinemadiscovery.com" className="text-white hover:text-primary transition-colors underline decoration-white/30 hover:decoration-primary">support@cinemadiscovery.com</a>
