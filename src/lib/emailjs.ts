@@ -293,6 +293,7 @@ export const sendContactEmail = async (name: string, email: string, message: str
       {
         from_name: name,
         reply_to: email,
+        to_email: 'support@cinemadiscovery.com',
         message: message,
       },
       EMAILJS_PUBLIC_KEY
