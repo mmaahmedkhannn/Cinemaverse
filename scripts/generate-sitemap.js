@@ -39,26 +39,26 @@ async function run() {
 
     const urls = [
       '/', '/movies', '/tv', '/universe', '/timeline', '/directors', '/battles', '/top100',
-      '/about', '/contact', '/privacy', '/terms', '/blog',
+      '/about', '/contact', '/privacy', '/terms', '/blog', '/auth',
       ...blogSlugs.map(slug => `/blog/${slug}`),
     ];
 
     console.log('Fetching TMDB popular resources...');
 
-    // Fetch movies (Top 2 pages)
-    for (let page = 1; page <= 2; page++) {
+    // Fetch movies (Top 5 pages)
+    for (let page = 1; page <= 5; page++) {
       const { data } = await tmdbClient.get('/movie/popular', { params: { page } });
       data.results.forEach(m => urls.push(`/movie/${m.id}/${generateSlug(m.title)}`));
     }
 
-    // Fetch TV (Top 2 pages)
-    for (let page = 1; page <= 2; page++) {
+    // Fetch TV (Top 5 pages)
+    for (let page = 1; page <= 5; page++) {
       const { data } = await tmdbClient.get('/tv/popular', { params: { page } });
       data.results.forEach(t => urls.push(`/tv/${t.id}/${generateSlug(t.name)}`));
     }
 
-    // Fetch Directors (Top 3 pages of people to naturally extract directing popularity)
-    for (let page = 1; page <= 3; page++) {
+    // Fetch Directors (Top 5 pages of people to naturally extract directing popularity)
+    for (let page = 1; page <= 5; page++) {
       const { data } = await tmdbClient.get('/person/popular', { params: { page } });
       const directors = data.results.filter(p => p.known_for_department === 'Directing');
       directors.forEach(d => urls.push(`/director/${d.id}/${generateSlug(d.name)}`));
