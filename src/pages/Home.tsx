@@ -69,14 +69,24 @@ const Home = () => {
   }, [currentUser]);
 
   const handleBattleVote = async (battleId: string, movieId: number, side: 'movie1' | 'movie2') => {
-    if (isVoting) return;
+    if (isVoting || !featuredBattle) return;
     setIsVoting(true);
     try {
       const odv = currentUser?.uid || getGuestId();
       await castVote(battleId, movieId, odv, side);
-      const updated = await getBattle(battleId);
-      const userVote = await getUserVote(battleId, odv);
-      setFeaturedBattle({ ...updated!, battleId, userVote });
+      const [updated, userVote] = await Promise.all([
+        getBattle(battleId),
+        getUserVote(battleId, odv)
+      ]);
+      // Preserve existing poster paths from TMDB (not stored in Firestore)
+      setFeaturedBattle(prev => ({
+        ...prev!,
+        ...updated!,
+        movie1Poster: prev?.movie1Poster ?? null,
+        movie2Poster: prev?.movie2Poster ?? null,
+        battleId,
+        userVote
+      }));
     } catch (e: any) {
       alert(e.message);
     } finally {
