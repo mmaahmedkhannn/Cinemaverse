@@ -15,9 +15,9 @@ import emailjs from '@emailjs/browser';
 //    VITE_EMAILJS_PUBLIC_KEY=your_public_key
 // ═══════════════════════════════════════════════════════════
 
-const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID_HERE';
-const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID_HERE';
-const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY_HERE';
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string;
 
 const buildWelcomeHTML = (userEmail: string): string => {
   const userName = userEmail.split('@')[0];
@@ -203,7 +203,7 @@ const buildWelcomeHTML = (userEmail: string): string => {
 };
 
 export const sendWelcomeEmail = async (userEmail: string): Promise<boolean> => {
-  if (EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID_HERE') {
+  if (!EMAILJS_SERVICE_ID) {
     console.warn('[CinemaDiscovery] EmailJS not configured — check src/lib/emailjs.ts');
     return false;
   }
@@ -257,7 +257,7 @@ const buildBattleResultsHTML = (winnerName: string, pct: number, battleTitle: st
 };
 
 export const sendBattleResultsEmail = async (emails: string[], winnerName: string, pct: number, battleTitle: string) => {
-  if (EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID_HERE') {
+  if (!EMAILJS_SERVICE_ID) {
     console.warn('[CinemaDiscovery] EmailJS not configured');
     return;
   }
@@ -280,23 +280,34 @@ export const sendBattleResultsEmail = async (emails: string[], winnerName: strin
   }
 };
 
-export const sendContactEmail = async (name: string, email: string, message: string): Promise<boolean> => {
-  if (EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID_HERE') {
+export const sendContactEmail = async (
+  name: string,
+  email: string,
+  message: string,
+  serviceId?: string,
+  templateId?: string,
+  publicKey?: string
+): Promise<boolean> => {
+  const sId = serviceId || EMAILJS_SERVICE_ID;
+  const tId = templateId || EMAILJS_TEMPLATE_ID;
+  const pKey = publicKey || EMAILJS_PUBLIC_KEY;
+
+  if (!sId || !tId || !pKey) {
     console.warn('[CinemaDiscovery] EmailJS not configured');
     return false;
   }
 
   try {
     const response = await emailjs.send(
-      EMAILJS_SERVICE_ID,
-      EMAILJS_TEMPLATE_ID,
+      sId,
+      tId,
       {
         from_name: name,
         reply_to: email,
         to_email: 'support@cinemadiscovery.com',
         message: message,
       },
-      EMAILJS_PUBLIC_KEY
+      pKey
     );
     console.log('[CinemaDiscovery] Contact email sent!');
     return response.status === 200;

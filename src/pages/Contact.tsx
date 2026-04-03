@@ -63,8 +63,18 @@ const Contact = () => {
     setSuccessMsg('');
     setLoading(true);
 
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      setError('Contact service is not configured properly.');
+      setLoading(false);
+      return;
+    }
+
     try {
-      const sent = await sendContactEmail(name, email, message);
+      const sent = await sendContactEmail(name, email, message, serviceId, templateId, publicKey);
       if (sent) {
         setSuccessMsg("Message sent successfully! We'll be in touch soon.");
         setName('');
