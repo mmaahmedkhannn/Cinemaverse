@@ -10,6 +10,7 @@ import SEO from '../components/SEO';
 import CVScore from '../components/ui/CVScore';
 import { useRottenTomatoes } from '../hooks/useRottenTomatoes';
 import RottenTomatoScore from '../components/ui/RottenTomatoScore';
+import { AuthModal } from '../components/ui/AuthModal';
 
 const TvShowDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -32,6 +33,7 @@ const TvShowDetail = () => {
   const [inWatchlist, setInWatchlist] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [showTrailerModal, setShowTrailerModal] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -65,7 +67,7 @@ const TvShowDetail = () => {
 
   const toggleWatchlist = async () => {
     if (!currentUser) {
-      alert("Please sign in to add shows to your watchlist.");
+      setShowAuthModal(true);
       return;
     }
     if (!tv) return;
@@ -439,6 +441,12 @@ const TvShowDetail = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+        message="Please sign in to add shows to your watchlist." 
+      />
     </div>
   );
 };

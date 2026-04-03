@@ -11,12 +11,14 @@ import { db } from '../lib/firebase';
 import SEO from '../components/SEO';
 import { generateSlug } from '../utils/slugify';
 import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
+import { AuthModal } from '../components/ui/AuthModal';
 
 const Top100 = () => {
   const [filter, setFilter] = useState<{ era: 'all' | '2020s' | '2010s' | '2000s' | '1990s' | '1980s' | '1970s' | 'pre1970' }>({ era: 'all' });
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { currentUser } = useAuth();
   const [userVotes, setUserVotes] = useState<Record<number, 'yes' | 'no'>>({});
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const { data: movies, isLoading } = useQuery({
     queryKey: ['top-100-movies'],
@@ -57,7 +59,7 @@ const Top100 = () => {
 
   const handleRankingVote = async (movieId: number, vote: 'yes' | 'no') => {
     if (!currentUser) {
-      alert('Please sign in to vote on rankings!');
+      setShowAuthModal(true);
       return;
     }
 
@@ -381,6 +383,12 @@ const Top100 = () => {
           </div>
         )}
       </section>
+
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+        message="Please sign in to vote on rankings and have your voice heard." 
+      />
     </main>
   );
 };
