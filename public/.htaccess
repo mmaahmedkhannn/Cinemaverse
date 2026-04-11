@@ -1,5 +1,10 @@
 Options -MultiViews
 RewriteEngine On
+
+# Check if a .html version of the requested path exists and serve it
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.html [L]
 

@@ -113,6 +113,8 @@ async function run() {
       });
     });
 
+    const delay = (ms) => new Promise(res => setTimeout(res, ms));
+
     console.log('Fetching TMDB popular resources...');
 
     // Fetch movies (Top 5 pages)
@@ -126,6 +128,7 @@ async function run() {
           image: m.poster_path ? `https://image.tmdb.org/t/p/w500${m.poster_path}` : null
         });
       });
+      await delay(200); // Prevent 429 Rate Limits
     }
 
     // Fetch TV (Top 5 pages)
@@ -139,6 +142,7 @@ async function run() {
           image: t.poster_path ? `https://image.tmdb.org/t/p/w500${t.poster_path}` : null
         });
       });
+      await delay(200);
     }
 
     // Fetch Directors (Top 5 pages of people to naturally extract directing popularity)
@@ -153,6 +157,7 @@ async function run() {
           image: d.profile_path ? `https://image.tmdb.org/t/p/w500${d.profile_path}` : null
         });
       });
+      await delay(200);
     }
 
     // Deduplicate pages by URL to prevent duplicate sitemap entries
@@ -200,6 +205,9 @@ ${uniquePages.map(p => `  <url>
 
   } catch (err) {
     console.error('Error generating sitemap and static HTML:', err.message);
+    if (err.response) {
+      console.error('TMDB API Error:', err.response.status, err.response.data);
+    }
     process.exit(1);
   }
 }
