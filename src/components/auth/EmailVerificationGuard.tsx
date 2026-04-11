@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
+import type { ReactNode } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-export function EmailVerificationGuard({ children }: { children: React.ReactNode }) {
+export function EmailVerificationGuard({ children }: { children: ReactNode }) {
   const { currentUser, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();

@@ -208,7 +208,9 @@ ${uniquePages.map(p => `  <url>
     if (err.response) {
       console.error('TMDB API Error:', err.response.status, err.response.data);
     }
-    process.exit(1);
+    console.log('Skipping dynamic URLs due to API failure. Build will continue.');
+    // Exit with 0 so npm run build doesn't crash on standard API rate limits or auth errors across environments
+    process.exit(0);
   }
 }
 
