@@ -20,66 +20,189 @@ const tmdbClient = axios.create({
   },
 });
 
+const DEFAULT_TITLE = 'CinemaDiscovery | The Ultimate Movie & TV Database';
+const DEFAULT_DESC = 'Discover every movie and TV show ever made. Ratings, trailers, streaming availability, cast lists, and more.';
+const DEFAULT_URL = 'https://cinemadiscovery.com';
+
+function createStaticHtml(template, { title, description, url, image, type = 'website' }) {
+  let html = template;
+  html = html.replace(`<title>${DEFAULT_TITLE}</title>`, `<title>${title}</title>`);
+  
+  // Replace meta descriptions
+  html = html.replace(new RegExp(`content="${DEFAULT_DESC}"`, 'g'), `content="${(description || '').replace(/"/g, '&quot;')}"`);
+  
+  // Replace canonical and og:url
+  html = html.replace(new RegExp(`href="${DEFAULT_URL}"`, 'g'), `href="${url}"`);
+  html = html.replace(new RegExp(`content="${DEFAULT_URL}"`, 'g'), `content="${url}"`);
+  
+  // Replace og:title and twitter:title
+  html = html.replace(new RegExp(`content="${DEFAULT_TITLE}"`, 'g'), `content="${title}"`);
+
+  // Replace type
+  html = html.replace(`content="website"`, `content="${type}"`);
+
+  if (image) {
+    html = html.replace(new RegExp(`content="https://cinemadiscovery.com/og-image.jpg"`, 'g'), `content="${image}"`);
+  }
+
+  return html;
+}
+
+function writeHtmlFile(destPath, urlPath, htmlContent) {
+  const filePath = path.join(destPath, `${urlPath}.html`);
+  const dir = path.dirname(filePath);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+  fs.writeFileSync(filePath, htmlContent);
+}
+
+// Very basic regex parser to extract blog info without tsc
+function getBlogArticles() {
+  const fileContent = fs.readFileSync(path.resolve(__dirname, '../src/data/blogArticles.ts'), 'utf-8');
+  const articles = [];
+  const regex = /slug:\s*['"]([^'"]+)['"][\s\S]*?title:\s*['"]([^'"]+)['"][\s\S]*?metaDescription:\s*['"]([^'"]+)['"][\s\S]*?heroImage:\s*['"]([^'"]+)['"]/g;
+  let match;
+  while ((match = regex.exec(fileContent)) !== null) {
+    articles.push({
+      slug: match[1],
+      title: match[2],
+      metaDescription: match[3],
+      heroImage: match[4]
+    });
+  }
+  return articles;
+}
+
 async function run() {
-  console.log('Generating dynamic sitemap.xml...');
+  console.log('Generating dynamic sitemap.xml and pre-rendered SEO shells...');
   try {
-    // Blog article slugs (must match src/data/blogArticles.ts)
-    const blogSlugs = [
-      'best-movies-of-2025',
-      'top-10-directors-of-all-time',
-      'best-tv-shows-to-watch-right-now',
-      'movies-like-inception',
-      'christopher-nolan-movies-ranked',
-      'best-thriller-movies-of-all-time',
-      'most-underrated-movies-on-netflix',
-      'best-sci-fi-movies-2024',
-      'top-rated-hbo-shows',
-      'movies-with-best-cinematography',
+    const distPath = path.resolve(__dirname, '../dist');
+    let templateHtml = '';
+    // Only attempt to read template if it exists (e.g. after vite build)
+    if (fs.existsSync(path.join(distPath, 'index.html'))) {
+      templateHtml = fs.readFileSync(path.join(distPath, 'index.html'), 'utf-8');
+    }
+
+    const blogArticles = getBlogArticles();
+
+    const pages = [
+      { url: '/', title: DEFAULT_TITLE, desc: DEFAULT_DESC },
+      { url: '/movies', title: 'Movies | CinemaDiscovery', desc: 'Browse the ultimate directory of movies. Filter by genre, rating, and decade.' },
+      { url: '/tv', title: 'TV Shows | CinemaDiscovery', desc: 'Discover amazing TV shows. From ongoing series to completed masterpieces.' },
+      { url: '/universe', title: 'Cinematic Universes | CinemaDiscovery', desc: 'Explore timelines of cinematic universes like MCU, DC, and Star Wars.' },
+      { url: '/timeline', title: 'Cinematic Timeline | CinemaDiscovery', desc: 'Travel through the history of cinema decade by decade.' },
+      { url: '/directors', title: 'Directors | CinemaDiscovery', desc: 'Explore the filmographies of the greatest directors in history.' },
+      { url: '/battles', title: 'Weekly Battles | CinemaDiscovery', desc: 'Vote in weekly cinematic battles and see which movies and characters come out on top.' },
+      { url: '/top100', title: 'Top 100 Movies | CinemaDiscovery', desc: 'The definitive top 100 greatest movies of all time, ranked.' },
+      { url: '/about', title: 'About Us | CinemaDiscovery', desc: 'Learn more about CinemaDiscovery and our mission.' },
+      { url: '/contact', title: 'Contact | CinemaDiscovery', desc: 'Get in touch with the CinemaDiscovery team.' },
+      { url: '/privacy', title: 'Privacy Policy | CinemaDiscovery', desc: 'CinemaDiscovery Privacy Policy.' },
+      { url: '/terms', title: 'Terms of Service | CinemaDiscovery', desc: 'CinemaDiscovery Terms of Service.' },
+      { url: '/blog', title: 'Blog | CinemaDiscovery', desc: 'Read expert film analysis, curated movie lists, and streaming guides.' },
+      { url: '/auth', title: 'Sign In | CinemaDiscovery', desc: 'Join CinemaDiscovery to track your watchlist and rate movies.' },
     ];
 
-    const urls = [
-      '/', '/movies', '/tv', '/universe', '/timeline', '/directors', '/battles', '/top100',
-      '/about', '/contact', '/privacy', '/terms', '/blog', '/auth',
-      ...blogSlugs.map(slug => `/blog/${slug}`),
-    ];
+    blogArticles.forEach(article => {
+      pages.push({
+        url: `/blog/${article.slug}`,
+        title: `${article.title} | CinemaDiscovery`,
+        desc: article.metaDescription,
+        image: article.heroImage,
+        type: 'article'
+      });
+    });
 
     console.log('Fetching TMDB popular resources...');
 
     // Fetch movies (Top 5 pages)
     for (let page = 1; page <= 5; page++) {
       const { data } = await tmdbClient.get('/movie/popular', { params: { page } });
-      data.results.forEach(m => urls.push(`/movie/${m.id}/${generateSlug(m.title)}`));
+      data.results.forEach(m => {
+        pages.push({
+          url: `/movie/${m.id}/${generateSlug(m.title)}`,
+          title: `${m.title} | CinemaDiscovery`,
+          desc: m.overview || DEFAULT_DESC,
+          image: m.poster_path ? `https://image.tmdb.org/t/p/w500${m.poster_path}` : null
+        });
+      });
     }
 
     // Fetch TV (Top 5 pages)
     for (let page = 1; page <= 5; page++) {
       const { data } = await tmdbClient.get('/tv/popular', { params: { page } });
-      data.results.forEach(t => urls.push(`/tv/${t.id}/${generateSlug(t.name)}`));
+      data.results.forEach(t => {
+        pages.push({
+          url: `/tv/${t.id}/${generateSlug(t.name)}`,
+          title: `${t.name} (TV Series) | CinemaDiscovery`,
+          desc: t.overview || DEFAULT_DESC,
+          image: t.poster_path ? `https://image.tmdb.org/t/p/w500${t.poster_path}` : null
+        });
+      });
     }
 
     // Fetch Directors (Top 5 pages of people to naturally extract directing popularity)
     for (let page = 1; page <= 5; page++) {
       const { data } = await tmdbClient.get('/person/popular', { params: { page } });
       const directors = data.results.filter(p => p.known_for_department === 'Directing');
-      directors.forEach(d => urls.push(`/director/${d.id}/${generateSlug(d.name)}`));
+      directors.forEach(d => {
+        pages.push({
+          url: `/director/${d.id}/${generateSlug(d.name)}`,
+          title: `${d.name} | Director Profile | CinemaDiscovery`,
+          desc: `Explore the filmography and movies directed by ${d.name} on CinemaDiscovery.`,
+          image: d.profile_path ? `https://image.tmdb.org/t/p/w500${d.profile_path}` : null
+        });
+      });
     }
 
+    // Deduplicate pages by URL to prevent duplicate sitemap entries
+    const seenUrls = new Set();
+    const uniquePages = pages.filter(p => {
+      if (seenUrls.has(p.url)) return false;
+      seenUrls.add(p.url);
+      return true;
+    });
+
+    // 1. Generate Sitemap XML
     const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(url => `  <url>
-    <loc>${DOMAIN}${url}</loc>
+${uniquePages.map(p => `  <url>
+    <loc>${DOMAIN}${p.url}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
-    <changefreq>${url === '/' ? 'daily' : 'weekly'}</changefreq>
-    <priority>${url === '/' ? '1.0' : url.startsWith('/blog/') ? '0.7' : url.includes('/movie/') ? '0.8' : (url.includes('/tv/') || url.includes('/director/')) ? '0.7' : '0.6'}</priority>
+    <changefreq>${p.url === '/' ? 'daily' : 'weekly'}</changefreq>
+    <priority>${p.url === '/' ? '1.0' : p.url.startsWith('/blog/') ? '0.7' : p.url.includes('/movie/') ? '0.8' : (p.url.includes('/tv/') || p.url.includes('/director/')) ? '0.7' : '0.6'}</priority>
   </url>`).join('\n')}
 </urlset>`;
 
-    const destPath = path.resolve(__dirname, '../public/sitemap.xml');
-    fs.writeFileSync(destPath, sitemapContent);
-    console.log(`Successfully generated sitemap with ${urls.length} URLs at public/sitemap.xml`);
+    const destSitemapPath = path.resolve(__dirname, '../public/sitemap.xml');
+    fs.writeFileSync(destSitemapPath, sitemapContent);
+    console.log(`Successfully generated sitemap with ${uniquePages.length} URLs at public/sitemap.xml`);
+
+    // 2. Generate Pre-rendered SEO HTML shells for Apache Rewrites
+    if (templateHtml) {
+      let prerenderCount = 0;
+      uniquePages.forEach(p => {
+        if (p.url === '/') return; // Already exists as index.html
+        const pageHtml = createStaticHtml(templateHtml, {
+          title: p.title,
+          description: p.desc,
+          url: `${DOMAIN}${p.url}`,
+          image: p.image,
+          type: p.type
+        });
+        writeHtmlFile(distPath, p.url, pageHtml);
+        prerenderCount++;
+      });
+      console.log(`Successfully generated ${prerenderCount} static HTML SEO files in dist/`);
+    } else {
+      console.log('Skipped HTML pre-rendering because dist/index.html was not found (run vite build first).');
+    }
+
   } catch (err) {
-    console.error('Error generating sitemap:', err.message);
+    console.error('Error generating sitemap and static HTML:', err.message);
+    process.exit(1);
   }
 }
 
 run();
+
