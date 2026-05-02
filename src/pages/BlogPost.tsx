@@ -175,21 +175,21 @@ const BlogPost = () => {
           "@context": "https://schema.org",
           "@type": "BlogPosting",
           "headline": article.title,
+          "description": article.metaDescription,
           "image": article.heroImage,
           "datePublished": article.date,
+          "dateModified": article.date,
+          "mainEntityOfPage": `https://cinemadiscovery.com/blog/${article.slug}`,
           "author": {
-            "@type": "Organization",
-            "name": "CinemaDiscovery Editorial Team"
+            "@type": article.author && article.author !== 'CinemaDiscovery Editorial Team' ? "Person" : "Organization",
+            "name": article.author || "CinemaDiscovery Editorial Team"
           },
           "publisher": {
             "@type": "Organization",
             "name": "CinemaDiscovery",
-            "logo": {
-              "@type": "ImageObject",
-              "url": "https://cinemadiscovery.com/favicon.svg"
-            }
+            "url": "https://cinemadiscovery.com"
           },
-          "description": article.metaDescription
+          "keywords": article.metaDescription
         })}
       />
 
@@ -220,7 +220,7 @@ const BlogPost = () => {
             </h1>
             <div className="flex items-center gap-2 text-gray-400 text-sm font-sans mb-3">
               <UserPen className="w-4 h-4 text-primary" />
-              <span className="font-semibold">By CinemaDiscovery Editorial Team</span>
+              <span className="font-semibold">By {article.author || 'CinemaDiscovery Editorial Team'}</span>
             </div>
             <div className="flex items-center gap-4 text-gray-300 text-sm font-sans">
               <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {new Date(article.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
