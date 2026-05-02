@@ -93,7 +93,7 @@ That path gives you tension first, then ambition, then obsession, then feeling. 
 
 So now I want to know: which Christopher Nolan film do you think is the best entry point for beginners?
 
-Want to explore more [directors](/directors) like Nolan? Check out our **[Directors page](/directors)** on CinemaDiscovery.
+Want to explore more directors like Nolan? Check out our [Directors page](/directors) on CinemaDiscovery.
     `.trim(),
   },
   {
