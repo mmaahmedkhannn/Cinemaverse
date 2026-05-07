@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { tmdbApi, getImageUrl, type TMDBMovie } from '../services/tmdb';
-import { Star, ChevronLeft, ChevronRight, Play, AlertCircle, Gem, Zap, Crown, ThumbsUp, Clock, Swords, Trophy, Users } from 'lucide-react';
+import { Star, ChevronLeft, ChevronRight, Play, AlertCircle, Gem, Zap, Crown, ThumbsUp } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { getBattle, getUserVote, castVote, getWeeklyBattle, getGuestId } from '../lib/battleService';
 import type { Battle } from '../lib/battleService';
@@ -35,7 +35,6 @@ const Home = () => {
   const [heroIndex, setHeroIndex] = useState(0);
   const [featuredBattle, setFeaturedBattle] = useState<(Battle & { battleId: string; userVote: any; endsAt?: Date; battleCategory?: string }) | null>(null);
   const [isVoting, setIsVoting] = useState(false);
-  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const { currentUser } = useAuth();
   
   useEffect(() => {
@@ -69,24 +68,6 @@ const Home = () => {
     loadBattle();
   }, [currentUser]);
 
-  // Countdown timer
-  useEffect(() => {
-    if (!featuredBattle?.endsAt) return;
-    const tick = () => {
-      const now = new Date().getTime();
-      const end = new Date(featuredBattle.endsAt!).getTime();
-      const diff = Math.max(0, end - now);
-      setCountdown({
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((diff % (1000 * 60)) / 1000),
-      });
-    };
-    tick();
-    const interval = setInterval(tick, 1000);
-    return () => clearInterval(interval);
-  }, [featuredBattle?.endsAt]);
 
   const handleBattleVote = async (battleId: string, movieId: number, side: 'movie1' | 'movie2') => {
     if (isVoting || !featuredBattle) return;
