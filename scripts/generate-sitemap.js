@@ -102,6 +102,7 @@ async function run() {
       { url: '/blog', title: 'Blog | CinemaDiscovery', desc: 'Read expert film analysis, curated movie lists, and streaming guides.' },
       { url: '/auth', title: 'Sign In | CinemaDiscovery', desc: 'Join CinemaDiscovery to track your watchlist and rate movies.' },
       { url: '/blog/best-christopher-nolan-movies-for-beginners', title: 'The Best Christopher Nolan Movies to Watch If You Have Never Seen His Work | CinemaDiscovery', desc: 'Never seen a Nolan film before? Start here. We break down exactly which Christopher Nolan movies to watch first and why the order matters more than you think.' },
+      { url: '/blog/best-thriller-movies-that-actually-keep-you-guessing', title: 'Best Thriller Movies That Actually Keep You Guessing | CinemaDiscovery', desc: 'From Se7en to Parasite — a passionate first-person guide to the best psychological thriller movies ever made. These films will mess with your head long after the credits roll.' },
     ];
 
     blogArticles.forEach(article => {
