@@ -21,7 +21,7 @@ export const blogArticles: BlogArticle[] = [
     readTime: '9 min read',
     category: 'Movies',
     author: 'Ahmed Khan',
-    heroImage: 'https://image.tmdb.org/t/p/w1280/6ozfEqdRRxW6EKTxMUMToZ4yFly.jpg',
+    heroImage: 'https://image.tmdb.org/t/p/original/i5H7zusQGsysGQ8i6P361Vnr0n2.jpg',
     content: `
 When I think about the best thrillers ever made, I don't think about cheap twists or loud music trying to bully me into feeling tense. I think about movies that make me suspicious of every silence. Movies where a hallway, a phone call, or even a normal dinner conversation suddenly feels dangerous. That's the kind of thriller I love. The kind that makes you lean forward without noticing you did it.
 
