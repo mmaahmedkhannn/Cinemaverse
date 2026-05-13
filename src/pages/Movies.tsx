@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback, Fragment } from 'react';
+import { useState, useMemo, useCallback, Fragment } from 'react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Star, Search, Filter, ChevronDown } from 'lucide-react';
@@ -6,6 +6,8 @@ import { tmdbApi, getImageUrl, type TMDBMovie } from '../services/tmdb';
 import { Link, useSearchParams } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { generateSlug } from '../utils/slugify';
+import { sanitizeSearchQuery } from '../lib/sanitize';
+import { useDebounce } from '../hooks/useDebounce';
 import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
 
 const YEARS = [2026, 2025, 2024, 2023, 2022, 2021, 2020, "All Time"];
@@ -26,7 +28,7 @@ const Movies = () => {
   const selectedGenre: number | null = searchParams.get('genre') ? Number(searchParams.get('genre')) : null;
   const sortBy: string = searchParams.get('sort') || 'popularity.desc';
   const [searchQuery, setSearchQuery] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const debouncedQuery = useDebounce(searchQuery, 400);
 
   // Helper to update URL params without losing other params
   const updateParam = useCallback((key: string, value: string | null) => {
@@ -44,12 +46,6 @@ const Movies = () => {
   const setSelectedYear = (year: number | string) => updateParam('year', year === 'All Time' ? 'all' : String(year));
   const setSelectedGenre = (genre: number | null) => updateParam('genre', genre ? String(genre) : null);
   const setSortBy = (sort: string) => updateParam('sort', sort === 'popularity.desc' ? null : sort);
-
-  // Debounce search
-  useEffect(() => {
-    const timer = setTimeout(() => setDebouncedQuery(searchQuery), 500);
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
 
   const { data: genres } = useQuery({
     queryKey: ['movieGenres'],
@@ -70,7 +66,7 @@ const Movies = () => {
       ...(selectedGenre && !debouncedQuery ? { with_genres: selectedGenre.toString() } : {}),
       ...(selectedYear !== "All Time" && !debouncedQuery ? { primary_release_year: Number(selectedYear) } : {}),
       ...(!debouncedQuery ? { sort_by: sortBy } : {}),
-      ...(debouncedQuery ? { query: debouncedQuery } : {}),
+      ...(debouncedQuery ? { query: sanitizeSearchQuery(debouncedQuery) } : {}),
     }),
     initialPageParam: 1,
     getNextPageParam: (lastPage: any) => {

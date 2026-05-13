@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Send } from 'lucide-react';
 import { tmdbApi, getImageUrl } from '../services/tmdb';
 import { sendContactEmail } from '../lib/emailjs';
+import { sanitizeInput } from '../lib/sanitize';
 
 const MOVIES = [
   { id: 238, title: 'The Godfather', year: '1972', quote: "I'm gonna make him an offer he can't refuse." },
@@ -104,7 +105,9 @@ const Contact = () => {
     }
 
     try {
-      const sent = await sendContactEmail(name, email, message, serviceId, templateId, publicKey);
+      const sanitizedName = sanitizeInput(name);
+      const sanitizedMessage = sanitizeInput(message);
+      const sent = await sendContactEmail(sanitizedName, email, sanitizedMessage, serviceId, templateId, publicKey);
       if (sent) {
         setSuccessMsg("Message sent successfully! We'll be in touch soon.");
         setName('');

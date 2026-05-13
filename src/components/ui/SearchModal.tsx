@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { tmdbApi, getImageUrl } from '../../services/tmdb';
 import { generateSlug } from '../../utils/slugify';
+import { sanitizeSearchQuery } from '../../lib/sanitize';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -58,7 +59,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
 
   const { data: results, isLoading } = useQuery({
     queryKey: ['search', debouncedQuery],
-    queryFn: () => tmdbApi.searchMulti(debouncedQuery),
+    queryFn: () => tmdbApi.searchMulti(sanitizeSearchQuery(debouncedQuery)),
     enabled: debouncedQuery.length > 1,
   });
 
