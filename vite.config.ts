@@ -9,6 +9,12 @@ export default defineConfig({
   server: {},
   build: {
     sourcemap: false,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: ['log', 'info', 'debug'],
+      },
+    },
     rollupOptions: {
       output: {
         manualChunks: {

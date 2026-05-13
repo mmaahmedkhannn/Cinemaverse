@@ -218,7 +218,6 @@ export const sendWelcomeEmail = async (userEmail: string): Promise<boolean> => {
       },
       EMAILJS_PUBLIC_KEY
     );
-    console.log('[CinemaDiscovery] Welcome email sent!');
     return response.status === 200;
   } catch (error) {
     console.error('[CinemaDiscovery] Failed to send welcome email:', error);
@@ -309,7 +308,6 @@ export const sendContactEmail = async (
       },
       pKey
     );
-    console.log('[CinemaDiscovery] Contact email sent!');
     return response.status === 200;
   } catch (error) {
     console.error('[CinemaDiscovery] Failed to send contact email:', error);

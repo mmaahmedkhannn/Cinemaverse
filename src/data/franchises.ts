@@ -18,20 +18,25 @@ export const FRANCHISES: Franchise[] = [
     name: 'Marvel Cinematic Universe',
     description: "The monumental interconnected saga of Earth's mightiest heroes.",
     entries: [
+      { id: 1726, phase: 'Phase 1' }, // Iron Man
+      { id: 1724, phase: 'Phase 1' }, // The Incredible Hulk
+      { id: 10138, phase: 'Phase 1' }, // Iron Man 2
       { id: 1771, phase: 'Phase 1' }, // Captain America: The First Avenger
-      { id: 19995, phase: 'Phase 1' }, // Iron Man
-      { id: 1726, phase: 'Phase 1' }, // Iron Man 2
-      { id: 10138, phase: 'Phase 1' }, // Iron Man 2 (Actually 10138)
-      { id: 100402, phase: 'Phase 2' }, // Winter Soldier
       { id: 24428, phase: 'Phase 1' }, // Avengers
+      { id: 100402, phase: 'Phase 2' }, // Winter Soldier
       { id: 118340, phase: 'Phase 2' }, // Guardians 1
       { id: 99861, phase: 'Phase 2' }, // Age of Ultron
+      { id: 102899, phase: 'Phase 2' }, // Ant-Man
       { id: 271110, phase: 'Phase 3' }, // Civil War
+      { id: 315635, phase: 'Phase 3' }, // Spider-Man: Homecoming
       { id: 299536, phase: 'Phase 3' }, // Infinity War
+      { id: 363088, phase: 'Phase 3' }, // Ant-Man and the Wasp
       { id: 299534, phase: 'Phase 3' }, // Endgame
+      { id: 429617, phase: 'Phase 3' }, // Spider-Man: Far From Home
       { id: 85271, mediaType: 'tv', phase: 'Phase 4' }, // WandaVision
       { id: 84958, mediaType: 'tv', phase: 'Phase 4' }, // Loki
       { id: 88329, mediaType: 'tv', phase: 'Phase 4' }, // Hawkeye
+      { id: 634649, phase: 'Phase 4' }, // Spider-Man: No Way Home
       { id: 453395, phase: 'Phase 4' }, // Doctor Strange Multiverse
       { id: 505642, phase: 'Phase 4' }, // Wakanda Forever
       { id: 640146, phase: 'Phase 5' }, // Quantumania

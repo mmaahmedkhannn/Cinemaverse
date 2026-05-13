@@ -11,6 +11,7 @@ import CVScore from '../components/ui/CVScore';
 import { useRottenTomatoes } from '../hooks/useRottenTomatoes';
 import RottenTomatoScore from '../components/ui/RottenTomatoScore';
 import { AuthModal } from '../components/ui/AuthModal';
+import { AmazonAffiliateButton } from '../components/ui/AmazonAffiliateButton';
 
 const TvShowDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -292,41 +293,45 @@ const TvShowDetail = () => {
             </div>
 
             {/* Where to Watch (JustWatch + Amazon Affiliate) */}
-            {streamProviders.length > 0 && (
-              <div className="mb-8">
-                <h3 className="text-sm font-sans text-gray-400 mb-3 uppercase tracking-wider font-bold">Where to Watch</h3>
-                <div className="flex flex-wrap gap-3 items-center justify-center md:justify-start">
-                  {streamProviders.map((p: any) => (
-                    <a 
-                      key={p.provider_id}
-                      href={getProviderLink(p.provider_name, providersData.link)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`flex items-center gap-3 bg-[#0a0a0a]/80 backdrop-blur-md border ${p.provider_name.toLowerCase().includes('amazon') ? 'border-primary/50 hover:border-primary shadow-[0_0_15px_rgba(239,68,68,0.2)]' : 'border-white/10 hover:border-white/30'} rounded-2xl p-2 pr-4 transition-all duration-300 group hover:-translate-y-1`}
-                      title={`Watch on ${p.provider_name}`}
-                    >
-                      <img 
-                        src={getImageUrl(p.logo_path, 'w500')} 
-                        alt={p.provider_name}
-                        className="w-10 h-10 rounded-xl group-hover:scale-105 transition-transform"
-                      />
-                      <div className="flex flex-col text-left">
-                         <span className="text-white text-sm font-bold font-sans line-clamp-1">{p.provider_name}</span>
-                         {p.provider_name.toLowerCase().includes('amazon') ? (
-                           <span className="text-[10px] text-primary font-bold tracking-widest uppercase">Rent / Buy</span>
-                         ) : (
-                           <span className="text-[10px] text-gray-400 font-medium tracking-wider uppercase">Stream</span>
-                         )}
-                      </div>
-                    </a>
-                  ))}
-                </div>
+            <div className="mb-8">
+              <h3 className="text-sm font-sans text-gray-400 mb-3 uppercase tracking-wider font-bold">Where to Watch</h3>
+              <div className="flex flex-wrap gap-3 items-center justify-center md:justify-start">
+                {streamProviders.length > 0 && streamProviders.map((p: any) => (
+                  <a 
+                    key={p.provider_id}
+                    href={getProviderLink(p.provider_name, providersData.link)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`flex items-center gap-3 bg-[#0a0a0a]/80 backdrop-blur-md border ${p.provider_name.toLowerCase().includes('amazon') ? 'border-primary/50 hover:border-primary shadow-[0_0_15px_rgba(239,68,68,0.2)]' : 'border-white/10 hover:border-white/30'} rounded-2xl p-2 pr-4 transition-all duration-300 group hover:-translate-y-1`}
+                    title={`Watch on ${p.provider_name}`}
+                  >
+                    <img 
+                      src={getImageUrl(p.logo_path, 'w500')} 
+                      alt={p.provider_name}
+                      className="w-10 h-10 rounded-xl group-hover:scale-105 transition-transform"
+                    />
+                    <div className="flex flex-col text-left">
+                       <span className="text-white text-sm font-bold font-sans line-clamp-1">{p.provider_name}</span>
+                       {p.provider_name.toLowerCase().includes('amazon') ? (
+                         <span className="text-[10px] text-primary font-bold tracking-widest uppercase">Rent / Buy</span>
+                       ) : (
+                         <span className="text-[10px] text-gray-400 font-medium tracking-wider uppercase">Stream</span>
+                       )}
+                    </div>
+                  </a>
+                ))}
+                <AmazonAffiliateButton title={tv.name} year={tv.first_air_date?.substring(0, 4)} />
+              </div>
+              {streamProviders.length > 0 && (
                 <p className="text-[10px] text-gray-600 mt-3 flex items-center justify-center md:justify-start gap-1">
                   <span>Streaming data provided by</span>
                   <a href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400 transition-colors">JustWatch</a>
                 </p>
-              </div>
-            )}
+              )}
+              <p className="text-[10px] text-gray-500 mt-1.5 flex items-center justify-center md:justify-start">
+                As an Amazon Associate, CinemaDiscovery earns from qualifying purchases.
+              </p>
+            </div>
 
             <div className="mb-10">
               <h3 className="text-xl font-bebas text-gray-400 mb-3">Overview</h3>
@@ -423,7 +428,8 @@ const TvShowDetail = () => {
             >
               <button 
                 onClick={() => setShowTrailerModal(false)}
-                className="absolute -top-12 right-0 md:-right-12 xl:-right-16 z-[110] text-red-500 hover:text-red-400 transition-colors drop-shadow-[0_0_12px_rgba(239,68,68,1)]"
+                aria-label="Close trailer"
+                className="absolute top-2 right-2 sm:-top-12 sm:-right-12 xl:-right-16 z-[110] bg-black/70 hover:bg-black/90 rounded-full p-2 text-red-500 hover:text-red-400 transition-all drop-shadow-[0_0_12px_rgba(239,68,68,1)]"
               >
                 <X className="w-10 h-10 md:w-12 md:h-12" />
               </button>
