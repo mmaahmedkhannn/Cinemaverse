@@ -63,15 +63,15 @@ Options -Indexes
   RewriteCond %{HTTP_USER_AGENT} (ahrefsbot|semrushbot|mj12bot|dotbot|petalbot|blexbot|seznambot|exabot|gigabot|megaindex|serpstatbot|barkrowler|riddler|dataforseo|zoominfobot|pricepi|sqlmap|nikto|wpscan|nessus|openvas|w3af|skipfish|arachni|curl|wget|libwww|python-requests|scrapy|httpclient|java/) [NC]
   RewriteRule .* - [F,L]
 
-  # ---- SPA routing — preserve existing behavior ----
-  # Allow direct access to existing files/directories
-  RewriteCond %{REQUEST_FILENAME} -f [OR]
-  RewriteCond %{REQUEST_FILENAME} -d
-  RewriteRule ^ - [L]
+  # ---- SPA routing ----
+  # Strip trailing slash from non-file URLs (force React Router to handle them)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_URI} (.+)/$
+  RewriteRule ^ %1 [R=301,L]
 
-  # Check if a .html version of the requested path exists and serve it
-  RewriteCond %{REQUEST_FILENAME}\.html -f
-  RewriteRule ^(.*)$ $1.html [L]
+  # Allow direct access to existing files (CSS, JS, images, sitemap.xml, etc.)
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
 
   # Send all other requests to index.html for React Router
   RewriteRule ^ index.html [L]
