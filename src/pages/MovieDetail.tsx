@@ -189,7 +189,7 @@ const MovieDetail = () => {
       />
 
       {/* Hero Backdrop */}
-      <section className="relative h-[60vh] md:h-[75vh] w-full">
+      <section className="relative min-h-[60dvh] md:min-h-[100dvh] w-full">
         <div className="absolute inset-0">
           <img
             src={getImageUrl(movie.backdrop_path, 'w1280')}
@@ -202,8 +202,8 @@ const MovieDetail = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-background-dark/90 via-background-dark/50 to-transparent" />
 
-        <div className="absolute top-24 left-6 md:left-16 z-20">
-          <Link to={-1 as any} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm">
+        <div className="absolute top-16 md:top-24 left-6 md:left-16 z-20">
+          <Link to={-1 as any} className="flex items-center justify-center gap-2 text-gray-400 hover:text-white transition-colors bg-black/40 px-4 min-h-[44px] rounded-full backdrop-blur-sm">
             <ArrowLeft className="w-4 h-4" /> Back
           </Link>
         </div>
@@ -286,11 +286,11 @@ const MovieDetail = () => {
                 popularity={movie.popularity || 0}
               />
               <RottenTomatoScore score={rtScore} size="lg" />
-              <div className="flex flex-wrap items-center gap-4">
-                <span className="flex items-center gap-1 text-gray-300">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+                <span className="flex items-center gap-1 text-xs sm:text-sm text-gray-300">
                   <Clock className="w-4 h-4" /> {movie.runtime} min
                 </span>
-                <span className="flex items-center gap-1 text-gray-300">
+                <span className="flex items-center gap-1 text-xs sm:text-sm text-gray-300">
                   <Calendar className="w-4 h-4" /> {movie.release_date?.substring(0, 4)}
                 </span>
                 <div className="flex gap-2 flex-wrap">
@@ -306,7 +306,7 @@ const MovieDetail = () => {
             {/* Where to Watch (JustWatch + Amazon Affiliate) */}
             <div className="mb-8">
               <h3 className="text-sm font-sans text-gray-400 mb-3 uppercase tracking-wider font-bold">Where to Watch</h3>
-              <div className="flex flex-wrap gap-3 items-center justify-center md:justify-start">
+              <div className="flex flex-wrap gap-2 sm:gap-3 items-center justify-center md:justify-start">
                 {streamProviders.length > 0 && streamProviders.map((p: any) => (
                   <a 
                     key={p.provider_id}
@@ -319,7 +319,7 @@ const MovieDetail = () => {
                     <img 
                       src={getImageUrl(p.logo_path, 'w500')} 
                       alt={p.provider_name}
-                      className="w-10 h-10 rounded-xl group-hover:scale-105 transition-transform"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl group-hover:scale-105 transition-transform"
                     />
                     <div className="flex flex-col text-left">
                        <span className="text-white text-sm font-bold font-sans line-clamp-1">{p.provider_name}</span>
@@ -390,7 +390,7 @@ const MovieDetail = () => {
       {recommendations.length > 0 && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
           <h3 className="text-3xl font-bebas text-white mb-8 border-l-4 border-primary pl-4">Similar Movies</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-6">
             {recommendations.map((rec: any, i: number) => (
               <Link to={`/movie/${rec.id}`} key={rec.id}>
                 <motion.div
@@ -454,8 +454,7 @@ const MovieDetail = () => {
                 src={`https://www.youtube.com/embed/${iframeKey}?autoplay=1`}
                 allow="autoplay; fullscreen; encrypted-media"
                 allowFullScreen={true}
-                width="100%"
-                height="100%"
+                className="w-full h-full"
                 style={{ border: 'none' }}
                 title="Trailer"
               />

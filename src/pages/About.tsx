@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-background-dark pt-28 pb-20">
+    <div className="min-h-screen bg-background-dark pt-20 md:pt-28 pb-12 md:pb-20">
       <Helmet>
         <title>About CinemaDiscovery | Premium Movie & TV Show Discovery Platform</title>
         <meta name="description" content="Discover what CinemaDiscovery is—a premium movie and TV show discovery platform at cinemadiscovery.com. Elevate how you explore, track, and rank the universe of cinema." />

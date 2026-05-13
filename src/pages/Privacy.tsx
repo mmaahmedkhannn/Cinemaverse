@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 const Privacy = () => {
   return (
-    <div className="min-h-screen bg-background-dark pt-28 pb-20">
+    <div className="min-h-screen bg-background-dark pt-20 md:pt-28 pb-12 md:pb-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
           <h1 className="font-bebas text-6xl md:text-8xl text-white tracking-wider mb-4">

@@ -48,7 +48,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background-dark pt-24 pb-20">
+    <div className="min-h-screen bg-background-dark pt-24 pb-20 overflow-x-hidden w-full">
       <Helmet>
         <title>My Profile & Watchlist | CinemaDiscovery</title>
         <meta name="robots" content="noindex, nofollow" />
@@ -77,11 +77,11 @@ const Profile = () => {
                <span className="text-[10px] uppercase font-bold text-white tracking-widest leading-none">Edit</span>
             </div>
           </div>
-          <div>
-            <h1 className="text-4xl font-bebas text-white">
+          <div className="flex-1 min-w-0">
+            <h1 className="text-4xl font-bebas text-white break-words overflow-hidden">
               {currentUser.displayName || 'CinemaDiscovery User'}
             </h1>
-            <p className="text-gray-400 font-sans">{currentUser.email}</p>
+            <p className="text-gray-400 font-sans break-words">{currentUser.email}</p>
           </div>
         </div>
 
@@ -123,7 +123,7 @@ const Profile = () => {
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-6">
               {watchlist.map((item, i) => (
                 <Link to={`/movie/${item.movieId}/${generateSlug(item.title)}`} key={item.movieId}>
                   <motion.div

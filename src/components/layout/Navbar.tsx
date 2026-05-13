@@ -57,7 +57,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             <button 
               onClick={() => setIsSearchOpen(true)}
-              className="text-gray-300 hover:text-white p-2 rounded-full transition-colors"
+              className="text-gray-300 hover:text-white min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full transition-colors"
             >
               <Search className="w-5 h-5" />
             </button>
@@ -71,7 +71,7 @@ const Navbar = () => {
                     navigate('/auth');
                   }
                 }}
-                className="text-gray-300 hover:text-white p-2 rounded-full transition-colors relative"
+                className="text-gray-300 hover:text-white min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full transition-colors relative"
               >
                 {loading ? (
                   <div className="w-5 h-5 rounded-full border-2 border-gray-400 border-t-transparent animate-spin mx-auto"></div>

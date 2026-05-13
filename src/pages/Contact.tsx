@@ -224,7 +224,7 @@ const Contact = () => {
                 placeholder="Name"
                 disabled={loading}
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3.5 text-white placeholder-gray-400 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all font-sans disabled:opacity-50"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3.5 text-base md:text-sm text-white placeholder-gray-400 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all font-sans disabled:opacity-50"
               />
             </div>
             
@@ -236,7 +236,7 @@ const Contact = () => {
                 placeholder="Email Address"
                 disabled={loading}
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3.5 text-white placeholder-gray-400 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all font-sans disabled:opacity-50"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3.5 text-base md:text-sm text-white placeholder-gray-400 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all font-sans disabled:opacity-50"
               />
             </div>
 
@@ -248,7 +248,7 @@ const Contact = () => {
                 disabled={loading}
                 required
                 rows={4}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3.5 text-white placeholder-gray-400 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all font-sans resize-none disabled:opacity-50"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3.5 text-base md:text-sm text-white placeholder-gray-400 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all font-sans resize-none disabled:opacity-50"
               />
             </div>
 

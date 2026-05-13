@@ -300,7 +300,7 @@ const Wrapped = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-black flex flex-col">
+    <div className="min-h-screen bg-black flex flex-col overflow-x-hidden w-full">
       {/* Progress bar */}
       <div className="fixed top-0 left-0 right-0 z-50 flex gap-1 px-4 pt-2">
         {slides.map((_, i) => (

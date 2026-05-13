@@ -154,7 +154,7 @@ const DirectorDetail = () => {
       />
 
       {/* Hero */}
-      <section className="relative h-[50vh] md:h-[60vh] w-full">
+      <section className="relative min-h-[60dvh] md:min-h-[100dvh] w-full">
         <div className="absolute inset-0">
           {bestBackdrop && (
             <img src={getImageUrl(bestBackdrop, 'w1280')} alt="" className="w-full h-full object-cover" fetchPriority="high" />
@@ -162,8 +162,8 @@ const DirectorDetail = () => {
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-background-dark/90 via-background-dark/50 to-transparent" />
-        <div className="absolute top-24 left-6 md:left-16 z-20">
-          <Link to="/directors" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm">
+        <div className="absolute top-16 md:top-24 left-6 md:left-16 z-20">
+          <Link to="/directors" className="flex items-center justify-center gap-2 text-gray-400 hover:text-white transition-colors bg-black/40 px-4 min-h-[44px] rounded-full backdrop-blur-sm">
             <ArrowLeft className="w-4 h-4" /> Directors
           </Link>
         </div>

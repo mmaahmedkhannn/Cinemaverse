@@ -153,7 +153,7 @@ const Home = () => {
         )}
       </SEO>
       {/* Hero Section */}
-      <section className="relative h-[85vh] w-full overflow-hidden bg-[#080810]">
+      <section className="relative min-h-[70dvh] md:min-h-[100dvh] w-full overflow-hidden bg-[#080810]">
         {!isHeroLoading && currentHero ? (
           <>
             <AnimatePresence mode="wait">
@@ -255,12 +255,12 @@ const Home = () => {
 
         <div
           ref={scrollRef}
-          className="flex gap-4 overflow-x-auto pb-4"
+          className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory no-scrollbar"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {isTrendingLoading ? (
             Array(10).fill(0).map((_, i) => (
-              <div key={i} className="flex-shrink-0 w-[180px] h-[270px] bg-white/5 animate-pulse rounded-lg" />
+              <div key={i} className="flex-shrink-0 w-[180px] h-[270px] bg-white/5 animate-pulse rounded-lg snap-start" />
             ))
           ) : (
             trendingMovies.map((movie, i) => (
@@ -269,7 +269,7 @@ const Home = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className="flex-shrink-0 w-[180px] group cursor-pointer"
+                  className="flex-shrink-0 w-[180px] group cursor-pointer snap-start"
                 >
                   <div className="relative aspect-[2/3] rounded-lg overflow-hidden mb-2">
                     {movie.poster_path ? (
@@ -538,7 +538,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6">
             {isGemsLoading ? (
               Array(5).fill(0).map((_, i) => (
                 <div key={i} className="aspect-[2/3] bg-white/5 animate-pulse rounded-lg border border-white/5" />

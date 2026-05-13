@@ -202,7 +202,7 @@ const BlogPost = () => {
       />
 
       {/* Hero Image */}
-      <div className="relative w-full h-[50vh] md:h-[60vh]">
+      <div className="relative w-full min-h-[60dvh] md:min-h-[100dvh]">
         <img
           src={article.heroImage}
           alt={`${article.title} — ${article.category} article on CinemaDiscovery`}
@@ -211,8 +211,8 @@ const BlogPost = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/20" />
 
         {/* Back button */}
-        <div className="absolute top-24 left-4 sm:left-8">
-          <Link to="/blog" className="flex items-center gap-2 text-white/70 hover:text-white font-sans text-sm transition-colors bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+        <div className="absolute top-16 md:top-24 left-4 sm:left-8">
+          <Link to="/blog" className="flex items-center justify-center gap-2 text-white/70 hover:text-white font-sans text-sm transition-colors bg-black/40 backdrop-blur-md px-4 min-h-[44px] rounded-full border border-white/10">
             <ArrowLeft className="w-4 h-4" /> All Articles
           </Link>
         </div>

@@ -190,7 +190,7 @@ const TvShows = () => {
             placeholder="Search TV shows..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#080810]/80 border border-white/20 rounded-full py-3.5 pl-12 pr-4 text-sm text-white focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all font-sans"
+            className="w-full bg-[#080810]/80 border border-white/20 rounded-full py-3.5 pl-12 pr-4 text-base md:text-sm text-white focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all font-sans"
           />
         </div>
       </div>
@@ -230,7 +230,7 @@ const TvShows = () => {
                  <Filter className="w-3 h-3" /> Genre
               </h3>
               <select
-                className="w-full sm:w-48 bg-[#0a0a0f] border border-white/20 rounded-xl py-2.5 px-4 text-sm font-sans text-gray-200 focus:outline-none focus:border-secondary appearance-none cursor-pointer"
+                className="w-full sm:w-48 bg-[#0a0a0f] border border-white/20 rounded-xl py-2.5 px-4 text-base md:text-sm font-sans text-gray-200 focus:outline-none focus:border-secondary appearance-none cursor-pointer"
                 value={selectedGenre || ''}
                 onChange={(e) => setSelectedGenre(e.target.value ? Number(e.target.value) : null)}
               >
@@ -247,7 +247,7 @@ const TvShows = () => {
                  Sort By
               </h3>
               <select
-                className="w-full sm:w-48 bg-[#0a0a0f] border border-white/20 rounded-xl py-2.5 px-4 text-sm font-sans text-gray-200 focus:outline-none focus:border-secondary appearance-none cursor-pointer"
+                className="w-full sm:w-48 bg-[#0a0a0f] border border-white/20 rounded-xl py-2.5 px-4 text-base md:text-sm font-sans text-gray-200 focus:outline-none focus:border-secondary appearance-none cursor-pointer"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
               >
@@ -262,7 +262,7 @@ const TvShows = () => {
 
       {/* ── Movie Grid ── */}
       {isLoading && shows.length === 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-6">
           {Array(24).fill(0).map((_, i) => (
             <div key={i} className="aspect-[2/3] bg-white/5 animate-pulse rounded-lg border border-white/5" />
           ))}
@@ -271,7 +271,7 @@ const TvShows = () => {
         <div className="text-center py-20 text-red-400">Error loading TV shows. Please try again.</div>
       ) : shows.length > 0 ? (
         <>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-6">
             {shows.map((show, i) => (
               <Fragment key={`${show.id}-${i}`}>
                 <TvShowCard show={show} genresMap={genresMap} index={i} />

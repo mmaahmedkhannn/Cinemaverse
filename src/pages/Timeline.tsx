@@ -291,13 +291,13 @@ const ExpandedYearModal = ({ year, onClose }: { year: number; onClose: () => voi
       </div>
       <div className="flex-1 overflow-y-auto p-6 md:p-12">
         {isLoading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-6">
             {Array.from({ length: 18 }).map((_, i) => (
               <div key={i} className="aspect-[2/3] rounded-2xl bg-white/5 animate-pulse" />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-6">
             {movies?.results?.map((movie: any, i: number) => (
               <Link to={`/movie/${movie.id}/${generateSlug(movie.title)}`} key={movie.id} onClick={onClose}>
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} className="group">

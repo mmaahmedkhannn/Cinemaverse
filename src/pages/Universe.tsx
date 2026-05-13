@@ -122,7 +122,7 @@ const Universe = () => {
       />
       
       {/* Edge-to-Edge Hero Section */}
-      <div className="relative w-full min-h-[60vh] md:min-h-[70vh] flex flex-col justify-end -mt-20 z-0">
+      <div className="relative w-full min-h-[60dvh] md:min-h-[100dvh] flex flex-col justify-end -mt-20 z-0">
          {/* Dynamic Backdrop */}
          {heroBackdrop && (
            <div className="absolute inset-0 z-0">
@@ -250,7 +250,7 @@ const Universe = () => {
                 )}
 
                 {/* Poster Grid Engine */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 md:gap-6">
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 md:gap-6">
                   {mediaInGroup.map((media, index) => {
                     const globalIndex = combinedMedia.findIndex(m => m.id === media.id) + 1;
                     const routePrefix = media.mediaType === 'tv' ? 'tv' : 'movie';

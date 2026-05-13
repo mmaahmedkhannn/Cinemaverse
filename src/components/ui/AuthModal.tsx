@@ -32,9 +32,9 @@ export const AuthModal = ({ isOpen, onClose, message = "Please sign in to contin
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-900 via-primary to-red-900" />
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-[60px] pointer-events-none" />
             
-            <button
+            <button 
               onClick={onClose}
-              className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors"
+              className="absolute top-2 right-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-500 hover:text-white transition-colors rounded-full hover:bg-white/5"
             >
               <X className="w-6 h-6" />
             </button>

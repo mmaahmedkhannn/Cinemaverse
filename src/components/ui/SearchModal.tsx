@@ -105,7 +105,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
               />
               <button
                 onClick={onClose}
-                className="p-2 text-gray-400 hover:text-white rounded-full bg-white/5 hover:bg-white/10 transition-colors ml-4"
+                className="text-gray-400 hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full hover:bg-white/10"
               >
                 <X className="w-5 h-5" />
               </button>
