@@ -177,19 +177,27 @@ const BlogPost = () => {
           "headline": article.title,
           "description": article.metaDescription,
           "image": article.heroImage,
-          "datePublished": article.date,
-          "dateModified": article.date,
-          "mainEntityOfPage": `https://cinemadiscovery.com/blog/${article.slug}`,
+          "datePublished": article.publishDate || article.date,
+          "dateModified": article.publishDate || article.date,
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": `https://cinemadiscovery.com/blog/${article.slug}`
+          },
           "author": {
             "@type": article.author && article.author !== 'CinemaDiscovery Editorial Team' ? "Person" : "Organization",
-            "name": article.author || "CinemaDiscovery Editorial Team"
+            "name": article.author || "CinemaDiscovery Editorial Team",
+            ...(article.author === 'Ahmed Khan' ? { "url": "https://cinemadiscovery.com/about" } : {})
           },
           "publisher": {
             "@type": "Organization",
             "name": "CinemaDiscovery",
-            "url": "https://cinemadiscovery.com"
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://cinemadiscovery.com/logo.png"
+            }
           },
-          "keywords": article.metaDescription
+          "articleSection": article.category,
+          "keywords": article.keywords || article.metaDescription
         })}
       />
 
