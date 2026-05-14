@@ -200,7 +200,7 @@ const Top100 = () => {
               <motion.div 
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="relative group overflow-hidden rounded-3xl aspect-[16/9] md:aspect-[21/9] border border-yellow-500/30"
+                className="relative group overflow-hidden rounded-3xl min-h-[400px] md:min-h-0 md:aspect-[21/9] border border-yellow-500/30 flex flex-col justify-end"
               >
                 <ImageWithSkeleton 
                   src={getImageUrl(filteredMovies[0].backdrop_path, 'w1280')} 
@@ -211,25 +211,25 @@ const Top100 = () => {
                   containerClassName="w-full h-full absolute inset-0 z-0"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-r from-background-dark via-transparent to-transparent" />
+                <div className="absolute inset-0 z-0 bg-gradient-to-t from-background-dark via-background-dark/80 md:via-background-dark/40 to-transparent" />
+                <div className="absolute inset-0 z-0 bg-gradient-to-r from-background-dark via-background-dark/50 md:via-transparent to-transparent" />
                 
-                <div className="absolute inset-0 p-8 md:p-16 flex flex-col justify-end">
-                  <div className="flex items-center gap-4 mb-4">
-                    <span className="font-bebas text-8xl md:text-[10rem] text-yellow-500 leading-none drop-shadow-[0_0_30px_rgba(234,179,8,0.4)]">#1</span>
-                    <div className="h-20 w-px bg-yellow-500/50" />
+                <div className="relative z-10 p-6 md:p-16 flex flex-col justify-end mt-auto">
+                  <div className="flex items-center gap-3 md:gap-4 mb-4">
+                    <span className="font-bebas text-6xl md:text-[10rem] text-yellow-500 leading-none drop-shadow-[0_0_30px_rgba(234,179,8,0.4)]">#1</span>
+                    <div className="h-12 md:h-20 w-px bg-yellow-500/50" />
                     <div>
-                      <h2 className="font-bebas text-4xl md:text-7xl text-white">{filteredMovies[0].title}</h2>
-                      <p className="text-gray-300 font-sans text-lg italic text-yellow-500/80">"{filteredMovies[0].overview.slice(0, 80)}..."</p>
+                      <h2 className="font-bebas text-3xl md:text-7xl text-white leading-tight line-clamp-2 md:line-clamp-none">{filteredMovies[0].title}</h2>
+                      <p className="text-gray-300 font-sans text-sm md:text-lg italic text-yellow-500/80">"{filteredMovies[0].overview.slice(0, 80)}..."</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-8">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-8">
                     <CVScore 
                       voteAverage={filteredMovies[0].vote_average} 
                       voteCount={filteredMovies[0].vote_count} 
                       popularity={filteredMovies[0].popularity}
                     />
-                    <Link to={`/movie/${filteredMovies[0].id}/${generateSlug(filteredMovies[0].title)}`} className="bg-yellow-500 hover:bg-yellow-600 text-black font-bebas px-8 py-3 rounded-xl transition-all shadow-lg shadow-yellow-500/20">
+                    <Link to={`/movie/${filteredMovies[0].id}/${generateSlug(filteredMovies[0].title)}`} className="bg-yellow-500 hover:bg-yellow-600 text-black font-bebas px-6 md:px-8 py-3 rounded-xl transition-all shadow-lg shadow-yellow-500/20 text-center w-full sm:w-auto mt-2 sm:mt-0">
                       VIEW MASTERPIECE
                     </Link>
                   </div>
