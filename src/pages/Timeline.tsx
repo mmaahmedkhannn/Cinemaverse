@@ -100,7 +100,7 @@ const Timeline = () => {
   };
 
   return (
-    <main className="min-h-screen bg-black flex flex-col">
+    <main className="min-h-[calc(100vh-4rem)] md:min-h-screen bg-black flex flex-col">
       <SEO
         title="Cinematic Timeline | CinemaDiscovery"
         description="A journey through 100+ years of cinema history. From the silent era to the streaming age."
@@ -108,8 +108,8 @@ const Timeline = () => {
       />
 
       {/* ── Sticky Decade Navigation Bar ── */}
-      <div className="sticky top-16 z-30 bg-black/80 backdrop-blur-2xl border-b border-white/10 shadow-2xl">
-        <div className="flex items-center md:justify-center gap-3 px-3 sm:px-4 md:px-8 py-5 overflow-x-auto no-scrollbar max-w-[1600px] mx-auto snap-x snap-mandatory scroll-px-3">
+      <div className="sticky top-16 z-30 bg-black/80 backdrop-blur-2xl border-b border-white/10 shadow-2xl w-full">
+        <div className="flex items-center md:justify-center gap-2 pl-4 pr-4 py-5 overflow-x-auto scrollbar-hide max-w-[1600px] mx-auto snap-x snap-mandatory scroll-px-4">
           {/* Left Arrow */}
           <button
             onClick={() => scroll('left')}
@@ -123,7 +123,7 @@ const Timeline = () => {
             <button
               key={d.start}
               onClick={() => scrollToDecade(i)}
-              className={`shrink-0 px-8 py-3.5 rounded-full text-lg font-sans font-bold transition-all duration-300 tracking-wide snap-center ${
+              className={`flex-shrink-0 px-8 py-3.5 rounded-full text-lg font-sans font-bold transition-all duration-300 tracking-wide snap-center ${
                 activeDecade === i
                   ? 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.4)] scale-105'
                   : 'text-gray-400 border border-transparent hover:border-white/20 hover:text-white hover:bg-white/10'

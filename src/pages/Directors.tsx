@@ -39,7 +39,7 @@ const Directors = () => {
   const directorOfMonth = sortedDirectors.length > 0 ? sortedDirectors[0] : null;
 
   return (
-    <main className="min-h-screen bg-background-dark pt-24 pb-20 relative overflow-hidden">
+    <main className="min-h-[calc(100vh-4rem)] md:min-h-screen bg-background-dark pt-24 pb-20 relative overflow-hidden flex flex-col">
       <Helmet>
         <title>Legendary Directors & Cinematic Visionaries | CinemaDiscovery</title>
         <meta name="description" content="Explore the universes built by the world's most renowned film directors and visionaries." />
@@ -51,7 +51,7 @@ const Directors = () => {
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <h1 className="font-bebas text-6xl md:text-8xl text-white tracking-wider mb-4">
             Director <span className="text-primary">Universe</span>

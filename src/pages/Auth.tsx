@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../contexts/AuthContext';
 import { auth } from '../lib/firebase';
@@ -184,18 +184,10 @@ const Auth = () => {
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center bg-[#080810] overflow-hidden">
-      {/* Top Left Logo Brand */}
-      <div className="absolute top-4 left-4 md:top-8 md:left-8 z-[60] p-2">
-        <Link to="/" className="flex items-center gap-2">
-          <img src="/logo.svg" alt="CinemaDiscovery Theme Logo" className="w-10 h-10" />
-          <span className="hidden md:block font-bebas text-2xl text-white tracking-wider drop-shadow-lg">
-            CinemaDiscovery
-          </span>
-        </Link>
-      </div>
+
 
       {/* Background: Full-Screen Cinematic Rotating Movie Poster */}
-      <div className="absolute inset-0 z-0">
+      <div className="fixed inset-0 -z-10">
         <AnimatePresence mode="wait">
           {backdrops && (
             <motion.div
@@ -214,7 +206,7 @@ const Auth = () => {
                 />
               )}
               {/* Overlays for depth + text readability */}
-              <div className="absolute inset-0 bg-black/60 shadow-[inset_0_0_150px_rgba(0,0,0,0.9)] backdrop-blur-[2px]" />
+              <div className="absolute inset-0 bg-black/40 md:bg-black/50 shadow-[inset_0_0_150px_rgba(0,0,0,0.9)] backdrop-blur-[2px]" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#080810] via-transparent to-transparent opacity-90" />
               
               {/* Film grain SVG texture */}

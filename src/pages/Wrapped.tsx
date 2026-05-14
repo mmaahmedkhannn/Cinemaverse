@@ -96,7 +96,7 @@ const Wrapped = () => {
 
   if (!currentUser) {
     return (
-      <div className="min-h-screen bg-background-dark pt-20 flex items-center justify-center">
+      <div className="min-h-[calc(100vh-4rem)] md:min-h-screen bg-background-dark pt-20 flex items-center justify-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center max-w-md mx-auto px-4">
           <Lock className="w-16 h-16 text-primary mx-auto mb-6" />
           <h1 className="font-bebas text-5xl text-white mb-4">Sign In Required</h1>
@@ -109,7 +109,7 @@ const Wrapped = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background-dark pt-20 flex items-center justify-center">
+      <div className="min-h-[calc(100vh-4rem)] md:min-h-screen bg-background-dark pt-20 flex items-center justify-center">
         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -117,7 +117,7 @@ const Wrapped = () => {
 
   if (ratings.length === 0 && watchlist.length === 0) {
     return (
-      <div className="min-h-screen bg-black pt-20 flex flex-col items-center justify-center px-4 text-center">
+      <div className="min-h-[calc(100vh-4rem)] md:min-h-screen bg-black pt-20 flex flex-col items-center justify-center px-4 text-center">
         <Film className="w-16 h-16 text-primary mx-auto mb-6" />
         <h1 className="font-bebas text-5xl text-white mb-4">You have not watched anything yet.</h1>
         <p className="text-gray-400 font-sans mb-8 max-w-md">Start adding movies and TV shows to your watchlist to see your Wrapped stats.</p>
@@ -300,7 +300,7 @@ const Wrapped = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-black flex flex-col overflow-x-hidden w-full">
+    <div className="min-h-[calc(100vh-4rem)] md:min-h-screen bg-black flex flex-col overflow-x-hidden w-full">
       {/* Progress bar */}
       <div className="fixed top-0 left-0 right-0 z-50 flex gap-1 px-4 pt-2">
         {slides.map((_, i) => (

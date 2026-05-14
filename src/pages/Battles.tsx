@@ -117,7 +117,7 @@ const Battles = () => {
 
   if (!battle) {
     return (
-      <div className="min-h-screen bg-background-dark pt-20 flex flex-col justify-center items-center text-center px-4">
+      <div className="min-h-[calc(100vh-4rem)] md:min-h-screen bg-background-dark pt-20 flex flex-col justify-center items-center text-center px-4">
         <div className="absolute inset-0 flex items-center justify-center flex-col z-20">
           <h2 className="text-4xl font-bebas text-white tracking-widest bg-[#0a0a0f] px-8 py-4 rounded-xl border border-white/10 uppercase">No Active Battle</h2>
           <p className="text-gray-400 mt-2 font-sans bg-[#0a0a0f] px-4 py-2 rounded-xl">The system configuration has not been seeded yet. Check back later!</p>
@@ -133,13 +133,13 @@ const Battles = () => {
   const winner = pct1 > pct2 ? 'movie1' : pct2 > pct1 ? 'movie2' : null;
 
   return (
-    <main className="min-h-screen bg-background-dark pt-20 pb-20">
+    <main className="min-h-[calc(100vh-4rem)] md:min-h-screen bg-background-dark pt-20 pb-20 flex flex-col">
       <SEO
         title="Weekly Movie Battles | CinemaDiscovery"
         description="Vote in our weekly movie battles! Pit two cinematic masterpieces against each other and see who wins."
         url="https://cinemadiscovery.com/battles"
       />
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <h1 className="font-bebas text-6xl md:text-8xl text-white tracking-wider mb-4">
             Weekly <span className="text-primary">Battle</span>

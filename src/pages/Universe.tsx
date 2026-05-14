@@ -114,7 +114,7 @@ const Universe = () => {
   const heroBackdrop = combinedMedia.find(m => m.backdrop_path)?.backdrop_path;
 
   return (
-    <main className="min-h-screen bg-background-dark pb-20">
+    <main className="min-h-[calc(100vh-4rem)] md:min-h-screen bg-background-dark pb-20 flex flex-col">
       <SEO
         title="Cinematic Universes & Timelines | CinemaDiscovery"
         description="Explore cinematic universes in perfect watch order. Track your progress across Marvel, DC, Star Wars, and more."
@@ -228,7 +228,7 @@ const Universe = () => {
       </div>
 
       {/* Main Container for Poster Grid */}
-      <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 mt-4 md:mt-8">
+      <div className="relative flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 mt-4 md:mt-8">
 
         {isLoading ? (
           <div className="min-h-[60vh] md:min-h-[70vh] flex items-center justify-center">

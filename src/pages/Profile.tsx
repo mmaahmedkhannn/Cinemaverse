@@ -39,7 +39,7 @@ const Profile = () => {
 
   if (!currentUser) {
     return (
-      <div className="min-h-screen pt-24 flex flex-col items-center justify-center text-center px-4">
+      <div className="min-h-[calc(100vh-4rem)] md:min-h-screen pt-24 flex flex-col items-center justify-center text-center px-4">
         <h2 className="text-3xl font-bebas text-white mb-4">You are not signed in</h2>
         <p className="text-gray-400 mb-8">Please sign in to view your profile and watchlist.</p>
         <Link to="/" className="text-primary hover:text-white transition-colors">Return Home</Link>
@@ -48,12 +48,12 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background-dark pt-24 pb-20 overflow-x-hidden w-full">
+    <div className="min-h-[calc(100vh-4rem)] md:min-h-screen bg-background-dark pt-24 pb-20 overflow-x-hidden w-full flex flex-col">
       <Helmet>
         <title>My Profile & Watchlist | CinemaDiscovery</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-6 mb-12 border-b border-white/10 pb-8">
           <div 
             onClick={() => setIsAvatarModalOpen(true)}

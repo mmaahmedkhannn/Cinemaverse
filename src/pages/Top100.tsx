@@ -106,13 +106,13 @@ const Top100 = () => {
   }
 
   return (
-    <main className="min-h-screen bg-background-dark pt-20 pb-20">
+    <main className="min-h-[calc(100vh-4rem)] md:min-h-screen bg-background-dark pt-20 pb-20 flex flex-col">
       <SEO
         title="The Definitive Top 100 Movies | CinemaDiscovery"
         description="The 100 greatest movies ever made, ranked by CinemaDiscovery community and critics."
         url="https://cinemadiscovery.com/top100"
       />
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 font-bebas tracking-wider mb-6">

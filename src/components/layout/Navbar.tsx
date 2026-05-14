@@ -13,6 +13,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  if (location.pathname === '/auth') return null;
+
   const preloadRoute = (path: string) => {
     switch(path) {
       case '/': import('../../pages/Home'); break;
