@@ -9,7 +9,7 @@ const Footer = () => {
     <footer className="bg-background-dark border-t border-gray-800 py-12 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-6 md:mb-0">
+          <div className="mb-6 md:mb-0 text-center md:text-left">
             <Link to="/" className="font-bebas text-3xl text-primary tracking-wider">
               CinemaDiscovery
             </Link>
@@ -18,7 +18,7 @@ const Footer = () => {
             </p>
           </div>
           
-          <div className="flex flex-wrap gap-x-6 gap-y-4 items-center text-sm text-gray-400">
+          <div className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-4 items-center text-sm text-gray-400">
             <Link to="/about" className="hover:text-secondary transition-colors">About Us</Link>
             <Link to="/blog" className="hover:text-secondary transition-colors">Blog</Link>
             <Link to="/contact" className="hover:text-secondary transition-colors">Contact</Link>
