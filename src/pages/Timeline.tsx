@@ -100,7 +100,7 @@ const Timeline = () => {
   };
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] md:min-h-screen bg-black flex flex-col">
+    <main className="min-h-[calc(100vh-4rem)] md:min-h-screen bg-black flex flex-col pt-[104px] md:pt-16">
       <SEO
         title="Cinematic Timeline | CinemaDiscovery"
         description="A journey through 100+ years of cinema history. From the silent era to the streaming age."
@@ -108,7 +108,7 @@ const Timeline = () => {
       />
 
       {/* ── Sticky Decade Navigation Bar ── */}
-      <div className="sticky top-16 z-30 bg-black/80 backdrop-blur-2xl border-b border-white/10 shadow-2xl w-full">
+      <div className="sticky top-[104px] md:top-16 z-30 bg-black/80 backdrop-blur-2xl border-b border-white/10 shadow-2xl w-full">
         <div className="flex items-center md:justify-center gap-2 pl-4 pr-4 py-5 overflow-x-auto scrollbar-hide max-w-[1600px] mx-auto snap-x snap-mandatory scroll-px-4">
           {/* Left Arrow */}
           <button
