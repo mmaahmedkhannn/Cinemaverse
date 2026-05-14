@@ -108,7 +108,7 @@ const Battles = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background-dark pt-20 flex flex-col justify-center items-center">
+      <div className="min-h-[60vh] md:min-h-[70vh] flex flex-col items-center justify-center">
         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-6" />
         <p className="text-gray-500 text-sm font-sans">Loading battle...</p>
       </div>

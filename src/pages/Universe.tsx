@@ -231,7 +231,7 @@ const Universe = () => {
       <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 mt-4 md:mt-8">
 
         {isLoading ? (
-          <div className="flex justify-center p-20">
+          <div className="min-h-[60vh] md:min-h-[70vh] flex items-center justify-center">
              <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : (

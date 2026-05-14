@@ -183,9 +183,9 @@ const Auth = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#080810] overflow-hidden">
+    <div className="relative min-h-screen w-full flex items-center justify-center bg-[#080810] overflow-hidden">
       {/* Top Left Logo Brand */}
-      <div className="absolute top-6 left-6 md:top-8 md:left-8 z-[60]">
+      <div className="absolute top-4 left-4 md:top-8 md:left-8 z-[60] p-2">
         <Link to="/" className="flex items-center gap-2">
           <img src="/logo.svg" alt="CinemaDiscovery Theme Logo" className="w-10 h-10" />
           <span className="hidden md:block font-bebas text-2xl text-white tracking-wider drop-shadow-lg">
@@ -244,15 +244,15 @@ const Auth = () => {
       </div>
 
       {/* Centered Auth Form */}
-      <div className="relative z-10 w-full max-w-md mx-auto px-4 sm:px-6 mb-24 md:mb-32">
+      <div className="relative z-10 w-full max-w-md mx-auto px-4 sm:px-6 md:px-8 py-12 md:py-0">
         <motion.div 
           initial={{ opacity: 0, y: 20 }} 
           animate={{ opacity: 1, y: 0 }} 
           transition={{ delay: 0.2 }}
-          className="bg-[#0c0c16]/50 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-3xl shadow-2xl"
+          className="bg-[#0c0c16]/50 backdrop-blur-xl border border-white/10 p-6 sm:p-8 md:p-10 rounded-3xl shadow-2xl mx-auto"
         >
           <div className="text-center mb-8">
-            <h1 className="font-bebas text-5xl text-primary tracking-widest mb-2 drop-shadow-md">CINEMADISCOVERY</h1>
+            <h1 className="font-bebas text-3xl sm:text-4xl md:text-5xl text-primary tracking-widest mb-2 drop-shadow-md">CINEMADISCOVERY</h1>
             <p className="text-gray-300 font-sans text-sm drop-shadow-sm">Enter the universe of cinema.</p>
           </div>
 

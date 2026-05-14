@@ -109,7 +109,7 @@ const Timeline = () => {
 
       {/* ── Sticky Decade Navigation Bar ── */}
       <div className="sticky top-16 z-30 bg-black/80 backdrop-blur-2xl border-b border-white/10 shadow-2xl">
-        <div className="flex items-center md:justify-center gap-3 px-6 py-5 overflow-x-auto no-scrollbar max-w-[1600px] mx-auto">
+        <div className="flex items-center md:justify-center gap-3 px-3 sm:px-4 md:px-8 py-5 overflow-x-auto no-scrollbar max-w-[1600px] mx-auto snap-x snap-mandatory scroll-px-3">
           {/* Left Arrow */}
           <button
             onClick={() => scroll('left')}
@@ -123,7 +123,7 @@ const Timeline = () => {
             <button
               key={d.start}
               onClick={() => scrollToDecade(i)}
-              className={`shrink-0 px-8 py-3.5 rounded-full text-lg font-sans font-bold transition-all duration-300 tracking-wide ${
+              className={`shrink-0 px-8 py-3.5 rounded-full text-lg font-sans font-bold transition-all duration-300 tracking-wide snap-center ${
                 activeDecade === i
                   ? 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.4)] scale-105'
                   : 'text-gray-400 border border-transparent hover:border-white/20 hover:text-white hover:bg-white/10'
@@ -170,7 +170,7 @@ const Timeline = () => {
               <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/50 to-transparent pointer-events-none z-0" />
 
               {/* Year cards row */}
-              <div className="flex gap-8 px-12 items-center justify-center z-10 h-full w-full">
+              <div className="flex gap-8 px-3 sm:px-4 md:px-8 items-center justify-center z-10 h-full w-full">
                 {block.years.map(year => (
                   <YearCard
                     key={year}

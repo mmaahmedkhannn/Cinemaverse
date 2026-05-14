@@ -112,7 +112,7 @@ const Profile = () => {
           </h2>
           
           {loading ? (
-            <div className="flex justify-center p-12">
+            <div className="min-h-[60vh] md:min-h-[70vh] flex items-center justify-center">
               <div className="w-8 h-8 border-4 border-secondary border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : watchlist.length === 0 ? (

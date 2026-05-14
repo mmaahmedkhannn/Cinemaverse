@@ -123,14 +123,17 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div className="md:hidden flex overflow-x-auto py-2 px-4 gap-4 bg-background-dark/50 border-t border-white/5 no-scrollbar">
-        <Link to="/movies" className={`transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/movies') || location.pathname.startsWith('/movie/') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Movies</Link>
-        <Link to="/tv" className={`transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/tv') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>TV Shows</Link>
-        <Link to="/universe" className={`transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/universe') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Universe</Link>
-        <Link to="/timeline" className={`transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/timeline') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Timeline</Link>
-        <Link to="/directors" className={`transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/director') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Directors</Link>
-        <Link to="/battles" className={`transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/battles') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Battles</Link>
-        <Link to="/top100" className={`flex items-center gap-1 hover:text-yellow-400 font-bebas tracking-wider text-xs whitespace-nowrap ${location.pathname.startsWith('/top100') ? 'text-primary' : 'text-yellow-500 hover:text-yellow-400'}`}><Trophy className="w-3 h-3" /> TOP 100</Link>
+      <div 
+        className="md:hidden flex overflow-x-auto py-2 pl-4 gap-4 bg-background-dark/50 border-t border-white/5 no-scrollbar snap-x scroll-pl-4"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
+      >
+        <Link to="/movies" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/movies') || location.pathname.startsWith('/movie/') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Movies</Link>
+        <Link to="/tv" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/tv') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>TV Shows</Link>
+        <Link to="/universe" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/universe') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Universe</Link>
+        <Link to="/timeline" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/timeline') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Timeline</Link>
+        <Link to="/directors" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/director') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Directors</Link>
+        <Link to="/battles" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/battles') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Battles</Link>
+        <Link to="/top100" className={`snap-start pr-4 flex items-center gap-1 hover:text-yellow-400 font-bebas tracking-wider text-xs whitespace-nowrap ${location.pathname.startsWith('/top100') ? 'text-primary' : 'text-yellow-500 hover:text-yellow-400'}`}><Trophy className="w-3 h-3" /> TOP 100</Link>
       </div>
     </nav>
     <Suspense fallback={null}>
