@@ -69,11 +69,17 @@ Options -Indexes
   RewriteCond %{REQUEST_URI} (.+)/$
   RewriteRule ^ %1 [R=301,L]
 
-  # Allow direct access to existing files (CSS, JS, images, sitemap.xml, etc.)
+  # If a prerendered HTML file exists for this URL, serve it
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}/index.html -f
+  RewriteRule ^ %{REQUEST_URI}/index.html [L]
+
+  # Otherwise, serve files directly if they exist
   RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^ - [L]
 
-  # Send all other requests to index.html for React Router
+  # Fallback to React Router shell
   RewriteRule ^ index.html [L]
 </IfModule>
 

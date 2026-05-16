@@ -185,25 +185,8 @@ ${uniquePages.map(p => `  <url>
     fs.writeFileSync(destSitemapPath, sitemapContent);
     console.log(`Successfully generated sitemap with ${uniquePages.length} URLs at public/sitemap.xml`);
 
-    // 2. Generate Pre-rendered SEO HTML shells for Apache Rewrites
-    if (templateHtml) {
-      let prerenderCount = 0;
-      uniquePages.forEach(p => {
-        if (p.url === '/') return; // Already exists as index.html
-        const pageHtml = createStaticHtml(templateHtml, {
-          title: p.title,
-          description: p.desc,
-          url: `${DOMAIN}${p.url}`,
-          image: p.image,
-          type: p.type
-        });
-        writeHtmlFile(distPath, p.url, pageHtml);
-        prerenderCount++;
-      });
-      console.log(`Successfully generated ${prerenderCount} static HTML SEO files in dist/`);
-    } else {
-      console.log('Skipped HTML pre-rendering because dist/index.html was not found (run vite build first).');
-    }
+    // 2. We no longer generate Pre-rendered SEO HTML shells here because we use puppeteer prerendering in scripts/prerender.js
+    console.log('Skipping basic HTML shell generation, deferring to true prerendering step.');
 
   } catch (err) {
     console.error('Error generating sitemap and static HTML:', err.message);
