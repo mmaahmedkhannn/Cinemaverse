@@ -1,12 +1,26 @@
+/**
+ * battleService.ts
+ *
+ * Manages the logic for community movie battles. Handles voting, fetching preset battle
+ * data, generating anonymous guest IDs, and rotating the weekly featured battle.
+ *
+ * Key dependencies: firebase/firestore
+ * Note: getWeeklyBattle() is pure client-side math to avoid unnecessary database reads.
+ */
 import { doc, setDoc, getDoc, increment, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 import { sanitizeInput } from './sanitize';
 
-/** Generate or retrieve a persistent guest ID from localStorage for anonymous voting */
+/**
+ * Generates or retrieves a persistent guest ID from localStorage for anonymous voting.
+ * 
+ * @returns A unique string identifier for the current device/browser session
+ */
 export const getGuestId = (): string => {
   let guestId = localStorage.getItem('cv_guest_id');
   if (!guestId) {
-    // Generate a deterministic device fingerprint to prevent basic localStorage clearing exploits
+    // Prevent basic localStorage clearing exploits by generating a deterministic device fingerprint.
+    // Note: This is not cryptographically secure, just a friction barrier to reduce repeat anonymous voting.
     const screenRes = `${window.screen.width}x${window.screen.height}`;
     const colorDepth = window.screen.colorDepth;
     const userAgent = navigator.userAgent;
@@ -87,6 +101,16 @@ export const PRESET_BATTLES: Omit<Battle, 'movie1Votes' | 'movie2Votes' | 'movie
   { "movie1Id": 545611, "movie2Id": 438631, "movie1Title": "Everything Everywhere All at Once", "movie2Title": "Dune", "category": "🔥 Weekly Rotation" }
 ];
 
+/**
+ * Casts a vote for a specific movie in a battle and updates the database counts.
+ * 
+ * @param battleId - The unique ID of the battle (e.g., '238_vs_155')
+ * @param movieId - The TMDB ID of the movie receiving the vote
+ * @param userId - The user's UID or generated guest ID
+ * @param movieSide - Which side of the battle won the vote ('movie1' or 'movie2')
+ * @returns A promise that resolves when the vote is successfully recorded
+ * @throws Error if the user has already voted or payload is invalid
+ */
 export const castVote = async (
   battleId: string,
   movieId: number,
@@ -126,12 +150,25 @@ export const castVote = async (
   });
 };
 
+/**
+ * Checks if a specific user has already voted in a given battle.
+ * 
+ * @param battleId - The unique ID of the battle
+ * @param userId - The user's UID or generated guest ID
+ * @returns A promise resolving to the vote data if it exists, or null if not found
+ */
 export const getUserVote = async (battleId: string, userId: string) => {
   const voteRef = doc(db, 'battles', sanitizeInput(battleId), 'votes', sanitizeInput(userId));
   const snap = await getDoc(voteRef);
   return snap.exists() ? snap.data() : null;
 };
 
+/**
+ * Retrieves a specific battle's data from Firestore or falls back to preset data.
+ * 
+ * @param battleId - The unique ID of the battle to fetch
+ * @returns A promise resolving to the Battle object, or null if not found
+ */
 export const getBattle = async (battleId: string): Promise<Battle | null> => {
   const snap = await getDoc(doc(db, 'battles', battleId));
   if (snap.exists()) {

@@ -1,3 +1,12 @@
+/**
+ * emailjs.ts
+ *
+ * Configures and interacts with the EmailJS service for sending transactional emails.
+ * Handles welcome emails upon registration, battle result notifications, and contact forms.
+ *
+ * Key dependencies: @emailjs/browser
+ * Note: Email templates are defined in HTML strings within this file for portability.
+ */
 import emailjs from '@emailjs/browser';
 
 // ═══════════════════════════════════════════════════════════
@@ -202,6 +211,15 @@ const buildWelcomeHTML = (userEmail: string): string => {
 </html>`;
 };
 
+/**
+ * Sends a welcome email to a newly registered user containing platform features and links.
+ * 
+ * @param userEmail - The email address of the new user
+ * @returns A promise that resolves to true if the email was sent successfully, false otherwise
+ * 
+ * @example
+ * const success = await sendWelcomeEmail("newuser@example.com");
+ */
 export const sendWelcomeEmail = async (userEmail: string): Promise<boolean> => {
   if (!EMAILJS_SERVICE_ID) {
     console.warn('[CinemaDiscovery] EmailJS not configured — check src/lib/emailjs.ts');
@@ -255,6 +273,18 @@ const buildBattleResultsHTML = (winnerName: string, pct: number, battleTitle: st
 </html>`;
 };
 
+/**
+ * Sends out the result of a voting battle to a list of subscribed users.
+ * Note: Uses a sequential loop for sending to prevent hitting EmailJS frontend concurrency limits.
+ * 
+ * @param emails - Array of subscriber email addresses to notify
+ * @param winnerName - The name of the winning movie/show/character
+ * @param pct - The winning percentage (e.g., 65)
+ * @param battleTitle - The title of the completed battle
+ * 
+ * @example
+ * await sendBattleResultsEmail(["user@example.com"], "Inception", 70, "Best Sci-Fi Heist");
+ */
 export const sendBattleResultsEmail = async (emails: string[], winnerName: string, pct: number, battleTitle: string) => {
   if (!EMAILJS_SERVICE_ID) {
     console.warn('[CinemaDiscovery] EmailJS not configured');
@@ -279,6 +309,20 @@ export const sendBattleResultsEmail = async (emails: string[], winnerName: strin
   }
 };
 
+/**
+ * Sends a message from the Contact page to the site administrators.
+ * 
+ * @param name - The name of the person sending the message
+ * @param email - The email address of the sender (used for reply-to)
+ * @param message - The content of the message
+ * @param serviceId - Optional override for the EmailJS Service ID
+ * @param templateId - Optional override for the EmailJS Template ID
+ * @param publicKey - Optional override for the EmailJS Public Key
+ * @returns A promise resolving to true if sent successfully, false otherwise
+ * 
+ * @example
+ * const sent = await sendContactEmail("Jane Doe", "jane@example.com", "Love the site!");
+ */
 export const sendContactEmail = async (
   name: string,
   email: string,

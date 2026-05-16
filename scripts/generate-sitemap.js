@@ -1,3 +1,13 @@
+/**
+ * generate-sitemap.js
+ *
+ * Build-time script that generates a dynamic sitemap.xml in `public/`.
+ * Fetches popular movies, TV shows, and directors from TMDB to produce
+ * SEO-critical URLs alongside statically-known routes and blog articles.
+ *
+ * Run as: `node scripts/generate-sitemap.js` (called automatically during `npm run build`)
+ * Note: Exits with code 0 on API failure so the build pipeline doesn't break.
+ */
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';

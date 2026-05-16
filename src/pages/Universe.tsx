@@ -1,3 +1,14 @@
+/**
+ * Universe.tsx
+ *
+ * Renders the Cinematic Universes & Timelines page. Allows users to browse curated
+ * franchise chronologies (MCU, DC, Star Wars, etc.) with two sort modes: Timeline
+ * (curated story order) and Release (actual release dates). Fetches each entry
+ * individually from TMDB to build poster grids grouped by Phase.
+ *
+ * Route: /universe
+ * Key dependencies: @tanstack/react-query (useQueries), framer-motion, franchises.ts data
+ */
 import { useState, useMemo, useRef } from 'react';
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';

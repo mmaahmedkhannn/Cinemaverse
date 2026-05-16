@@ -1,3 +1,12 @@
+/**
+ * SEO.tsx
+ *
+ * Reusable SEO component wrapping react-helmet-async. Dynamically injects
+ * page-specific metadata, Open Graph tags, Twitter cards, and JSON-LD schema
+ * into the document head for web crawlers and social sharing.
+ *
+ * Key dependencies: react-helmet-async
+ */
 import { Helmet } from 'react-helmet-async';
 
 interface SEOProps {

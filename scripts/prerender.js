@@ -1,3 +1,14 @@
+/**
+ * prerender.js
+ *
+ * Build-time Puppeteer-based prerendering script. Spins up a local Express
+ * server from the Vite build output (`dist/`), then headless-Chrome visits each
+ * route to capture the fully-hydrated HTML. The resulting static files allow
+ * search engine crawlers to index page content without executing JavaScript.
+ *
+ * Run as: `node scripts/prerender.js` (called automatically after sitemap generation)
+ * Note: Blocks images/media/fonts to speed up rendering; uses concurrency of 10.
+ */
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -60,6 +71,8 @@ const server = app.listen(PORT, async () => {
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
   
+  // Process routes in batches to avoid overwhelming the local server and Puppeteer.
+  // 10 concurrent tabs balances speed vs. memory usage on CI environments.
   const concurrency = 10;
   for (let i = 0; i < routes.length; i += concurrency) {
     const chunk = routes.slice(i, i + concurrency);
@@ -75,6 +88,11 @@ const server = app.listen(PORT, async () => {
         }
       });
       try {
+        // Two-phase wait strategy:
+        // 1. networkidle0 — waits until no network requests for 500ms (catches API calls)
+        // 2. waitForFunction — explicit check that React has mounted into #root
+        // The extra 500ms sleep handles edge cases where React hydration fires
+        // after the last network request has settled (e.g., lazy state updates).
         await page.goto(`http://localhost:${PORT}${route}`, { waitUntil: 'networkidle0', timeout: 30000 });
         
         await page.waitForFunction(() => {

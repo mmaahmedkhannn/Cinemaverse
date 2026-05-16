@@ -1,3 +1,10 @@
+/**
+ * AmazonAffiliateButton.tsx
+ *
+ * Renders a stylized CTA button linking out to an Amazon Prime Video search for the given title.
+ * Automatically appends the platform's Amazon Associates affiliate tag to generate revenue.
+ * Note: Uses rel="sponsored" to comply with FTC and search engine guidelines.
+ */
 export const AmazonAffiliateButton = ({ title, year }: { title: string, year?: string }) => {
   const encodedTitle = encodeURIComponent(`${title} ${year || ''}`.trim());
   const amazonUrl = `https://www.amazon.com/s?k=${encodedTitle}&i=instant-video&tag=cinemadiscove-20`;

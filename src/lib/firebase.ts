@@ -1,3 +1,12 @@
+/**
+ * firebase.ts
+ *
+ * Initializes Firebase application and services (Auth, Firestore, Storage).
+ * Sets up Google Authentication provider and configures local persistence for sessions.
+ *
+ * Key dependencies: firebase/app, firebase/auth, firebase/firestore
+ * Note: Uses getApps().length to prevent double-initialization in React strict mode or HMR.
+ */
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, browserLocalPersistence, setPersistence } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
@@ -12,6 +21,8 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
+// Prevent double-initialization of Firebase app during React strict mode or Hot Module Replacement (HMR).
+// If an app already exists in the registry, retrieve it; otherwise, initialize a new instance.
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
 export const auth = getAuth(app);

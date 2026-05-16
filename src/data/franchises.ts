@@ -1,3 +1,10 @@
+/**
+ * franchises.ts
+ *
+ * Static mapping of cinematic franchises and their chronologies. Maps internal definitions
+ * to actual TMDB IDs to allow dynamic fetching on the Timeline/Universe pages without
+ * needing a dedicated backend collection.
+ */
 export interface FranchiseEntry {
   id: number;
   mediaType?: 'movie' | 'tv'; // defaults to 'movie'

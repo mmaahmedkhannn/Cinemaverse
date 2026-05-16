@@ -1,3 +1,13 @@
+/**
+ * TvShowDetail.tsx
+ *
+ * Full detail page for an individual TV show. Mirrors MovieDetail.tsx structure but
+ * adapts fields for TV-specific data (seasons, first air date, episode count).
+ * Includes streaming provider links, Amazon affiliate CTA, and watchlist integration.
+ *
+ * Route: /tv/:id
+ * Key dependencies: @tanstack/react-query, framer-motion, TMDB API, Firebase Auth
+ */
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -124,7 +134,8 @@ const TvShowDetail = () => {
   const cast = tv.credits?.cast?.slice(0, 8) || [];
   const recommendations = tv.recommendations?.results?.slice(0, 6) || [];
 
-  // Extract watch providers
+  // Extract watch providers from TMDB's JustWatch-sourced data.
+  // Deduplicate across flatrate/rent/buy groups using a Map (see MovieDetail.tsx for detail).
   const providersData = tv['watch/providers']?.results?.US;
   const affiliateTag = "cinemadiscove-20";
   const uniqueProviders = new Map();
@@ -142,6 +153,7 @@ const TvShowDetail = () => {
   }
   const streamProviders = Array.from(uniqueProviders.values()).slice(0, 5);
 
+  // Override Amazon links with affiliate-tagged URLs (same strategy as MovieDetail.tsx).
   const getProviderLink = (providerName: string, defaultLink: string) => {
     if (providerName.toLowerCase().includes('amazon')) {
       return `https://www.amazon.com/s?k=${encodeURIComponent(tv.name + ' tv show')}&i=instant-video&tag=${affiliateTag}`;

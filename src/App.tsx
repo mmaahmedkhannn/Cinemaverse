@@ -1,3 +1,10 @@
+/**
+ * App.tsx
+ *
+ * Main application component configuring React Router, QueryClient, and Context Providers.
+ * Uses React.lazy and Suspense for code-splitting routes to improve initial load time.
+ * Note: Wrap protected routes inside `<ProtectedRoute>` to require authentication.
+ */
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { lazy, Suspense } from 'react';

@@ -1,3 +1,10 @@
+/**
+ * blogArticles.ts
+ *
+ * Static data source for the CinemaDiscovery blog. Contains all article content,
+ * metadata, and SEO fields. The application routing and sitemap generator automatically
+ * read from this file to create dynamic pages.
+ */
 export interface BlogArticle {
   slug: string;
   title: string;

@@ -1,3 +1,13 @@
+/**
+ * MovieDetail.tsx
+ *
+ * Full detail page for an individual movie. Fetches data from TMDB (details, credits,
+ * videos, recommendations, watch providers) and Rotten Tomatoes scores via IMDb ID lookup.
+ * Integrates watchlist management (Firebase), trailer modal, and Amazon affiliate CTAs.
+ *
+ * Route: /movie/:id
+ * Key dependencies: @tanstack/react-query, framer-motion, TMDB API, Firebase Auth
+ */
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -125,7 +135,10 @@ const MovieDetail = () => {
   const recommendations = movie.recommendations?.results?.slice(0, 6) || [];
   const director = movie.credits?.crew?.find((c: any) => c.job === 'Director');
 
-  // Extract watch providers
+  // Extract watch providers from TMDB's JustWatch-sourced data.
+  // TMDB returns providers grouped by type (flatrate/rent/buy), but a single provider
+  // can appear in multiple groups (e.g., Amazon is both 'rent' and 'buy').
+  // We deduplicate using a Map keyed on provider_name to avoid rendering duplicate badges.
   const providersData = movie['watch/providers']?.results?.US;
   const affiliateTag = "cinemadiscove-20";
   const uniqueProviders = new Map();
@@ -141,8 +154,11 @@ const MovieDetail = () => {
       }
     });
   }
-  const streamProviders = Array.from(uniqueProviders.values()).slice(0, 5); // top 5
+  const streamProviders = Array.from(uniqueProviders.values()).slice(0, 5);
 
+  // Override the default JustWatch deep-link for Amazon providers with our own
+  // affiliate-tagged Amazon search URL. This ensures we earn commission on clicks
+  // that go through Amazon, while all other providers use the standard JustWatch link.
   const getProviderLink = (providerName: string, defaultLink: string) => {
     if (providerName.toLowerCase().includes('amazon')) {
       return `https://www.amazon.com/s?k=${encodeURIComponent(movie.title + ' movie')}&i=instant-video&tag=${affiliateTag}`;
