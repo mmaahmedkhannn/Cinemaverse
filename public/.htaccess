@@ -69,23 +69,25 @@ Options -Indexes
   # The following rewrite cascade is critical for React Router to work on a static host.
   # Order matters: trailing-slash strip → prerendered file check → direct file → SPA fallback.
   # Getting this wrong causes 403 errors on Hostinger (see DEVELOPMENT.md debugging scenarios).
+
   # Strip trailing slash from non-file URLs (force React Router to handle them)
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_URI} (.+)/$
   RewriteRule ^ %1 [R=301,L]
 
-  # If a prerendered HTML file exists for this URL, serve it
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}/index.html -f
-  RewriteRule ^ %{REQUEST_URI}/index.html [L]
-
-  # Otherwise, serve files directly if they exist
+  # Serve files directly if they exist (CSS, JS, images, fonts, etc.)
   RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^ - [L]
 
-  # Fallback to React Router shell
-  RewriteRule ^ index.html [L]
+  # For non-file, non-asset URLs: try serving the prerendered /path/index.html
+  # Uses pattern-based matching instead of %{DOCUMENT_ROOT} for LiteSpeed compatibility
+  RewriteCond %{REQUEST_URI} !\.(css|js|jpg|jpeg|png|gif|webp|svg|ico|json|xml|txt|woff|woff2|ttf|eot|map)$
+  RewriteCond %{REQUEST_URI} !/$
+  RewriteCond %{REQUEST_URI} !^/index\.html$
+  RewriteRule ^(.+)$ /$1/index.html [L]
+
+  # Final fallback: serve React Router SPA shell
+  RewriteRule ^ /index.html [L]
 </IfModule>
 
 # ---- Preserve existing Cache-Control headers ----
