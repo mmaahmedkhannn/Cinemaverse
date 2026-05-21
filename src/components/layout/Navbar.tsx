@@ -31,26 +31,26 @@ const Navbar = () => {
     <>
     <nav className="fixed top-0 w-full z-50 bg-background-dark/80 backdrop-blur-md border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 md:h-20">
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center gap-4">
-              <img src="/logo.svg" alt="CinemaDiscovery Logo" className="w-[45px] h-[45px]" />
-              <span className="hidden md:block font-bebas text-[22px] font-bold text-primary tracking-[0.1em] uppercase">
+              <img src="/logo.svg" alt="CinemaDiscovery Logo" className="w-[45px] h-[45px] md:w-[52px] md:h-[52px]" />
+              <span className="hidden md:block font-bebas text-[22px] md:text-[26px] font-bold text-primary tracking-[0.1em] uppercase">
                 CinemaDiscovery
               </span>
             </Link>
           </div>
           
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
-                <Link to="/" onMouseEnter={() => preloadRoute('/')} className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${location.pathname === '/' ? 'text-primary' : 'text-white hover:text-secondary'}`}>Home</Link>
-                <Link to="/movies" onMouseEnter={() => preloadRoute('/movies')} className={`transition-colors font-sans ${location.pathname.startsWith('/movies') || location.pathname.startsWith('/movie/') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Movies</Link>
-                <Link to="/tv" onMouseEnter={() => preloadRoute('/tv')} className={`transition-colors font-sans ${location.pathname.startsWith('/tv') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>TV Shows</Link>
-                <Link to="/universe" onMouseEnter={() => preloadRoute('/universe')} className={`transition-colors font-sans ${location.pathname.startsWith('/universe') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Universe</Link>
-                <Link to="/timeline" onMouseEnter={() => preloadRoute('/timeline')} className={`transition-colors font-sans ${location.pathname.startsWith('/timeline') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Timeline</Link>
-                <Link to="/directors" onMouseEnter={() => preloadRoute('/directors')} className={`transition-colors font-sans ${location.pathname.startsWith('/director') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Directors</Link>
-                <Link to="/battles" onMouseEnter={() => preloadRoute('/battles')} className={`transition-colors font-sans ${location.pathname.startsWith('/battles') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Battles</Link>
-                <Link to="/top100" onMouseEnter={() => preloadRoute('/top100')} className={`flex items-center gap-1.5 font-bebas tracking-wide transition-colors ${location.pathname.startsWith('/top100') ? 'text-primary' : 'text-yellow-500 hover:text-yellow-400'}`}>
+            <div className="ml-10 flex items-baseline space-x-10">
+                <Link to="/" onMouseEnter={() => preloadRoute('/')} className={`px-3 py-2 rounded-md text-sm md:text-base font-medium transition-colors ${location.pathname === '/' ? 'text-primary' : 'text-white hover:text-secondary'}`}>Home</Link>
+                <Link to="/movies" onMouseEnter={() => preloadRoute('/movies')} className={`text-sm md:text-base transition-colors font-sans ${location.pathname.startsWith('/movies') || location.pathname.startsWith('/movie/') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Movies</Link>
+                <Link to="/tv" onMouseEnter={() => preloadRoute('/tv')} className={`text-sm md:text-base transition-colors font-sans ${location.pathname.startsWith('/tv') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>TV Shows</Link>
+                <Link to="/universe" onMouseEnter={() => preloadRoute('/universe')} className={`text-sm md:text-base transition-colors font-sans ${location.pathname.startsWith('/universe') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Universe</Link>
+                <Link to="/timeline" onMouseEnter={() => preloadRoute('/timeline')} className={`text-sm md:text-base transition-colors font-sans ${location.pathname.startsWith('/timeline') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Timeline</Link>
+                <Link to="/directors" onMouseEnter={() => preloadRoute('/directors')} className={`text-sm md:text-base transition-colors font-sans ${location.pathname.startsWith('/director') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Directors</Link>
+                <Link to="/battles" onMouseEnter={() => preloadRoute('/battles')} className={`text-sm md:text-base transition-colors font-sans ${location.pathname.startsWith('/battles') ? 'text-primary' : 'text-gray-300 hover:text-white'}`}>Battles</Link>
+                <Link to="/top100" onMouseEnter={() => preloadRoute('/top100')} className={`flex items-center gap-1.5 text-sm md:text-base font-bebas tracking-wide transition-colors ${location.pathname.startsWith('/top100') ? 'text-primary' : 'text-yellow-500 hover:text-yellow-400'}`}>
                   <Trophy className="w-4 h-4" /> TOP 100
                 </Link>
               </div>
