@@ -129,6 +129,9 @@ src/
 
 ## 🔧 Recent Changes Log
 
+### May 21, 2026
+- **`.htaccess` Infinite Rewrite Loop Fix** — Production was returning HTTP 500 on `/top-100`, `/universe`, `/movies`, `/tv-shows`, and other prerendered routes. Root cause: the SPA routing rewrite rule lacked a `!-f` filesystem guard and was missing `html` from its excluded-extension list. After rewriting `/top-100` → `/top-100/index.html`, LiteSpeed re-ran the ruleset; the new URI still passed all three conditions (not in extension list, no trailing slash, not exactly `/index.html`), triggering another rewrite → infinite loop → 500. Fix: added `RewriteCond %{REQUEST_FILENAME} !-f` and `!-d` guards before the prerender rule, added `html` to excluded extensions, added an explicit rule to serve real directories via their `index.html`, and added a `!-f` guard on the final SPA fallback. All security headers (HSTS, CSP, X-Frame-Options, etc.), bad-bot blocking, LiteSpeed cache directive, and Alt-Svc suppression remain untouched. Commit: `04f28fb`.
+
 ### April 3, 2026
 - **EmailJS Contact Form Fix** — Added `VITE_EMAILJS_SERVICE_ID`, `VITE_EMAILJS_TEMPLATE_ID`, `VITE_EMAILJS_PUBLIC_KEY` to Hostinger environment variables. Previously only in GitHub Secrets, which doesn't reach production because Hostinger does its own build.
 - **Battle Vote Image Flicker Fix** — Fixed homepage battle section where movie poster images would disappear for a few seconds after voting. Root cause: `handleBattleVote()` was replacing entire state with Firestore data (which doesn't store TMDB poster paths). Fix: use the `setState(prev => ...)` callback to preserve existing poster data while updating vote counts.
