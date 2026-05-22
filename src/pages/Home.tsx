@@ -10,6 +10,7 @@ import type { Battle } from '../lib/battleService';
 import SEO from '../components/SEO';
 import { generateSlug } from '../utils/slugify';
 import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
+import StreamingServiceRow from '../components/StreamingServiceRow';
 
 const Home = () => {
   const { data: heroData, isLoading: isHeroLoading, error: heroError } = useQuery({
@@ -238,6 +239,8 @@ const Home = () => {
       </section>
 
 
+      {/* Streaming Services Row */}
+      <StreamingServiceRow />
 
       {/* Quick Links Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

@@ -94,6 +94,8 @@ export const tmdbApi = {
     primary_release_year?: number;
     'vote_count.gte'?: number;
     'vote_count.lte'?: number;
+    with_watch_providers?: string;
+    watch_region?: string;
   }) => {
     // If query exists, use search endpoint instead of discover
     if (params?.query) {
@@ -153,7 +155,7 @@ export const tmdbApi = {
     return response.data.genres;
   },
 
-  discoverTvShows: async (params?: { with_genres?: string; page?: number; sort_by?: string; query?: string; first_air_date_year?: number }) => {
+  discoverTvShows: async (params?: { with_genres?: string; page?: number; sort_by?: string; query?: string; first_air_date_year?: number; with_watch_providers?: string; watch_region?: string }) => {
     // If query exists, use search endpoint instead of discover
     if (params?.query) {
       const response = await tmdbClient.get('/search/tv', {
@@ -162,6 +164,31 @@ export const tmdbApi = {
       return response.data;
     }
     const response = await tmdbClient.get('/discover/tv', { params });
+    return response.data;
+  },
+
+  // Streaming provider discovery
+  discoverMoviesByProvider: async (providerId: number, region: string, page: number = 1) => {
+    const response = await tmdbClient.get('/discover/movie', {
+      params: {
+        with_watch_providers: String(providerId),
+        watch_region: region,
+        sort_by: 'popularity.desc',
+        page,
+      },
+    });
+    return response.data;
+  },
+
+  discoverTvByProvider: async (providerId: number, region: string, page: number = 1) => {
+    const response = await tmdbClient.get('/discover/tv', {
+      params: {
+        with_watch_providers: String(providerId),
+        watch_region: region,
+        sort_by: 'popularity.desc',
+        page,
+      },
+    });
     return response.data;
   },
 

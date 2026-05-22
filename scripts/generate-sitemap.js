@@ -391,6 +391,64 @@ async function run() {
       },
     ];
 
+    // ─── Streaming service pages ───────────────────────────────────────
+    const STREAMING_SERVICES = [
+      {
+        id: 8, slug: 'netflix', name: 'Netflix',
+        logoPath: '/pbpMk2JmcoNnQwx5JGpXngfoWtp.jpg',
+        metaDesc: 'Discover the best movies and TV shows on Netflix right now. Top-rated films, must-watch series, and hidden gems all in one place.',
+      },
+      {
+        id: 1899, slug: 'max', name: 'Max',
+        logoPath: '/jbe4gVSfRlbPTdESXhEKpornsfu.jpg',
+        metaDesc: 'Stream the best movies and TV shows on Max (HBO Max). Award-winning HBO originals, Warner Bros. films, and exclusive Max content.',
+      },
+      {
+        id: 337, slug: 'disney-plus', name: 'Disney+',
+        logoPath: '/97yvRBw1GzX7fXprcF80er19ot.jpg',
+        metaDesc: 'Find the best movies and TV shows on Disney+. Marvel, Star Wars, Pixar, Disney classics, and exclusive Disney+ Originals.',
+      },
+      {
+        id: 9, slug: 'prime-video', name: 'Prime Video',
+        logoPath: '/pvske1MyAoymrs5bguRfVqYiM9a.jpg',
+        metaDesc: 'Browse the best movies and TV shows on Amazon Prime Video. Award-winning originals, blockbuster films, and international hits.',
+      },
+      {
+        id: 15, slug: 'hulu', name: 'Hulu',
+        logoPath: '/bxBlRPEPpMVDc4jMhSrTf2339DW.jpg',
+        metaDesc: 'Discover the best movies and TV shows on Hulu. Current-season hits, Hulu Originals, and a massive on-demand library.',
+      },
+      {
+        id: 350, slug: 'apple-tv-plus', name: 'Apple TV+',
+        logoPath: '/mcbz1LgtErU9p4UdbZ0rG6RTWHX.jpg',
+        metaDesc: 'Stream the best Apple TV+ Originals. Ted Lasso, Severance, The Morning Show, and more — exclusively on Apple TV+.',
+      },
+      {
+        id: 2303, slug: 'paramount-plus', name: 'Paramount+',
+        logoPath: '/fts6X10Jn4QT0X6ac3udKEn2tJA.jpg',
+        metaDesc: 'Find the best movies and TV shows on Paramount+. Yellowstone, Star Trek, CBS hits, and Paramount+ Originals.',
+      },
+    ];
+
+    STREAMING_SERVICES.forEach(svc => {
+      const svcUrl = `/streaming/${svc.slug}`;
+      const svcTitle = `Best Movies and TV Shows on ${svc.name} | CinemaDiscovery`;
+      const logoImg = `https://image.tmdb.org/t/p/original${svc.logoPath}`;
+      pages.push({
+        url: svcUrl,
+        title: svcTitle,
+        desc: svc.metaDesc,
+        image: logoImg,
+        type: 'website',
+        schema: collectionPageSchema(
+          `Best Movies and TV Shows on ${svc.name}`,
+          svc.metaDesc,
+          `${DOMAIN}${svcUrl}`
+        ),
+      });
+    });
+
+
     // Blog article pages with BlogPosting schema
     blogArticles.forEach(article => {
       pages.push({
