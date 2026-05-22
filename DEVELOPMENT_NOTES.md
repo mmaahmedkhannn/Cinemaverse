@@ -129,6 +129,9 @@ src/
 
 ## 🔧 Recent Changes Log
 
+### May 22, 2026
+- **Blog Article #14 Published** — Added "Best TV Shows of All Time | The Only List You Actually Need" as the new top article in `src/data/blogArticles.ts`. Slug: `best-tv-shows-of-all-time-the-only-list-you-actually-need`. Covers Breaking Bad, The Wire, The Sopranos, Game of Thrones, Succession, The Bear, Severance, Chernobyl, Band of Brothers, and Black Mirror. OG/hero image: `https://image.tmdb.org/t/p/w1280/n5ihHcyzL8RWtPmKbvNRMyMzWXY.jpg` (Breaking Bad TMDB backdrop). Build passed with zero TypeScript errors. Sitemap updated (424 URLs total). Prerendered HTML shell at `dist/blog/best-tv-shows-of-all-time-the-only-list-you-actually-need/index.html` confirmed with correct title, OG tags, and BlogPosting JSON-LD schema. Commit: `923b04b`.
+
 ### May 21, 2026
 - **`.htaccess` Infinite Rewrite Loop Fix** — Production was returning HTTP 500 on `/top-100`, `/universe`, `/movies`, `/tv-shows`, and other prerendered routes. Root cause: the SPA routing rewrite rule lacked a `!-f` filesystem guard and was missing `html` from its excluded-extension list. After rewriting `/top-100` → `/top-100/index.html`, LiteSpeed re-ran the ruleset; the new URI still passed all three conditions (not in extension list, no trailing slash, not exactly `/index.html`), triggering another rewrite → infinite loop → 500. Fix: added `RewriteCond %{REQUEST_FILENAME} !-f` and `!-d` guards before the prerender rule, added `html` to excluded extensions, added an explicit rule to serve real directories via their `index.html`, and added a `!-f` guard on the final SPA fallback. All security headers (HSTS, CSP, X-Frame-Options, etc.), bad-bot blocking, LiteSpeed cache directive, and Alt-Svc suppression remain untouched. Commit: `04f28fb`.
 
