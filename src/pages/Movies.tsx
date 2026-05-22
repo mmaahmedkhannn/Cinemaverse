@@ -9,7 +9,6 @@ import { generateSlug } from '../utils/slugify';
 import { sanitizeSearchQuery } from '../lib/sanitize';
 import { useDebounce } from '../hooks/useDebounce';
 import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
-import StreamingFilter from '../components/StreamingFilter';
 
 const YEARS = [2026, 2025, 2024, 2023, 2022, 2021, 2020, "All Time"];
 const SORT_OPTIONS = [
@@ -47,8 +46,6 @@ const Movies = () => {
   const setSelectedYear = (year: number | string) => updateParam('year', year === 'All Time' ? 'all' : String(year));
   const setSelectedGenre = (genre: number | null) => updateParam('genre', genre ? String(genre) : null);
   const setSortBy = (sort: string) => updateParam('sort', sort === 'popularity.desc' ? null : sort);
-  const selectedProvider: number | null = searchParams.get('provider') ? Number(searchParams.get('provider')) : null;
-  const setSelectedProvider = (id: number | null) => updateParam('provider', id ? String(id) : null);
 
   const { data: genres } = useQuery({
     queryKey: ['movieGenres'],
@@ -63,14 +60,13 @@ const Movies = () => {
     isLoading,
     isError
   } = useInfiniteQuery({
-    queryKey: ['movies', selectedYear, selectedGenre, sortBy, debouncedQuery, selectedProvider],
+    queryKey: ['movies', selectedYear, selectedGenre, sortBy, debouncedQuery],
     queryFn: ({ pageParam = 1 }) => tmdbApi.discoverMovies({
       page: pageParam,
       ...(selectedGenre && !debouncedQuery ? { with_genres: selectedGenre.toString() } : {}),
       ...(selectedYear !== "All Time" && !debouncedQuery ? { primary_release_year: Number(selectedYear) } : {}),
       ...(!debouncedQuery ? { sort_by: sortBy } : {}),
       ...(debouncedQuery ? { query: sanitizeSearchQuery(debouncedQuery) } : {}),
-      ...(selectedProvider && !debouncedQuery ? { with_watch_providers: String(selectedProvider), watch_region: 'US' } : {}),
     }),
     initialPageParam: 1,
     getNextPageParam: (lastPage: any) => {
@@ -130,12 +126,6 @@ const Movies = () => {
       {/* ── Filter Controls ── */}
       {!debouncedQuery && (
         <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6 mb-10 flex flex-col gap-6">
-          {/* Streaming Filter — above year/genre */}
-          <StreamingFilter
-            activeProviderId={selectedProvider}
-            onSelect={setSelectedProvider}
-          />
-
           <div className="flex flex-col md:flex-row gap-6">
           {/* Year Tabs */}
           <div className="flex-grow">

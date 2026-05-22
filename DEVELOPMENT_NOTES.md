@@ -130,6 +130,7 @@ src/
 ## 🔧 Recent Changes Log
 
 ### May 22, 2026
+- **Streaming Service Filter Chips Removed from Listing Pages** — Removed `StreamingFilter` component, import statements, and provider filter logic from `src/pages/Movies.tsx` and `src/pages/TvShows.tsx`. Homepage `StreamingServiceRow` and dedicated `/streaming/[slug]` pages remain fully operational. Cleaned up unused `src/components/StreamingFilter.tsx` component. Build passed successfully with zero TypeScript errors, and sitemap/shells generated correctly.
 - **Blog Article #14 Published** — Added "Best TV Shows of All Time | The Only List You Actually Need" as the new top article in `src/data/blogArticles.ts`. Slug: `best-tv-shows-of-all-time-the-only-list-you-actually-need`. Covers Breaking Bad, The Wire, The Sopranos, Game of Thrones, Succession, The Bear, Severance, Chernobyl, Band of Brothers, and Black Mirror. OG/hero image: `https://image.tmdb.org/t/p/w1280/n5ihHcyzL8RWtPmKbvNRMyMzWXY.jpg` (Breaking Bad TMDB backdrop). Build passed with zero TypeScript errors. Sitemap updated (424 URLs total). Prerendered HTML shell at `dist/blog/best-tv-shows-of-all-time-the-only-list-you-actually-need/index.html` confirmed with correct title, OG tags, and BlogPosting JSON-LD schema. Commit: `923b04b`.
 
 ### May 21, 2026
