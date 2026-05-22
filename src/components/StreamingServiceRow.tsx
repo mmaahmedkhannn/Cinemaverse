@@ -17,7 +17,7 @@ const StreamingServiceRow = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-white/5">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-3">
         <h2 className="font-bebas text-3xl md:text-4xl lg:text-5xl text-white tracking-wide">
           Browse by Streaming Service
         </h2>
@@ -30,7 +30,7 @@ const StreamingServiceRow = () => {
       </div>
 
       <div
-        className="flex gap-5 sm:gap-6 md:gap-10 lg:gap-12 overflow-x-auto pb-4 snap-x snap-mandatory w-full"
+        className="flex gap-5 sm:gap-6 md:gap-10 lg:gap-12 overflow-x-auto pt-6 pb-4 snap-x snap-mandatory w-full"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', justifyContent: 'safe center' }}
       >
         {STREAMING_SERVICES.map((service, i) => {
@@ -41,13 +41,13 @@ const StreamingServiceRow = () => {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: i * 0.06 }}
-              className="flex-shrink-0 snap-start"
+              className="flex-shrink-0 snap-start overflow-visible"
             >
               <Link
                 to={`/streaming/${service.slug}`}
                 id={`streaming-btn-${service.slug}`}
                 aria-label={`Browse ${service.name} content`}
-                className="flex flex-col items-center gap-4 group"
+                className="flex flex-col items-center gap-4 group overflow-visible"
                 onMouseEnter={() => setHoveredIndex(i)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >
