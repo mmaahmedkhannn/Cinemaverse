@@ -41,9 +41,9 @@ export const blogArticles: BlogArticle[] = [
     canonical: "https://cinemadiscovery.com/blog/best-tv-shows-of-all-time-the-only-list-you-actually-need",
     openGraphTitle: "Best TV Shows of All Time | The Only List You Actually Need",
     openGraphDescription: "From Breaking Bad to Severance — the 10 greatest TV shows ever made, ranked honestly. The only best-of list you actually need.",
-    openGraphImage: "https://image.tmdb.org/t/p/w1280/n5ihHcyzL8RWtPmKbvNRMyMzWXY.jpg",
+    openGraphImage: "https://image.tmdb.org/t/p/w1280/tsRy63Mu5cu8etL1X7ZLyf7UP1M.jpg",
     twitterCard: "summary_large_image",
-    heroImage: "https://image.tmdb.org/t/p/w1280/n5ihHcyzL8RWtPmKbvNRMyMzWXY.jpg",
+    heroImage: "https://image.tmdb.org/t/p/w1280/tsRy63Mu5cu8etL1X7ZLyf7UP1M.jpg",
     heroImageAlt: "Breaking Bad — Walter White in the New Mexico desert",
     keywords: "best TV shows of all time, greatest TV series ever, Breaking Bad, The Wire, The Sopranos, Game of Thrones, Succession, The Bear, Severance, Chernobyl, Band of Brothers, Black Mirror",
     content: `Whenever people argue about the best TV shows ever made, it turns into a popularity contest fast. Someone says Breaking Bad. Someone else says The Wire. Then Game of Thrones comes up, everyone gets furious about the ending, and suddenly nobody's actually talking about why any of these shows matter.
