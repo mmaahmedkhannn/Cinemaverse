@@ -30,8 +30,8 @@ const StreamingServiceRow = () => {
       </div>
 
       <div
-        className="flex gap-5 sm:gap-6 md:gap-10 lg:gap-12 overflow-x-auto pb-4 snap-x snap-mandatory justify-start lg:justify-center w-full"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        className="flex gap-5 sm:gap-6 md:gap-10 lg:gap-12 overflow-x-auto pb-4 snap-x snap-mandatory w-full"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', justifyContent: 'safe center' }}
       >
         {STREAMING_SERVICES.map((service, i) => {
           const isHovered = hoveredIndex === i;
