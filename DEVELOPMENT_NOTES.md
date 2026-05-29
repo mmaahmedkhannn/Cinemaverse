@@ -129,6 +129,9 @@ src/
 
 ## 🔧 Recent Changes Log
 
+### May 29, 2026
+- **Fix /universe Connection Reset Error** — Resolved an issue where `/universe` and `/universe/` routes returned `ERR_CONNECTION_RESET` in production. Added `DirectorySlash Off` to `public/.htaccess` inside `<IfModule mod_dir.c>` to prevent Apache/LiteSpeed from trying to redirect `/universe` to `/universe/` while `.htaccess` trailing slash rule redirects `/universe/` back to `/universe` (which formed an infinite redirect loop). Build passed successfully with zero TypeScript errors, and sitemap/shells generated correctly.
+
 ### May 22, 2026
 - **Enhanced Homepage Streaming Service Row** — Increased the size of circular logo buttons and typography in `src/components/StreamingServiceRow.tsx`. Centered the row on larger viewports where items fit, and introduced premium, dynamic glowing hover effects that transition using each service's official brand accent color.
 - **Streaming Service Filter Chips Removed from Listing Pages** — Removed `StreamingFilter` component, import statements, and provider filter logic from `src/pages/Movies.tsx` and `src/pages/TvShows.tsx`. Homepage `StreamingServiceRow` and dedicated `/streaming/[slug]` pages remain fully operational. Cleaned up unused `src/components/StreamingFilter.tsx` component. Build passed successfully with zero TypeScript errors, and sitemap/shells generated correctly.

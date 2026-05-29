@@ -58,6 +58,10 @@ Options -Indexes
 </FilesMatch>
 
 # ---- Block bad bots and scrapers ----
+<IfModule mod_dir.c>
+  DirectorySlash Off
+</IfModule>
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
