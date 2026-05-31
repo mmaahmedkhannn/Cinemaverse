@@ -129,6 +129,9 @@ src/
 
 ## 🔧 Recent Changes Log
 
+### May 31, 2026
+- **Blog Article #15 Published** — Added "Most Anticipated Movies of 2026 | The Ones Worth Getting Excited About" as the new top article in `src/data/blogArticles.ts`. Slug: `most-anticipated-movies-of-2026-worth-getting-excited-about`. Covers The Mandalorian and Grogu, Backrooms, The Death of Robin Hood, Supergirl: Woman of Tomorrow, The Odyssey, Spider-Man: Brand New Day, Digger, The Hunger Games: Sunrise on the Reaping, Avengers: Doomsday, and Dune: Part Three. OG/hero image: `https://image.tmdb.org/t/p/w1280/eZ239CUp1d6OryZEBPnO2n87gMG.jpg` (Dune: Part Two TMDB backdrop). Internal links added for 4 confirmed TMDB IDs: Mandalorian & Grogu (1228710), Spider-Man: Brand New Day (969681), Supergirl: Woman of Tomorrow (1081003), Avengers: Doomsday (1003596). Remaining films left as plain text (IDs unconfirmed). Build passed with zero TypeScript errors. Sitemap updated (437 URLs total, +1 blog route). Prerendered HTML shell at `dist/blog/most-anticipated-movies-of-2026-worth-getting-excited-about/index.html` confirmed with correct title, OG tags, and BlogPosting JSON-LD schema. Commit: `f5a7bb0`.
+
 ### May 29, 2026
 - **Fix /universe Connection Reset Error** — Resolved an issue where `/universe` and `/universe/` routes returned `ERR_CONNECTION_RESET` in production. Added `DirectorySlash Off` to `public/.htaccess` inside `<IfModule mod_dir.c>` to prevent Apache/LiteSpeed from trying to redirect `/universe` to `/universe/` while `.htaccess` trailing slash rule redirects `/universe/` back to `/universe` (which formed an infinite redirect loop). Build passed successfully with zero TypeScript errors, and sitemap/shells generated correctly.
 
