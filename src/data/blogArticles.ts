@@ -29,6 +29,138 @@ export interface BlogArticle {
 
 export const blogArticles: BlogArticle[] = [
   {
+    slug: "most-anticipated-movies-of-2026-worth-getting-excited-about",
+    title: "Most Anticipated Movies of 2026 | The Ones Worth Getting Excited About",
+    metaTitle: "Most Anticipated Movies of 2026 | The Ones Worth Getting Excited About | CinemaDiscovery",
+    metaDescription: "From The Odyssey to Dune Part Three — 10 most anticipated movies of 2026 that actually deserve the hype, not just brand recognition.",
+    category: "Movies",
+    author: "Ahmed Khan",
+    readTime: "12 min read",
+    publishDate: "2026-05-31",
+    date: "2026-05-31",
+    canonical: "https://cinemadiscovery.com/blog/most-anticipated-movies-of-2026-worth-getting-excited-about",
+    openGraphTitle: "Most Anticipated Movies of 2026 | The Ones Worth Getting Excited About",
+    openGraphDescription: "From The Odyssey to Dune Part Three — 10 most anticipated movies of 2026 that actually deserve the hype, not just brand recognition.",
+    openGraphImage: "https://image.tmdb.org/t/p/w1280/eZ239CUp1d6OryZEBPnO2n87gMG.jpg",
+    twitterCard: "summary_large_image",
+    heroImage: "https://image.tmdb.org/t/p/w1280/eZ239CUp1d6OryZEBPnO2n87gMG.jpg",
+    heroImageAlt: "Dune: Part Two — Paul Atreides and the Fremen in the desert of Arrakis",
+    keywords: "most anticipated movies of 2026, best upcoming movies 2026, The Odyssey Nolan, Dune Part Three, Avengers Doomsday, Spider-Man Brand New Day, The Mandalorian and Grogu, Backrooms A24, Supergirl Woman of Tomorrow, Hunger Games Sunrise on the Reaping, Digger Tom Cruise",
+    content: `The conversation around the most anticipated movies of 2026 is already getting loud, and honestly, a lot of that noise isn't deserved. Every year, studios throw out sequels, reboots, "legacy" returns, and giant franchise promises like we're supposed to clap automatically. I don't.
+
+Look, I love big movies. Event cinema, packed theaters, huge screens, midnight reactions, trailers that make people whisper, "Okay, we're seated." But I want reasons to care beyond brand recognition. A logo isn't enough. A sequel number isn't enough. A famous IP dragged back onto the screen isn't automatically exciting.
+
+So this is the CinemaDiscovery version of the best upcoming movies of 2026: selective, a little opinionated, and focused on films that actually feel like they could matter.
+
+## The Mandalorian and Grogu
+
+I've got mixed feelings about Star Wars on the big screen right now, but I'd be lying if I said I wasn't curious about [The Mandalorian and Grogu](/movie/1228710). It's listed for theatrical release on May 22, 2026, and that alone matters. Star Wars has spent years feeling more like a streaming universe than a real theatrical force.
+
+What makes this interesting isn't just Baby Yoda. It's whether Lucasfilm can make the jump from Disney+ comfort food to actual cinema again. The best parts of The Mandalorian worked because they felt simple in a good way: a quiet gunslinger, a strange child, dusty planets, practical creatures, small adventures with mythic edges. That simplicity was the whole appeal.
+
+My concern is scale. Turning a TV rhythm into a movie is harder than people think, and if this feels like three episodes stitched together, it'll disappoint. But if Jon Favreau uses the theatrical format to make Star Wars feel tactile, lonely, and dangerous again? This could be one of the real movies worth watching in 2026.
+
+## Backrooms
+
+This is the one I want more people paying attention to.
+
+A24 has Backrooms listed for May 29, 2026, directed by Kane Parsons, written by Will Soodik, and starring Chiwetel Ejiofor and Renate Reinsve. That combination alone puts it above half the louder franchise titles on the calendar.
+
+The concept could easily go wrong. Internet horror is risky. A lot of it works better as a short-form nightmare than a full feature. But that's also why I'm excited. If this film actually understands the dread of empty fluorescent spaces, endless yellow rooms, and the feeling that reality has glitched in the most boring possible place, it could be genuinely unsettling. Not jump-scare unsettling. The slow kind.
+
+This is the indie pick I'm rooting for. Not because it's small, but because it has room to surprise us. I'd rather take a swing on weird architectural horror than sit through another polished reboot that feels like a board meeting with explosions.
+
+## The Death of Robin Hood
+
+A24 also has The Death of Robin Hood set for June 19, 2026, with Michael Sarnoski directing and Hugh Jackman, Jodie Comer, Bill Skarsgård, Murray Bartlett, and Noah Jupe in the cast. That's enough to make me fully alert.
+
+Sarnoski made Pig, a movie that could have been a joke and somehow became one of the most wounded, tender character pieces in years. That's why this matters. Robin Hood doesn't need another shiny origin story. We've had enough of those. What sounds interesting is the idea of Robin Hood as a man at the end of himself, someone we meet when the myth is already crumbling.
+
+Hugh Jackman can do mythic pain better than people give him credit for. Jodie Comer, meanwhile, has the kind of screen presence that turns quiet scenes into power struggles. If this goes less "heroic archer adventure" and more bruised, elegiac, late-career legend, it could be something genuinely special.
+
+## Supergirl: Woman of Tomorrow
+
+I'm more interested in [Supergirl: Woman of Tomorrow](/movie/1081003) than I expected to be. The film is set for June 26, 2026, with Craig Gillespie directing and Milly Alcock starring, and it's been described as a more "punk rock" contrast to Superman.
+
+That's the angle that makes me care. Supergirl as a softer Superman copy would be dead on arrival. Kara Zor-El has a completely different emotional foundation. Superman was raised on Earth with love and stability. Kara carries Krypton as trauma. That difference should shape the whole movie, not just a few scenes.
+
+Gillespie is an interesting choice because he has a feel for damaged, sharp-edged women in messy worlds. I, Tonya had bite. Cruella had style, even when the script got silly. If he brings that restless energy here, Supergirl could help the new DC universe feel less predictable. My fear is that it gets swallowed by franchise setup. Please, no endless cameos, no homework assignments. Just give Kara a real story and let Milly Alcock own it.
+
+## The Odyssey
+
+Christopher Nolan adapting The Odyssey is the kind of sentence that sounds fake until you remember Nolan absolutely would do this. The film is listed for July 17, 2026, with Matt Damon, Zendaya, Tom Holland, Anne Hathaway, Mia Goth, Charlize Theron, Jon Bernthal, and Robert Pattinson among the cast.
+
+This is probably the easiest hype call of the year. Nolan is coming off Oppenheimer, which turned a three-hour historical drama into a global event. He's earned the right to make audiences show up for something huge, serious, and old-fashioned in the best way.
+
+The Odyssey isn't just a plot about a man trying to get home. It's temptation, pride, memory, violence, gods, monsters, and the psychological cost of survival. Nolan is obsessed with time, guilt, men under impossible pressure, and the emotional damage caused by ambition. That fits Odysseus almost too well.
+
+My only worry is that Nolan's style can be emotionally guarded. The Odyssey needs spectacle, yes, but it also needs longing. Raw, aching longing. If he nails that, this could be one of the defining films 2026 gives us.
+
+## Spider-Man: Brand New Day
+
+[Spider-Man: Brand New Day](/movie/969681) swings into theaters on July 31, 2026, with Tom Holland returning and Destin Daniel Cretton directing. Marvel's own description puts Peter alone in a New York City that no longer knows him, fighting crime full time because that's who he is.
+
+That setup is exactly why I'm interested.
+
+After No Way Home, the only smart move was to strip Peter down. No Stark tech safety net. No emotional support network. No multiverse nostalgia carrying the whole movie. Just Peter Parker, poor, lonely, exhausted, trying to be Spider-Man because he can't not be. That's the Spider-Man I want.
+
+The MCU has gotten so tangled that I'm craving something street-level and human. Give me New York. Give me rent problems. Give me bruises. Give me Peter trying to save people who'll never know what it costs him. If this becomes another cameo circus, I'll be annoyed. But if it's really a fresh start, it could be the Spider-Man movie Holland has been building toward for years.
+
+## Digger
+
+Alejandro González Iñárritu and Tom Cruise is one of the strangest pairings on the 2026 calendar. Which is exactly why I'm paying attention. Rotten Tomatoes lists Digger for October 2, 2026, calling it "a comedy of catastrophic proportions."
+
+Cruise has spent the last decade turning himself into the last great practical-action movie star. Iñárritu, on the other hand, isn't exactly known for lightness. He can be brilliant, intense, self-serious, sometimes exhausting. Putting those two energies together could create something electric. Or something painfully overcooked.
+
+That risk is why it belongs here. Prestige cinema needs more weird combinations. I don't want every major adult movie to feel tastefully sanded down. Cruise working with a filmmaker this formally aggressive could push him somewhere we haven't seen in years. I'm not automatically convinced. But I'm absolutely watching.
+
+## The Hunger Games: Sunrise on the Reaping
+
+I didn't expect to care about another Hunger Games prequel. Then I remembered Haymitch.
+
+The film is listed for November 20, 2026, with Francis Lawrence directing, and it centers on Haymitch Abernathy during the 50th Hunger Games, decades before Katniss. That's a smart angle because Haymitch isn't fan-service bait. He's one of the saddest characters in the original story, and we've never actually seen what broke him.
+
+The cultural timing is also worth thinking about. Hunger Games has always been about spectacle, propaganda, inequality, and young people forced to perform trauma for an audience. That hasn't exactly become less relevant.
+
+My hope is that the film doesn't soften him. Haymitch shouldn't be a cool young rebel with a few sad moments. He should be someone we watch get broken, piece by piece. If this movie has the courage to be ugly, it could justify its own existence.
+
+## Avengers: Doomsday
+
+Now we get to the monster.
+
+Marvel officially lists [Avengers: Doomsday](/movie/1003596) for December 18, 2026, directed by Joe and Anthony Russo, with Robert Downey Jr. in the cast. It's impossible not to be curious. It's also impossible not to be cautious.
+
+Here's the thing: Marvel needs this movie more than audiences do.
+
+The MCU after Endgame has had its moments, but the overall feeling has been messy. Too many projects, too much setup, too little emotional focus. Bringing back the Russo brothers makes sense because they understand scale, but scale alone isn't the problem. The problem is meaning.
+
+Downey Jr.'s return is either a genius move or a panic move. Maybe both. If the film uses him to create something tragic, strange, and genuinely new, I'm in. If it just feels like Marvel waving a nostalgia flare in the sky, I'll check out emotionally even while the theater cheers. This is one of the biggest films to watch in 2026, but it's also one of the biggest question marks.
+
+## Dune: Part Three
+
+And then there's Dune: Part Three.
+
+Release calendars currently place it in December, though there's been some date inconsistency: Entertainment Weekly lists it for December 18, while Rotten Tomatoes lists it for December 25. Either way, Denis Villeneuve's next Dune is positioned as a holiday heavyweight.
+
+This is probably my most trusted blockbuster on the list. Villeneuve has earned that. Dune: Part One was all architecture, prophecy, and atmosphere. Part Two turned that setup into a devastating power tragedy. If Part Three follows the Dune Messiah direction, we're not getting a simple victory lap. We're getting consequences.
+
+That's what excites me. Paul Atreides isn't supposed to be treated like a normal hero. The whole point is that messiahs are dangerous, especially when entire cultures project salvation onto them. If Villeneuve really leans into that, this could be the rare franchise sequel that gets darker because the story demands it, not because the marketing department wants "mature" vibes.
+
+I'm more excited for this than Avengers: Doomsday. There. I said it.
+
+## The Final Word
+
+That's my honest 2026 slate. Not everything needs worship. I'm not putting Toy Story 5 here just because Pixar once owned my childhood (maybe it'll be great, but right now it feels like a question mark more than an event). I'm not pretending every sequel is sacred. The best upcoming movies 2026 has to offer should earn their excitement.
+
+For me, the year comes down to a few different kinds of hope. I want The Odyssey to prove old myths can still feel massive. I want Backrooms to make internet horror cinematic. I want Spider-Man: Brand New Day to bring Peter Parker back to the ground. I want Dune: Part Three to make blockbuster storytelling feel dangerous again.
+
+And above all, I want 2026 to remind people that movies are still worth getting excited about before the algorithm tells us what to watch.
+
+Which 2026 movie are you most excited for?
+
+**Looking for more film recommendations?** [Browse our full movies database](/movies) for cast, ratings, where to watch, and more.`.trim(),
+  },
+  {
     slug: "best-tv-shows-of-all-time-the-only-list-you-actually-need",
     title: "Best TV Shows of All Time | The Only List You Actually Need",
     metaTitle: "Best TV Shows of All Time | The Only List You Actually Need",
