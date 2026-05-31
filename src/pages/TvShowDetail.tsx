@@ -10,8 +10,9 @@
  */
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Star, Play, Calendar, ArrowLeft, Plus, Check, X } from 'lucide-react';
+import { motion } from 'framer-motion';
+import TrailerModal from '../components/ui/TrailerModal';
+import { Star, Play, Calendar, ArrowLeft, Plus, Check } from 'lucide-react';
 import { tmdbApi, getImageUrl } from '../services/tmdb';
 import { useAuth } from '../contexts/AuthContext';
 import { getWatchlist, addToWatchlist, removeFromWatchlist } from '../lib/firestore';
@@ -46,23 +47,7 @@ const TvShowDetail = () => {
   const [showTrailerModal, setShowTrailerModal] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setShowTrailerModal(false);
-      }
-    };
-    if (showTrailerModal) {
-      window.addEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'unset';
-    };
-  }, [showTrailerModal]);
+  // Keyboard + scroll-lock are managed inside <TrailerModal> when it mounts.
 
   useEffect(() => {
     const checkWatchlist = async () => {
@@ -425,39 +410,13 @@ const TvShowDetail = () => {
       )}
 
       {/* ── Trailer Modal ── */}
-      <AnimatePresence>
-        {showTrailerModal && trailer && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black p-4 md:p-8"
-            onClick={() => setShowTrailerModal(false)}
-          >
-            <div 
-              className="relative w-full max-w-[900px] aspect-video"
-              onClick={e => e.stopPropagation()}
-            >
-              <button 
-                onClick={() => setShowTrailerModal(false)}
-                aria-label="Close trailer"
-                className="absolute top-2 right-2 sm:-top-12 sm:-right-12 xl:-right-16 z-[110] bg-black/70 hover:bg-black/90 rounded-full p-2 text-red-500 hover:text-red-400 transition-all drop-shadow-[0_0_12px_rgba(239,68,68,1)]"
-              >
-                <X className="w-10 h-10 md:w-12 md:h-12" />
-              </button>
-              
-              <iframe 
-                src={`https://www.youtube.com/embed/${iframeKey}?autoplay=1`}
-                allow="autoplay; fullscreen; encrypted-media"
-                allowFullScreen={true}
-                className="w-full h-full"
-                style={{ border: 'none' }}
-                title="Trailer"
-              />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {showTrailerModal && trailer && iframeKey && (
+        <TrailerModal
+          iframeKey={iframeKey}
+          onClose={() => setShowTrailerModal(false)}
+          backdropUrl={tv.backdrop_path ? `https://image.tmdb.org/t/p/w1280${tv.backdrop_path}` : undefined}
+        />
+      )}
 
       <AuthModal 
         isOpen={showAuthModal} 
