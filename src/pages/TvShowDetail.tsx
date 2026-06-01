@@ -23,6 +23,7 @@ import { useRottenTomatoes } from '../hooks/useRottenTomatoes';
 import RottenTomatoScore from '../components/ui/RottenTomatoScore';
 import { AuthModal } from '../components/ui/AuthModal';
 import { AmazonAffiliateButton } from '../components/ui/AmazonAffiliateButton';
+import AmbientPageBackground from '../components/AmbientPageBackground';
 
 const TvShowDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -146,8 +147,17 @@ const TvShowDetail = () => {
     return defaultLink;
   };
 
+  // Construct the backdrop URL using the same w1280 pattern already used
+  // by the TrailerModal on this page — browser will serve it from cache.
+  const ambientBackdropUrl = tv.backdrop_path
+    ? `https://image.tmdb.org/t/p/w1280${tv.backdrop_path}`
+    : undefined;
+
   return (
     <div className="min-h-screen bg-background-dark pb-20">
+      {/* Ambient colour wash — fixed layer behind ALL page content */}
+      <AmbientPageBackground backdropUrl={ambientBackdropUrl} />
+
       <SEO
         title={`${tv.name} | CinemaDiscovery`}
         description={tv.overview?.substring(0, 160) || "View TV show details on CinemaDiscovery."}

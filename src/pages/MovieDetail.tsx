@@ -23,6 +23,7 @@ import { useRottenTomatoes } from '../hooks/useRottenTomatoes';
 import RottenTomatoScore from '../components/ui/RottenTomatoScore';
 import { AuthModal } from '../components/ui/AuthModal';
 import { AmazonAffiliateButton } from '../components/ui/AmazonAffiliateButton';
+import AmbientPageBackground from '../components/AmbientPageBackground';
 
 const MovieDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -151,8 +152,17 @@ const MovieDetail = () => {
     return defaultLink;
   };
 
+  // Construct the backdrop URL using the same w1280 pattern already used
+  // by the TrailerModal on this page — browser will serve it from cache.
+  const ambientBackdropUrl = movie.backdrop_path
+    ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`
+    : undefined;
+
   return (
     <main className="min-h-screen bg-background-dark pb-20">
+      {/* Ambient colour wash — fixed layer behind ALL page content */}
+      <AmbientPageBackground backdropUrl={ambientBackdropUrl} />
+
       <SEO
         title={`${movie.title} (${movie.release_date?.substring(0, 4) || 'N/A'}) | Cast, Reviews and Details | CinemaDiscovery`}
         description={movie.overview || `Discover everything about ${movie.title} including cast members, storyline, and critical reviews.`}
