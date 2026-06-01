@@ -853,9 +853,7 @@ A supernatural horror movie that is quietly a devastating commentary on the immi
 ### 5. Okja (2017)
 Before *Parasite*, Bong Joon-ho made this bizarre, heartbreaking anti-capitalist fable about a giant super-pig. Tilda Swinton is unhinged, Jake Gyllenhaal is completely out of his mind, and the messaging hits like a sledgehammer.
 
-Do you rely on the Netflix algorithm, or do you actively hunt down obscure cinema? I know you disagree with my stance on *The Night Comes For Us* tearing apart *John Wick*—so let me violently hear about it in the comments below!
 
-Bypass the algorithm completely using **[CinemaDiscovery's advanced filters](/movies)**.
     `.trim(),
   },
   {
