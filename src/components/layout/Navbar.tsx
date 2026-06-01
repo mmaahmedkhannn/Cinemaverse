@@ -17,6 +17,7 @@ import {
   useScroll,
   useMotionValueEvent,
   useReducedMotion,
+  useAnimate,
   animate,
   type Variants,
 } from 'framer-motion';
@@ -73,51 +74,91 @@ const Navbar = () => {
     setScrolled(latest > 40);
   });
 
-  /* ── Morphing underline state ───────────────────────────────────────── */
-  const navContainerRef  = useRef<HTMLDivElement>(null);
-  const linkRefs         = useRef<(HTMLAnchorElement | null)[]>([]);
-  const top100Ref        = useRef<HTMLAnchorElement | null>(null);
+  /* ── Morphing underline — imperative, zero re-renders on hover ────────── */
+  const navContainerRef = useRef<HTMLDivElement>(null);
+  const linkRefs        = useRef<(HTMLAnchorElement | null)[]>([]);
+  const top100Ref       = useRef<HTMLAnchorElement | null>(null);
 
-  const [underline, setUnderline] = useState<{ left: number; width: number } | null>(null);
-  const [hoverUnderline, setHoverUnderline] = useState<{ left: number; width: number } | null>(null);
+  // The single underline element, controlled imperatively
+  const [underlineRef, animateUnderline] = useAnimate();
+
+  // Last-known active position — used to return on mouseleave
+  const activePos = useRef<{ left: number; width: number } | null>(null);
+  // Whether the underline has been placed at least once (avoids initial flicker)
+  const underlineReady = useRef(false);
 
   // Measure a link relative to the nav container
-  const measureLink = useCallback((el: HTMLElement | null): { left: number; width: number } | null => {
-    if (!el || !navContainerRef.current) return null;
-    const containerRect = navContainerRef.current.getBoundingClientRect();
-    const linkRect = el.getBoundingClientRect();
-    return {
-      left:  linkRect.left - containerRect.left,
-      width: linkRect.width,
-    };
-  }, []);
+  const measureLink = useCallback(
+    (el: HTMLElement | null): { left: number; width: number } | null => {
+      if (!el || !navContainerRef.current) return null;
+      const cRect = navContainerRef.current.getBoundingClientRect();
+      const lRect = el.getBoundingClientRect();
+      return { left: lRect.left - cRect.left, width: lRect.width };
+    },
+    []
+  );
 
-  // Update active underline whenever route changes
+  // Move underline to a position — fast path (hover) or slow path (route change)
+  const moveUnderline = useCallback(
+    (pos: { left: number; width: number } | null, fast: boolean) => {
+      if (prefersReduced || !underlineRef.current || !pos) return;
+      // First placement: snap immediately, no animation
+      if (!underlineReady.current) {
+        animate(underlineRef.current, { left: pos.left, width: pos.width, opacity: 1 }, { duration: 0 });
+        underlineReady.current = true;
+        return;
+      }
+      animateUnderline(
+        underlineRef.current,
+        { left: pos.left, width: pos.width, opacity: 1 },
+        fast
+          ? { duration: 0.15, ease: 'easeOut' }
+          : { duration: 0.38, ease: [0.22, 1, 0.36, 1] }
+      );
+    },
+    [prefersReduced, underlineRef, animateUnderline]
+  );
+
+  // Update active underline position on route change
   useLayoutEffect(() => {
     if (prefersReduced) return;
-    // Find active link element
     let activeEl: HTMLElement | null = null;
 
-    // Check standard nav items
     NAV_ITEMS.forEach((item, i) => {
-      if (isActive(location.pathname, item.path)) {
-        activeEl = linkRefs.current[i];
+      if (isActive(location.pathname, item.path)) activeEl = linkRefs.current[i];
+    });
+    if (isTop100Active(location.pathname)) activeEl = top100Ref.current;
+
+    requestAnimationFrame(() => {
+      const pos = measureLink(activeEl);
+      activePos.current = pos;
+      if (pos) {
+        moveUnderline(pos, false);
+      } else if (underlineRef.current) {
+        animate(underlineRef.current, { opacity: 0 }, { duration: 0.15 });
       }
     });
-    // Check Top 100
-    if (isTop100Active(location.pathname)) {
-      activeEl = top100Ref.current;
-    }
+  }, [location.pathname, measureLink, moveUnderline, prefersReduced, underlineRef]);
 
-    if (activeEl) {
-      // Small rAF delay so DOM has settled after route change
-      requestAnimationFrame(() => {
-        setUnderline(measureLink(activeEl));
-      });
-    } else {
-      setUnderline(null);
+  // Hover enter: move underline directly (no setState, no re-render)
+  const onLinkHover = useCallback(
+    (el: HTMLElement | null) => {
+      if (prefersReduced) return;
+      const pos = measureLink(el);
+      if (pos) moveUnderline(pos, true);
+    },
+    [measureLink, moveUnderline, prefersReduced]
+  );
+
+  // Hover leave: snap back to active position
+  const onLinkLeave = useCallback(() => {
+    if (prefersReduced) return;
+    if (activePos.current) {
+      moveUnderline(activePos.current, true);
+    } else if (underlineRef.current) {
+      animate(underlineRef.current, { opacity: 0 }, { duration: 0.1 });
     }
-  }, [location.pathname, measureLink, prefersReduced]);
+  }, [activePos, moveUnderline, prefersReduced, underlineRef]);
 
   /* ── Logo reveal (one-time per session) ────────────────────────────── */
   const hasAnimated = useRef(false);
@@ -193,8 +234,8 @@ const Navbar = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.24, ease: 'easeOut' as const } },
   };
 
-  /* ── Displayed underline: hover takes priority over active ──────────── */
-  const displayedUnderline = hoverUnderline ?? underline;
+  /* ── Displayed underline: remove old state-based computation ────────── */
+  // (underline position is now driven imperatively via useAnimate)
 
   return (
     <>
@@ -272,20 +313,13 @@ const Navbar = () => {
                 ref={navContainerRef}
                 className="ml-10 flex items-baseline space-x-10 relative pb-[6px]"
               >
-                {/* Morphing shared underline */}
-                {!prefersReduced && displayedUnderline && (
+                {/* Single imperative underline element — positioned by useAnimate, never by React state */}
+                {!prefersReduced && (
                   <motion.div
+                    ref={underlineRef}
                     className="absolute bottom-0 h-[2px] rounded-full bg-red-600 pointer-events-none"
-                    animate={{
-                      left:  displayedUnderline.left,
-                      width: displayedUnderline.width,
-                    }}
-                    transition={{
-                      type: 'tween',
-                      duration: 0.38,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                    style={{ willChange: 'transform, left, width' }}
+                    initial={{ opacity: 0, left: 0, width: 0 }}
+                    style={{ willChange: 'left, width' }}
                   />
                 )}
 
@@ -299,11 +333,9 @@ const Navbar = () => {
                       ref={(el) => { linkRefs.current[i] = el; }}
                       onMouseEnter={() => {
                         preloadRoute(item.path);
-                        if (!prefersReduced) {
-                          setHoverUnderline(measureLink(linkRefs.current[i]));
-                        }
+                        onLinkHover(linkRefs.current[i]);
                       }}
-                      onMouseLeave={() => setHoverUnderline(null)}
+                      onMouseLeave={onLinkLeave}
                       className={[
                         'relative py-1 text-sm md:text-base font-medium font-sans',
                         'transition-colors duration-200',
@@ -328,11 +360,9 @@ const Navbar = () => {
                       ref={top100Ref}
                       onMouseEnter={() => {
                         preloadRoute('/top100');
-                        if (!prefersReduced) {
-                          setHoverUnderline(measureLink(top100Ref.current));
-                        }
+                        onLinkHover(top100Ref.current);
                       }}
-                      onMouseLeave={() => setHoverUnderline(null)}
+                      onMouseLeave={onLinkLeave}
                       className={[
                         'group/top relative flex items-center gap-1.5 py-1 text-sm md:text-base font-bebas tracking-wide overflow-hidden',
                         'transition-colors duration-200',
