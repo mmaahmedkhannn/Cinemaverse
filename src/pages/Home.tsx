@@ -11,6 +11,7 @@ import SEO from '../components/SEO';
 import { generateSlug } from '../utils/slugify';
 import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
 import StreamingServiceRow from '../components/StreamingServiceRow';
+import { NewsletterSignup } from '../components/NewsletterSignup';
 
 const Home = () => {
   const { data: heroData, isLoading: isHeroLoading, error: heroError } = useQuery({
@@ -585,6 +586,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Newsletter Signup — hero variant, after streaming + discovery sections */}
+      <NewsletterSignup variant="hero" />
     </main>
   );
 };

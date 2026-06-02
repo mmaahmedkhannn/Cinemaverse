@@ -41,7 +41,7 @@
 
 ## 🔑 Environment Variables
 
-There are **12 environment variables** in use. All values are in `.env` locally (gitignored) and must exist in both GitHub Secrets AND Hostinger:
+There are **13 environment variables** in use. All values are in `.env` locally (gitignored) and must exist in both GitHub Secrets AND Hostinger:
 
 | Variable | Purpose |
 |---|---|
@@ -57,6 +57,7 @@ There are **12 environment variables** in use. All values are in `.env` locally 
 | `VITE_EMAILJS_SERVICE_ID` | EmailJS service ID (starts with `service_`) |
 | `VITE_EMAILJS_TEMPLATE_ID` | EmailJS template ID (starts with `template_`) |
 | `VITE_EMAILJS_PUBLIC_KEY` | EmailJS public key |
+| `VITE_BEEHIIV_FORM_ID` | Beehiiv newsletter embed form ID (`1cbfbd90-bc11-4531-925c-3797f82ab877`) |
 
 > ⚠️ **IMPORTANT:** Since Vite bakes `import.meta.env.VITE_*` values at **build time**, any new env var MUST be present in the Hostinger build environment for it to work on the live site. GitHub Secrets alone will NOT make it to production — Hostinger does its own build.
 
@@ -128,6 +129,9 @@ src/
 ---
 
 ## 🔧 Recent Changes Log
+
+### June 2, 2026
+- **Beehiiv Newsletter Signup Integration** — Created `src/components/NewsletterSignup.tsx` with three variants (`hero`, `inline`, `footer`). Uses `IntersectionObserver` to delay Beehiiv v3 script injection until the section enters the viewport (+200px rootMargin) — improves LCP by not loading the script at page start. `useReducedMotion` is respected (ambient glow animation only on `motion-safe`). If `VITE_BEEHIIV_FORM_ID` env var is absent, renders a polite "Newsletter coming soon" fallback instead of a broken empty box. No hardcoded form IDs — reads exclusively from `import.meta.env.VITE_BEEHIIV_FORM_ID`. Placed in three locations: (1) `src/pages/Home.tsx` — `hero` variant after the Hidden Gems section; (2) `src/pages/BlogPost.tsx` — `inline` variant between article body and Related Articles; (3) `src/components/layout/Footer.tsx` — `footer` variant as first element inside `<footer>`, above all existing links and copyright. CSP updated in `public/.htaccess`: added `https://subscribe-forms.beehiiv.com` to `script-src`, `frame-src`, `connect-src`, and `style-src`; added `https://api.beehiiv.com` to `connect-src`. All existing CSP allowlist entries preserved. Attribution script (`attribution.js`) added to `index.html` right before `</body>` (async, non-blocking) for UTM source tracking. `VITE_BEEHIIV_FORM_ID` added to `.env`, `.env.example` (with documentation comment), and DEVELOPMENT_NOTES env var table. **Ahmed must add `VITE_BEEHIIV_FORM_ID=1cbfbd90-bc11-4531-925c-3797f82ab877` in Hostinger Environment Variables** — GitHub Secrets alone will NOT reach production. Build passed with zero TypeScript errors (2360 modules). Sitemap regenerated (409 URLs).
 
 ### June 1, 2026
 - **Ambient Page Background (MovieDetail + TvShowDetail)** — Created new reusable `src/components/AmbientPageBackground.tsx` component. Renders a `position: fixed`, `inset-0`, `z-index: -1` layer that sits behind ALL page content (hero backdrop, navbar, content sections, footer). The backdrop image is rendered full-screen with `object-cover`, heavily blurred (`filter: blur(140px)`), so only the colour palette of the movie/TV show bleeds through — giving each detail page a unique chromatic feel. Stacked CSS gradient masks (top, bottom, left-edge vignettes) preserve text contrast at all viewport positions. Framer Motion breathing animation (opacity 0.25→0.30, 11s loop) on desktop only; `useReducedMotion` disables it when OS prefers reduced motion. Mobile: Tailwind `opacity-[0.10] md:opacity-100` responsive class keeps tint very faint on small screens. Fallback: crimson radial gradient when no `backdropUrl` is provided — never blank. Reuses the already-loaded `w1280` backdrop URL from the hero section (browser cache, zero extra network requests). `will-change: opacity` only on the animated image element. No new libraries, no CSP changes, no canvas/getImageData. Wired into `src/pages/MovieDetail.tsx` and `src/pages/TvShowDetail.tsx` as the first child of the page root — zero layout changes to any existing hero, poster, CTA, where-to-watch, or content sections. Build passed with zero TypeScript errors (2359 modules).
