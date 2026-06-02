@@ -263,7 +263,7 @@ const Home = () => {
         >
           {isTrendingLoading ? (
             Array(10).fill(0).map((_, i) => (
-              <div key={i} className="flex-shrink-0 w-[180px] h-[270px] bg-white/5 animate-pulse rounded-lg snap-start" />
+              <div key={i} className="flex-shrink-0 w-[220px] h-[330px] bg-white/5 animate-pulse rounded-xl snap-start" />
             ))
           ) : (
             trendingMovies.map((movie, i) => (
@@ -272,14 +272,14 @@ const Home = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className="flex-shrink-0 w-[180px] group cursor-pointer snap-start"
+                  className="flex-shrink-0 w-[220px] group cursor-pointer snap-start p-1.5"
                 >
-                  <div className="relative aspect-[2/3] rounded-lg overflow-hidden mb-2">
+                  <div className="relative aspect-[2/3] rounded-xl overflow-hidden mb-3 shadow-[0_8px_25px_rgba(0,0,0,0.5)] border border-white/5 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.7)]">
                     {movie.poster_path ? (
                       <ImageWithSkeleton
                         src={getImageUrl(movie.poster_path, 'w500')}
                         alt={movie.title || 'Movie'}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         loading="lazy"
                         decoding="async"
                         containerClassName="w-full h-full"
@@ -289,14 +289,14 @@ const Home = () => {
                         <span className="text-gray-400 text-xs font-sans">{movie.title}</span>
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
                       <span className="flex items-center gap-1 text-secondary font-sans text-sm font-semibold">
                         <Star className="w-3.5 h-3.5 fill-secondary text-secondary" />
                         {movie.vote_average ? movie.vote_average.toFixed(1) : 'NR'}
                       </span>
                     </div>
                   </div>
-                  <p className="text-sm font-sans text-gray-200 truncate group-hover:text-white transition-colors">
+                  <p className="text-sm font-sans text-gray-200 truncate group-hover:text-primary transition-colors duration-300">
                     {movie.title}
                   </p>
                   <p className="text-xs font-sans text-gray-500">
@@ -541,10 +541,10 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 md:gap-8">
             {isGemsLoading ? (
               Array(5).fill(0).map((_, i) => (
-                <div key={i} className="aspect-[2/3] bg-white/5 animate-pulse rounded-lg border border-white/5" />
+                <div key={i} className="aspect-[2/3] bg-white/5 animate-pulse rounded-xl border border-white/5" />
               ))
             ) : (
               hiddenGems.map((movie: TMDBMovie, i: number) => (
@@ -554,28 +554,28 @@ const Home = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
-                    className="group cursor-pointer flex flex-col h-full"
+                    className="group cursor-pointer flex flex-col h-full p-1.5"
                   >
-                    <div className="relative aspect-[2/3] rounded-xl overflow-hidden mb-3 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)] group-hover:shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-all">
+                    <div className="relative aspect-[2/3] rounded-xl overflow-hidden mb-3 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)] transition-all duration-500 group-hover:shadow-[0_20px_50px_rgba(168,85,247,0.35)] group-hover:-translate-y-2">
                       <ImageWithSkeleton
                         src={getImageUrl(movie.poster_path, 'w500')}
                         alt={movie.title}
                         loading="lazy"
                         decoding="async"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                         containerClassName="w-full h-full"
                       />
                       <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md rounded-full px-2 py-1 border border-white/10 flex items-center gap-1 z-10">
                         <Star className="w-3.5 h-3.5 fill-purple-400 text-purple-400" />
                         <span className="text-white text-xs font-bold font-sans">{movie.vote_average.toFixed(1)}</span>
                       </div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#080810] via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                        <div className="w-full bg-primary text-white text-center font-bold py-2 rounded-lg text-sm font-sans hover:bg-red-700 transition">
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#080810] via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                        <div className="w-full bg-primary text-white text-center font-bold py-2.5 rounded-lg text-sm font-sans hover:bg-red-700 transition shadow-lg">
                           Uncover
                         </div>
                       </div>
                     </div>
-                    <h3 className="text-sm md:text-base font-sans font-semibold text-gray-200 group-hover:text-purple-400 transition-colors line-clamp-1">
+                    <h3 className="text-sm md:text-base font-sans font-semibold text-gray-200 group-hover:text-purple-400 transition-colors duration-300 line-clamp-1">
                       {movie.title}
                     </h3>
                   </motion.div>

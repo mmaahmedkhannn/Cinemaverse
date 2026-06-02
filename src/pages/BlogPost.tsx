@@ -126,8 +126,8 @@ function renderInline(text: string): React.ReactNode[] {
       parts.push(text.slice(lastIndex, match.index));
     }
     if (match[1]) {
-      // Bold
-      parts.push(<strong key={match.index} className="text-white font-semibold">{match[2]}</strong>);
+      // Bold — recurse so links inside **bold** are rendered correctly
+      parts.push(<strong key={match.index} className="text-white font-semibold">{renderInline(match[2])}</strong>);
     } else if (match[3]) {
       // Italic
       parts.push(<em key={match.index} className="italic text-gray-200">{match[4]}</em>);

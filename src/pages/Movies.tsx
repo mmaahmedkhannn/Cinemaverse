@@ -190,16 +190,16 @@ const Movies = () => {
 
       {/* ── Movie Grid ── */}
       {isLoading && movies.length === 0 ? (
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 md:gap-8">
           {Array(24).fill(0).map((_, i) => (
-            <div key={i} className="aspect-[2/3] bg-white/5 animate-pulse rounded-lg border border-white/5" />
+            <div key={i} className="aspect-[2/3] bg-white/5 animate-pulse rounded-xl border border-white/5" />
           ))}
         </div>
       ) : isError ? (
         <div className="text-center py-20 text-red-400">Error loading movies. Please try again.</div>
       ) : movies.length > 0 ? (
         <>
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 md:gap-8">
             {movies.map((movie, i) => (
               <Fragment key={`${movie.id}-${i}`}>
                 <Link to={`/movie/${movie.id}/${generateSlug(movie.title)}`}>
@@ -207,9 +207,9 @@ const Movies = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4 }}
-                    className="group cursor-pointer flex flex-col h-full"
+                    className="group cursor-pointer flex flex-col h-full p-1.5"
                   >
-                    <div className="relative aspect-[2/3] rounded-xl overflow-hidden mb-3 shadow-[0_8px_30px_rgb(0,0,0,0.5)] border border-white/5">
+                    <div className="relative aspect-[2/3] rounded-xl overflow-hidden mb-3 shadow-[0_8px_30px_rgb(0,0,0,0.5)] border border-white/5 transition-all duration-500 group-hover:shadow-[0_20px_60px_rgba(0,0,0,0.7)] group-hover:-translate-y-2">
                       {movie.poster_path ? (
                         <ImageWithSkeleton
                           src={getImageUrl(movie.poster_path, 'w500')}
@@ -217,7 +217,7 @@ const Movies = () => {
                           loading="lazy"
                           decoding="async"
                           containerClassName="w-full h-full"
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                         />
                       ) : (
                         <div className="w-full h-full bg-[#111] flex items-center justify-center p-4 text-center">
@@ -226,12 +226,12 @@ const Movies = () => {
                       )}
                       
                       {/* Gradient Overlay & Hover Actions */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#080810] via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                        <span className="flex items-center gap-1.5 text-secondary font-sans text-sm font-bold bg-black/60 w-max px-2.5 py-1 rounded-md mb-2 backdrop-blur-md border border-secondary/30">
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#080810] via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex flex-col justify-end p-4">
+                        <span className="flex items-center gap-1.5 text-secondary font-sans text-sm font-bold bg-black/70 w-max px-2.5 py-1 rounded-md mb-2 backdrop-blur-md border border-secondary/30">
                           <Star className="w-4 h-4 fill-secondary text-secondary" />
                           {movie.vote_average ? movie.vote_average.toFixed(1) : 'NR'}
                         </span>
-                        <div className="w-full bg-primary text-white text-center font-bold py-2 rounded-lg text-sm font-sans hover:bg-red-700 transition">
+                        <div className="w-full bg-primary text-white text-center font-bold py-2.5 rounded-lg text-sm font-sans hover:bg-red-700 transition shadow-lg">
                           View Details
                         </div>
                       </div>
@@ -239,11 +239,11 @@ const Movies = () => {
                     
                     {/* Details below poster */}
                     <div className="flex-grow flex flex-col justify-start px-1">
-                      <h3 className="text-base font-sans font-bold text-gray-200 group-hover:text-primary transition-colors line-clamp-1">
+                      <h3 className="text-sm md:text-base font-sans font-bold text-gray-200 group-hover:text-primary transition-colors duration-300 line-clamp-1">
                         {movie.title}
                       </h3>
                       <div className="flex items-center justify-between mt-1">
-                        <span className="text-sm font-sans text-gray-500 font-medium">
+                        <span className="text-xs md:text-sm font-sans text-gray-500 font-medium">
                           {movie.release_date ? movie.release_date.substring(0, 4) : 'TBA'}
                         </span>
                       </div>
