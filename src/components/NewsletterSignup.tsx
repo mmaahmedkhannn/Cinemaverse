@@ -5,18 +5,13 @@ interface NewsletterSignupProps {
 }
 
 export function NewsletterSignup({ variant = 'hero' }: NewsletterSignupProps) {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const formId = import.meta.env.VITE_BEEHIIV_FORM_ID as string | undefined;
 
-  // Build embed URL with UTM referrer (same as Beehiiv's own loader does)
-  const embedUrl = formId
-    ? `https://embeds.beehiiv.com/${formId}?referrer=${encodeURIComponent(window.location.href)}`
-    : null;
-
-  // IntersectionObserver: delay iframe src assignment until section enters viewport.
-  // The iframe src is only set once isVisible === true, so the network request
+  // IntersectionObserver: delay script injection until section enters viewport.
+  // The script is only injected once isVisible === true, so the network request
   // doesn't fire until the section is close to the viewport (improves LCP).
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -37,31 +32,27 @@ export function NewsletterSignup({ variant = 'hero' }: NewsletterSignupProps) {
     return () => observer.disconnect();
   }, []);
 
-  // Implement the Beehiiv parent-side postMessage protocol so the iframe
-  // auto-sizes correctly (same as loader.js does internally):
-  //   1. iframe sends  beehiiv:child-loaded  → we reply beehiiv:parent-loaded
-  //   2. iframe sends  beehiiv:styles        → we set the iframe height
+  // Inject Beehiiv's official v3 loader script once the section is visible.
+  // Each instance gets its own <script> tag; Beehiiv's loader handles each
+  // independently so multiple instances on the same page (hero, inline,
+  // footer) all render correctly without double-injection issues.
   useEffect(() => {
-    const handleMessage = (e: MessageEvent) => {
-      if (!iframeRef.current) return;
-      if (e.source !== iframeRef.current.contentWindow) return;
+    if (!formId || !containerRef.current || !isVisible) return;
 
-      const msg = e.data as { type?: string; payload?: { height?: string; width?: string } };
+    // Clear any prior content (handles re-renders cleanly)
+    containerRef.current.innerHTML = '';
 
-      if (msg?.type === 'beehiiv:child-loaded') {
-        // Expand to full-width so the iframe can measure itself, then tell it we're ready
-        iframeRef.current.style.height = '2000px';
-        iframeRef.current.style.width = '100%';
-        iframeRef.current.contentWindow?.postMessage({ type: 'beehiiv:parent-loaded' }, '*');
-      } else if (msg?.type === 'beehiiv:styles' && msg?.payload?.height) {
-        iframeRef.current.style.height = msg.payload.height;
-        if (msg.payload.width) iframeRef.current.style.width = msg.payload.width;
-      }
+    // Inject Beehiiv's official v3 loader script
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://subscribe-forms.beehiiv.com/v3/loader.js';
+    script.setAttribute('data-beehiiv-form', formId);
+    containerRef.current.appendChild(script);
+
+    return () => {
+      if (containerRef.current) containerRef.current.innerHTML = '';
     };
-
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
+  }, [formId, isVisible]);
 
   // ── Fallback when env var is missing ────────────────────────────────────
   const Fallback = () => (
@@ -69,24 +60,6 @@ export function NewsletterSignup({ variant = 'hero' }: NewsletterSignupProps) {
       Newsletter coming soon — check back on Friday.
     </p>
   );
-
-  // ── Shared iframe element (src only set once in viewport) ────────────────
-  const BeehiivIframe = () =>
-    formId && embedUrl ? (
-      <iframe
-        ref={iframeRef}
-        src={isVisible ? embedUrl : undefined}
-        width="100%"
-        height="52"
-        frameBorder="0"
-        scrolling="no"
-        title="Newsletter signup — CinemaDiscovery Weekly Reel"
-        style={{ border: 'none', display: 'block', overflow: 'hidden' }}
-        data-test-id="beehiiv-embed"
-      />
-    ) : (
-      <Fallback />
-    );
 
   // ── Variant: hero (homepage) ─────────────────────────────────────────────
   if (variant === 'hero') {
@@ -132,7 +105,7 @@ export function NewsletterSignup({ variant = 'hero' }: NewsletterSignupProps) {
           </span>
 
           <div className="w-full max-w-[520px]">
-            <BeehiivIframe />
+            {formId ? <div ref={containerRef} className="w-full" /> : <Fallback />}
           </div>
 
           <p className="mt-4 font-sans text-xs text-white/60 text-center">
@@ -160,7 +133,7 @@ export function NewsletterSignup({ variant = 'hero' }: NewsletterSignupProps) {
           </span>
 
           <div className="w-full max-w-[480px]">
-            <BeehiivIframe />
+            {formId ? <div ref={containerRef} className="w-full" /> : <Fallback />}
           </div>
         </div>
       </section>
@@ -180,7 +153,7 @@ export function NewsletterSignup({ variant = 'hero' }: NewsletterSignupProps) {
         </span>
 
         <div className="w-full max-w-[440px]">
-          <BeehiivIframe />
+          {formId ? <div ref={containerRef} className="w-full" /> : <Fallback />}
         </div>
       </div>
     </section>
