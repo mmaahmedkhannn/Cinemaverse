@@ -56,6 +56,11 @@ Options -Indexes
 </IfModule>
 
 # ---- Block sensitive files ----
+# Allow requests to/from subscribe-forms.beehiiv.com and ensure loader.js from Beehiiv is not blocked
+<FilesMatch "loader\.js">
+  Require all granted
+</FilesMatch>
+
 <FilesMatch "^\.|composer\.(json|lock)|package(-lock)?\.json|yarn\.lock|\.env.*|\.git.*|\.htaccess$|\.htpasswd$|README\.md|AGENTS\.md|firestore\.rules|firebase\.json|vite\.config\.ts|tsconfig.*\.json">
   Require all denied
 </FilesMatch>
@@ -68,7 +73,8 @@ Options -Indexes
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Block known bad bots by user-agent
+  # Block known bad bots by user-agent (skip if request URI contains beehiiv)
+  RewriteCond %{REQUEST_URI} !beehiiv
   RewriteCond %{HTTP_USER_AGENT} (ahrefsbot|semrushbot|mj12bot|dotbot|petalbot|blexbot|seznambot|exabot|gigabot|megaindex|serpstatbot|barkrowler|riddler|dataforseo|zoominfobot|pricepi|sqlmap|nikto|wpscan|nessus|openvas|w3af|skipfish|arachni|curl|wget|libwww|python-requests|scrapy|httpclient|java/) [NC]
   RewriteRule .* - [F,L]
 
