@@ -4,6 +4,7 @@ import { blogArticles } from '../data/blogArticles';
 import { Calendar, Clock, ArrowLeft, BookOpen, UserPen } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
+import { NewsletterSignup } from '../components/NewsletterSignup';
 
 
 /* ── Minimal Markdown-ish renderer ─────────────────────────── */
@@ -248,7 +249,7 @@ const BlogPost = () => {
         {renderContent(article.content)}
       </motion.article>
 
-
+      <NewsletterSignup variant="inline" />
 
       {/* Related Articles */}
       {otherArticles.length > 0 && (

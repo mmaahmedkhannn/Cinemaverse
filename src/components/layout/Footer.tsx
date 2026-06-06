@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Mail } from 'lucide-react';
+import { NewsletterSignup } from '../NewsletterSignup';
 
 
 const Footer = () => {
@@ -8,7 +9,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-background-dark border-t border-gray-800 mt-auto">
-
+      <NewsletterSignup variant="footer" />
 
       <div className="py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

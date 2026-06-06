@@ -11,6 +11,7 @@ import SEO from '../components/SEO';
 import { generateSlug } from '../utils/slugify';
 import ImageWithSkeleton from '../components/ui/ImageWithSkeleton';
 import StreamingServiceRow from '../components/StreamingServiceRow';
+import { NewsletterSignup } from '../components/NewsletterSignup';
 
 
 const Home = () => {
@@ -587,6 +588,7 @@ const Home = () => {
         </div>
       </section>
 
+      <NewsletterSignup variant="hero" />
 
     </main>
   );

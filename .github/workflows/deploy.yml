@@ -39,6 +39,7 @@ jobs:
           VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
           VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
           VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
+          VITE_BEEHIIV_FORM_ID: ${{ secrets.VITE_BEEHIIV_FORM_ID }}
 
       - name: Confirm Build Success
         run: echo "Build completed successfully!"
