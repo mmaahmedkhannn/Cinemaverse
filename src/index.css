@@ -4,7 +4,13 @@
   --color-primary: #E50914;
   --color-secondary: #FFD700;
   --color-background-dark: #080810;
-  
+
+  /* Verdict Wall gold tokens */
+  --color-gold: #D4A437;
+  --color-gold-muted: #8a6a1f;
+  --color-verdict-bg: #0a0a0f;
+  --color-crimson: #B91C1C;
+
   --font-sans: "DM Sans", sans-serif;
   --font-bebas: "Bebas Neue", sans-serif;
   --font-playfair: "Playfair Display", serif;

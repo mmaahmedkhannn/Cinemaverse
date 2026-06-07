@@ -4,6 +4,8 @@
     "movie2Id": 1891,
     "movie1Title": "Star Wars",
     "movie2Title": "The Empire Strikes Back",
+    "movie1Tagline": "The galaxy-defining myth that started it all",
+    "movie2Tagline": "Darker, deeper, and arguably greater",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -11,6 +13,8 @@
     "movie2Id": 121,
     "movie1Title": "The Lord of the Rings: The Fellowship of the Ring",
     "movie2Title": "The Lord of the Rings: The Two Towers",
+    "movie1Tagline": "The journey begins — an epic introduction to Middle-earth",
+    "movie2Tagline": "War descends — the scope becomes staggering",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -18,6 +22,8 @@
     "movie2Id": 106,
     "movie1Title": "Back to the Future",
     "movie2Title": "Predator",
+    "movie1Tagline": "The time-travel comedy that rewired pop culture",
+    "movie2Tagline": "Schwarzenegger versus an alien hunter in the jungle",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -25,6 +31,8 @@
     "movie2Id": 672,
     "movie1Title": "Harry Potter and the Philosopher's Stone",
     "movie2Title": "Harry Potter and the Chamber of Secrets",
+    "movie1Tagline": "The door to Hogwarts opens for the first time",
+    "movie2Tagline": "Secrets stir beneath the castle's ancient stone",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -32,6 +40,8 @@
     "movie2Id": 218,
     "movie1Title": "Terminator 2: Judgment Day",
     "movie2Title": "The Terminator",
+    "movie1Tagline": "Cameron's landmark sequel redefined blockbuster action",
+    "movie2Tagline": "The original nightmare that launched an icon",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -39,6 +49,8 @@
     "movie2Id": 807,
     "movie1Title": "Léon: The Professional",
     "movie2Title": "Se7en",
+    "movie1Tagline": "A hitman and a child — Besson's haunting masterwork",
+    "movie2Tagline": "Fincher's nihilistic thriller that ends in darkness",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -46,6 +58,8 @@
     "movie2Id": 324857,
     "movie1Title": "Frozen",
     "movie2Title": "Spider-Man: Into the Spider-Verse",
+    "movie1Tagline": "Disney's billion-dollar ode to sisterhood and letting go",
+    "movie2Tagline": "Animation reborn — a love letter to every version of Spider-Man",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -53,6 +67,8 @@
     "movie2Id": 315635,
     "movie1Title": "Parasite",
     "movie2Title": "Spider-Man: Homecoming",
+    "movie1Tagline": "Bong Joon-ho's Oscar-winning class warfare thriller",
+    "movie2Tagline": "Marvel's most grounded, charming take on the web-slinger",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -60,6 +76,8 @@
     "movie2Id": 447365,
     "movie1Title": "Barbie",
     "movie2Title": "Guardians of the Galaxy Vol. 3",
+    "movie1Tagline": "Gerwig turns a plastic icon into a philosophical provocation",
+    "movie2Tagline": "Gunn's emotional farewell — the MCU's most heartfelt send-off",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -67,6 +85,8 @@
     "movie2Id": 39360,
     "movie1Title": "Cars",
     "movie2Title": "Westler: East of the Wall",
+    "movie1Tagline": "Pixar's love letter to Route 66 and slow down culture",
+    "movie2Tagline": "A rare document of divided Germany told through youth",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -74,6 +94,8 @@
     "movie2Id": 268,
     "movie1Title": "Batman Begins",
     "movie2Title": "Batman",
+    "movie1Tagline": "Nolan strips the myth bare and rebuilds it in shadow",
+    "movie2Tagline": "Burton's gothic fairytale that made the Dark Knight iconic",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -81,6 +103,8 @@
     "movie2Id": 197,
     "movie1Title": "Gladiator",
     "movie2Title": "Braveheart",
+    "movie1Tagline": "Scott's Roman epic — vengeance dressed in arena sand",
+    "movie2Tagline": "Gibson's blood-soaked tribute to Scottish defiance",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -88,6 +112,8 @@
     "movie2Id": 348,
     "movie1Title": "Blade Runner",
     "movie2Title": "Alien",
+    "movie1Tagline": "Scott's rain-drenched meditation on what it means to be human",
+    "movie2Tagline": "Terror in deep space — Ridley Scott's other genre-defining masterpiece",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -95,6 +121,8 @@
     "movie2Id": 274,
     "movie1Title": "American Beauty",
     "movie2Title": "The Silence of the Lambs",
+    "movie1Tagline": "Mendes dismantles the suburban American dream",
+    "movie2Tagline": "Demme's chilling duel between an agent and a monster",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -102,6 +130,8 @@
     "movie2Id": 289,
     "movie1Title": "Citizen Kane",
     "movie2Title": "Casablanca",
+    "movie1Tagline": "Welles' fevered American epic — cinema's favourite puzzle",
+    "movie2Tagline": "Bogart's eternal farewell — romance forged in wartime fog",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -109,6 +139,8 @@
     "movie2Id": 500,
     "movie1Title": "The Big Lebowski",
     "movie2Title": "Reservoir Dogs",
+    "movie1Tagline": "The Dude abides — a shaggy comedy that became a religion",
+    "movie2Tagline": "Tarantino's debut — a heist film with no heist",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -116,6 +148,8 @@
     "movie2Id": 12155,
     "movie1Title": "Charlie and the Chocolate Factory",
     "movie2Title": "Alice in Wonderland",
+    "movie1Tagline": "Burton and Depp take Dahl's factory to strange new places",
+    "movie2Tagline": "Wonderland rendered in digital fever-dream extravagance",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -123,6 +157,8 @@
     "movie2Id": 16869,
     "movie1Title": "Django Unchained",
     "movie2Title": "Inglourious Basterds",
+    "movie1Tagline": "Tarantino rewrites slavery with a gun and a bounty hunter",
+    "movie2Tagline": "Tarantino rewrites World War II with scalps and cinema",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -130,6 +166,8 @@
     "movie2Id": 1726,
     "movie1Title": "The Avengers",
     "movie2Title": "Iron Man",
+    "movie1Tagline": "The MCU's first great convergence — the payoff to end all payoffs",
+    "movie2Tagline": "Downey Jr. sparks an era with wit, armour, and swagger",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -137,6 +175,8 @@
     "movie2Id": 101299,
     "movie1Title": "The Hunger Games",
     "movie2Title": "The Hunger Games: Catching Fire",
+    "movie1Tagline": "A heroine forged in a televised death arena",
+    "movie2Tagline": "The revolution ignites — darker, sharper, and unmissable",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -144,6 +184,8 @@
     "movie2Id": 10193,
     "movie1Title": "Up",
     "movie2Title": "Toy Story 3",
+    "movie1Tagline": "Pixar breaks hearts in the first eight minutes",
+    "movie2Tagline": "Pixar's farewell to childhood — an ending that earns its tears",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -151,6 +193,8 @@
     "movie2Id": 8363,
     "movie1Title": "The Hangover",
     "movie2Title": "Superbad",
+    "movie1Tagline": "What happened in Vegas — a comedy of escalating disasters",
+    "movie2Tagline": "Two teens, one wild night, a decade of nostalgia",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -158,6 +202,8 @@
     "movie2Id": 9799,
     "movie1Title": "xXx",
     "movie2Title": "The Fast and the Furious",
+    "movie1Tagline": "Vin Diesel goes extreme sports espionage",
+    "movie2Tagline": "The street racing saga that became a global franchise",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -165,6 +211,8 @@
     "movie2Id": 58,
     "movie1Title": "Pirates of the Caribbean: The Curse of the Black Pearl",
     "movie2Title": "Pirates of the Caribbean: Dead Man's Chest",
+    "movie1Tagline": "Depp's swaggering Captain Jack launches a swashbuckling era",
+    "movie2Tagline": "Davy Jones rules the deep — the franchise goes epic",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -172,6 +220,8 @@
     "movie2Id": 12,
     "movie1Title": "Monsters, Inc.",
     "movie2Title": "Finding Nemo",
+    "movie1Tagline": "Fear as an industry — Pixar flips the monster myth",
+    "movie2Tagline": "A father crosses the ocean — Pixar's most emotionally pure film",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -179,6 +229,8 @@
     "movie2Id": 2502,
     "movie1Title": "The Bourne Identity",
     "movie2Title": "The Bourne Supremacy",
+    "movie1Tagline": "Damon redefines the spy thriller with cold-eyed precision",
+    "movie2Tagline": "The action intensifies — Greengrass brings documentary chaos",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -186,6 +238,8 @@
     "movie2Id": 595,
     "movie1Title": "12 Angry Men",
     "movie2Title": "To Kill a Mockingbird",
+    "movie1Tagline": "Twelve men in a room — a masterclass in moral pressure",
+    "movie2Tagline": "Atticus Finch stands alone against the tide of injustice",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -193,6 +247,8 @@
     "movie2Id": 44214,
     "movie1Title": "Whiplash",
     "movie2Title": "Black Swan",
+    "movie1Tagline": "Fletcher and Andrew — a toxic crucible forged in jazz",
+    "movie2Tagline": "Aronofsky's ballet nightmare — perfection at any price",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -200,6 +256,8 @@
     "movie2Id": 332562,
     "movie1Title": "La La Land",
     "movie2Title": "A Star Is Born",
+    "movie1Tagline": "Chazelle's ode to dreamers who sacrifice love for art",
+    "movie2Tagline": "Cooper and Lady Gaga — fame, addiction, and burning out",
     "category": "🔥 Weekly Rotation"
   },
   {
@@ -207,6 +265,8 @@
     "movie2Id": 438631,
     "movie1Title": "Everything Everywhere All at Once",
     "movie2Title": "Dune",
+    "movie1Tagline": "The Daniels shatter reality through a laundromat multiverse",
+    "movie2Tagline": "Villeneuve's desert odyssey — sci-fi returned to grandeur",
     "category": "🔥 Weekly Rotation"
   }
 ]
