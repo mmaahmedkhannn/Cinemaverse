@@ -10,7 +10,7 @@
  * takes over the bottom section.
  */
 import { motion, useReducedMotion } from 'framer-motion';
-import { Crown, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { tmdbApi } from '../../services/tmdb';
 import { useRottenTomatoes } from '../../hooks/useRottenTomatoes';
@@ -77,7 +77,7 @@ const FilmExhibitCard = ({
       transition={{ duration: 0.6, ease: 'easeOut' }}
     >
       {/* ── Poster frame ── */}
-      <div className="group relative w-full max-w-[220px] mb-0">
+      <div className="group relative w-full max-w-[220px] mb-0 pt-6">
         {/* Gold outer glow on hover */}
         <div
           className="absolute -inset-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
@@ -86,6 +86,41 @@ const FilmExhibitCard = ({
             filter: 'blur(12px)',
           }}
         />
+
+        {/* ── Gold laurel wreath — always visible, states driven by isWinner/hasVoted ── */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 64 32"
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-10 h-5 md:w-12 md:h-6 z-10 transition-all duration-700"
+          fill="none"
+          stroke="#D4A437"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          aria-hidden="true"
+          style={{
+            opacity: hasVoted
+              ? isWinner ? 1 : 0.3
+              : 0.6,
+            filter: hasVoted && isWinner
+              ? 'drop-shadow(0 0 4px #D4A437)'
+              : 'none',
+          }}
+        >
+          {/* Left laurel branch */}
+          <path d="M32 28 C 20 26, 10 18, 6 8" />
+          <path d="M14 22 C 12 20, 11 17, 11 14" />
+          <path d="M18 24 C 16 22, 15 19, 15 16" />
+          <path d="M22 26 C 20 24, 19 21, 19 18" />
+          <path d="M26 27 C 24 25, 23 22, 23 19" />
+          {/* Right laurel branch (mirrored) */}
+          <path d="M32 28 C 44 26, 54 18, 58 8" />
+          <path d="M50 22 C 52 20, 53 17, 53 14" />
+          <path d="M46 24 C 48 22, 49 19, 49 16" />
+          <path d="M42 26 C 44 24, 45 21, 45 18" />
+          <path d="M38 27 C 40 25, 41 22, 41 19" />
+          {/* Center dot where branches meet */}
+          <circle cx="32" cy="28" r="1.2" fill="#D4A437" stroke="none" />
+        </svg>
 
         {/* Gold bevel frame */}
         <div
@@ -126,31 +161,6 @@ const FilmExhibitCard = ({
             >
               <span className="font-bebas text-lg text-[#D4A437]/60 tracking-wider">{title}</span>
             </div>
-          )}
-
-          {/* Winner crown overlay */}
-          {hasVoted && isWinner && (
-            <motion.div
-              className="absolute inset-0 pointer-events-none"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              style={{
-                border: '2px solid #D4A437',
-                borderRadius: '3px',
-                boxShadow: 'inset 0 0 30px rgba(212,164,55,0.15)',
-              }}
-            >
-              <div
-                className="absolute -top-4 left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full"
-                style={{
-                  background: '#D4A437',
-                  boxShadow: '0 0 20px rgba(212,164,55,0.7)',
-                }}
-              >
-                <Crown className="w-4 h-4 text-black" aria-hidden="true" />
-              </div>
-            </motion.div>
           )}
 
           {/* Subtle vignette */}
