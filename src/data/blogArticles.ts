@@ -29,6 +29,70 @@ export interface BlogArticle {
 
 export const blogArticles: BlogArticle[] = [
   {
+    slug: "best-heist-movies-of-all-time",
+    title: "Best Heist Movies of All Time",
+    metaTitle: "Best Heist Movies of All Time | CinemaDiscovery",
+    metaDescription: "From Heat to Ocean\u2019s Eleven, these are the greatest heist movies ever made \u2014 meticulous plans, unforgettable crews, and the perfect getaway.",
+    category: "Movies",
+    author: "Ahmed Khan",
+    readTime: "9 min read",
+    publishDate: "2026-06-13",
+    date: "2026-06-13",
+    canonical: "https://cinemadiscovery.com/blog/best-heist-movies-of-all-time",
+    openGraphTitle: "Best Heist Movies of All Time",
+    openGraphDescription: "The ultimate ranking of cinema's greatest heists — precision, betrayal, and the thrill of the perfect job.",
+    openGraphImage: "https://image.tmdb.org/t/p/w1280/xKsnZDERG1dk95wuZ5q9iks3OL3.jpg",
+    twitterCard: "summary_large_image",
+    heroImage: "https://image.tmdb.org/t/p/w1280/xKsnZDERG1dk95wuZ5q9iks3OL3.jpg",
+    heroImageAlt: "Heat (1995) — Neil McCauley and his crew on the streets of Los Angeles",
+    keywords: "best heist movies of all time, greatest heist films, Heat 1995, Ocean's Eleven, Rififi, Reservoir Dogs, The Usual Suspects, Dog Day Afternoon, Inside Man, The Town, Baby Driver, Den of Thieves, heist cinema",
+    content: `There's something almost meditative about a good heist movie. You know going in that something will go wrong — it always does — but watching a crew of professionals plan, prep, and execute a job with surgical precision is one of cinema's purest pleasures. The best heist movies aren't really about the money. They're about the planning, the crew dynamics, the inevitable wrench in the works, and that final stretch where everything either falls perfectly into place or spectacularly apart.
+
+Here are ten heist movies that defined the genre — from the cold professionalism of Michael Mann to the breezy charm of Steven Soderbergh, and everything chaotic in between.
+
+## Heat (1995)
+
+Michael Mann's [Heat](/movie/949) isn't just a heist movie — it's the heist movie against which all others are measured. Robert De Niro plays Neil McCauley, a career criminal who lives by one rule: never get attached to anything you can't walk away from in thirty seconds flat. Al Pacino plays Vincent Hanna, the detective obsessed with catching him. The bank robbery sequence in the middle of the film remains one of the most meticulously staged action sequences ever filmed — every gunshot recorded on location, every movement choreographed for realism rather than spectacle. But what makes Heat endure isn't the shootouts. It's the quiet diner scene where two men on opposite sides of the law recognize themselves in each other. Three hours long and it never drags.
+
+## Ocean's Eleven (2001)
+
+If Heat is heist cinema's serious older brother, [Ocean's Eleven](/movie/161) is the cool one who shows up late and somehow still pulls it off. Steven Soderbergh's remake turned a fairly forgettable 1960s Rat Pack movie into a genre-defining hangout film. Danny Ocean (George Clooney) assembles eleven specialists to rob three Las Vegas casinos simultaneously — not just for the money, but to win back his ex-wife from the casino owner who has her now. The plot is intricate, but the real draw is watching this ensemble — Brad Pitt, Matt Damon, Don Cheadle — play off each other with effortless charisma. It's a heist movie that's genuinely fun to rewatch precisely because you know how it ends and still enjoy every step getting there.
+
+## Rififi (1955)
+
+Before there was Ocean's Eleven, before there was Heat, there was Jules Dassin's [Rififi](/movie/934) — the film that essentially invented the modern heist movie template. The centerpiece is a nearly 30-minute jewelry store robbery sequence executed in complete silence, no dialogue, no music, just the tension of four men working against time and a sensitive alarm system. Every heist movie that came after owes something to this sequence. Rififi also understood something many imitators forgot: the job going right is only half the story. What happens after — the greed, the loose ends, the inevitable unraveling — is where the real drama lives.
+
+## Dog Day Afternoon (1975)
+
+Sidney Lumet's [Dog Day Afternoon](/movie/968) is less a heist movie than a heist gone wrong in real time, and that's exactly what makes it unforgettable. Al Pacino plays Sonny, a man whose simple bank robbery spirals into a hostage standoff, a media circus, and an unexpected wave of public sympathy. Based on a true story, the film captures the chaos and absurdity of a crime that was never properly planned in the first place. Pacino's "Attica! Attica!" moment, chanted to a crowd that's turned the robbery into a spectacle, is one of cinema's great unscripted-feeling moments. It's a heist movie about what happens when nobody actually thought past step one.
+
+## The Usual Suspects (1995)
+
+Bryan Singer's [The Usual Suspects](/movie/629) takes the heist movie and bolts a mystery onto it, then detonates the whole thing in its final five minutes. Five criminals are brought together for a job, and the film unfolds as a flashback told by the sole survivor, Verbal Kint (Kevin Spacey), to a customs agent. The heist itself — a drug boat robbery gone catastrophically wrong — is almost secondary to the question hanging over the entire film: who, or what, is Keyser Söze? The twist ending recontextualizes everything that came before it, and remains one of the most genuinely shocking reveals in film history, decades on.
+
+## Reservoir Dogs (1992)
+
+Quentin Tarantino's debut feature is technically a heist movie, even though we never see the heist. [Reservoir Dogs](/movie/500) opens after a jewelry store robbery has already gone wrong, with the surviving crew members holed up in a warehouse, increasingly convinced one of them is an undercover cop. Told through non-linear flashbacks, the film is a masterclass in tension built almost entirely through dialogue and paranoia. Mr. White, Mr. Orange, Mr. Pink — the code names became iconic, and the ear-cutting scene set to "Stuck in the Middle with You" remains one of the most discussed sequences in 90s cinema. It proved you didn't need to show the job to make a great heist film — you just needed to show what happens when trust collapses afterward.
+
+## Inside Man (2006)
+
+Spike Lee's [Inside Man](/movie/388) takes the bank heist and turns it into a battle of wits between a meticulous robber (Clive Owen) and the detective trying to figure out what he's actually after (Denzel Washington). What looks like a straightforward hostage situation slowly reveals itself to be something far more calculated — a heist hidden inside a heist. The film is sharp, fast-paced, and packed with the kind of twisty plotting that rewards a second viewing once you know what's really going on. Denzel and Owen play off each other beautifully, two professionals each trying to out-think the other in real time.
+
+## The Town (2010)
+
+Ben Affleck's [The Town](/movie/23168) is a heist movie with a beating heart — and a conscience. Set in Boston's Charlestown neighborhood, long known as a breeding ground for bank robbers, the film follows Doug MacRay (Affleck), a career criminal trying to find a way out before his next job becomes his last. The robbery sequences are tense and grounded, but the film's real tension comes from Doug's relationship with a bank manager who doesn't know he was one of the men who robbed her branch. The Town understands that the best heist movies aren't really about whether the crew gets away with the money — they're about whether the people pulling it off can ever really get away from who they are.
+
+## Baby Driver (2017)
+
+Edgar Wright's [Baby Driver](/movie/339403) turns the getaway driver into the main event. Ansel Elgort plays Baby, a young getaway driver who choreographs every escape to the music constantly playing in his earbuds. The car chases are edited and scored with such precision that they feel like musical numbers — gear shifts landing on beats, near-misses timed to drum fills. It's a heist movie that prioritizes style and momentum over grit, but never feels hollow, thanks to a genuinely sweet romance at its core and a villainous crew led by Jon Hamm and Jamie Foxx that brings real menace whenever the music stops.
+
+## Den of Thieves (2018)
+
+[Den of Thieves](/movie/449443) wears its Heat influence on its sleeve — and leans into it hard. Gerard Butler plays a detective tracking a crew of ex-military bank robbers planning to hit the Federal Reserve in Los Angeles, a job considered nearly impossible. The film is grittier and messier than its obvious inspiration, with morally compromised characters on both sides of the law. What elevates it is a final-act twist that recontextualizes the entire heist sequence you just watched — a trick that works because the film plays completely fair with the audience the second time through. It's become something of a cult favorite for heist fans precisely because of how confidently it earns that twist.
+
+Whether it's the cold professionalism of Heat, the breezy ensemble charm of Ocean's Eleven, or the silent precision of Rififi, the best heist movies share one thing in common: they make you root for criminals while somehow never letting you forget the cost of what they're doing. If any of these have you in the mood for more, [browse our full movie collection](/movies) for more crime classics, hidden gems, and everything in between.`.trim(),
+  },
+  {
     slug: "most-anticipated-movies-of-2026-worth-getting-excited-about",
     title: "Most Anticipated Movies of 2026 | The Ones Worth Getting Excited About",
     metaTitle: "Most Anticipated Movies of 2026 | The Ones Worth Getting Excited About | CinemaDiscovery",
