@@ -47,7 +47,7 @@ const TimeStep = ({ onSelect, selected }: TimeStepProps) => {
         </motion.p>
       </div>
 
-      <div className="flex flex-col gap-3 sm:gap-4">
+      <div className="flex flex-col gap-3 sm:gap-4" style={{ perspective: '1000px' }}>
         {TIME_OPTIONS.map((option, i) => {
           const isSelected = selected === option.id;
 
@@ -55,10 +55,10 @@ const TimeStep = ({ onSelect, selected }: TimeStepProps) => {
             <motion.button
               key={option.id}
               onClick={() => onSelect(option.id)}
-              initial={{ opacity: 0, x: -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ scale: 1.02, x: 8 }}
+              initial={{ opacity: 0, x: -40, rotateX: -15, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, rotateX: 0, scale: 1 }}
+              transition={{ delay: i * 0.1, duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
+              whileHover="hover"
               whileTap={{ scale: 0.98 }}
               className="group relative flex items-center gap-4 sm:gap-5 rounded-2xl p-4 sm:p-5 text-left transition-all duration-300 cursor-pointer overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A437] focus-visible:ring-offset-2 focus-visible:ring-offset-[#060609]"
               style={{
@@ -70,55 +70,89 @@ const TimeStep = ({ onSelect, selected }: TimeStepProps) => {
                   : '1px solid rgba(255, 255, 255, 0.07)',
                 boxShadow: isSelected
                   ? '0 0 40px rgba(212, 164, 55, 0.15), inset 0 1px 0 rgba(255,255,255,0.1)'
-                  : '0 2px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255,255,255,0.04)',
+                  : '0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.04)',
                 backdropFilter: 'blur(20px)',
                 WebkitBackdropFilter: 'blur(20px)',
+                transformStyle: 'preserve-3d',
               }}
               aria-label={`${option.label}: ${option.description}`}
               aria-pressed={isSelected}
               id={`time-${option.id}`}
             >
-              {/* Hover glow */}
-              <div
-                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+              {/* Animated Background Hover Glow */}
+              <motion.div
+                className="absolute inset-0 rounded-2xl pointer-events-none"
                 style={{
-                  background: 'linear-gradient(90deg, rgba(212, 164, 55, 0.06) 0%, transparent 60%)',
-                  border: '1px solid rgba(212, 164, 55, 0.2)',
+                  background: 'linear-gradient(90deg, rgba(212, 164, 55, 0.1) 0%, transparent 60%)',
                 }}
+                variants={{
+                  hover: { opacity: 1, scale: 1.05 },
+                  rest: { opacity: 0, scale: 1 }
+                }}
+                initial="rest"
+                transition={{ duration: 0.4 }}
               />
 
-              <div
-                className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 text-2xl relative z-10"
+              {/* Icon container with float animation */}
+              <motion.div
+                className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 relative z-10"
                 style={{
                   background: isSelected
-                    ? 'linear-gradient(135deg, rgba(212, 164, 55, 0.25) 0%, rgba(212, 164, 55, 0.1) 100%)'
-                    : 'rgba(255, 255, 255, 0.04)',
+                    ? 'linear-gradient(135deg, rgba(212, 164, 55, 0.3) 0%, rgba(212, 164, 55, 0.1) 100%)'
+                    : 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%)',
                   border: isSelected
-                    ? '1px solid rgba(212, 164, 55, 0.3)'
-                    : '1px solid rgba(255, 255, 255, 0.06)',
+                    ? '1px solid rgba(212, 164, 55, 0.4)'
+                    : '1px solid rgba(255, 255, 255, 0.08)',
+                  boxShadow: isSelected ? '0 0 20px rgba(212, 164, 55, 0.2)' : 'none',
+                }}
+                animate={{ y: [0, -3, 0] }}
+                transition={{ duration: 3 + Math.random(), repeat: Infinity, ease: 'easeInOut', delay: Math.random() }}
+                variants={{
+                  hover: { scale: 1.1, rotate: [-5, 5, 0] }
                 }}
               >
                 <option.icon 
                   className="w-6 h-6 transition-colors duration-300" 
-                  style={{ color: isSelected ? '#D4A437' : 'rgba(245, 245, 245, 0.7)' }} 
+                  style={{ color: isSelected ? '#D4A437' : '#F5F5F5' }} 
                 />
-              </div>
+              </motion.div>
 
+              {/* Text */}
               <div className="relative z-10">
-                <span className="font-bebas text-lg sm:text-xl tracking-wider text-white block">
+                <motion.span 
+                  className="font-bebas text-lg sm:text-xl tracking-wider text-white block"
+                  variants={{
+                    hover: { color: '#D4A437', x: 4 }
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
                   {option.label}
-                </span>
-                <span className="text-xs sm:text-sm font-sans" style={{ color: 'rgba(245, 245, 245, 0.45)' }}>
+                </motion.span>
+                <motion.span 
+                  className="text-xs sm:text-sm font-sans block" 
+                  style={{ color: 'rgba(245, 245, 245, 0.5)' }}
+                  variants={{
+                    hover: { opacity: 0.9, x: 4 }
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
                   {option.description}
-                </span>
+                </motion.span>
               </div>
 
-              <div
-                className="ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0 relative z-10"
-                style={{ color: 'rgba(212, 164, 55, 0.6)' }}
+              {/* Right arrow hint animated */}
+              <motion.div
+                className="ml-auto relative z-10"
+                style={{ color: 'rgba(212, 164, 55, 0.8)' }}
+                variants={{
+                  hover: { opacity: 1, x: 0, scale: 1.2 },
+                  rest: { opacity: 0, x: -10, scale: 1 }
+                }}
+                initial="rest"
+                transition={{ duration: 0.3 }}
               >
                 →
-              </div>
+              </motion.div>
             </motion.button>
           );
         })}
