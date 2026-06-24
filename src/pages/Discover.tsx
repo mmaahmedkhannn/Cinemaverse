@@ -1,12 +1,11 @@
 /**
  * Discover.tsx
  *
- * Flagship Mood Discovery Engine page. Orchestrates a 4-step quiz
- * (mood → audience → time → era) with Spotify-Wrapped-style transitions,
- * then queries TMDB and shows 10 curated film recommendations.
+ * Flagship Mood Discovery Engine page. Full-screen takeover quiz with
+ * Spotify-Wrapped-style transitions, cinematic backgrounds, and dramatic
+ * visual effects. Queries TMDB and shows 10 curated film picks.
  *
- * Layout: full-screen fixed takeover during quiz, scrollable results after.
- * Background: cinematic dark base with crimson/gold radial gradients.
+ * The quiz runs at z-[60] — above the navbar — for a true immersive takeover.
  */
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
@@ -20,7 +19,7 @@ import MoodResults from '../components/discover/MoodResults';
 import { useMoodDiscovery } from '../hooks/useMoodDiscovery';
 import type { QuizAnswers, AudienceType, TimeType, EraType } from '../lib/moodEngine';
 
-/* ─── GA4 helper (typed for strict mode) ──────────────────────────────── */
+/* ─── GA4 helper ──────────────────────────────────────────────────────── */
 function trackEvent(eventName: string, params?: Record<string, unknown>) {
   if (typeof window !== 'undefined' && 'gtag' in window) {
     (window as unknown as { gtag: (...args: unknown[]) => void }).gtag(
@@ -31,20 +30,12 @@ function trackEvent(eventName: string, params?: Record<string, unknown>) {
   }
 }
 
-/* ─── Step transition variants (Spotify Wrapped style) ────────────────── */
+/* ─── Step transition variants ────────────────────────────────────────── */
 const stepVariants = {
-  enter: { opacity: 0, y: 25 },
-  center: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -25 },
+  enter: { opacity: 0, y: 40, scale: 0.97 },
+  center: { opacity: 1, y: 0, scale: 1 },
+  exit: { opacity: 0, y: -40, scale: 0.97 },
 };
-
-/* ─── Background gradient hues per step ───────────────────────────────── */
-const STEP_HUES = [
-  'radial-gradient(ellipse 80% 50% at 50% 50%, rgba(127, 29, 29, 0.18) 0%, transparent 70%)',
-  'radial-gradient(ellipse 80% 50% at 40% 60%, rgba(120, 40, 80, 0.15) 0%, transparent 70%)',
-  'radial-gradient(ellipse 80% 50% at 60% 40%, rgba(30, 64, 120, 0.12) 0%, transparent 70%)',
-  'radial-gradient(ellipse 80% 50% at 50% 50%, rgba(212, 164, 55, 0.10) 0%, transparent 70%)',
-];
 
 /* ─── JSON-LD Schema ──────────────────────────────────────────────────── */
 const DISCOVER_SCHEMA = JSON.stringify({
@@ -63,15 +54,15 @@ const STEP_ORDER: QuizStep[] = ['mood', 'audience', 'time', 'era'];
 const Discover = () => {
   const prefersReduced = useReducedMotion();
 
-  /* ── Quiz state ─────────────────────────────────────────────────────── */
-  const [currentStep, setCurrentStep] = useState(0); // 0–3 = quiz, 4 = results
+  /* ── State ──────────────────────────────────────────────────────────── */
+  const [showIntro, setShowIntro] = useState(true);
+  const [currentStep, setCurrentStep] = useState(0);
   const [moodId, setMoodId] = useState<string | null>(null);
   const [audience, setAudience] = useState<AudienceType | null>(null);
   const [time, setTime] = useState<TimeType | null>(null);
   const [era, setEra] = useState<EraType | null>(null);
   const [quizComplete, setQuizComplete] = useState(false);
 
-  // Build quiz answers object (null until all selected)
   const quizAnswers: QuizAnswers | null =
     moodId && audience && time && era
       ? { moodId, audience, time, era }
@@ -79,54 +70,61 @@ const Discover = () => {
 
   const { data: results, refetch, isFetching, isError } = useMoodDiscovery(quizAnswers);
 
-  /* ── GA4: track page visit ──────────────────────────────────────────── */
+  /* ── GA4 ────────────────────────────────────────────────────────────── */
   useEffect(() => {
     trackEvent('mood_quiz_started');
   }, []);
 
-  /* ── Step advancement helpers ───────────────────────────────────────── */
+  /* ── Intro timer ────────────────────────────────────────────────────── */
+  useEffect(() => {
+    if (prefersReduced) {
+      setShowIntro(false);
+      return;
+    }
+    const t = setTimeout(() => setShowIntro(false), 3200);
+    return () => clearTimeout(t);
+  }, [prefersReduced]);
+
+  /* ── Step advancement ───────────────────────────────────────────────── */
   const advanceStep = useCallback((stepName: string, answer: string) => {
     trackEvent('mood_quiz_step_completed', { step: currentStep + 1, step_name: stepName, answer });
-
     if (currentStep < 3) {
       setCurrentStep((s) => s + 1);
     } else {
-      // Final step completed — trigger TMDB fetch
       setQuizComplete(true);
     }
   }, [currentStep]);
 
   const handleMoodSelect = useCallback((id: string) => {
     setMoodId(id);
-    // Small delay so user sees selection state before transition
-    setTimeout(() => advanceStep('mood', id), 300);
+    setTimeout(() => advanceStep('mood', id), 400);
   }, [advanceStep]);
 
   const handleAudienceSelect = useCallback((val: AudienceType) => {
     setAudience(val);
-    setTimeout(() => advanceStep('audience', val), 300);
+    setTimeout(() => advanceStep('audience', val), 400);
   }, [advanceStep]);
 
   const handleTimeSelect = useCallback((val: TimeType) => {
     setTime(val);
-    setTimeout(() => advanceStep('time', val), 300);
+    setTimeout(() => advanceStep('time', val), 400);
   }, [advanceStep]);
 
   const handleEraSelect = useCallback((val: EraType) => {
     setEra(val);
-    setTimeout(() => advanceStep('era', val), 300);
+    setTimeout(() => advanceStep('era', val), 400);
   }, [advanceStep]);
 
-  /* ── Trigger TMDB fetch when quiz completes ─────────────────────────── */
+  /* ── Trigger fetch ──────────────────────────────────────────────────── */
   useEffect(() => {
     if (quizComplete && quizAnswers) {
       trackEvent('mood_quiz_finished', { ...quizAnswers });
       refetch();
-      setCurrentStep(4); // Move to results view
+      setCurrentStep(4);
     }
   }, [quizComplete, quizAnswers, refetch]);
 
-  /* ── Restart quiz ───────────────────────────────────────────────────── */
+  /* ── Restart ────────────────────────────────────────────────────────── */
   const handleRestart = useCallback(() => {
     setCurrentStep(0);
     setMoodId(null);
@@ -134,13 +132,13 @@ const Discover = () => {
     setTime(null);
     setEra(null);
     setQuizComplete(false);
+    setShowIntro(false);
     trackEvent('mood_quiz_started');
   }, []);
 
-  /* ── Show results once loaded ───────────────────────────────────────── */
   const showResults = currentStep === 4 && results && results.length > 0;
   const showLoading = currentStep === 4 && (isFetching || (!results && !isError));
-  const showQuiz = currentStep < 4;
+  const showQuiz = currentStep < 4 && !showIntro;
 
   return (
     <>
@@ -152,122 +150,299 @@ const Discover = () => {
         schema={DISCOVER_SCHEMA}
       />
 
-      {/* ── Cinematic background (persists across all steps) ─────────── */}
-      <div
-        aria-hidden="true"
-        className="fixed inset-0 pointer-events-none"
-        style={{ zIndex: -1, background: '#0a0a0f' }}
-      >
-        {/* Crimson/gold radial glow — hue shifts per step */}
-        <motion.div
-          className="absolute inset-0"
-          animate={{
-            background: showQuiz
-              ? STEP_HUES[currentStep] || STEP_HUES[0]
-              : 'radial-gradient(ellipse 80% 50% at 50% 50%, rgba(212, 164, 55, 0.08) 0%, transparent 70%)',
-          }}
-          transition={prefersReduced ? { duration: 0 } : { duration: 1.2, ease: 'easeInOut' }}
-        />
-        {/* Film grain overlay */}
+      {/* ════════════════════════════════════════════════════════════════
+          FULL-SCREEN OVERLAY — z-[60] above navbar (z-50)
+          Covers the entire viewport during intro + quiz steps
+         ════════════════════════════════════════════════════════════════ */}
+      {(showIntro || showQuiz || showLoading || (isError && currentStep === 4)) && (
         <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E")`,
-            backgroundSize: '128px 128px',
-          }}
-        />
-        {/* Gold accent glow top-right */}
-        <div
-          className="absolute top-0 right-0 w-[600px] h-[600px]"
-          style={{
-            background: 'radial-gradient(circle at top right, rgba(212, 164, 55, 0.04) 0%, transparent 60%)',
-          }}
-        />
-      </div>
-
-      {/* ── Quiz container (full-screen takeover) ─────────────────────── */}
-      {showQuiz && (
-        <div
-          className="fixed inset-0 z-40 flex flex-col items-center justify-center overflow-y-auto"
-          role="region"
-          aria-label="Movie mood quiz"
+          className="fixed inset-0 overflow-hidden"
+          style={{ zIndex: 60 }}
         >
-          {/* Progress dots */}
-          <div className="absolute top-6 md:top-8 left-0 right-0 z-10">
-            <ProgressDots currentStep={currentStep} />
+          {/* ── Cinematic Background Layer ─────────────────────────────── */}
+          <div className="absolute inset-0" aria-hidden="true">
+            {/* Base */}
+            <div className="absolute inset-0" style={{ background: '#060609' }} />
+
+            {/* Large crimson glow — top-left */}
+            <motion.div
+              className="absolute w-[900px] h-[900px] -top-[200px] -left-[200px] rounded-full"
+              style={{
+                background: 'radial-gradient(circle, rgba(185, 28, 28, 0.25) 0%, rgba(185, 28, 28, 0.08) 40%, transparent 70%)',
+                filter: 'blur(80px)',
+              }}
+              animate={prefersReduced ? {} : {
+                scale: [1, 1.1, 1],
+                opacity: [0.6, 0.8, 0.6],
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+            />
+
+            {/* Gold glow — bottom-right */}
+            <motion.div
+              className="absolute w-[700px] h-[700px] -bottom-[150px] -right-[150px] rounded-full"
+              style={{
+                background: 'radial-gradient(circle, rgba(212, 164, 55, 0.15) 0%, rgba(212, 164, 55, 0.05) 40%, transparent 70%)',
+                filter: 'blur(80px)',
+              }}
+              animate={prefersReduced ? {} : {
+                scale: [1, 1.15, 1],
+                opacity: [0.5, 0.7, 0.5],
+              }}
+              transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+            />
+
+            {/* Center purple accent */}
+            <div
+              className="absolute w-[600px] h-[600px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+              style={{
+                background: 'radial-gradient(circle, rgba(100, 40, 120, 0.08) 0%, transparent 60%)',
+                filter: 'blur(60px)',
+              }}
+            />
+
+            {/* Film grain texture */}
+            <div
+              className="absolute inset-0 opacity-[0.04]"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")`,
+                backgroundSize: '256px 256px',
+              }}
+            />
+
+            {/* Vignette */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background: 'radial-gradient(ellipse 70% 70% at 50% 50%, transparent 30%, rgba(6, 6, 9, 0.7) 100%)',
+              }}
+            />
           </div>
 
-          {/* Step content with AnimatePresence transitions */}
-          <div className="w-full flex-1 flex items-center justify-center py-20 md:py-24" aria-live="polite">
-            <AnimatePresence mode="wait">
+          {/* ── INTRO SCREEN ──────────────────────────────────────────── */}
+          <AnimatePresence>
+            {showIntro && (
               <motion.div
-                key={STEP_ORDER[currentStep]}
-                variants={stepVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={
-                  prefersReduced
-                    ? { duration: 0.1 }
-                    : { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
-                }
-                className="w-full"
+                className="absolute inset-0 flex flex-col items-center justify-center px-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.6 }}
               >
-                {currentStep === 0 && (
-                  <MoodStep onSelect={handleMoodSelect} selected={moodId} />
-                )}
-                {currentStep === 1 && (
-                  <AudienceStep onSelect={handleAudienceSelect} selected={audience} />
-                )}
-                {currentStep === 2 && (
-                  <TimeStep onSelect={handleTimeSelect} selected={time} />
-                )}
-                {currentStep === 3 && (
-                  <EraStep onSelect={handleEraSelect} selected={era} />
-                )}
+                {/* Glowing orb behind text */}
+                <motion.div
+                  className="absolute w-[400px] h-[400px] rounded-full"
+                  style={{
+                    background: 'radial-gradient(circle, rgba(212, 164, 55, 0.15) 0%, transparent 60%)',
+                    filter: 'blur(60px)',
+                  }}
+                  animate={{ scale: [0.8, 1.2, 0.8], opacity: [0.3, 0.6, 0.3] }}
+                  transition={{ duration: 3, ease: 'easeInOut' }}
+                />
+
+                {/* Emoji burst */}
+                <motion.div
+                  className="text-5xl md:text-7xl mb-6"
+                  initial={{ scale: 0, rotate: -20 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.3 }}
+                >
+                  🎬
+                </motion.div>
+
+                {/* Title */}
+                <motion.h1
+                  className="font-bebas text-4xl md:text-6xl lg:text-7xl tracking-[0.15em] text-center relative"
+                  style={{
+                    background: 'linear-gradient(135deg, #F5F5F5 0%, #D4A437 50%, #F5F5F5 100%)',
+                    backgroundSize: '200% 100%',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                  }}
+                  transition={{
+                    opacity: { duration: 0.8, delay: 0.5 },
+                    y: { duration: 0.8, delay: 0.5 },
+                    backgroundPosition: { duration: 4, repeat: Infinity, ease: 'easeInOut' },
+                  }}
+                >
+                  Mood Discovery Engine
+                </motion.h1>
+
+                {/* Subtitle */}
+                <motion.p
+                  className="text-sm md:text-lg mt-4 text-center max-w-md font-sans"
+                  style={{ color: 'rgba(245, 245, 245, 0.5)' }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.2, duration: 0.8 }}
+                >
+                  Tell us how you feel — we'll find your perfect film
+                </motion.p>
+
+                {/* Gold line */}
+                <motion.div
+                  className="mt-8 h-[1px] rounded-full"
+                  style={{ background: 'linear-gradient(90deg, transparent, #D4A437, transparent)' }}
+                  initial={{ width: 0 }}
+                  animate={{ width: 200 }}
+                  transition={{ delay: 1.5, duration: 1.2, ease: 'easeInOut' }}
+                />
               </motion.div>
-            </AnimatePresence>
-          </div>
+            )}
+          </AnimatePresence>
+
+          {/* ── QUIZ STEPS ────────────────────────────────────────────── */}
+          {showQuiz && (
+            <div
+              className="absolute inset-0 flex flex-col"
+              role="region"
+              aria-label="Movie mood quiz"
+            >
+              {/* Progress dots — top */}
+              <div className="flex-shrink-0 pt-8 md:pt-10 pb-4">
+                <ProgressDots currentStep={currentStep} />
+              </div>
+
+              {/* Step content */}
+              <div className="flex-1 flex items-center justify-center overflow-y-auto py-4" aria-live="polite">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={STEP_ORDER[currentStep]}
+                    variants={stepVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={
+                      prefersReduced
+                        ? { duration: 0.1 }
+                        : { duration: 0.55, ease: [0.22, 1, 0.36, 1] }
+                    }
+                    className="w-full"
+                  >
+                    {currentStep === 0 && (
+                      <MoodStep onSelect={handleMoodSelect} selected={moodId} />
+                    )}
+                    {currentStep === 1 && (
+                      <AudienceStep onSelect={handleAudienceSelect} selected={audience} />
+                    )}
+                    {currentStep === 2 && (
+                      <TimeStep onSelect={handleTimeSelect} selected={time} />
+                    )}
+                    {currentStep === 3 && (
+                      <EraStep onSelect={handleEraSelect} selected={era} />
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Bottom fade */}
+              <div
+                className="flex-shrink-0 h-16 pointer-events-none"
+                style={{ background: 'linear-gradient(to top, rgba(6,6,9,0.8), transparent)' }}
+              />
+            </div>
+          )}
+
+          {/* ── LOADING STATE ─────────────────────────────────────────── */}
+          {showLoading && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-8 px-4">
+              {/* Pulsing orb */}
+              <motion.div
+                className="relative"
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <div
+                  className="w-20 h-20 rounded-full"
+                  style={{
+                    background: 'conic-gradient(from 0deg, #D4A437, #B91C1C, #D4A437)',
+                    padding: '3px',
+                  }}
+                >
+                  <div
+                    className="w-full h-full rounded-full flex items-center justify-center"
+                    style={{ background: '#060609' }}
+                  >
+                    <motion.span
+                      className="text-3xl"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                    >
+                      🎬
+                    </motion.span>
+                  </div>
+                </div>
+                {/* Outer ring */}
+                <motion.div
+                  className="absolute -inset-3 rounded-full border-2"
+                  style={{ borderColor: 'rgba(212, 164, 55, 0.2)' }}
+                  animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+                />
+              </motion.div>
+
+              <div className="text-center">
+                <p
+                  className="font-bebas text-2xl md:text-3xl tracking-wider"
+                  style={{ color: '#D4A437' }}
+                >
+                  Curating your perfect picks...
+                </p>
+                <p className="text-xs mt-2 font-sans" style={{ color: 'rgba(245, 245, 245, 0.4)' }}>
+                  Analyzing thousands of films
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* ── ERROR STATE ───────────────────────────────────────────── */}
+          {isError && currentStep === 4 && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 px-4 text-center">
+              <span className="text-5xl">😔</span>
+              <p className="font-bebas text-2xl text-white tracking-wide">Something went wrong</p>
+              <p className="text-sm font-sans" style={{ color: 'rgba(245, 245, 245, 0.5)' }}>
+                We couldn't fetch your recommendations. Please try again.
+              </p>
+              <button
+                onClick={handleRestart}
+                className="px-8 py-3 rounded-xl font-bebas text-lg tracking-wide cursor-pointer transition-all duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A437]"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.6) 0%, rgba(127, 29, 29, 0.5) 100%)',
+                  border: '1px solid rgba(212, 164, 55, 0.3)',
+                  color: '#F5F5F5',
+                }}
+              >
+                Try Again
+              </button>
+            </div>
+          )}
         </div>
       )}
 
-      {/* ── Loading state ─────────────────────────────────────────────── */}
-      {showLoading && (
-        <div className="min-h-screen flex flex-col items-center justify-center gap-6 px-4">
-          <motion.div
-            className="w-12 h-12 rounded-full border-4 border-t-transparent"
-            style={{ borderColor: '#D4A437', borderTopColor: 'transparent' }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-          />
-          <p className="font-bebas text-xl tracking-wide" style={{ color: 'rgba(245, 245, 245, 0.6)' }}>
-            Curating your perfect picks...
-          </p>
-        </div>
-      )}
+      {/* ════════════════════════════════════════════════════════════════
+          RESULTS — scrollable, below navbar
+         ════════════════════════════════════════════════════════════════ */}
 
-      {/* ── Error state ───────────────────────────────────────────────── */}
-      {isError && currentStep === 4 && (
-        <div className="min-h-screen flex flex-col items-center justify-center gap-6 px-4 text-center">
-          <p className="font-bebas text-2xl text-white">Something went wrong</p>
-          <p className="text-sm" style={{ color: 'rgba(245, 245, 245, 0.5)' }}>
-            We couldn't fetch your recommendations. Please try again.
-          </p>
-          <button
-            onClick={handleRestart}
-            className="px-6 py-3 rounded-xl font-bebas text-lg tracking-wide cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A437]"
+      {/* Cinematic background for results */}
+      {showResults && (
+        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: -1 }} aria-hidden="true">
+          <div className="absolute inset-0" style={{ background: '#060609' }} />
+          <div
+            className="absolute w-[800px] h-[800px] -top-[200px] left-1/2 -translate-x-1/2 rounded-full"
             style={{
-              background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.5) 0%, rgba(127, 29, 29, 0.4) 100%)',
-              border: '1px solid rgba(185, 28, 28, 0.5)',
-              color: '#F5F5F5',
+              background: 'radial-gradient(circle, rgba(212, 164, 55, 0.1) 0%, transparent 60%)',
+              filter: 'blur(80px)',
             }}
-          >
-            Try Again
-          </button>
+          />
         </div>
       )}
 
-      {/* ── Results ───────────────────────────────────────────────────── */}
       {showResults && (
         <MoodResults results={results} onRestart={handleRestart} />
       )}

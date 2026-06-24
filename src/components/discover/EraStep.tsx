@@ -1,11 +1,9 @@
 /**
  * EraStep.tsx
  *
- * Step 4 — "When were you in the mood for?"
- * Five era options with decade badges.
+ * Step 4 — premium era selection with emoji badges and cinematic cards.
  */
 import { motion } from 'framer-motion';
-import { Sparkles, Clapperboard, Film, Archive, Shuffle } from 'lucide-react';
 import type { EraType } from '../../lib/moodEngine';
 
 interface EraStepProps {
@@ -17,79 +15,106 @@ const ERA_OPTIONS: {
   id: EraType;
   label: string;
   description: string;
-  icon: typeof Sparkles;
+  emoji: string;
 }[] = [
-  { id: 'latest', label: 'Latest releases', description: 'Fresh from the last 3 years', icon: Sparkles },
-  { id: '2010s', label: '2010s', description: 'The streaming decade', icon: Clapperboard },
-  { id: '2000s', label: '2000s', description: 'Y2K era gems', icon: Film },
-  { id: 'classic', label: 'Classics', description: 'The golden age (pre-2000)', icon: Archive },
-  { id: 'any', label: 'Anytime', description: 'Surprise me from any era', icon: Shuffle },
+  { id: 'latest', label: 'Latest releases', description: 'Fresh from the last 3 years', emoji: '🔥' },
+  { id: '2010s', label: '2010s', description: 'The streaming decade', emoji: '📱' },
+  { id: '2000s', label: '2000s', description: 'Y2K era gems', emoji: '💿' },
+  { id: 'classic', label: 'Classics', description: 'The golden age (pre-2000)', emoji: '🎞️' },
+  { id: 'any', label: 'Anytime', description: 'Surprise me from any era', emoji: '🎰' },
 ];
 
 const EraStep = ({ onSelect, selected }: EraStepProps) => {
   return (
-    <div className="w-full max-w-2xl mx-auto px-4">
-      <div className="text-center mb-8 md:mb-10">
-        <h2 className="font-bebas text-4xl md:text-5xl lg:text-6xl tracking-wide text-white mb-2">
+    <div className="w-full max-w-2xl mx-auto px-4 sm:px-6">
+      <div className="text-center mb-8 md:mb-12">
+        <motion.h2
+          className="font-bebas text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[0.08em] text-white mb-3"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
           What era are you in the mood for?
-        </h2>
-        <p className="text-sm md:text-base" style={{ color: 'rgba(245, 245, 245, 0.6)' }}>
+        </motion.h2>
+        <motion.p
+          className="text-sm md:text-base font-sans"
+          style={{ color: 'rgba(212, 164, 55, 0.7)' }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+        >
           Every decade has its masterpieces
-        </p>
+        </motion.p>
       </div>
 
-      <div className="flex flex-col gap-3 md:gap-4">
+      <div className="flex flex-col gap-3 sm:gap-4">
         {ERA_OPTIONS.map((option, i) => {
           const isSelected = selected === option.id;
-          const Icon = option.icon;
 
           return (
             <motion.button
               key={option.id}
               onClick={() => onSelect(option.id)}
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.08, duration: 0.4, ease: 'easeOut' }}
-              whileHover={{ scale: 1.02 }}
+              transition={{ delay: i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ scale: 1.02, x: 8 }}
               whileTap={{ scale: 0.98 }}
-              className="flex items-center gap-4 md:gap-5 rounded-2xl p-4 md:p-5 text-left transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A437] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0f]"
+              className="group relative flex items-center gap-4 sm:gap-5 rounded-2xl p-4 sm:p-5 text-left transition-all duration-300 cursor-pointer overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A437] focus-visible:ring-offset-2 focus-visible:ring-offset-[#060609]"
               style={{
                 background: isSelected
-                  ? 'linear-gradient(135deg, rgba(185, 28, 28, 0.4) 0%, rgba(127, 29, 29, 0.3) 100%)'
-                  : 'rgba(255, 255, 255, 0.03)',
+                  ? 'linear-gradient(135deg, rgba(185, 28, 28, 0.45) 0%, rgba(100, 20, 20, 0.35) 100%)'
+                  : 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)',
+                border: isSelected
+                  ? '1.5px solid rgba(212, 164, 55, 0.7)'
+                  : '1px solid rgba(255, 255, 255, 0.07)',
+                boxShadow: isSelected
+                  ? '0 0 40px rgba(212, 164, 55, 0.15), inset 0 1px 0 rgba(255,255,255,0.1)'
+                  : '0 2px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255,255,255,0.04)',
                 backdropFilter: 'blur(20px)',
                 WebkitBackdropFilter: 'blur(20px)',
-                border: isSelected
-                  ? '2px solid rgba(212, 164, 55, 0.8)'
-                  : '1px solid rgba(212, 164, 55, 0.15)',
-                boxShadow: isSelected
-                  ? '0 0 30px rgba(212, 164, 55, 0.15), inset 0 0 30px rgba(185, 28, 28, 0.1)'
-                  : 'none',
               }}
               aria-label={`${option.label}: ${option.description}`}
               aria-pressed={isSelected}
               id={`era-${option.id}`}
             >
+              {/* Hover glow */}
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-300"
+                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{
+                  background: 'linear-gradient(90deg, rgba(212, 164, 55, 0.06) 0%, transparent 60%)',
+                  border: '1px solid rgba(212, 164, 55, 0.2)',
+                }}
+              />
+
+              <div
+                className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 text-2xl relative z-10"
                 style={{
                   background: isSelected
-                    ? 'rgba(212, 164, 55, 0.2)'
-                    : 'rgba(255, 255, 255, 0.05)',
+                    ? 'linear-gradient(135deg, rgba(212, 164, 55, 0.25) 0%, rgba(212, 164, 55, 0.1) 100%)'
+                    : 'rgba(255, 255, 255, 0.04)',
+                  border: isSelected
+                    ? '1px solid rgba(212, 164, 55, 0.3)'
+                    : '1px solid rgba(255, 255, 255, 0.06)',
                 }}
               >
-                <Icon
-                  className="w-5 h-5 transition-colors duration-300"
-                  style={{ color: isSelected ? '#D4A437' : 'rgba(245, 245, 245, 0.7)' }}
-                />
+                {option.emoji}
               </div>
-              <div>
-                <span className="font-bebas text-lg md:text-xl tracking-wide text-white block">
+
+              <div className="relative z-10">
+                <span className="font-bebas text-lg sm:text-xl tracking-wider text-white block">
                   {option.label}
                 </span>
-                <span className="text-xs md:text-sm" style={{ color: 'rgba(245, 245, 245, 0.5)' }}>
+                <span className="text-xs sm:text-sm font-sans" style={{ color: 'rgba(245, 245, 245, 0.45)' }}>
                   {option.description}
                 </span>
+              </div>
+
+              <div
+                className="ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0 relative z-10"
+                style={{ color: 'rgba(212, 164, 55, 0.6)' }}
+              >
+                →
               </div>
             </motion.button>
           );
