@@ -18,12 +18,11 @@ const AUDIENCE_OPTIONS: {
   label: string;
   description: string;
   icon: typeof User;
-  emoji: string;
 }[] = [
-  { id: 'solo', label: 'Solo', description: 'Just me, myself, and I', icon: User, emoji: '🎧' },
-  { id: 'couple', label: 'With a partner', description: 'Cozy night for two', icon: Heart, emoji: '💑' },
-  { id: 'group', label: 'With friends', description: 'The more the merrier', icon: Users, emoji: '🍿' },
-  { id: 'family', label: 'With family', description: 'Something everyone can enjoy', icon: Home, emoji: '👨‍👩‍👧‍👦' },
+  { id: 'solo', label: 'Solo', description: 'Just me, myself, and I', icon: User },
+  { id: 'couple', label: 'With a partner', description: 'Cozy night for two', icon: Heart },
+  { id: 'group', label: 'With friends', description: 'The more the merrier', icon: Users },
+  { id: 'family', label: 'With family', description: 'Something everyone can enjoy', icon: Home },
 ];
 
 const AudienceStep = ({ onSelect, selected }: AudienceStepProps) => {
@@ -101,7 +100,10 @@ const AudienceStep = ({ onSelect, selected }: AudienceStepProps) => {
                     : '1px solid rgba(255, 255, 255, 0.06)',
                 }}
               >
-                {option.emoji}
+                <option.icon 
+                  className="w-6 h-6 transition-colors duration-300" 
+                  style={{ color: isSelected ? '#D4A437' : 'rgba(245, 245, 245, 0.7)' }} 
+                />
               </div>
 
               {/* Text */}

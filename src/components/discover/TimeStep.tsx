@@ -4,6 +4,7 @@
  * Step 3 — premium time selection with emoji icons and cinematic cards.
  */
 import { motion } from 'framer-motion';
+import { Timer, Clock, Hourglass, Moon } from 'lucide-react';
 import type { TimeType } from '../../lib/moodEngine';
 
 interface TimeStepProps {
@@ -15,12 +16,12 @@ const TIME_OPTIONS: {
   id: TimeType;
   label: string;
   description: string;
-  emoji: string;
+  icon: typeof Timer;
 }[] = [
-  { id: 'short', label: 'Under 90 minutes', description: 'Quick and punchy', emoji: '⚡' },
-  { id: 'medium', label: '90 min to 2 hours', description: 'The sweet spot', emoji: '⏱️' },
-  { id: 'long', label: '2 to 3 hours', description: 'Epic territory', emoji: '🎬' },
-  { id: 'any', label: 'All night long', description: 'No time limit — bring it on', emoji: '🌙' },
+  { id: 'short', label: 'Under 90 minutes', description: 'Quick and punchy', icon: Timer },
+  { id: 'medium', label: '90 min to 2 hours', description: 'The sweet spot', icon: Clock },
+  { id: 'long', label: '2 to 3 hours', description: 'Epic territory', icon: Hourglass },
+  { id: 'any', label: 'All night long', description: 'No time limit — bring it on', icon: Moon },
 ];
 
 const TimeStep = ({ onSelect, selected }: TimeStepProps) => {
@@ -97,7 +98,10 @@ const TimeStep = ({ onSelect, selected }: TimeStepProps) => {
                     : '1px solid rgba(255, 255, 255, 0.06)',
                 }}
               >
-                {option.emoji}
+                <option.icon 
+                  className="w-6 h-6 transition-colors duration-300" 
+                  style={{ color: isSelected ? '#D4A437' : 'rgba(245, 245, 245, 0.7)' }} 
+                />
               </div>
 
               <div className="relative z-10">

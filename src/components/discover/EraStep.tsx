@@ -4,6 +4,7 @@
  * Step 4 — premium era selection with emoji badges and cinematic cards.
  */
 import { motion } from 'framer-motion';
+import { Sparkles, MonitorPlay, Disc, Archive, Shuffle } from 'lucide-react';
 import type { EraType } from '../../lib/moodEngine';
 
 interface EraStepProps {
@@ -15,13 +16,13 @@ const ERA_OPTIONS: {
   id: EraType;
   label: string;
   description: string;
-  emoji: string;
+  icon: typeof Sparkles;
 }[] = [
-  { id: 'latest', label: 'Latest releases', description: 'Fresh from the last 3 years', emoji: '🔥' },
-  { id: '2010s', label: '2010s', description: 'The streaming decade', emoji: '📱' },
-  { id: '2000s', label: '2000s', description: 'Y2K era gems', emoji: '💿' },
-  { id: 'classic', label: 'Classics', description: 'The golden age (pre-2000)', emoji: '🎞️' },
-  { id: 'any', label: 'Anytime', description: 'Surprise me from any era', emoji: '🎰' },
+  { id: 'latest', label: 'Latest releases', description: 'Fresh from the last 3 years', icon: Sparkles },
+  { id: '2010s', label: '2010s', description: 'The streaming decade', icon: MonitorPlay },
+  { id: '2000s', label: '2000s', description: 'Y2K era gems', icon: Disc },
+  { id: 'classic', label: 'Classics', description: 'The golden age (pre-2000)', icon: Archive },
+  { id: 'any', label: 'Anytime', description: 'Surprise me from any era', icon: Shuffle },
 ];
 
 const EraStep = ({ onSelect, selected }: EraStepProps) => {
@@ -98,7 +99,10 @@ const EraStep = ({ onSelect, selected }: EraStepProps) => {
                     : '1px solid rgba(255, 255, 255, 0.06)',
                 }}
               >
-                {option.emoji}
+                <option.icon 
+                  className="w-6 h-6 transition-colors duration-300" 
+                  style={{ color: isSelected ? '#D4A437' : 'rgba(245, 245, 245, 0.7)' }} 
+                />
               </div>
 
               <div className="relative z-10">

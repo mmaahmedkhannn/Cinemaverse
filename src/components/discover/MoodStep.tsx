@@ -7,6 +7,30 @@
  */
 import { motion } from 'framer-motion';
 import { MOODS } from '../../data/moods';
+import { 
+  Ghost, Smile, Droplets, HeartCrack, 
+  Sparkles, Brain, Coffee, Heart, 
+  Dices, Sun, Rocket, Zap, 
+  Eye, Video, Gem 
+} from 'lucide-react';
+
+const MOOD_ICONS: Record<string, any> = {
+  'scared': Ghost,
+  'laugh': Smile,
+  'cry': Droplets,
+  'breakup': HeartCrack,
+  'inspired': Sparkles,
+  'mindbender': Brain,
+  'background': Coffee,
+  'datenight': Heart,
+  'surprise': Dices,
+  'comfort': Sun,
+  'escape': Rocket,
+  'adrenaline': Zap,
+  'deep': Eye,
+  'nostalgia': Video,
+  'hidden-gem': Gem,
+};
 
 interface MoodStepProps {
   onSelect: (moodId: string) => void;
@@ -95,10 +119,24 @@ const MoodStep = ({ onSelect, selected }: MoodStepProps) => {
                 />
               )}
 
-              {/* Emoji — big and prominent */}
-              <span className="text-3xl sm:text-4xl block mb-3 relative z-10 drop-shadow-lg">
-                {mood.emoji}
-              </span>
+              {/* Icon — premium minimalist */}
+              <div 
+                className="w-10 h-10 mb-4 relative z-10 rounded-xl flex items-center justify-center transition-colors duration-300"
+                style={{
+                  background: isSelected ? 'rgba(212, 164, 55, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                  border: isSelected ? '1px solid rgba(212, 164, 55, 0.3)' : '1px solid rgba(255, 255, 255, 0.05)',
+                }}
+              >
+                {(() => {
+                  const Icon = MOOD_ICONS[mood.id] || Sparkles;
+                  return (
+                    <Icon 
+                      className="w-5 h-5 transition-colors duration-300" 
+                      style={{ color: isSelected ? '#D4A437' : 'rgba(245, 245, 245, 0.7)' }} 
+                    />
+                  );
+                })()}
+              </div>
 
               {/* Label */}
               <span className="font-bebas text-sm sm:text-base tracking-wider text-white block mb-1 leading-tight relative z-10">
