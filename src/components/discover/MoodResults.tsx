@@ -7,7 +7,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { RotateCcw, ArrowRight, Info } from 'lucide-react';
+import { RotateCcw, ArrowRight, Info, Sparkles } from 'lucide-react';
 import { getImageUrl } from '../../services/tmdb';
 import type { MoodResult } from '../../lib/moodEngine';
 
@@ -21,72 +21,65 @@ const MoodResults = ({ results, onRestart }: MoodResultsProps) => {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   // Cinematic reveal intro
-  if (showIntro) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <motion.div
-          className="text-center relative"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          onAnimationComplete={() => {
-            setTimeout(() => setShowIntro(false), 2200);
-          }}
-        >
-          {/* Glow behind text */}
-          <motion.div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full"
-            style={{
-              background: 'radial-gradient(circle, rgba(212, 164, 55, 0.15) 0%, transparent 60%)',
-              filter: 'blur(40px)',
-            }}
-            animate={{ scale: [0.8, 1.3, 0.8], opacity: [0.3, 0.5, 0.3] }}
-            transition={{ duration: 2.5, ease: 'easeInOut' }}
-          />
-
-          <motion.div
-            className="text-5xl md:text-6xl mb-6"
-            initial={{ scale: 0 }}
-            animate={{ scale: [0, 1.2, 1] }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-          >
-            ✨
-          </motion.div>
-
-          <motion.p
-            className="font-bebas text-3xl md:text-5xl lg:text-6xl tracking-[0.15em] relative"
-            style={{
-              background: 'linear-gradient(135deg, #F5F5F5 0%, #D4A437 50%, #F5F5F5 100%)',
-              backgroundSize: '200% 100%',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-            animate={{
-              opacity: [0, 1, 1, 0],
-              backgroundPosition: ['0% 50%', '100% 50%'],
-            }}
-            transition={{
-              opacity: { duration: 2.5, times: [0, 0.3, 0.7, 1] },
-              backgroundPosition: { duration: 3, ease: 'easeInOut' },
-            }}
-          >
-            Your picks are ready
-          </motion.p>
-
-          <motion.div
-            className="mt-6 mx-auto h-[1px] rounded-full"
-            style={{ background: 'linear-gradient(90deg, transparent, #D4A437, transparent)' }}
-            initial={{ width: 0, opacity: 0 }}
-            animate={{ width: 180, opacity: 1 }}
-            transition={{ delay: 0.5, duration: 1.5, ease: 'easeInOut' }}
-          />
-        </motion.div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen pb-24 pt-24 md:pt-28 px-4 sm:px-6">
+    <>
+      <AnimatePresence>
+        {showIntro && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center px-4"
+            style={{ background: '#060609' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            onAnimationComplete={() => {
+              // The component mounts, fades in, and after a short delay, fades out.
+              setTimeout(() => setShowIntro(false), 2200);
+            }}
+          >
+            <div className="text-center relative z-10 flex flex-col items-center">
+              {/* Glow behind text */}
+              <motion.div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full pointer-events-none"
+                style={{
+                  background: 'radial-gradient(circle, rgba(212, 164, 55, 0.15) 0%, transparent 70%)',
+                  filter: 'blur(50px)',
+                }}
+                animate={{ scale: [0.8, 1.2, 0.8], opacity: [0.3, 0.6, 0.3] }}
+                transition={{ duration: 3, ease: 'easeInOut' }}
+              />
+
+              <motion.div
+                className="text-[#D4A437] mb-8"
+                initial={{ scale: 0, rotate: -30 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+              >
+                <Sparkles className="w-16 h-16 md:w-20 md:h-20" />
+              </motion.div>
+
+              <motion.p
+                className="font-bebas text-4xl md:text-5xl lg:text-7xl tracking-[0.15em] text-white"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                Your picks are ready
+              </motion.p>
+
+              <motion.div
+                className="mt-8 h-[1px] rounded-full"
+                style={{ background: 'linear-gradient(90deg, transparent, #D4A437, transparent)' }}
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: 200, opacity: 1 }}
+                transition={{ delay: 0.8, duration: 1.2, ease: 'easeInOut' }}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="min-h-screen pb-24 pt-24 md:pt-28 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -292,6 +285,7 @@ const MoodResults = ({ results, onRestart }: MoodResultsProps) => {
         </motion.div>
       </div>
     </div>
+    </>
   );
 };
 

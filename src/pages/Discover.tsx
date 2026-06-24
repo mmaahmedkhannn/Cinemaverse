@@ -9,6 +9,7 @@
  */
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 import SEO from '../components/SEO';
 import ProgressDots from '../components/discover/ProgressDots';
 import MoodStep from '../components/discover/MoodStep';
@@ -353,37 +354,39 @@ const Discover = () => {
           {showLoading && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-8 px-4">
               {/* Pulsing orb */}
+              {/* Pulsing orb */}
               <motion.div
-                className="relative"
-                animate={{ scale: [1, 1.1, 1] }}
+                className="relative flex items-center justify-center mt-12 mb-4"
+                animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
               >
                 <div
-                  className="w-20 h-20 rounded-full"
+                  className="w-20 h-20 rounded-full flex items-center justify-center relative z-10"
                   style={{
-                    background: 'conic-gradient(from 0deg, #D4A437, #B91C1C, #D4A437)',
-                    padding: '3px',
+                    background: 'linear-gradient(135deg, rgba(212, 164, 55, 0.15), rgba(185, 28, 28, 0.15))',
+                    border: '1px solid rgba(212, 164, 55, 0.4)',
+                    boxShadow: '0 0 40px rgba(212, 164, 55, 0.15)'
                   }}
                 >
-                  <div
-                    className="w-full h-full rounded-full flex items-center justify-center"
-                    style={{ background: '#060609' }}
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
                   >
-                    <motion.span
-                      className="text-3xl"
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-                    >
-                      🎬
-                    </motion.span>
-                  </div>
+                    <Sparkles className="w-8 h-8" style={{ color: '#D4A437' }} />
+                  </motion.div>
                 </div>
-                {/* Outer ring */}
+                {/* Outer rings */}
                 <motion.div
-                  className="absolute -inset-3 rounded-full border-2"
-                  style={{ borderColor: 'rgba(212, 164, 55, 0.2)' }}
+                  className="absolute -inset-4 rounded-full border"
+                  style={{ borderColor: 'rgba(212, 164, 55, 0.3)' }}
                   animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
                   transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+                />
+                <motion.div
+                  className="absolute -inset-8 rounded-full border"
+                  style={{ borderColor: 'rgba(212, 164, 55, 0.1)' }}
+                  animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0, 0.3] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'easeOut', delay: 0.5 }}
                 />
               </motion.div>
 
