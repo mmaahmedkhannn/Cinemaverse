@@ -385,6 +385,20 @@ async function run() {
         schema: collectionPageSchema('Blog', 'Read expert film analysis, curated movie lists, and streaming guides.', `${DOMAIN}/blog`),
       },
       {
+        url: '/discover',
+        title: 'Discover Movies by Mood | CinemaDiscovery',
+        desc: 'Tell us how you feel — we\'ll find the perfect movie. From heartbreak to horror, mind-benders to comfort watches. Personalized film discovery for any mood.',
+        schema: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebApplication',
+          name: 'CinemaDiscovery Mood Engine',
+          applicationCategory: 'EntertainmentApplication',
+          operatingSystem: 'All',
+          description: 'Mood-based movie discovery engine',
+          url: `${DOMAIN}/discover`,
+        }),
+      },
+      {
         url: '/auth',
         title: 'Sign In | CinemaDiscovery',
         desc: 'Join CinemaDiscovery to track your watchlist and rate movies.',
@@ -548,7 +562,7 @@ ${uniquePages.map(p => `  <url>
     <loc>${DOMAIN}${p.url}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>${p.url === '/' ? 'daily' : 'weekly'}</changefreq>
-    <priority>${p.url === '/' ? '1.0' : p.url.startsWith('/blog/') ? '0.7' : p.url.includes('/movie/') ? '0.8' : (p.url.includes('/tv/') || p.url.includes('/director/')) ? '0.7' : '0.6'}</priority>
+    <priority>${p.url === '/' ? '1.0' : p.url === '/discover' ? '0.8' : p.url.startsWith('/blog/') ? '0.7' : p.url.includes('/movie/') ? '0.8' : (p.url.includes('/tv/') || p.url.includes('/director/')) ? '0.7' : '0.6'}</priority>
   </url>`).join('\n')}
 </urlset>`;
 

@@ -37,6 +37,7 @@ const VerifyEmail = lazy(() => import('./pages/VerifyEmail'));
 const Blog = lazy(() => import('./pages/Blog'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
 const StreamingService = lazy(() => import('./pages/StreamingService'));
+const Discover = lazy(() => import('./pages/Discover'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -67,6 +68,7 @@ function App() {
                   <Route path="/movies" element={<Movies />} />
                   <Route path="/tv" element={<TvShows />} />
                   <Route path="/universe" element={<Universe />} />
+                  <Route path="/discover" element={<Discover />} />
                   <Route path="/movie/:id" element={<MovieDetail />} />
                   <Route path="/movie/:id/:slug" element={<MovieDetail />} />
                   <Route path="/tv/:id" element={<TvShowDetail />} />

@@ -36,6 +36,7 @@ const NAV_ITEMS: NavItem[] = [
   { to: '/movies',    label: 'Movies',    path: '/movies'    },
   { to: '/tv',        label: 'TV Shows',  path: '/tv'        },
   { to: '/universe',  label: 'Universe',  path: '/universe'  },
+  { to: '/discover',  label: 'Discover',  path: '/discover'  },
   { to: '/timeline',  label: 'Timeline',  path: '/timeline'  },
   { to: '/directors', label: 'Directors', path: '/directors' },
   { to: '/battles',   label: 'Battles',   path: '/battles'   },
@@ -200,6 +201,7 @@ const Navbar = () => {
       case '/movies':    import('../../pages/Movies');    break;
       case '/tv':        import('../../pages/TvShows');   break;
       case '/universe':  import('../../pages/Universe');  break;
+      case '/discover':  import('../../pages/Discover');  break;
       case '/timeline':  import('../../pages/Timeline');  break;
       case '/directors': import('../../pages/Directors'); break;
       case '/battles':   import('../../pages/Battles');   break;
@@ -506,6 +508,7 @@ const Navbar = () => {
           <Link to="/movies" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/movies') || location.pathname.startsWith('/movie/') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Movies</Link>
           <Link to="/tv" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/tv') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>TV Shows</Link>
           <Link to="/universe" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/universe') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Universe</Link>
+          <Link to="/discover" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/discover') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Discover</Link>
           <Link to="/timeline" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/timeline') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Timeline</Link>
           <Link to="/directors" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/director') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Directors</Link>
           <Link to="/battles" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/battles') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Battles</Link>

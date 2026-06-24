@@ -86,7 +86,7 @@ export const tmdbApi = {
     return response.data.genres;
   },
 
-  discoverMovies: async (params?: { 
+  discoverMovies: async (params?: Record<string, string | number | undefined> & { 
     with_genres?: string; 
     page?: number; 
     sort_by?: string; 
