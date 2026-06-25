@@ -69,7 +69,7 @@ const Discover = () => {
       ? { moodId, audience, time, era }
       : null;
 
-  const { data: results, refetch, isFetching, isError } = useMoodDiscovery(quizAnswers);
+  const { data: results, isFetching, isError } = useMoodDiscovery(quizAnswers);
 
   /* ── GA4 ────────────────────────────────────────────────────────────── */
   useEffect(() => {
@@ -120,10 +120,10 @@ const Discover = () => {
   useEffect(() => {
     if (quizComplete && quizAnswers) {
       trackEvent('mood_quiz_finished', { ...quizAnswers });
-      refetch();
+      console.log('Quiz complete, triggering fetch', quizAnswers);
       setCurrentStep(4);
     }
-  }, [quizComplete, quizAnswers, refetch]);
+  }, [quizComplete, quizAnswers]);
 
   /* ── Restart ────────────────────────────────────────────────────────── */
   const handleRestart = useCallback(() => {
