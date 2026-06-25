@@ -99,7 +99,7 @@ const MoodResults = ({ results, onRestart }: MoodResultsProps) => {
             Your Curated Picks
           </h2>
           <p className="text-sm md:text-base max-w-lg mx-auto font-sans" style={{ color: 'rgba(245, 245, 245, 0.5)' }}>
-            10 films handpicked for your mood. Click any to explore.
+            20 films handpicked for your mood. Click any to explore.
           </p>
         </motion.div>
 

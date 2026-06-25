@@ -162,7 +162,7 @@ export async function getMoodResults(answers: QuizAnswers): Promise<MoodResult[]
   }
 
   // If still low, fetch page 2 and merge
-  if (results.length < 10 && response.total_pages > 1) {
+  if (results.length < 20 && response.total_pages > 1) {
     const page2 = await tmdbApi.discoverMovies({ ...params, page: 2 });
     results = [...results, ...(page2.results || [])];
   }
@@ -175,10 +175,10 @@ export async function getMoodResults(answers: QuizAnswers): Promise<MoodResult[]
     return true;
   });
 
-  // Take top 10, calculate match scores
+  // Take top 20, calculate match scores
   const reason = buildMatchReason(answers);
 
-  return unique.slice(0, 10).map((film) => ({
+  return unique.slice(0, 20).map((film) => ({
     ...film,
     vote_count: (film as TMDBMovie & { vote_count: number }).vote_count ?? 0,
     popularity: (film as TMDBMovie & { popularity: number }).popularity ?? 0,

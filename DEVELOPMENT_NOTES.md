@@ -130,6 +130,9 @@ src/
 
 ## 🔧 Recent Changes Log
 
+### June 25, 2026
+- **Expand Mood Results** — Increased the number of returned recommendations in the Mood Discovery Engine from 10 to 20 films. Updated `getMoodResults` in `src/lib/moodEngine.ts` to query page 2 if results are under 20 and slice the unique results to 20. Updated the UI copy in `src/components/discover/MoodResults.tsx` to display "20 films handpicked for your mood."
+
 ### June 23, 2026
 - **Blog Article #19 Published** — Added "Movies Like Fight Club" as the new top article in `src/data/blogArticles.ts`. Slug: `movies-like-fight-club`. Covers American Psycho, Mr. Brooks, Donnie Darko, Memento, The Machinist, Black Swan, Shutter Island, Mulholland Drive, Requiem for a Dream, and Filth. OG/hero image: `https://image.tmdb.org/t/p/w1280/c6OLXfKAk5BKeR6broC8pYiCquX.jpg` (Fight Club TMDB backdrop, ID 550, verified via API). Internal links added for all 10 confirmed TMDB IDs: American Psycho (1359), Mr. Brooks (3432), Donnie Darko (141), Memento (77), The Machinist (4553), Black Swan (44214), Shutter Island (11324), Mulholland Drive (1018), Requiem for a Dream (641), Filth (85889) — all verified via TMDB API before insertion. Note: Original spec provided incorrect IDs for Mr. Brooks (3536→3432) and Filth (146198→85889); both were corrected after API verification. Cross-links to `/blog/christopher-nolan-movies-ranked`, `/blog/movies-with-best-cinematography`, `/blog/best-thriller-movies-of-all-time`, and `/movies`. Sitemap auto-generates from blogArticles.ts (17 total articles now parsed). Note: `Home.tsx` has pre-existing JSX syntax errors from a prior uncommitted edit; these are not related to this article change — `blogArticles.ts` compiles cleanly with zero TypeScript errors.
 
