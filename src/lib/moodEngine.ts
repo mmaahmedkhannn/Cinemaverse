@@ -83,6 +83,28 @@ export function buildMoodQuery(answers: QuizAnswers): Record<string, string | nu
   params.language = 'en-US';
   params.include_adult = 'false';
 
+  // ── Quality floor: prevent zero/micro-vote spam ──────────────────────────
+  // Films with 2 votes rated 10.0 beat films with 500k votes rated 8.2 without
+  // this floor. Applied universally; only overrides if mood set a lower value.
+  if (!params['vote_count.gte'] || Number(params['vote_count.gte']) < 500) {
+    params['vote_count.gte'] = 500;
+  }
+
+  // ── Rating floor: ensure baseline watchability ───────────────────────────
+  // Prevents junk even if it clears the vote_count floor.
+  if (!params['vote_average.gte'] || Number(params['vote_average.gte']) < 6.0) {
+    params['vote_average.gte'] = 6.0;
+  }
+
+  // ── "Latest" era override ────────────────────────────────────────────────
+  // Recent films genuinely have fewer votes, so we lower the floor slightly.
+  // We also force popularity.desc so big anticipated releases surface first,
+  // not obscure 2024/2025 uploads that happen to have a high rating from 3 votes.
+  if (answers.era === 'latest') {
+    params['vote_count.gte'] = 300;      // Lower floor — new films are newer
+    params.sort_by = 'popularity.desc';  // Surface well-known recent releases
+  }
+
   return params;
 }
 
