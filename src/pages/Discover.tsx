@@ -9,7 +9,8 @@
  */
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, RotateCcw, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import ProgressDots from '../components/discover/ProgressDots';
 import MoodStep from '../components/discover/MoodStep';
@@ -18,6 +19,7 @@ import TimeStep from '../components/discover/TimeStep';
 import EraStep from '../components/discover/EraStep';
 import MoodResults from '../components/discover/MoodResults';
 import { useMoodDiscovery } from '../hooks/useMoodDiscovery';
+import { getImageUrl } from '../services/tmdb';
 import type { QuizAnswers, AudienceType, TimeType, EraType } from '../lib/moodEngine';
 
 /* ─── GA4 helper ──────────────────────────────────────────────────────── */
@@ -69,12 +71,33 @@ const Discover = () => {
       ? { moodId, audience, time, era }
       : null;
 
-  const { data: results, isFetching, isError } = useMoodDiscovery(quizAnswers);
+  const { data: results, isFetching, isError, refetch } = useMoodDiscovery(quizAnswers);
 
   /* ── GA4 ────────────────────────────────────────────────────────────── */
   useEffect(() => {
     trackEvent('mood_quiz_started');
   }, []);
+
+  /* ── Preload first 6 poster images when results arrive ─────────────── */
+  useEffect(() => {
+    if (!results) return;
+    const links: HTMLLinkElement[] = [];
+    results.slice(0, 6).forEach((film) => {
+      if (film.poster_path) {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = getImageUrl(film.poster_path, 'w500');
+        document.head.appendChild(link);
+        links.push(link);
+      }
+    });
+    return () => {
+      links.forEach((link) => {
+        if (document.head.contains(link)) document.head.removeChild(link);
+      });
+    };
+  }, [results]);
 
   /* ── Intro timer ────────────────────────────────────────────────────── */
   useEffect(() => {
@@ -407,22 +430,70 @@ const Discover = () => {
           {/* ── ERROR STATE ───────────────────────────────────────────── */}
           {isError && currentStep === 4 && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 px-4 text-center">
-              <span className="text-5xl">😔</span>
-              <p className="font-bebas text-2xl text-white tracking-wide">Something went wrong</p>
-              <p className="text-sm font-sans" style={{ color: 'rgba(245, 245, 245, 0.5)' }}>
-                We couldn't fetch your recommendations. Please try again.
-              </p>
-              <button
-                onClick={handleRestart}
-                className="px-8 py-3 rounded-xl font-bebas text-lg tracking-wide cursor-pointer transition-all duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A437]"
+              {/* Glow orb */}
+              <div
+                className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.6) 0%, rgba(127, 29, 29, 0.5) 100%)',
-                  border: '1px solid rgba(212, 164, 55, 0.3)',
-                  color: '#F5F5F5',
+                  background: 'radial-gradient(circle, rgba(185, 28, 28, 0.12) 0%, transparent 70%)',
+                  filter: 'blur(60px)',
                 }}
+              />
+              <motion.span
+                className="text-5xl relative z-10"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 18 }}
+              >😔</motion.span>
+              <motion.p
+                className="font-bebas text-3xl md:text-4xl tracking-wider relative z-10"
+                style={{ color: '#F5F5F5' }}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15, duration: 0.5 }}
               >
-                Try Again
-              </button>
+                Something went wrong while curating your picks.
+              </motion.p>
+              <motion.p
+                className="text-sm font-sans max-w-sm relative z-10"
+                style={{ color: 'rgba(245, 245, 245, 0.5)' }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
+                We couldn't reach the film database. Check your connection and try again.
+              </motion.p>
+              <motion.div
+                className="flex flex-col sm:flex-row items-center gap-3 relative z-10"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.45, duration: 0.5 }}
+              >
+                <button
+                  onClick={() => refetch()}
+                  className="group flex items-center gap-2 px-8 py-3.5 rounded-xl font-bebas text-lg tracking-wider cursor-pointer transition-all duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A437]"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.6) 0%, rgba(127, 29, 29, 0.5) 100%)',
+                    border: '1px solid rgba(212, 164, 55, 0.35)',
+                    color: '#F5F5F5',
+                    boxShadow: '0 4px 20px rgba(185, 28, 28, 0.25)',
+                  }}
+                >
+                  <RotateCcw className="w-4 h-4 transition-transform duration-300 group-hover:-rotate-180" />
+                  Try Again
+                </button>
+                <Link
+                  to="/movies"
+                  className="group flex items-center gap-2 px-8 py-3.5 rounded-xl font-bebas text-lg tracking-wider transition-all duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A437]"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.04)',
+                    border: '1px solid rgba(212, 164, 55, 0.15)',
+                    color: 'rgba(245, 245, 245, 0.6)',
+                  }}
+                >
+                  Browse all movies
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </motion.div>
             </div>
           )}
         </div>

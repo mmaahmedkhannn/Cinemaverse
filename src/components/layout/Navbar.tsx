@@ -339,7 +339,7 @@ const Navbar = () => {
                       }}
                       onMouseLeave={onLinkLeave}
                       className={[
-                        'relative py-1 text-sm md:text-base font-medium font-sans',
+                        'relative py-1 text-sm md:text-base font-medium font-sans whitespace-nowrap',
                         'transition-colors duration-200',
                         active ? 'text-red-600' : 'text-gray-300 hover:text-white',
                         // Fallback static underline when reduced motion
@@ -366,9 +366,11 @@ const Navbar = () => {
                       }}
                       onMouseLeave={onLinkLeave}
                       className={[
-                        'group/top relative flex items-center gap-1.5 py-1 text-sm md:text-base font-bebas tracking-wide overflow-hidden',
-                        'transition-colors duration-200',
-                        active ? 'text-red-600' : 'text-[#D4A437] hover:text-[#E5B84A]',
+                        'group/top relative flex items-center gap-1.5 py-1 text-sm md:text-base font-bebas tracking-wide overflow-hidden whitespace-nowrap',
+                        'transition-all duration-300',
+                        active 
+                          ? 'text-red-600 drop-shadow-[0_0_8px_rgba(220,38,38,0.8)]' 
+                          : 'text-[#D4A437] hover:text-[#E5B84A] drop-shadow-[0_0_4px_rgba(212,164,55,0.4)] hover:drop-shadow-[0_0_10px_rgba(229,184,74,0.8)]',
                         prefersReduced && active
                           ? 'underline decoration-red-600 decoration-2 underline-offset-4'
                           : '',
@@ -512,7 +514,7 @@ const Navbar = () => {
           <Link to="/timeline" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/timeline') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Timeline</Link>
           <Link to="/directors" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/director') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Directors</Link>
           <Link to="/battles" className={`snap-start transition-colors text-xs font-sans whitespace-nowrap ${location.pathname.startsWith('/battles') ? 'text-primary' : 'text-gray-400 hover:text-white'}`}>Battles</Link>
-          <Link to="/top100" className={`snap-start pr-4 flex items-center gap-1 hover:text-yellow-400 font-bebas tracking-wider text-xs whitespace-nowrap ${location.pathname.startsWith('/top100') ? 'text-primary' : 'text-yellow-500 hover:text-yellow-400'}`}><Trophy className="w-3 h-3" /> TOP 100</Link>
+          <Link to="/top100" className={`snap-start pr-4 flex items-center gap-1 font-bebas tracking-wider text-xs whitespace-nowrap transition-all duration-300 ${location.pathname.startsWith('/top100') ? 'text-primary drop-shadow-[0_0_8px_rgba(220,38,38,0.8)]' : 'text-yellow-500 hover:text-yellow-400 drop-shadow-[0_0_4px_rgba(234,179,8,0.4)] hover:drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]'}`}><Trophy className="w-3 h-3" /> TOP 100</Link>
         </div>
       </nav>
 

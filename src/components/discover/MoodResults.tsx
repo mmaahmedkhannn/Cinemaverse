@@ -34,7 +34,7 @@ const MoodResults = ({ results, onRestart }: MoodResultsProps) => {
             transition={{ duration: 0.8 }}
             onAnimationComplete={() => {
               // The component mounts, fades in, and after a short delay, fades out.
-              setTimeout(() => setShowIntro(false), 2200);
+              setTimeout(() => setShowIntro(false), 1200);
             }}
           >
             <div className="text-center relative z-10 flex flex-col items-center">

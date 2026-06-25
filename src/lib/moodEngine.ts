@@ -79,6 +79,10 @@ export function buildMoodQuery(answers: QuizAnswers): Record<string, string | nu
     }
   }
 
+  // ── Performance defaults ──
+  params.language = 'en-US';
+  params.include_adult = 'false';
+
   return params;
 }
 
