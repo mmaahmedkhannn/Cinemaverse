@@ -182,7 +182,7 @@ function buildMatchReason(answers: QuizAnswers): string {
  */
 export async function getMoodResults(answers: QuizAnswers, page = 1): Promise<MoodResult[]> {
   const MAX_TMDB_CALLS = 6;
-  const MIN_FILL = 12;
+  const MIN_FILL = 20;
 
   let tmdbCalls = 0;
   const params = buildMoodQuery(answers);
@@ -262,7 +262,9 @@ async function fetchCycledResults(
   } else {
     const cycledResponse = await tmdbApi.discoverMovies({ ...activeParams, page: cyclePage });
     tmdbCalls++;
-    allResults = (cycledResponse.results as TMDBMovie[] | undefined) || [];
+    const cycledResults: TMDBMovie[] = (cycledResponse.results as TMDBMovie[] | undefined) || [];
+    // Merge probe page 1 results upfront so we never waste them
+    allResults = [...cycledResults, ...probePage1Results];
   }
 
   // ── 3. Fill to ≥ minFill unique films ───────────────────────────────────
@@ -270,6 +272,7 @@ async function fetchCycledResults(
   //    minFill unique films OR we've looped through all available pages.
   const pagesVisited = new Set<number>();
   pagesVisited.add(cyclePage);
+  pagesVisited.add(1); // page 1 is always consumed (probe or merged above)
 
   let nextRawPage = cyclePage;
   while (deduplicateFilms(allResults).length < minFill && tmdbCalls < maxCalls) {
