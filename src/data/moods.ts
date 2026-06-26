@@ -28,7 +28,7 @@ export const MOODS: MoodDefinition[] = [
     emoji: '😱',
     description: 'Horror, thrillers, things that go bump',
     tmdbParams: {
-      with_genres: '27,53',
+      with_genres: '27|53',
       'vote_average.gte': 6.5,
       'vote_count.gte': 500,
       sort_by: 'popularity.desc',
@@ -93,7 +93,7 @@ export const MOODS: MoodDefinition[] = [
     emoji: '🧠',
     description: 'Psychological puzzles and sci-fi twists',
     tmdbParams: {
-      with_genres: '878,53',
+      with_genres: '878|53',
       with_keywords: '362567,326438',
       'vote_average.gte': 7.0,
       'vote_count.gte': 1000,
@@ -106,7 +106,7 @@ export const MOODS: MoodDefinition[] = [
     emoji: '☕',
     description: 'Easy, low-attention viewing',
     tmdbParams: {
-      with_genres: '35,10749,16',
+      with_genres: '35|10749|16',
       'vote_average.gte': 6.5,
       'runtime.lte': 110,
       sort_by: 'popularity.desc',
@@ -118,7 +118,7 @@ export const MOODS: MoodDefinition[] = [
     emoji: '💕',
     description: 'Perfect couple-friendly picks',
     tmdbParams: {
-      with_genres: '10749,35,18',
+      with_genres: '10749|35|18',
       without_genres: '27,80',
       'vote_average.gte': 7.0,
       sort_by: 'popularity.desc',
@@ -143,7 +143,7 @@ export const MOODS: MoodDefinition[] = [
     emoji: '🫂',
     description: 'Feel-good rewatches',
     tmdbParams: {
-      with_genres: '10751,35,16',
+      with_genres: '10751|35|16',
       without_genres: '27,53,80',
       'vote_average.gte': 7.0,
       sort_by: 'popularity.desc',
@@ -155,7 +155,7 @@ export const MOODS: MoodDefinition[] = [
     emoji: '🌌',
     description: 'Fantasy and otherworldly adventures',
     tmdbParams: {
-      with_genres: '14,12,878',
+      with_genres: '14|12|878',
       'vote_average.gte': 7.0,
       sort_by: 'popularity.desc',
     },
@@ -166,7 +166,7 @@ export const MOODS: MoodDefinition[] = [
     emoji: '⚡',
     description: 'Action-packed, edge-of-seat thrillers',
     tmdbParams: {
-      with_genres: '28,53',
+      with_genres: '28|53',
       'vote_average.gte': 7.0,
       sort_by: 'popularity.desc',
     },
