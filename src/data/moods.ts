@@ -6,10 +6,11 @@
  * combined with audience, time, and era filters by moodEngine.ts.
  *
  * Keyword IDs reference:
- *  5565 = sadness, 9663 = loss, 6149 = love, 209714 = tragedy
- *  161091 = heartbreak, 9714 = breakup
- *  5557 = biography, 9882 = based on true story, 2243 = sports, 818 = based on novel
- *  9748 = twist ending, 10683 = mind-bending
+ *  1647=sadness, 6203=loss, 34265=heartbreak
+ *  5565=biography, 9672=based on true story, 333328=sport, 818=based on novel or book
+ *  362567=mind-bending, 326438=twist ending
+ *  340731=overcoming obstacles
+ *  99=Documentary genre
  */
 
 export interface MoodDefinition {
@@ -52,8 +53,9 @@ export const MOODS: MoodDefinition[] = [
     description: 'Emotional dramas that hit deep',
     tmdbParams: {
       with_genres: '18',
-      with_keywords: '5565,9663,6149,209714',
+      with_keywords: '1647,6203,34265',
       'vote_average.gte': 7.0,
+      'vote_count.gte': 500,
       sort_by: 'vote_average.desc',
     },
   },
@@ -64,9 +66,10 @@ export const MOODS: MoodDefinition[] = [
     description: 'Heartbreak films that help you process',
     tmdbParams: {
       with_genres: '18,10749',
-      with_keywords: '6149,161091,9714',
+      with_keywords: '34265,1647,6203',
       without_genres: '27',
       'vote_average.gte': 7.0,
+      'vote_count.gte': 500,
       sort_by: 'vote_average.desc',
     },
   },
@@ -77,8 +80,10 @@ export const MOODS: MoodDefinition[] = [
     description: 'Biopics and motivational stories',
     tmdbParams: {
       with_genres: '18',
-      with_keywords: '5557,9882,2243,818',
+      with_keywords: '5565,9672,333328',
+      without_genres: '10749',
       'vote_average.gte': 7.2,
+      'vote_count.gte': 1000,
       sort_by: 'vote_average.desc',
     },
   },
@@ -89,8 +94,9 @@ export const MOODS: MoodDefinition[] = [
     description: 'Psychological puzzles and sci-fi twists',
     tmdbParams: {
       with_genres: '878,53',
-      with_keywords: '9748,10683,9882',
+      with_keywords: '362567,326438',
       'vote_average.gte': 7.0,
+      'vote_count.gte': 1000,
       sort_by: 'popularity.desc',
     },
   },
@@ -101,7 +107,7 @@ export const MOODS: MoodDefinition[] = [
     description: 'Easy, low-attention viewing',
     tmdbParams: {
       with_genres: '35,10749,16',
-      'vote_average.gte': 6.0,
+      'vote_average.gte': 6.5,
       'runtime.lte': 110,
       sort_by: 'popularity.desc',
     },
@@ -124,6 +130,7 @@ export const MOODS: MoodDefinition[] = [
     emoji: '🎲',
     description: 'Eclectic hidden gems',
     tmdbParams: {
+      without_genres: '99',
       'vote_average.gte': 7.5,
       'vote_count.gte': 1000,
       'vote_count.lte': 50000,
@@ -171,7 +178,7 @@ export const MOODS: MoodDefinition[] = [
     description: 'Films that change how you see the world',
     tmdbParams: {
       with_genres: '18',
-      with_keywords: '9882,818',
+      with_keywords: '818,340731',
       'vote_average.gte': 7.8,
       'vote_count.gte': 500,
       sort_by: 'vote_average.desc',
@@ -183,6 +190,7 @@ export const MOODS: MoodDefinition[] = [
     emoji: '📼',
     description: 'Films that take you back',
     tmdbParams: {
+      without_genres: '99',
       'primary_release_date.gte': '1980-01-01',
       'primary_release_date.lte': '2005-12-31',
       'vote_average.gte': 7.5,
@@ -196,6 +204,7 @@ export const MOODS: MoodDefinition[] = [
     emoji: '💎',
     description: 'Underrated brilliance',
     tmdbParams: {
+      without_genres: '99',
       'vote_average.gte': 7.5,
       'vote_count.gte': 500,
       'vote_count.lte': 5000,

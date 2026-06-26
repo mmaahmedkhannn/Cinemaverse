@@ -1,6 +1,6 @@
 # CinemaDiscovery — Development Notes
 
-> **Last Updated:** April 3, 2026
+> **Last Updated:** June 26, 2026
 > **Owner:** Ahmed Khan
 > **Live URL:** [cinemadiscovery.com](https://cinemadiscovery.com)
 > **Repo:** [github.com/mmaahmedkhannn/Cinemaverse](https://github.com/mmaahmedkhannn/Cinemaverse)
@@ -129,6 +129,9 @@ src/
 ---
 
 ## 🔧 Recent Changes Log
+
+### June 26, 2026
+- **Moods Keyword IDs Fix** — Performed a comprehensive audit of TMDB `with_keywords` parameters across all 15 moods in the Mood Discovery Engine (`src/data/moods.ts`). Corrected mismatched/broken keyword IDs for `cry` (1647, 6203, 34265), `breakup` (34265, 1647, 6203), `inspired` (5565, 9672, 333328), `mindbender` (362567, 326438), and `deep` (818, 340731). Added `without_genres: '99'` to `surprise`, `nostalgia`, and `hidden-gem` to filter out documentaries. Tweaked `background` rating to `6.5`.
 
 ### June 25, 2026
 - **Expand Mood Results** — Increased the number of returned recommendations in the Mood Discovery Engine from 10 to 20 films. Updated `getMoodResults` in `src/lib/moodEngine.ts` to query page 2 if results are under 20 and slice the unique results to 20. Updated the UI copy in `src/components/discover/MoodResults.tsx` to display "20 films handpicked for your mood."
