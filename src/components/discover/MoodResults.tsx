@@ -14,9 +14,11 @@ import type { MoodResult } from '../../lib/moodEngine';
 interface MoodResultsProps {
   results: MoodResult[];
   onRestart: () => void;
+  onFreshPicks: () => void;
+  isFetching: boolean;
 }
 
-const MoodResults = ({ results, onRestart }: MoodResultsProps) => {
+const MoodResults = ({ results, onRestart, onFreshPicks, isFetching }: MoodResultsProps) => {
   const [showIntro, setShowIntro] = useState(true);
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
@@ -254,19 +256,45 @@ const MoodResults = ({ results, onRestart }: MoodResultsProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.5 }}
         >
+          {/* Primary: Want Different Picks? */}
+          <button
+            onClick={onFreshPicks}
+            disabled={isFetching}
+            className="group flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-bebas text-lg tracking-wider transition-all duration-300 cursor-pointer hover:scale-105 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A437]"
+            style={{
+              background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.6) 0%, rgba(127, 29, 29, 0.5) 100%)',
+              border: '1px solid rgba(212, 164, 55, 0.35)',
+              color: '#F5F5F5',
+              boxShadow: '0 4px 20px rgba(185, 28, 28, 0.25)',
+            }}
+            id="fresh-picks"
+          >
+            {isFetching ? (
+              <motion.span
+                className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white inline-block"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+              />
+            ) : (
+              <Sparkles className="w-4 h-4" />
+            )}
+            {isFetching ? 'Loading...' : 'Want Different Picks?'}
+          </button>
+
+          {/* Secondary: Start Over */}
           <button
             onClick={onRestart}
-            className="group flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-bebas text-lg tracking-wider transition-all duration-300 cursor-pointer hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A437]"
+            disabled={isFetching}
+            className="group flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-bebas text-lg tracking-wider transition-all duration-300 cursor-pointer hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A437]"
             style={{
-              background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.5) 0%, rgba(127, 29, 29, 0.4) 100%)',
-              border: '1px solid rgba(212, 164, 55, 0.25)',
-              color: '#F5F5F5',
-              boxShadow: '0 4px 20px rgba(185, 28, 28, 0.2)',
+              background: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid rgba(212, 164, 55, 0.2)',
+              color: 'rgba(245, 245, 245, 0.55)',
             }}
             id="restart-quiz"
           >
             <RotateCcw className="w-4 h-4 transition-transform duration-300 group-hover:-rotate-180" />
-            Want different picks?
+            Start Over
           </button>
 
           <Link

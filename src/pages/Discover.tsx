@@ -65,13 +65,14 @@ const Discover = () => {
   const [time, setTime] = useState<TimeType | null>(null);
   const [era, setEra] = useState<EraType | null>(null);
   const [quizComplete, setQuizComplete] = useState(false);
+  const [page, setPage] = useState(1);
 
   const quizAnswers: QuizAnswers | null =
     moodId && audience && time && era
       ? { moodId, audience, time, era }
       : null;
 
-  const { data: results, isFetching, isError, refetch } = useMoodDiscovery(quizAnswers);
+  const { data: results, isFetching, isError, refetch } = useMoodDiscovery(quizAnswers, page);
 
   /* ── GA4 ────────────────────────────────────────────────────────────── */
   useEffect(() => {
@@ -148,6 +149,12 @@ const Discover = () => {
     }
   }, [quizComplete, quizAnswers]);
 
+  /* ── Fresh picks (same quiz answers, next TMDB page) ───────────────── */
+  const handleFreshPicks = useCallback(() => {
+    setPage((p) => p + 1);
+    trackEvent('mood_fresh_picks_requested');
+  }, []);
+
   /* ── Restart ────────────────────────────────────────────────────────── */
   const handleRestart = useCallback(() => {
     setCurrentStep(0);
@@ -157,6 +164,7 @@ const Discover = () => {
     setEra(null);
     setQuizComplete(false);
     setShowIntro(false);
+    setPage(1);
     trackEvent('mood_quiz_started');
   }, []);
 
@@ -518,7 +526,12 @@ const Discover = () => {
       )}
 
       {showResults && (
-        <MoodResults results={results} onRestart={handleRestart} />
+        <MoodResults
+          results={results}
+          onRestart={handleRestart}
+          onFreshPicks={handleFreshPicks}
+          isFetching={isFetching}
+        />
       )}
     </>
   );

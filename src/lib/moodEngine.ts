@@ -170,27 +170,34 @@ function buildMatchReason(answers: QuizAnswers): string {
 
 /**
  * Main entry point: fetches mood-based recommendations from TMDB.
+ * Accepts an optional page number to enable fresh picks on the same quiz answers.
  * Applies fallback (removes keywords) if initial results are too few.
  */
-export async function getMoodResults(answers: QuizAnswers): Promise<MoodResult[]> {
+export async function getMoodResults(answers: QuizAnswers, page = 1): Promise<MoodResult[]> {
   const params = buildMoodQuery(answers);
+  const safePage = Math.min(Math.max(1, Math.floor(page)), 500);
 
-  // First attempt with full params (including keywords)
-  let response = await tmdbApi.discoverMovies({ ...params, page: 1 });
+  let response = await tmdbApi.discoverMovies({ ...params, page: safePage });
   let results: TMDBMovie[] = response.results || [];
 
-  // Fallback: if keywords produced < 5 results, retry without them
-  if (results.length < 5 && params.with_keywords) {
-    const fallbackParams = { ...params };
-    delete fallbackParams.with_keywords;
-    response = await tmdbApi.discoverMovies({ ...fallbackParams, page: 1 });
+  // Wrap-around: a deep page returned nothing → restart at page 1
+  if (results.length === 0 && safePage > 1) {
+    response = await tmdbApi.discoverMovies({ ...params, page: 1 });
     results = response.results || [];
   }
 
-  // If still low, fetch page 2 and merge
-  if (results.length < 20 && response.total_pages > 1) {
-    const page2 = await tmdbApi.discoverMovies({ ...params, page: 2 });
-    results = [...results, ...(page2.results || [])];
+  // Fallback: keywords too strict
+  if (results.length < 5 && params.with_keywords) {
+    const fallbackParams = { ...params };
+    delete fallbackParams.with_keywords;
+    response = await tmdbApi.discoverMovies({ ...fallbackParams, page: safePage });
+    results = response.results || [];
+  }
+
+  // Fill toward 20 from the next page if short
+  if (results.length < 20 && response.total_pages > safePage) {
+    const next = await tmdbApi.discoverMovies({ ...params, page: safePage + 1 });
+    results = [...results, ...(next.results || [])];
   }
 
   // Deduplicate by ID
