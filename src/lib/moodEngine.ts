@@ -172,43 +172,128 @@ function buildMatchReason(answers: QuizAnswers): string {
  * Main entry point: fetches mood-based recommendations from TMDB.
  * Accepts an optional page number to enable fresh picks on the same quiz answers.
  * Applies fallback (removes keywords) if initial results are too few.
+ *
+ * Pagination strategy:
+ *   1. Probe page 1 to learn total_pages → compute a safe ceiling (max 5).
+ *   2. Modulo-cycle the requested page into [1..ceiling] so deep pages never
+ *      land on an empty TMDB page.
+ *   3. Fill to ≥ 12 unique films by merging successive cycled pages.
+ *   4. Cap total TMDB calls at 6 per invocation to stay within the 8 s timeout.
  */
 export async function getMoodResults(answers: QuizAnswers, page = 1): Promise<MoodResult[]> {
+  const MAX_TMDB_CALLS = 6;
+  const MIN_FILL = 12;
+
+  let tmdbCalls = 0;
   const params = buildMoodQuery(answers);
-  const safePage = Math.min(Math.max(1, Math.floor(page)), 500);
+  let activeParams = { ...params };
 
-  let response = await tmdbApi.discoverMovies({ ...params, page: safePage });
-  let results: TMDBMovie[] = response.results || [];
+  // ── 1. Probe page 1 to learn the mood's real depth ──────────────────────
+  const probeResponse = await tmdbApi.discoverMovies({ ...activeParams, page: 1 });
+  tmdbCalls++;
+  const probeResults: TMDBMovie[] = (probeResponse.results as TMDBMovie[] | undefined) || [];
+  const probeTotalPages: number = typeof probeResponse.total_pages === 'number'
+    ? probeResponse.total_pages
+    : 1;
 
-  // Wrap-around: a deep page returned nothing → restart at page 1
-  if (results.length === 0 && safePage > 1) {
-    response = await tmdbApi.discoverMovies({ ...params, page: 1 });
-    results = response.results || [];
-  }
-
-  // Fallback: keywords too strict
-  if (results.length < 5 && params.with_keywords) {
-    const fallbackParams = { ...params };
+  // ── Keyword fallback: if keywords are too strict, retry without them ────
+  if (probeResults.length < 5 && activeParams.with_keywords) {
+    const fallbackParams = { ...activeParams };
     delete fallbackParams.with_keywords;
-    response = await tmdbApi.discoverMovies({ ...fallbackParams, page: safePage });
-    results = response.results || [];
+    activeParams = fallbackParams;
+
+    const fallbackProbe = await tmdbApi.discoverMovies({ ...activeParams, page: 1 });
+    tmdbCalls++;
+    const fallbackTotalPages: number = typeof fallbackProbe.total_pages === 'number'
+      ? fallbackProbe.total_pages
+      : 1;
+
+    // Use fallback depth going forward
+    return fetchCycledResults(
+      activeParams,
+      page,
+      Math.min(fallbackTotalPages, 5),
+      (fallbackProbe.results as TMDBMovie[] | undefined) || [],
+      tmdbCalls,
+      MAX_TMDB_CALLS,
+      MIN_FILL,
+      answers,
+    );
   }
 
-  // Fill toward 20 from the next page if short
-  if (results.length < 20 && response.total_pages > safePage) {
-    const next = await tmdbApi.discoverMovies({ ...params, page: safePage + 1 });
-    results = [...results, ...(next.results || [])];
+  return fetchCycledResults(
+    activeParams,
+    page,
+    Math.min(probeTotalPages, 5),
+    probeResults,
+    tmdbCalls,
+    MAX_TMDB_CALLS,
+    MIN_FILL,
+    answers,
+  );
+}
+
+/**
+ * Internal helper that handles modulo-cycling, fill-to-minimum, dedup, and scoring.
+ * Separated to keep the keyword-fallback branch DRY without duplicating logic.
+ */
+async function fetchCycledResults(
+  activeParams: Record<string, string | number | undefined>,
+  requestedPage: number,
+  totalAvailablePages: number,
+  probePage1Results: TMDBMovie[],
+  initialCalls: number,
+  maxCalls: number,
+  minFill: number,
+  answers: QuizAnswers,
+): Promise<MoodResult[]> {
+  let tmdbCalls = initialCalls;
+
+  // ── 2. Compute safe ceiling & cycle the requested page ──────────────────
+  const safeCeiling = Math.max(1, totalAvailablePages);
+  const cyclePage = ((Math.max(1, Math.floor(requestedPage)) - 1) % safeCeiling) + 1;
+
+  // Collect all raw results across fetched pages
+  let allResults: TMDBMovie[] = [];
+
+  // If the cycled page is 1, reuse the probe we already did
+  if (cyclePage === 1) {
+    allResults = [...probePage1Results];
+  } else {
+    const cycledResponse = await tmdbApi.discoverMovies({ ...activeParams, page: cyclePage });
+    tmdbCalls++;
+    allResults = (cycledResponse.results as TMDBMovie[] | undefined) || [];
   }
 
-  // Deduplicate by ID
-  const seen = new Set<number>();
-  const unique = results.filter((film) => {
-    if (seen.has(film.id)) return false;
-    seen.add(film.id);
-    return true;
-  });
+  // ── 3. Fill to ≥ minFill unique films ───────────────────────────────────
+  //    Walk successive pages (cycling), merge results. Stop when we hit
+  //    minFill unique films OR we've looped through all available pages.
+  const pagesVisited = new Set<number>();
+  pagesVisited.add(cyclePage);
 
-  // Take top 20, calculate match scores
+  let nextRawPage = cyclePage;
+  while (deduplicateFilms(allResults).length < minFill && tmdbCalls < maxCalls) {
+    nextRawPage = (nextRawPage % safeCeiling) + 1; // next page, cycling
+
+    // If we've visited every available page, stop — there's nothing left
+    if (pagesVisited.has(nextRawPage)) break;
+    pagesVisited.add(nextRawPage);
+
+    // Reuse probe results for page 1 if we haven't already
+    if (nextRawPage === 1) {
+      allResults = [...allResults, ...probePage1Results];
+    } else {
+      const fillResponse = await tmdbApi.discoverMovies({ ...activeParams, page: nextRawPage });
+      tmdbCalls++;
+      const fillResults: TMDBMovie[] = (fillResponse.results as TMDBMovie[] | undefined) || [];
+      allResults = [...allResults, ...fillResults];
+    }
+  }
+
+  // ── 4. Deduplicate by ID ────────────────────────────────────────────────
+  const unique = deduplicateFilms(allResults);
+
+  // ── 5. Take top 20, calculate match scores ──────────────────────────────
   const reason = buildMatchReason(answers);
 
   return unique.slice(0, 20).map((film) => ({
@@ -221,4 +306,14 @@ export async function getMoodResults(answers: QuizAnswers, page = 1): Promise<Mo
     ),
     matchReason: reason,
   }));
+}
+
+/** Deduplicate an array of TMDB films by their id, preserving first-seen order. */
+function deduplicateFilms(films: TMDBMovie[]): TMDBMovie[] {
+  const seen = new Set<number>();
+  return films.filter((film) => {
+    if (seen.has(film.id)) return false;
+    seen.add(film.id);
+    return true;
+  });
 }
