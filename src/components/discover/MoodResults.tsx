@@ -103,6 +103,14 @@ const MoodResults = ({ results, onRestart, onFreshPicks, isFetching }: MoodResul
           <p className="text-sm md:text-base max-w-lg mx-auto font-sans" style={{ color: 'rgba(245, 245, 245, 0.5)' }}>
             {results.length} films handpicked for your mood. Click any to explore.
           </p>
+          {results[0]?.relaxed && (
+            <p
+              className="text-xs md:text-sm max-w-md mx-auto font-sans mt-2 italic"
+              style={{ color: 'rgba(212, 164, 55, 0.45)' }}
+            >
+              We widened your search to show more picks.
+            </p>
+          )}
         </motion.div>
 
         {/* Results Grid */}

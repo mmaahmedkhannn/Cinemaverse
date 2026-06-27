@@ -30,6 +30,7 @@ export interface MoodResult extends TMDBMovie {
   tagline?: string;
   vote_count: number;
   popularity: number;
+  relaxed?: boolean;
 }
 
 const ERA_MAP: Record<string, { gte?: string; lte?: string }> = {
@@ -167,7 +168,6 @@ function buildMatchReason(answers: QuizAnswers): string {
 
   return parts.join(' · ');
 }
-
 /**
  * Main entry point: fetches mood-based recommendations from TMDB.
  * Accepts an optional page number to enable fresh picks on the same quiz answers.
@@ -177,22 +177,24 @@ function buildMatchReason(answers: QuizAnswers): string {
  *   1. Probe page 1 to learn total_pages → compute a safe ceiling (max 5).
  *   2. Modulo-cycle the requested page into [1..ceiling] so deep pages never
  *      land on an empty TMDB page.
- *   3. Fill to ≥ 12 unique films by merging successive cycled pages.
- *   4. Cap total TMDB calls at 6 per invocation to stay within the 8 s timeout.
+ *   3. Fill to ≥ 20 unique films by merging successive cycled pages.
+ *   4. If still under 20, auto-relax: remove runtime → remove era → re-fetch.
+ *   5. Cap total TMDB calls at 6 per invocation to stay within the 8 s timeout.
  */
 export async function getMoodResults(answers: QuizAnswers, page = 1): Promise<MoodResult[]> {
   const MAX_TMDB_CALLS = 6;
-  const MIN_FILL = 20;
+  const TARGET_FILL = 20;
 
   let tmdbCalls = 0;
+  let relaxed = false;
   const params = buildMoodQuery(answers);
-  let activeParams = { ...params };
+  let activeParams: Record<string, string | number | undefined> = { ...params };
 
   // ── 1. Probe page 1 to learn the mood's real depth ──────────────────────
   const probeResponse = await tmdbApi.discoverMovies({ ...activeParams, page: 1 });
   tmdbCalls++;
-  const probeResults: TMDBMovie[] = (probeResponse.results as TMDBMovie[] | undefined) || [];
-  const probeTotalPages: number = typeof probeResponse.total_pages === 'number'
+  let probeResults: TMDBMovie[] = (probeResponse.results as TMDBMovie[] | undefined) || [];
+  let probeTotalPages: number = typeof probeResponse.total_pages === 'number'
     ? probeResponse.total_pages
     : 1;
 
@@ -204,99 +206,60 @@ export async function getMoodResults(answers: QuizAnswers, page = 1): Promise<Mo
 
     const fallbackProbe = await tmdbApi.discoverMovies({ ...activeParams, page: 1 });
     tmdbCalls++;
-    const fallbackTotalPages: number = typeof fallbackProbe.total_pages === 'number'
+    probeResults = (fallbackProbe.results as TMDBMovie[] | undefined) || [];
+    probeTotalPages = typeof fallbackProbe.total_pages === 'number'
       ? fallbackProbe.total_pages
       : 1;
-
-    // Use fallback depth going forward
-    return fetchCycledResults(
-      activeParams,
-      page,
-      Math.min(fallbackTotalPages, 5),
-      (fallbackProbe.results as TMDBMovie[] | undefined) || [],
-      tmdbCalls,
-      MAX_TMDB_CALLS,
-      MIN_FILL,
-      answers,
-    );
   }
 
-  return fetchCycledResults(
-    activeParams,
-    page,
-    Math.min(probeTotalPages, 5),
-    probeResults,
-    tmdbCalls,
-    MAX_TMDB_CALLS,
-    MIN_FILL,
-    answers,
+  // ── 2. Cycled fetch with current params ─────────────────────────────────
+  let { films: collected, calls: usedCalls } = await fetchCycledFilms(
+    activeParams, page, Math.min(probeTotalPages, 5), probeResults, tmdbCalls, MAX_TMDB_CALLS,
   );
-}
+  tmdbCalls = usedCalls;
 
-/**
- * Internal helper that handles modulo-cycling, fill-to-minimum, dedup, and scoring.
- * Separated to keep the keyword-fallback branch DRY without duplicating logic.
- */
-async function fetchCycledResults(
-  activeParams: Record<string, string | number | undefined>,
-  requestedPage: number,
-  totalAvailablePages: number,
-  probePage1Results: TMDBMovie[],
-  initialCalls: number,
-  maxCalls: number,
-  minFill: number,
-  answers: QuizAnswers,
-): Promise<MoodResult[]> {
-  let tmdbCalls = initialCalls;
+  // ── 3. Auto-relax if under target ───────────────────────────────────────
+  //    Step A: remove runtime filter
+  //    Step B: remove era filter
+  //    Genres, keywords, vote floors, audience, without_genres stay LOCKED.
+  const relaxSteps: Array<(p: Record<string, string | number | undefined>) => void> = [
+    (p) => { delete p['with_runtime.lte']; delete p['with_runtime.gte']; },
+    (p) => { delete p['primary_release_date.gte']; delete p['primary_release_date.lte']; },
+  ];
 
-  // ── 2. Compute safe ceiling & cycle the requested page ──────────────────
-  const safeCeiling = Math.max(1, totalAvailablePages);
-  const cyclePage = ((Math.max(1, Math.floor(requestedPage)) - 1) % safeCeiling) + 1;
+  for (const applyRelax of relaxSteps) {
+    if (deduplicateFilms(collected).length >= TARGET_FILL || tmdbCalls >= MAX_TMDB_CALLS) break;
 
-  // Collect all raw results across fetched pages
-  let allResults: TMDBMovie[] = [];
+    // Check if this relax step would actually change anything
+    const relaxedParams: Record<string, string | number | undefined> = { ...activeParams };
+    applyRelax(relaxedParams);
 
-  // If the cycled page is 1, reuse the probe we already did
-  if (cyclePage === 1) {
-    allResults = [...probePage1Results];
-  } else {
-    const cycledResponse = await tmdbApi.discoverMovies({ ...activeParams, page: cyclePage });
+    // Skip if params didn't change (filter wasn't present)
+    if (paramsEqual(activeParams, relaxedParams)) continue;
+
+    activeParams = relaxedParams;
+    relaxed = true;
+
+    // Re-probe with relaxed params
+    const relaxProbe = await tmdbApi.discoverMovies({ ...activeParams, page: 1 });
     tmdbCalls++;
-    const cycledResults: TMDBMovie[] = (cycledResponse.results as TMDBMovie[] | undefined) || [];
-    // Merge probe page 1 results upfront so we never waste them
-    allResults = [...cycledResults, ...probePage1Results];
-  }
+    const relaxResults: TMDBMovie[] = (relaxProbe.results as TMDBMovie[] | undefined) || [];
+    const relaxTotalPages: number = typeof relaxProbe.total_pages === 'number'
+      ? relaxProbe.total_pages
+      : 1;
 
-  // ── 3. Fill to ≥ minFill unique films ───────────────────────────────────
-  //    Walk successive pages (cycling), merge results. Stop when we hit
-  //    minFill unique films OR we've looped through all available pages.
-  const pagesVisited = new Set<number>();
-  pagesVisited.add(cyclePage);
-  pagesVisited.add(1); // page 1 is always consumed (probe or merged above)
-
-  let nextRawPage = cyclePage;
-  while (deduplicateFilms(allResults).length < minFill && tmdbCalls < maxCalls) {
-    nextRawPage = (nextRawPage % safeCeiling) + 1; // next page, cycling
-
-    // If we've visited every available page, stop — there's nothing left
-    if (pagesVisited.has(nextRawPage)) break;
-    pagesVisited.add(nextRawPage);
-
-    // Reuse probe results for page 1 if we haven't already
-    if (nextRawPage === 1) {
-      allResults = [...allResults, ...probePage1Results];
-    } else {
-      const fillResponse = await tmdbApi.discoverMovies({ ...activeParams, page: nextRawPage });
-      tmdbCalls++;
-      const fillResults: TMDBMovie[] = (fillResponse.results as TMDBMovie[] | undefined) || [];
-      allResults = [...allResults, ...fillResults];
-    }
+    // Merge new results into existing pool
+    const { films: relaxFilms, calls: relaxCalls } = await fetchCycledFilms(
+      activeParams, page, Math.min(relaxTotalPages, 5), relaxResults, tmdbCalls, MAX_TMDB_CALLS,
+    );
+    tmdbCalls = relaxCalls;
+    collected = [...collected, ...relaxFilms];
   }
 
   // ── 4. Deduplicate by ID ────────────────────────────────────────────────
-  const unique = deduplicateFilms(allResults);
+  const unique = deduplicateFilms(collected);
 
-  // ── 5. Take top 20, calculate match scores ──────────────────────────────
+  // ── 5. Take top 20, calculate match scores, tag relaxed ─────────────────
   const reason = buildMatchReason(answers);
 
   return unique.slice(0, 20).map((film) => ({
@@ -308,7 +271,63 @@ async function fetchCycledResults(
       answers,
     ),
     matchReason: reason,
+    relaxed,
   }));
+}
+
+/**
+ * Fetches films using the modulo-cycling strategy, merging pages until
+ * the target is met or all available pages are exhausted.
+ * Returns the raw (non-deduped) film array and the updated call count.
+ */
+async function fetchCycledFilms(
+  activeParams: Record<string, string | number | undefined>,
+  requestedPage: number,
+  totalAvailablePages: number,
+  probePage1Results: TMDBMovie[],
+  initialCalls: number,
+  maxCalls: number,
+): Promise<{ films: TMDBMovie[]; calls: number }> {
+  let tmdbCalls = initialCalls;
+  const TARGET = 20;
+
+  const safeCeiling = Math.max(1, totalAvailablePages);
+  const cyclePage = ((Math.max(1, Math.floor(requestedPage)) - 1) % safeCeiling) + 1;
+
+  let allResults: TMDBMovie[] = [];
+
+  if (cyclePage === 1) {
+    allResults = [...probePage1Results];
+  } else {
+    const cycledResponse = await tmdbApi.discoverMovies({ ...activeParams, page: cyclePage });
+    tmdbCalls++;
+    const cycledResults: TMDBMovie[] = (cycledResponse.results as TMDBMovie[] | undefined) || [];
+    allResults = [...cycledResults, ...probePage1Results];
+  }
+
+  // Fill from successive pages
+  const pagesVisited = new Set<number>();
+  pagesVisited.add(cyclePage);
+  pagesVisited.add(1);
+
+  let nextRawPage = cyclePage;
+  while (deduplicateFilms(allResults).length < TARGET && tmdbCalls < maxCalls) {
+    nextRawPage = (nextRawPage % safeCeiling) + 1;
+
+    if (pagesVisited.has(nextRawPage)) break;
+    pagesVisited.add(nextRawPage);
+
+    if (nextRawPage === 1) {
+      allResults = [...allResults, ...probePage1Results];
+    } else {
+      const fillResponse = await tmdbApi.discoverMovies({ ...activeParams, page: nextRawPage });
+      tmdbCalls++;
+      const fillResults: TMDBMovie[] = (fillResponse.results as TMDBMovie[] | undefined) || [];
+      allResults = [...allResults, ...fillResults];
+    }
+  }
+
+  return { films: allResults, calls: tmdbCalls };
 }
 
 /** Deduplicate an array of TMDB films by their id, preserving first-seen order. */
@@ -319,4 +338,15 @@ function deduplicateFilms(films: TMDBMovie[]): TMDBMovie[] {
     seen.add(film.id);
     return true;
   });
+}
+
+/** Shallow-compare two param records to detect if a relax step actually changed anything. */
+function paramsEqual(
+  a: Record<string, string | number | undefined>,
+  b: Record<string, string | number | undefined>,
+): boolean {
+  const keysA = Object.keys(a).filter((k) => a[k] !== undefined);
+  const keysB = Object.keys(b).filter((k) => b[k] !== undefined);
+  if (keysA.length !== keysB.length) return false;
+  return keysA.every((k) => a[k] === b[k]);
 }
