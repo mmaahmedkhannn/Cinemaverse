@@ -28,7 +28,7 @@ export const MOODS: MoodDefinition[] = [
     emoji: '😱',
     description: 'Horror, thrillers, things that go bump',
     tmdbParams: {
-      with_genres: '27|53',
+      with_genres: '27',
       'vote_average.gte': 6.5,
       'vote_count.gte': 500,
       sort_by: 'popularity.desc',
