@@ -2,7 +2,7 @@
  * moodEngine.ts
  *
  * Core logic for the Mood Discovery Engine. Combines quiz answers (mood,
- * audience, time, era) into TMDB Discover API parameters, fetches results,
+ * time, era) into TMDB Discover API parameters, fetches results,
  * and calculates a match percentage for each film.
  *
  * Fallback strategy: if keywords produce < 5 results, retries without
@@ -12,13 +12,11 @@ import { MOODS } from '../data/moods';
 import { tmdbApi } from '../services/tmdb';
 import type { TMDBMovie } from '../services/tmdb';
 
-export type AudienceType = 'solo' | 'couple' | 'group' | 'family';
 export type TimeType = 'short' | 'medium' | 'long' | 'any';
 export type EraType = 'latest' | '2010s' | '2000s' | 'classic' | 'any';
 
 export interface QuizAnswers {
   moodId: string;
-  audience: AudienceType;
   time: TimeType;
   era: EraType;
 }
@@ -41,24 +39,13 @@ const ERA_MAP: Record<string, { gte?: string; lte?: string }> = {
 };
 
 /**
- * Builds TMDB Discover API parameters from the 4 quiz answers.
+ * Builds TMDB Discover API parameters from the 3 quiz answers.
  */
 export function buildMoodQuery(answers: QuizAnswers): Record<string, string | number> {
   const mood = MOODS.find((m) => m.id === answers.moodId);
   if (!mood) throw new Error(`Unknown mood: ${answers.moodId}`);
 
   const params: Record<string, string | number> = { ...mood.tmdbParams };
-
-  // ── Audience filter ──
-  if (answers.audience === 'family') {
-    params.certification_country = 'US';
-    params['certification.lte'] = 'PG-13';
-    // Ensure horror is excluded for family viewing
-    const existing = params.without_genres ? String(params.without_genres) : '';
-    const genres = existing.split(',').filter(Boolean);
-    if (!genres.includes('27')) genres.push('27');
-    params.without_genres = genres.join(',');
-  }
 
   // ── Time filter ──
   if (answers.time === 'short') {
@@ -163,9 +150,6 @@ function buildMatchReason(answers: QuizAnswers): string {
   if (answers.era === 'latest') parts.push('Recent release');
   else if (answers.era !== 'any') parts.push(`${answers.era} era`);
 
-  if (answers.audience === 'family') parts.push('Family-friendly');
-  else if (answers.audience === 'couple') parts.push('Date night pick');
-
   return parts.join(' · ');
 }
 /**
@@ -221,7 +205,7 @@ export async function getMoodResults(answers: QuizAnswers, page = 1): Promise<Mo
   // ── 3. Auto-relax if under target ───────────────────────────────────────
   //    Step A: remove runtime filter
   //    Step B: remove era filter
-  //    Genres, keywords, vote floors, audience, without_genres stay LOCKED.
+  //    Genres, keywords, vote floors, without_genres stay LOCKED.
   const relaxSteps: Array<(p: Record<string, string | number | undefined>) => void> = [
     (p) => { delete p['with_runtime.lte']; delete p['with_runtime.gte']; },
     (p) => { delete p['primary_release_date.gte']; delete p['primary_release_date.lte']; },

@@ -14,13 +14,12 @@ import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import ProgressDots from '../components/discover/ProgressDots';
 import MoodStep from '../components/discover/MoodStep';
-import AudienceStep from '../components/discover/AudienceStep';
 import TimeStep from '../components/discover/TimeStep';
 import EraStep from '../components/discover/EraStep';
 import MoodResults from '../components/discover/MoodResults';
 import { useMoodDiscovery } from '../hooks/useMoodDiscovery';
 import { getImageUrl } from '../services/tmdb';
-import type { QuizAnswers, AudienceType, TimeType, EraType } from '../lib/moodEngine';
+import type { QuizAnswers, TimeType, EraType } from '../lib/moodEngine';
 
 /* ─── GA4 helper ──────────────────────────────────────────────────────── */
 function trackEvent(eventName: string, params?: Record<string, unknown>) {
@@ -51,8 +50,8 @@ const DISCOVER_SCHEMA = JSON.stringify({
   url: 'https://cinemadiscovery.com/discover',
 });
 
-type QuizStep = 'mood' | 'audience' | 'time' | 'era';
-const STEP_ORDER: QuizStep[] = ['mood', 'audience', 'time', 'era'];
+type QuizStep = 'mood' | 'time' | 'era';
+const STEP_ORDER: QuizStep[] = ['mood', 'time', 'era'];
 
 const Discover = () => {
   const prefersReduced = useReducedMotion();
@@ -61,15 +60,14 @@ const Discover = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [currentStep, setCurrentStep] = useState(0);
   const [moodId, setMoodId] = useState<string | null>(null);
-  const [audience, setAudience] = useState<AudienceType | null>(null);
   const [time, setTime] = useState<TimeType | null>(null);
   const [era, setEra] = useState<EraType | null>(null);
   const [quizComplete, setQuizComplete] = useState(false);
   const [page, setPage] = useState(1);
 
   const quizAnswers: QuizAnswers | null =
-    moodId && audience && time && era
-      ? { moodId, audience, time, era }
+    moodId && time && era
+      ? { moodId, time, era }
       : null;
 
   const { data: results, isFetching, isError, refetch } = useMoodDiscovery(quizAnswers, page);
@@ -113,7 +111,7 @@ const Discover = () => {
   /* ── Step advancement ───────────────────────────────────────────────── */
   const advanceStep = useCallback((stepName: string, answer: string) => {
     trackEvent('mood_quiz_step_completed', { step: currentStep + 1, step_name: stepName, answer });
-    if (currentStep < 3) {
+    if (currentStep < 2) {
       setCurrentStep((s) => s + 1);
     } else {
       setQuizComplete(true);
@@ -123,11 +121,6 @@ const Discover = () => {
   const handleMoodSelect = useCallback((id: string) => {
     setMoodId(id);
     setTimeout(() => advanceStep('mood', id), 400);
-  }, [advanceStep]);
-
-  const handleAudienceSelect = useCallback((val: AudienceType) => {
-    setAudience(val);
-    setTimeout(() => advanceStep('audience', val), 400);
   }, [advanceStep]);
 
   const handleTimeSelect = useCallback((val: TimeType) => {
@@ -144,8 +137,7 @@ const Discover = () => {
   useEffect(() => {
     if (quizComplete && quizAnswers) {
       trackEvent('mood_quiz_finished', { ...quizAnswers });
-      console.log('Quiz complete, triggering fetch', quizAnswers);
-      setCurrentStep(4);
+      setCurrentStep(3);
     }
   }, [quizComplete, quizAnswers]);
 
@@ -159,7 +151,6 @@ const Discover = () => {
   const handleRestart = useCallback(() => {
     setCurrentStep(0);
     setMoodId(null);
-    setAudience(null);
     setTime(null);
     setEra(null);
     setQuizComplete(false);
@@ -168,9 +159,9 @@ const Discover = () => {
     trackEvent('mood_quiz_started');
   }, []);
 
-  const showResults = currentStep === 4 && results && results.length > 0;
-  const showLoading = currentStep === 4 && (isFetching || (!results && !isError));
-  const showQuiz = currentStep < 4 && !showIntro;
+  const showResults = currentStep === 3 && results && results.length > 0;
+  const showLoading = currentStep === 3 && (isFetching || (!results && !isError));
+  const showQuiz = currentStep < 3 && !showIntro;
 
   return (
     <>
@@ -361,12 +352,9 @@ const Discover = () => {
                       <MoodStep onSelect={handleMoodSelect} selected={moodId} />
                     )}
                     {currentStep === 1 && (
-                      <AudienceStep onSelect={handleAudienceSelect} selected={audience} />
-                    )}
-                    {currentStep === 2 && (
                       <TimeStep onSelect={handleTimeSelect} selected={time} />
                     )}
-                    {currentStep === 3 && (
+                    {currentStep === 2 && (
                       <EraStep onSelect={handleEraSelect} selected={era} />
                     )}
                   </motion.div>
@@ -436,7 +424,7 @@ const Discover = () => {
           )}
 
           {/* ── ERROR STATE ───────────────────────────────────────────── */}
-          {isError && currentStep === 4 && (
+          {isError && currentStep === 3 && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 px-4 text-center">
               {/* Glow orb */}
               <div

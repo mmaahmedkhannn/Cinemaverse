@@ -1,7 +1,7 @@
 /**
  * ProgressDots.tsx
  *
- * Premium 4-dot progress indicator with gold/crimson states,
+ * Premium 3-dot progress indicator with gold/crimson states,
  * connecting lines, and pulse animation on active dot.
  */
 import { motion, useReducedMotion } from 'framer-motion';
@@ -11,7 +11,7 @@ interface ProgressDotsProps {
   totalSteps?: number;
 }
 
-const ProgressDots = ({ currentStep, totalSteps = 4 }: ProgressDotsProps) => {
+const ProgressDots = ({ currentStep, totalSteps = 3 }: ProgressDotsProps) => {
   const prefersReduced = useReducedMotion();
 
   return (
