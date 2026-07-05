@@ -101,14 +101,14 @@ const MoodResults = ({ results, onRestart, onFreshPicks, isFetching }: MoodResul
             Your Curated Picks
           </h2>
           <p className="text-sm md:text-base max-w-lg mx-auto font-sans" style={{ color: 'rgba(245, 245, 245, 0.5)' }}>
-            {results.length} films handpicked for your mood. Click any to explore.
+            {results.length} {results.length === 1 ? 'film' : 'films'} for your mood. Click any to explore.
           </p>
-          {results[0]?.relaxed && (
+          {results.length < 5 && (
             <p
               className="text-xs md:text-sm max-w-md mx-auto font-sans mt-2 italic"
               style={{ color: 'rgba(212, 164, 55, 0.45)' }}
             >
-              We widened your search to show more picks.
+              Only a few films match your picks — try changing the time or era for more.
             </p>
           )}
         </motion.div>
