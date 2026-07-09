@@ -3,7 +3,8 @@
  *
  * Flagship Mood Discovery Engine page. Full-screen takeover quiz with
  * Spotify-Wrapped-style transitions, cinematic backgrounds, and dramatic
- * visual effects. Queries TMDB and shows 10 curated film picks.
+ * visual effects. Queries TMDB and shows curated film picks that grow
+ * progressively via "Load More" (appends 20 films per click).
  *
  * The quiz runs at z-[60] — above the navbar — for a true immersive takeover.
  */
@@ -63,14 +64,14 @@ const Discover = () => {
   const [time, setTime] = useState<TimeType | null>(null);
   const [era, setEra] = useState<EraType | null>(null);
   const [quizComplete, setQuizComplete] = useState(false);
-  const [page, setPage] = useState(1);
 
   const quizAnswers: QuizAnswers | null =
     moodId && time && era
       ? { moodId, time, era }
       : null;
 
-  const { data: results, isFetching, isError, refetch } = useMoodDiscovery(quizAnswers, page);
+  const { films, isFetching, isError, hasMore, loadMore, reset, refetch } =
+    useMoodDiscovery(quizAnswers);
 
   /* ── GA4 ────────────────────────────────────────────────────────────── */
   useEffect(() => {
@@ -79,9 +80,9 @@ const Discover = () => {
 
   /* ── Preload first 6 poster images when results arrive ─────────────── */
   useEffect(() => {
-    if (!results) return;
+    if (!films || films.length === 0) return;
     const links: HTMLLinkElement[] = [];
-    results.slice(0, 6).forEach((film) => {
+    films.slice(0, 6).forEach((film) => {
       if (film.poster_path) {
         const link = document.createElement('link');
         link.rel = 'preload';
@@ -96,7 +97,9 @@ const Discover = () => {
         if (document.head.contains(link)) document.head.removeChild(link);
       });
     };
-  }, [results]);
+  // Only run once when first batch of films arrives (films[0] identity check)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [films.length > 0 ? films[0]?.id : null]);
 
   /* ── Intro timer ────────────────────────────────────────────────────── */
   useEffect(() => {
@@ -141,13 +144,7 @@ const Discover = () => {
     }
   }, [quizComplete, quizAnswers]);
 
-  /* ── Fresh picks (same quiz answers, next TMDB page) ───────────────── */
-  const handleFreshPicks = useCallback(() => {
-    setPage((p) => p + 1);
-    trackEvent('mood_fresh_picks_requested');
-  }, []);
-
-  /* ── Restart ────────────────────────────────────────────────────────── */
+  /* ── Restart — clears accumulated films, page → 1, hasMore → true ── */
   const handleRestart = useCallback(() => {
     setCurrentStep(0);
     setMoodId(null);
@@ -155,12 +152,18 @@ const Discover = () => {
     setEra(null);
     setQuizComplete(false);
     setShowIntro(false);
-    setPage(1);
+    reset();
     trackEvent('mood_quiz_started');
-  }, []);
+  }, [reset]);
 
-  const showResults = currentStep === 3 && results && results.length > 0;
-  const showLoading = currentStep === 3 && (isFetching || (!results && !isError));
+  /* ── Load More handler ──────────────────────────────────────────────── */
+  const handleLoadMore = useCallback(() => {
+    loadMore();
+    trackEvent('mood_load_more_clicked', { current_count: films.length });
+  }, [loadMore, films.length]);
+
+  const showResults = currentStep === 3 && films.length > 0;
+  const showLoading = currentStep === 3 && (isFetching || (films.length === 0 && !isError));
   const showQuiz = currentStep < 3 && !showIntro;
 
   return (
@@ -515,9 +518,10 @@ const Discover = () => {
 
       {showResults && (
         <MoodResults
-          results={results}
+          results={films}
           onRestart={handleRestart}
-          onFreshPicks={handleFreshPicks}
+          onLoadMore={handleLoadMore}
+          hasMore={hasMore}
           isFetching={isFetching}
         />
       )}

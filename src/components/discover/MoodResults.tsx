@@ -3,6 +3,8 @@
  *
  * Premium results view with cinematic intro, gold-bordered poster cards,
  * animated match badges, hover glow effects, and "Why this pick" tooltips.
+ * The grid grows progressively via a "Load More" button that appends
+ * the next 20 films per click without clearing the existing results.
  */
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -14,11 +16,12 @@ import type { MoodResult } from '../../lib/moodEngine';
 interface MoodResultsProps {
   results: MoodResult[];
   onRestart: () => void;
-  onFreshPicks: () => void;
+  onLoadMore: () => void;
+  hasMore: boolean;
   isFetching: boolean;
 }
 
-const MoodResults = ({ results, onRestart, onFreshPicks, isFetching }: MoodResultsProps) => {
+const MoodResults = ({ results, onRestart, onLoadMore, hasMore, isFetching }: MoodResultsProps) => {
   const [showIntro, setShowIntro] = useState(true);
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
@@ -125,7 +128,7 @@ const MoodResults = ({ results, onRestart, onFreshPicks, isFetching }: MoodResul
                 key={film.id}
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ delay: Math.min(i * 0.08, 1.2), duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 className="relative group"
                 onMouseEnter={() => setHoveredId(film.id)}
                 onMouseLeave={() => setHoveredId(null)}
@@ -257,38 +260,54 @@ const MoodResults = ({ results, onRestart, onFreshPicks, isFetching }: MoodResul
           })}
         </div>
 
+        {/* Load More */}
+        <motion.div
+          className="flex flex-col items-center mt-12 md:mt-16"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.4 }}
+        >
+          {hasMore ? (
+            <button
+              onClick={onLoadMore}
+              disabled={isFetching}
+              id="load-more-films"
+              className="group flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-bebas text-lg tracking-wider transition-all duration-300 cursor-pointer hover:scale-105 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A437]"
+              style={{
+                background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.6) 0%, rgba(127, 29, 29, 0.5) 100%)',
+                border: '1px solid rgba(212, 164, 55, 0.35)',
+                color: '#F5F5F5',
+                boxShadow: '0 4px 20px rgba(185, 28, 28, 0.25)',
+              }}
+            >
+              {isFetching ? (
+                <motion.span
+                  className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white inline-block"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+                />
+              ) : (
+                <Sparkles className="w-4 h-4" />
+              )}
+              {isFetching ? 'Loading...' : 'Load More'}
+            </button>
+          ) : (
+            <p
+              className="text-sm font-sans"
+              style={{ color: 'rgba(245, 245, 245, 0.3)' }}
+            >
+              That's all we found
+            </p>
+          )}
+        </motion.div>
+
         {/* CTAs */}
         <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-16 md:mt-24"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10 md:mt-14"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.5 }}
         >
-          {/* Primary: Want Different Picks? */}
-          <button
-            onClick={onFreshPicks}
-            disabled={isFetching}
-            className="group flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-bebas text-lg tracking-wider transition-all duration-300 cursor-pointer hover:scale-105 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A437]"
-            style={{
-              background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.6) 0%, rgba(127, 29, 29, 0.5) 100%)',
-              border: '1px solid rgba(212, 164, 55, 0.35)',
-              color: '#F5F5F5',
-              boxShadow: '0 4px 20px rgba(185, 28, 28, 0.25)',
-            }}
-            id="fresh-picks"
-          >
-            {isFetching ? (
-              <motion.span
-                className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white inline-block"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
-              />
-            ) : (
-              <Sparkles className="w-4 h-4" />
-            )}
-            {isFetching ? 'Loading...' : 'Want Different Picks?'}
-          </button>
-
           {/* Secondary: Start Over */}
           <button
             onClick={onRestart}
