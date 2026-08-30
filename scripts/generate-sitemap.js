@@ -281,6 +281,8 @@ function getBlogArticles() {
       heroImage: match[4],
     };
     // Extract optional fields
+    const metaTitleMatch = block.match(/metaTitle:\s*['"]([^'"]+)['"]/);
+    article.metaTitle = metaTitleMatch ? metaTitleMatch[1] : null;
     const dateMatch = block.match(/publishDate:\s*['"]([^'"]+)['"]/);
     article.publishDate = dateMatch ? dateMatch[1] : null;
     const dateMatch2 = block.match(/(?<!publish)date:\s*['"]([^'"]+)['"]/);
@@ -291,6 +293,10 @@ function getBlogArticles() {
     article.category = categoryMatch ? categoryMatch[1] : 'Movies';
     const keywordsMatch = block.match(/keywords:\s*['"]([^'"]+)['"]/);
     article.keywords = keywordsMatch ? keywordsMatch[1] : '';
+    const canonicalMatch = block.match(/canonical:\s*['"]([^'"]+)['"]/);
+    article.canonical = canonicalMatch ? canonicalMatch[1] : null;
+    const ogImageMatch = block.match(/openGraphImage:\s*['"]([^'"]+)['"]/);
+    article.openGraphImage = ogImageMatch ? ogImageMatch[1] : null;
     articles.push(article);
   }
   return articles;
@@ -467,11 +473,12 @@ async function run() {
     blogArticles.forEach(article => {
       pages.push({
         url: `/blog/${article.slug}`,
-        title: `${article.title} | CinemaDiscovery`,
+        title: article.metaTitle || `${article.title} | CinemaDiscovery`,
         desc: article.metaDescription,
-        image: article.heroImage,
+        image: article.openGraphImage || article.heroImage,
         type: 'article',
         schema: blogPostingSchema(article),
+        lastmod: article.publishDate || article.date,
       });
     });
 
@@ -560,7 +567,7 @@ async function run() {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${uniquePages.map(p => `  <url>
     <loc>${DOMAIN}${p.url}</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
+    <lastmod>${p.lastmod || new Date().toISOString()}</lastmod>
     <changefreq>${p.url === '/' ? 'daily' : 'weekly'}</changefreq>
     <priority>${p.url === '/' ? '1.0' : p.url === '/discover' ? '0.8' : p.url.startsWith('/blog/') ? '0.7' : p.url.includes('/movie/') ? '0.8' : (p.url.includes('/tv/') || p.url.includes('/director/')) ? '0.7' : '0.6'}</priority>
   </url>`).join('\n')}

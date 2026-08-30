@@ -1098,5 +1098,69 @@ Do you agree that the "oner" tracking shots in *Children of Men* completely dest
 
 Explore the **[CinemaDiscovery Directors Directory](/directors)** to dive way deeper into these visual masterminds.
     `.trim(),
+  },
+  {
+    slug: "quentin-tarantino-movies-ranked",
+    title: "Quentin Tarantino Movies Ranked | Worst to Best",
+    metaTitle: "Quentin Tarantino Movies Ranked | Worst to Best (2026)",
+    metaDescription: "Every Quentin Tarantino movie ranked from worst to best, from Reservoir Dogs to Once Upon a Time in Hollywood. Find out where Pulp Fiction and Kill Bill land.",
+    category: "Rankings",
+    author: "Ahmed Khan",
+    readTime: "11 min read",
+    publishDate: "2026-07-21",
+    date: "2026-07-21",
+    canonical: "https://cinemadiscovery.com/blog/quentin-tarantino-movies-ranked",
+    openGraphTitle: "Quentin Tarantino Movies Ranked | Worst to Best",
+    openGraphDescription: "From Reservoir Dogs to Once Upon a Time in Hollywood — every Tarantino film ranked and explained.",
+    openGraphImage: "https://image.tmdb.org/t/p/w1280/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg",
+    twitterCard: "summary_large_image",
+    heroImage: "https://image.tmdb.org/t/p/w1280/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg",
+    heroImageAlt: "Quentin Tarantino Movies Ranked from worst to best",
+    keywords: "quentin tarantino movies ranked, worst to best tarantino, pulp fiction, inglourious basterds, kill bill, django unchained, once upon a time in hollywood, reservoir dogs, jackie brown, the hateful eight, death proof",
+    content: `Quentin Tarantino has made ten films in over thirty years — and he's promised the tenth will be his last. That kind of restraint is rare in Hollywood, and it's part of why every new Tarantino release feels like an event instead of just another movie. Blood-soaked dialogue, needle-drop soundtracks, nonlinear timelines, and a camera that lingers exactly one beat longer than it should — nobody else makes films quite like this. For perspective on how his distinct voice fits into cinema history, see our breakdown of the [top 10 directors of all time](/blog/top-10-directors-of-all-time).
+
+Ranking his filmography is genuinely difficult, because even his "weakest" film would be a career highlight for most directors. Here's how they stack up, worst to best.
+
+## 10. Death Proof (2007)
+
+Half of the Grindhouse double feature, [Death Proof](/movie/1991) is Tarantino at his most self-indulgent — long stretches of hangout dialogue before a genuinely thrilling final act stunt sequence. Kurt Russell is having a blast as Stuntman Mike, and the car chase choreography (all practical, no CGI) is some of the best in his catalog. It's the one film here you can skip and not miss much of the larger conversation about his career.
+
+## 9. The Hateful Eight (2015)
+
+A claustrophobic, dialogue-heavy chamber piece shot in glorious 70mm — an ambitious choice for a story that mostly takes place in one cabin; if you appreciate monumental 70mm camera work, check our guide to [movies with the best cinematography](/blog/movies-with-best-cinematography). [The Hateful Eight](/movie/273248) features Samuel L. Jackson and Jennifer Jason Leigh at their best, and the Ennio Morricone score is one of the best of the decade. It drags in the middle, but the payoff is classic Tarantino brutality.
+
+## 8. Jackie Brown (1997)
+
+Tarantino's most mature and least flashy film, adapted from Elmore Leonard's novel Rum Punch. Pam Grier gives a career-best performance in [Jackie Brown](/movie/184) as a flight attendant caught between the police and a gun-running middleman. It's slower and more grounded than his other work, which is exactly why some fans underrate it — and exactly why others call it his most emotionally rich film.
+
+## 7. Reservoir Dogs (1992)
+
+The one that started it all. A single-location heist-gone-wrong thriller told almost entirely through flashback and tension, [Reservoir Dogs](/movie/500) announced Tarantino's voice fully formed — sharp dialogue, sudden violence, and a soundtrack that turned "Stuck in the Middle with You" into something unsettling forever. Low budget, massive influence. For more edge-of-your-seat suspense, explore our list of the [best thriller movies of all time](/blog/best-thriller-movies-of-all-time).
+
+## 6. Kill Bill: Vol. 2 (2004)
+
+Quieter and more character-driven than its predecessor, [Kill Bill: Vol. 2](/movie/393) trades sword fights for long dialogue scenes — including one of the most quietly devastating confrontations Tarantino has ever written. The Bride's training flashback and the final showdown with Bill land harder because of the patience here.
+
+## 5. Kill Bill: Vol. 1 (2003)
+
+Pure kinetic energy. The House of Blue Leaves sequence in [Kill Bill: Vol. 1](/movie/24) alone is a masterclass in choreography, and Uma Thurman's Bride is one of the most iconic action heroines ever put on screen. Anime interludes, samurai swords, and a color-coded assassin squad — this is Tarantino unleashed with a bigger budget and zero restraint.
+
+## 4. Django Unchained (2012)
+
+A spaghetti western wrapped around a revenge story set in the antebellum South, [Django Unchained](/movie/68718) gave Jamie Foxx and Christoph Waltz career-defining roles (Waltz won his second Oscar working with Tarantino here). It's brutal, funny, stylish, and confident in a way few historical dramas dare to be.
+
+## 3. Once Upon a Time in Hollywood (2019)
+
+Tarantino's most nostalgic film, a hangout movie disguised as a fairy tale about 1969 Los Angeles. In [Once Upon a Time in Hollywood](/movie/466272), Leonardo DiCaprio and Brad Pitt have effortless chemistry, and the film's rewriting of the Manson Family murders is one of the boldest third acts of his career. It's slow by design — and that's exactly the point.
+
+## 2. Inglourious Basterds (2009)
+
+A World War II revenge fantasy that rewrites history through pure cinematic audacity. [Inglourious Basterds](/movie/16869) stars Christoph Waltz as Hans Landa in one of the greatest villain roles ever written, and the opening farmhouse interrogation scene is a tension masterclass on its own. Few films balance humor, horror, and catharsis this well.
+
+## 1. Pulp Fiction (1994)
+
+The film that redefined what mainstream American cinema could look like. Nonlinear storytelling, a soundtrack that became inseparable from the movie itself, and dialogue so quotable it's part of pop culture vocabulary now. [Pulp Fiction](/movie/680) isn't just Tarantino's best film — it's one of the most influential films ever made, full stop.
+
+Whichever era of Tarantino you're drawn to — the pulpy crime thrillers or the sprawling historical epics — there's a deep well of similarly bold filmmaking waiting for you. Explore more director deep-dives and curated picks on our [Movies](/movies) page.`.trim(),
   }
 ];

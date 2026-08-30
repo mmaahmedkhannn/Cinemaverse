@@ -167,22 +167,22 @@ const BlogPost = () => {
   return (
     <main className="min-h-screen bg-black">
       <SEO
-        title={`${article.title} | CinemaDiscovery`}
+        title={article.metaTitle || `${article.title} | CinemaDiscovery`}
         description={article.metaDescription}
-        image={article.heroImage}
-        url={`https://cinemadiscovery.com/blog/${article.slug}`}
+        image={article.openGraphImage || article.heroImage}
+        url={article.canonical || `https://cinemadiscovery.com/blog/${article.slug}`}
         type="article"
         schema={JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BlogPosting",
           "headline": article.title,
           "description": article.metaDescription,
-          "image": article.heroImage,
+          "image": article.openGraphImage || article.heroImage,
           "datePublished": article.publishDate || article.date,
           "dateModified": article.publishDate || article.date,
           "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": `https://cinemadiscovery.com/blog/${article.slug}`
+            "@id": article.canonical || `https://cinemadiscovery.com/blog/${article.slug}`
           },
           "author": {
             "@type": article.author && article.author !== 'CinemaDiscovery Editorial Team' ? "Person" : "Organization",
