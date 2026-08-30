@@ -188,9 +188,8 @@ const BlogPost = () => {
             "@id": article.canonical || `https://cinemadiscovery.com/blog/${article.slug}`
           },
           "author": {
-            "@type": article.author && article.author !== 'CinemaDiscovery Editorial Team' ? "Person" : "Organization",
-            "name": article.author || "CinemaDiscovery Editorial Team",
-            ...(article.author === 'Ahmed Khan' ? { "url": "https://cinemadiscovery.com/about" } : {})
+            "@type": article.author && article.author !== 'CinemaDiscovery Editorial Team' && article.author !== 'CinemaDiscovery Team' ? "Person" : "Organization",
+            "name": article.author || "CinemaDiscovery Team",
           },
           "publisher": {
             "@type": "Organization",
@@ -232,7 +231,7 @@ const BlogPost = () => {
             </h1>
             <div className="flex items-center gap-2 text-gray-400 text-sm font-sans mb-3">
               <UserPen className="w-4 h-4 text-primary" />
-              <span className="font-semibold">By {article.author || 'CinemaDiscovery Editorial Team'}</span>
+              <span className="font-semibold">By {article.author || 'CinemaDiscovery Team'}</span>
             </div>
             <div className="flex items-center gap-4 text-gray-300 text-sm font-sans">
               <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {new Date(article.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>

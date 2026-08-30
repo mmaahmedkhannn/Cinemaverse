@@ -34,7 +34,7 @@ export const blogArticles: BlogArticle[] = [
     metaTitle: "Movies Like Fight Club | CinemaDiscovery",
     metaDescription: "Looking for movies like Fight Club? Here are 10 films that capture that same psychological chaos, anti-establishment fury, and identity-shattering tension.",
     category: "Movies",
-    author: "Ahmed Khan",
+    author: "CinemaDiscovery Team",
     readTime: "9 min read",
     publishDate: "2026-06-13",
     date: "2026-06-13",
@@ -100,7 +100,7 @@ If any of these have you in the mood for more, browse our [full movie collection
     metaTitle: "Best Heist Movies of All Time | CinemaDiscovery",
     metaDescription: "From Heat to Ocean\u2019s Eleven, these are the greatest heist movies ever made \u2014 meticulous plans, unforgettable crews, and the perfect getaway.",
     category: "Movies",
-    author: "Ahmed Khan",
+    author: "CinemaDiscovery Team",
     readTime: "9 min read",
     publishDate: "2026-06-13",
     date: "2026-06-13",
@@ -164,7 +164,7 @@ Whether it's the cold professionalism of Heat, the breezy ensemble charm of Ocea
     metaTitle: "Most Anticipated Movies of 2026 | The Ones Worth Getting Excited About | CinemaDiscovery",
     metaDescription: "From The Odyssey to Dune Part Three — 10 most anticipated movies of 2026 that actually deserve the hype, not just brand recognition.",
     category: "Movies",
-    author: "Ahmed Khan",
+    author: "CinemaDiscovery Team",
     readTime: "12 min read",
     publishDate: "2026-05-31",
     date: "2026-05-31",
@@ -296,7 +296,7 @@ Which 2026 movie are you most excited for?
     metaTitle: "Best TV Shows of All Time | The Only List You Actually Need",
     metaDescription: "From Breaking Bad to Severance — the 10 greatest TV shows ever made, ranked honestly. The only best-of list you actually need.",
     category: "TV Shows",
-    author: "Ahmed Khan",
+    author: "CinemaDiscovery Team",
     readTime: "11 min read",
     publishDate: "2026-05-23",
     date: "2026-05-23",
@@ -424,7 +424,7 @@ So here's what I want to know: what show belongs on that list that isn't there y
     metaTitle: "Movies Like Interstellar | 10 Films That Hit the Same Way",
     metaDescription: "10 movies like Interstellar that capture the same mix of cosmic scale and human emotion — from 2001 and Arrival to Annihilation, Moon, and Blade Runner 2049.",
     category: "Movie Lists",
-    author: "Ahmed Khan",
+    author: "CinemaDiscovery Team",
     readTime: "10 min read",
     publishDate: "2026-05-16",
     date: "2026-05-16",
@@ -564,7 +564,7 @@ So I want to ask you directly: which movie hits you the same way Interstellar do
     date: '2026-05-09',
     readTime: '9 min read',
     category: 'Movies',
-    author: 'Ahmed Khan',
+    author: 'CinemaDiscovery Team',
     heroImage: 'https://image.tmdb.org/t/p/original/i5H7zusQGsysGQ8i6P361Vnr0n2.jpg',
     content: `
 When I think about the best thrillers ever made, I don't think about cheap twists or loud music trying to bully me into feeling tense. I think about movies that make me suspicious of every silence. Movies where a hallway, a phone call, or even a normal dinner conversation suddenly feels dangerous. That's the kind of thriller I love. The kind that makes you lean forward without noticing you did it.
@@ -660,7 +660,7 @@ So I want to ask you: which thriller still keeps you guessing no matter how many
     date: '2026-05-02',
     readTime: '8 min read',
     category: 'Directors',
-    author: 'Ahmed Khan',
+    author: 'CinemaDiscovery Team',
     heroImage: 'https://image.tmdb.org/t/p/w1280/8ZTVqvKDQ8emSGUEMjsS4yHAwrp.jpg',
     content: `
 If you have never seen a Christopher Nolan movie, I need to save you from a mistake people make all the time.
@@ -744,6 +744,7 @@ Want to explore more directors like Nolan? Check out our [Directors page](/direc
     date: '2026-01-15',
     readTime: '8 min read',
     category: 'Rankings',
+    author: 'CinemaDiscovery Team',
     heroImage: 'https://image.tmdb.org/t/p/original/yDHYTfA3R0jFYba16jBB1ef8oIt.jpg',
     content: `
 ## Stop Settling for Mediocrity
@@ -780,6 +781,7 @@ Find your next obsession on our [Movies page](/movies) or explore the [Top 100 g
     date: '2026-02-20',
     readTime: '12 min read',
     category: 'Lists',
+    author: 'CinemaDiscovery Team',
     heroImage: 'https://image.tmdb.org/t/p/original/gILte6Zd7m1YneIr6MVhh30S9pr.jpg',
     content: `
 ## Stop Worshipping the Same Five Guys
@@ -816,6 +818,7 @@ Dive deeper into legendary filmmakers on our [Directors list](/directors) or che
     date: '2026-02-01',
     readTime: '10 min read',
     category: 'Streaming',
+    author: 'CinemaDiscovery Team',
     heroImage: 'https://image.tmdb.org/t/p/original/etj8E2o0Bud0HkONVQPjyCkIvpv.jpg',
     content: `
 ## Stop Falling for Prestige Filler
@@ -852,6 +855,7 @@ Find your next binge on the [TV Shows page](/tv) or track franchises on our [Uni
     date: '2026-01-10',
     readTime: '9 min read',
     category: 'Recommendations',
+    author: 'CinemaDiscovery Team',
     heroImage: 'https://image.tmdb.org/t/p/original/8ZTVqvKDQ8emSGUEMjsS4yHAwrp.jpg',
     content: `
 ## Stop Treating 'Inception' Like the Holy Grail
@@ -888,6 +892,7 @@ Go down the rabbit hole and search for these titles on our [Movies page](/movies
     date: '2026-01-05',
     readTime: '11 min read',
     category: 'Rankings',
+    author: 'CinemaDiscovery Team',
     heroImage: 'https://image.tmdb.org/t/p/original/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg',
     content: `
 ## Stop Making Excuses for Bad Sound Mixing
@@ -924,6 +929,7 @@ Learn more about Nolan and other cinematic giants on our [Directors list](/direc
     date: '2026-01-10',
     readTime: '9 min read',
     category: 'Lists',
+    author: 'CinemaDiscovery Team',
     heroImage: 'https://image.tmdb.org/t/p/original/8gLhu8UFPZfH2Hv11JhTZkb9CVl.jpg',
     content: `
 ## Stop Relying on Cheap Jump Scares
@@ -960,6 +966,7 @@ Find more unbearable anxiety in our [Movies](/movies) guide.
     date: '2026-02-05',
     readTime: '7 min read',
     category: 'Streaming',
+    author: 'CinemaDiscovery Team',
     heroImage: 'https://image.tmdb.org/t/p/original/mBaXZ95R2OxueZhvQbcEWy2DqyO.jpg',
     content: `
 ## Stop Letting an Algorithm Dictate Your Taste
@@ -994,6 +1001,7 @@ Before *Parasite*, Bong Joon-ho made this bizarre, heartbreaking anti-capitalist
     date: '2026-02-18',
     readTime: '8 min read',
     category: 'Lists',
+    author: 'CinemaDiscovery Team',
     heroImage: 'https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg',
     content: `
 ## Stop Relying on CGI Sludge
@@ -1030,6 +1038,7 @@ Keep the sci-fi debate going by sorting via our **[CinemaDiscovery Movie Databas
     date: '2026-03-02',
     readTime: '11 min read',
     category: 'Streaming',
+    author: 'CinemaDiscovery Team',
     heroImage: 'https://image.tmdb.org/t/p/original/zZqpAXxVSBtxV9qPBcscfXBcL2w.jpg',
     content: `
 ## Accept It: HBO is The Only Network That Matters
@@ -1066,6 +1075,7 @@ Head to our **[TV Shows Directory](/tv)** to track your viewing progress on thes
     date: '2026-03-20',
     readTime: '10 min read',
     category: 'Lists',
+    author: 'CinemaDiscovery Team',
     heroImage: 'https://image.tmdb.org/t/p/original/sAtoMqDVhNDQBc3QJL3RF6hlhGq.jpg',
     content: `
 ## Stop Pretending the Director Works Alone
@@ -1105,7 +1115,7 @@ Explore the **[CinemaDiscovery Directors Directory](/directors)** to dive way de
     metaTitle: "Quentin Tarantino Movies Ranked | Worst to Best (2026)",
     metaDescription: "Every Quentin Tarantino movie ranked from worst to best, from Reservoir Dogs to Once Upon a Time in Hollywood. Find out where Pulp Fiction and Kill Bill land.",
     category: "Rankings",
-    author: "Ahmed Khan",
+    author: "CinemaDiscovery Team",
     readTime: "11 min read",
     publishDate: "2026-07-21",
     date: "2026-07-21",

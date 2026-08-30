@@ -70,9 +70,8 @@ function blogPostingSchema(article) {
       '@id': `${DOMAIN}/blog/${article.slug}`,
     },
     author: {
-      '@type': 'Person',
-      name: article.author || 'Ahmed Khan',
-      url: `${DOMAIN}/about`,
+      '@type': article.author && article.author !== 'CinemaDiscovery Editorial Team' && article.author !== 'CinemaDiscovery Team' ? 'Person' : 'Organization',
+      name: article.author || 'CinemaDiscovery Team',
     },
     publisher: {
       '@type': 'Organization',
@@ -288,7 +287,7 @@ function getBlogArticles() {
     const dateMatch2 = block.match(/(?<!publish)date:\s*['"]([^'"]+)['"]/);
     article.date = dateMatch2 ? dateMatch2[1] : '';
     const authorMatch = block.match(/author:\s*['"]([^'"]+)['"]/);
-    article.author = authorMatch ? authorMatch[1] : 'Ahmed Khan';
+    article.author = authorMatch ? authorMatch[1] : 'CinemaDiscovery Team';
     const categoryMatch = block.match(/category:\s*['"]([^'"]+)['"]/);
     article.category = categoryMatch ? categoryMatch[1] : 'Movies';
     const keywordsMatch = block.match(/keywords:\s*['"]([^'"]+)['"]/);
