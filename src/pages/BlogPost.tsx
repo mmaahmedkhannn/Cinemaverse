@@ -162,7 +162,10 @@ const BlogPost = () => {
 
   if (!article) return <Navigate to="/blog" replace />;
 
-  const otherArticles = blogArticles.filter(a => a.slug !== slug).slice(0, 3);
+  const otherArticles = [...blogArticles]
+    .filter(a => a.slug !== slug)
+    .sort((a, b) => new Date(b.publishDate || b.date).getTime() - new Date(a.publishDate || a.date).getTime())
+    .slice(0, 3);
 
   return (
     <main className="min-h-screen bg-black">
